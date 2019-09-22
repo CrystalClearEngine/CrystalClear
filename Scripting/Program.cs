@@ -2,16 +2,13 @@
 using System.Reflection;
 using System.CodeDom.Compiler;
 
-namespace ScriptingInterface
+namespace Scripting
 {
 	public interface IScriptType1
 	{
 		string RunScript(int value);
 	}
-}
 
-namespace ScriptingExample
-{
 	static class Program
 	{
 		/// 
@@ -96,7 +93,7 @@ namespace ScriptingExample
 			{
 				foreach (Type iface in type.GetInterfaces())
 				{
-					if (iface == typeof(ScriptingInterface.IScriptType1))
+					if (iface == typeof(IScriptType1))
 					{
 						// yay, we found a script interface, lets create it and run it!
 
