@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System;
-using System.Windows.Forms;
 using System.Reflection;
 using System.CodeDom.Compiler;
 
@@ -120,7 +113,7 @@ namespace ScriptingExample
 							if (scriptObject != null)
 							{
 								//Lets run our script and display its results
-								MessageBox.Show(scriptObject.RunScript(50));
+								Console.WriteLine(scriptObject.RunScript(50));
 							}
 							else
 							{
