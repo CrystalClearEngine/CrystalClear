@@ -62,7 +62,7 @@ namespace Scripting
 			return result.CompiledAssembly;
 		}
 
-		static void RunScript(Assembly script)
+		public static void RunScript(Assembly script)
 		{
 			// Now that we have a compiled script, lets run them
 			foreach (Type type in script.GetExportedTypes())

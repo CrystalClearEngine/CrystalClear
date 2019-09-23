@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 
 namespace Scripting
 {
-	public static class CrystalClearScriptingMain
+	public static class MainClass
 	{
 		static void Main()
 		{
@@ -31,10 +26,7 @@ namespace Scripting
 				"    }" +
 				"}");
 
-			if (compiledScript != null)
-			{
-				Compiling.RunScript(compiledScript);
-			}
+			Compiling.RunScript(compiledScript);
 		}
 	}
 }
