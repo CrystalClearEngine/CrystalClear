@@ -1,0 +1,12 @@
+using /* CrystalClear. */Scripting.Events;
+using /*CrystalClear.*/Scripting.Attributes;
+using System;
+
+[Script]
+class HelloWorldExample : IEStart
+{
+	public void OnStart()
+	{
+		Console.WriteLine("Hello, World!");
+	}
+}

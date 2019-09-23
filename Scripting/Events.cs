@@ -26,7 +26,6 @@ namespace Scripting
 			/// Called at the start of the method
 			/// </summary>
 			void OnStart();
-			void OnStart(string[] args);
 		}
 
 		public class OnFrameUpdate : EventAttribute { }

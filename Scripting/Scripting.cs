@@ -49,7 +49,10 @@ namespace Scripting
 
 			if (result.Errors.HasErrors)
 			{
-				// TODO: report back to the user that the script has errored
+				foreach (var error in result.Errors)
+				{
+					Console.WriteLine(error);
+				}
 				return null;
 			}
 

@@ -46,7 +46,7 @@
     <Compile Include="Events.cs" />
     <Compile Include="Scripting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CrystalClearScriptingMain.cs" />
+    <Compile Include="Main.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

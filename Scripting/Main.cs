@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Scripting
 {
@@ -8,25 +9,14 @@ namespace Scripting
 		{
 			//Hardcoded code to compile
 			Assembly compiledScript = Compiling.CompileCode(
-				"namespace SimpleScripts" +
-				"{" +
-				"    public class MyScriptMul5 : ScriptingInterface.IScriptType1" +
-				"    {" +
-				"        public string RunScript(int value)" +
-				"        {" +
-				"            return this.ToString() + \" just ran! Result: \" + (value*5).ToString();" +
-				"        }" +
-				"    }" +
-				"    public class MyScriptNegate : ScriptingInterface.IScriptType1" +
-				"    {" +
-				"        public string RunScript(int value)" +
-				"        {" +
-				"            return this.ToString() + \" just ran! Result: \" + (-value).ToString();" +
-				"        }" +
-				"    }" +
-				"}");
+
+				System.IO.File.ReadAllText(@"E:\dev\crystal clear\program")
+
+			);
 
 			Compiling.RunScript(compiledScript);
+
+			Console.ReadLine();
 		}
 	}
 }
