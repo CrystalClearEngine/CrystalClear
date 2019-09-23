@@ -1,24 +1,62 @@
 ﻿using System;
-using System.Reflection;
 using System.CodeDom.Compiler;
+using System.Reflection;
 
 namespace Scripting
 {
-	public interface IScriptType1
+	namespace Events
 	{
-		string RunScript(int value);
+		[AttributeUsage(AttributeTargets.Method)]
+		public class EventAttribute : Attribute { }
+
+		public interface IEvent
+		{
+			/// <summary>
+			/// Called whenever any event is called
+			/// </summary>
+			//void OnEvent();
+		}
+		public class OnStart : EventAttribute { }
+
+		public interface IEStart : IEvent
+		{
+			/// <summary>
+			/// Called at the start of the method
+			/// </summary>
+			void OnStart();
+			void OnStart(string[] args);
+		}
+
+		public class OnFrameUpdate : EventAttribute { }
+
+		public interface IEFrameUpdate : IEvent
+		{
+			/// <summary>
+			/// Called every time a new frame is drawn
+			/// </summary>
+			void OnFrameUpdate();
+		}
+	}
+
+	namespace Attributes
+	{
+		public class VisibleAttribute : Attribute
+		{
+
+		}
+
+		[AttributeUsage(AttributeTargets.Class)]
+		public class ScriptAttribute : Attribute
+		{
+
+		}
 	}
 
 	static class Program
 	{
-		/// 
-		/// The main entry point for the application.
-		/// 
-		[STAThread]
 		static void Main()
 		{
-
-			// Lets compile some code (I'm lazy, so I'll just hardcode it all, i'm sure you can work out how to read from a file/text box instead
+			//Hardcoded code to compile
 			Assembly compiledScript = CompileCode(
 				"namespace SimpleScripts" +
 				"{" +
@@ -93,7 +131,7 @@ namespace Scripting
 			{
 				foreach (Type iface in type.GetInterfaces())
 				{
-					if (iface == typeof(IScriptType1))
+					if (iface == typeof(Events.IEvent))
 					{
 						// yay, we found a script interface, lets create it and run it!
 
@@ -103,27 +141,7 @@ namespace Scripting
 						ConstructorInfo constructor = type.GetConstructor(System.Type.EmptyTypes);
 						if (constructor != null && constructor.IsPublic)
 						{
-							// lets be friendly and only do things legitimitely by only using valid constructors
 
-							// we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
-							ScriptingInterface.IScriptType1 scriptObject = constructor.Invoke(null) as ScriptingInterface.IScriptType1;
-							if (scriptObject != null)
-							{
-								//Lets run our script and display its results
-								Console.WriteLine(scriptObject.RunScript(50));
-							}
-							else
-							{
-								// hmmm, for some reason it didn't create the object
-								// this shouldn't happen, as we have been doing checks all along, but we should
-								// inform the user something bad has happened, and possibly request them to send
-								// you the script so you can debug this problem
-							}
-						}
-						else
-						{
-							// and even more friendly and explain that there was no valid constructor
-							// found and thats why this script object wasn't run
 						}
 					}
 				}
