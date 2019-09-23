@@ -4,40 +4,6 @@ using System.Reflection;
 
 namespace Scripting
 {
-	namespace Events
-	{
-		[AttributeUsage(AttributeTargets.Method)]
-		public class EventAttribute : Attribute { }
-
-		public interface IEvent
-		{
-			/// <summary>
-			/// Called whenever any event is called
-			/// </summary>
-			//void OnEvent();
-		}
-		public class OnStart : EventAttribute { }
-
-		public interface IEStart : IEvent
-		{
-			/// <summary>
-			/// Called at the start of the method
-			/// </summary>
-			void OnStart();
-			void OnStart(string[] args);
-		}
-
-		public class OnFrameUpdate : EventAttribute { }
-
-		public interface IEFrameUpdate : IEvent
-		{
-			/// <summary>
-			/// Called every time a new frame is drawn
-			/// </summary>
-			void OnFrameUpdate();
-		}
-	}
-
 	namespace Attributes
 	{
 		public class VisibleAttribute : Attribute
@@ -52,37 +18,9 @@ namespace Scripting
 		}
 	}
 
-	static class Program
+	static internal class Compiling
 	{
-		static void Main()
-		{
-			//Hardcoded code to compile
-			Assembly compiledScript = CompileCode(
-				"namespace SimpleScripts" +
-				"{" +
-				"    public class MyScriptMul5 : ScriptingInterface.IScriptType1" +
-				"    {" +
-				"        public string RunScript(int value)" +
-				"        {" +
-				"            return this.ToString() + \" just ran! Result: \" + (value*5).ToString();" +
-				"        }" +
-				"    }" +
-				"    public class MyScriptNegate : ScriptingInterface.IScriptType1" +
-				"    {" +
-				"        public string RunScript(int value)" +
-				"        {" +
-				"            return this.ToString() + \" just ran! Result: \" + (-value).ToString();" +
-				"        }" +
-				"    }" +
-				"}");
-
-			if (compiledScript != null)
-			{
-				RunScript(compiledScript);
-			}
-		}
-
-		static Assembly CompileCode(string code)
+		public static Assembly CompileCode(string code)
 		{
 			// Create a code provider
 			// This class implements the 'CodeDomProvider' class as its base. All of the current .Net languages (at least Microsoft ones)
