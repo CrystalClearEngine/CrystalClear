@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Scripting
 {
@@ -11,6 +7,15 @@ namespace Scripting
 		[AttributeUsage(AttributeTargets.Method)]
 		public class EventAttribute : Attribute { }
 
+		public class OnEventAttribute : Attribute
+		{
+			Type eventType;
+			public OnEventAttribute(Type eventType)
+			{
+				this.eventType = eventType;
+			}
+		}
+
 		public interface IEvent
 		{
 			/// <summary>
@@ -18,8 +23,8 @@ namespace Scripting
 			/// </summary>
 			//void OnEvent();
 		}
-		public class OnStart : EventAttribute { }
 
+		public class OnStart : EventAttribute { }
 		public interface IEStart : IEvent
 		{
 			/// <summary>
@@ -29,13 +34,22 @@ namespace Scripting
 		}
 
 		public class OnFrameUpdate : EventAttribute { }
-
 		public interface IEFrameUpdate : IEvent
 		{
 			/// <summary>
 			/// Called every time a new frame is drawn
 			/// </summary>
-			void OnFrameUpdate();
+			void OnFrameUpdate(float timeSinceLastFrame);
+		}
+
+		public class OnLowFPS : EventAttribute { }
+		public interface IELowFPS : IEvent
+		{
+			/// <summary>
+			/// Called once FPS reaches below a certain threshold. (Is forexample the standard event for rediscorvering to-be-culled dynamic objects in occulusion culling)
+			/// </summary>
+			/// <param name="FPS"> The framerate in frames per second the program is currently running at. </param>
+			void OnLowFPS(int FPS);
 		}
 	}
 }
