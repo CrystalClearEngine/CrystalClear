@@ -14,7 +14,7 @@ namespace Scripting
 
 			);
 
-			Compiling.RunScript(compiledScript);
+			Compiling.FindTypes(compiledScript);
 
 			Console.ReadLine();
 		}

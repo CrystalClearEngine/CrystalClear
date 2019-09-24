@@ -9,7 +9,7 @@ namespace Scripting
 
 		public class OnEventAttribute : Attribute
 		{
-			Type eventType;
+			public Type eventType;
 			public OnEventAttribute(Type eventType)
 			{
 				this.eventType = eventType;
