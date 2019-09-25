@@ -5,10 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="Create New Event" Height="450" Width="800">
-    <Grid>
-		<Button x:Name="button" Content="Create" HorizontalAlignment="Left" Margin="707,389,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+        Title="Create New Event" Height="461" Width="508" ResizeMode="NoResize" ShowInTaskbar="False">
+	<Grid>
+		<Button x:Name="button" Content="Create" HorizontalAlignment="Left" Margin="405,391,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
 		<Button x:Name="button_Copy" Content="Cancel" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+		<CheckBox x:Name="checkBox" Content="Generate Attribute" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" IsChecked="True"/>
+		<TextBlock x:Name="codePreview" HorizontalAlignment="Left" Margin="10,235,0,0" TextWrapping="Wrap" Text="code_preview" VerticalAlignment="Top" Height="149" Width="470" Background="#FFC1C1C1"/>
+		<CheckBox x:Name="checkBox_Copy" Content="Generate Event" HorizontalAlignment="Left" Margin="10,110,0,0" VerticalAlignment="Top" IsChecked="True"/>
+		<CheckBox x:Name="checkBox_Copy1" Content="Generate Interface" HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" IsChecked="True"/>
+		<TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="10,32,0,0" TextWrapping="Wrap" Text="NewEvent" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.25,-0.217"/>
+		<Label x:Name="label" Content="Name your event:" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top" Width="118"/>
+		<TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="145,32,0,0" TextWrapping="Wrap" Text="Events" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.25,-0.217"/>
+		<Label x:Name="label_Copy" Content="Choose a namespace:" HorizontalAlignment="Left" Margin="145,6,0,0" VerticalAlignment="Top"/>
 
 	</Grid>
 </Window>
