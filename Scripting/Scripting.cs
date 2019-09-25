@@ -18,10 +18,16 @@ namespace Scripting
 		}
 	}
 
-	public static class Debug
+	public static class Output
 	{
 		public static void Log(string str)
 		{
+			Console.WriteLine(str);
+		}
+		public static void Log(string str, ConsoleColor bgColor, ConsoleColor fgColor)
+		{
+			Console.BackgroundColor = bgColor;
+			Console.ForegroundColor = fgColor;
 			Console.WriteLine(str);
 		}
 	}

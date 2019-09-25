@@ -8,11 +8,11 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 {
 	public void OnStart()
 	{
-		Debug.Log("Hello, World!");
+		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
 	}
 	
 	public void OnFrameUpdate(float timeSinceLastFrame)
 	{
-		Debug.Log("We shouldn´t get here...");
+		Output.Log("We shouldn´t get here...");
 	}
 }
