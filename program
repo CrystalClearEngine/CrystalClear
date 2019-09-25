@@ -1,12 +1,18 @@
 using /* CrystalClear. */Scripting.Events;
 using /*CrystalClear.*/Scripting.Attributes;
+using Scripting;
 using System;
 
 [Script]
-class HelloWorldExample : IEStart
+public class HelloWorldExample : IEStart, IEFrameUpdate
 {
 	public void OnStart()
 	{
-		Console.WriteLine("Hello, World!");
+		Debug.Log("Hello, World!");
+	}
+	
+	public void OnFrameUpdate(float timeSinceLastFrame)
+	{
+		Debug.Log("We shouldn´t get here...");
 	}
 }

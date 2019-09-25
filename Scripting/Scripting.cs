@@ -18,6 +18,15 @@ namespace Scripting
 		}
 	}
 
+	public static class Debug
+	{
+		public static void Log(string str)
+		{
+			Console.WriteLine(str);
+		}
+	}
+	
+
 	static internal class Compiling
 	{
 		public static Assembly CompileCode(string code)
@@ -70,25 +79,19 @@ namespace Scripting
 
 		public static void FindTypes(Assembly script)
 		{
-			// Now that we have a compiled script, lets run them
+			// Now that we have a compiled script, we will now get all types. This will let us add them to lists such as "scrips" etc.
 			foreach (Type type in script.GetExportedTypes())
 			{
 				foreach (Type iface in type.GetInterfaces())
 				{
 					if (iface == typeof(Events.IEvent))
 					{
-						ConstructorInfo constructor = type.GetConstructor(System.Type.EmptyTypes);
+						ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
 						if (constructor != null && constructor.IsPublic)
-							if (iface == typeof(Events.IEStart))
+							if (constructor.Invoke(null) is Events.IEStart scriptObject)
 							{
-								// lets be friendly and only do things legitimitely by only using valid constructors
-
-								// we specified that we wanted a constructor that doesn't take parameters, so don't pass parameters
-								if (constructor.Invoke(null) is Events.IEStart scriptObject)
-								{
-									//lets run start
-									scriptObject.OnStart();
-								}
+								//lets run start
+								scriptObject.OnStart();
 							}
 					}
 				}
