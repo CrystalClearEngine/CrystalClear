@@ -16,13 +16,10 @@ namespace Scripting
 			}
 		}
 
-		public interface IEvent
-		{
-			/// <summary>
-			/// Called whenever any event is called
-			/// </summary>
-			//void OnEvent();
-		}
+		/// <summary>
+		/// Empty interface only to be derived from
+		/// </summary>
+		public interface IEvent { }
 
 		public class OnStart : EventAttribute { }
 		public interface IEStart : IEvent
