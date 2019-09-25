@@ -1,0 +1,14 @@
+﻿<Window x:Class="UI.CreateNewEvent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI"
+        mc:Ignorable="d"
+        Title="Create New Event" Height="450" Width="800">
+    <Grid>
+		<Button x:Name="button" Content="Create" HorizontalAlignment="Left" Margin="707,389,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+		<Button x:Name="button_Copy" Content="Cancel" HorizontalAlignment="Left" Margin="10,389,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
+
+	</Grid>
+</Window>
