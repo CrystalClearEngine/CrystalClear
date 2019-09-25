@@ -43,9 +43,9 @@ namespace Scripting
 		public interface IELowFPS : IEvent
 		{
 			/// <summary>
-			/// Called once FPS reaches below a certain threshold. (Is forexample the standard event for rediscorvering to-be-culled dynamic objects in occulusion culling)
+			/// Called once FPS reaches below a certain threshold. (is forexample the standard event for rediscorvering to-be-culled dynamic objects in occulusion culling)
 			/// </summary>
-			/// <param name="FPS"> The framerate in frames per second the program is currently running at. </param>
+			/// <param name="FPS"> The framerate in frames per second the program is currently running at </param>
 			void OnLowFPS(int FPS);
 		}
 	}

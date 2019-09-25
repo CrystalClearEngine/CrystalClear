@@ -82,9 +82,9 @@ namespace Scripting
 			// Now that we have a compiled script, we will now get all types. This will let us add them to lists such as "scrips" etc.
 			foreach (Type type in script.GetExportedTypes())
 			{
-				foreach (Type iface in type.GetInterfaces())
+				foreach (Type iface in type.GetInterfaces()) // Find all interfaces so that we can find for example event interfaces among them
 				{
-					if (iface == typeof(Events.IEvent))
+					if (iface == typeof(Events.IEvent)) // This is an event interface
 					{
 						ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
 						if (constructor != null && constructor.IsPublic)
