@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Scripting
 {
@@ -11,12 +9,20 @@ namespace Scripting
 	{
 		public static string savePath = Environment.CurrentDirectory + @"\settings";
 
-		private static readonly bool areUserSettingsSetup;
-		public static bool AreUserSettingsSetup => areUserSettingsSetup;
-
-		public static void SaveSetting(string name, string value) => SaveSetting(new Setting(name, value));
-		public static void SaveSetting(Setting setting)
+		public static void SetUp(string savePath = null)
 		{
+			if (savePath != null)
+				UserSettings.savePath = savePath;
+			using (File.CreateText(UserSettings.savePath)) { }
+		}
+
+		public static void SaveSetting(string name, string value) => SaveSetting(new UserSetting(name, value));
+		public static void SaveSetting(UserSetting setting)
+		{
+			if (setting.name.Contains(':'))
+			{
+				throw NameContainsIllegalCharException;
+			}
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
@@ -27,10 +33,11 @@ namespace Scripting
 				}
 			}
 
-			File.AppendAllText(savePath, "\n" + SettingToString(setting)); //Write setting
+			File.AppendAllText(savePath, "\n" + setting.ToString()); //Write setting
 		}
+		public static Exception NameContainsIllegalCharException;
 
-		public static void DeleteSetting(Setting setting) => DeleteSetting(setting.name);
+		public static void DeleteSetting(UserSetting setting) => DeleteSetting(setting.name);
 		public static void DeleteSetting(string name)
 		{
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
@@ -49,21 +56,59 @@ namespace Scripting
 			File.Delete(savePath);
 		}
 
-		internal static string SettingToString(Setting setting)
+		public static UserSetting GetSetting(UserSetting setting) => GetSetting(setting.name);
+		public static UserSetting GetSetting(string name)
 		{
-			return setting.name + ": " + setting.value;
+			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			for (int i = 0; i < lines.Length; i++)
+			{
+				string line = lines[i];
+				if (line.StartsWith(name)) //This setting should be read and returned
+				{
+					return new UserSetting(line);
+				}
+			}
+			throw SettingNotFound;
 		}
+		public static Exception SettingNotFound;
 
-		public struct Setting
+		public struct UserSetting
 		{
+			public override string ToString()
+			{
+				return name + ":" + value;
+			}
+
 			public string name;
 			public string value;
 
-			public Setting(string name, string value)
+			public UserSetting(string name, string value)
 			{
 				this.name = name;
 				this.value = value;
 			}
+
+			public UserSetting(string settingString)
+			{
+				string name = string.Empty, value = null;
+				foreach (char c in settingString)
+				{
+					if (value == null && c != ':')
+						name += c;
+					else if (name == string.Empty)
+						throw CorruptUserSettingException;
+					else if (value == null)
+					{
+						value = string.Empty;
+						continue;
+					}
+					else
+						value += c;
+				}
+				this.name = name;
+				this.value = value;
+			}
 		}
+		public static Exception CorruptUserSettingException;
 	}
 }

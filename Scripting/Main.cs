@@ -8,13 +8,13 @@ namespace Scripting
 		static void Main()
 		{
 			//Hardcoded code to compile
-			Assembly compiledScript = Compiling.CompileCode(
+			Assembly compiledScript = ScriptingEngine.Compiling.CompileCode(
 
 				System.IO.File.ReadAllText(@"E:\dev\crystal clear\program")
 
 			);
 
-			Compiling.FindTypes(compiledScript);
+			ScriptingEngine.Compiling.FindTypes(compiledScript);
 
 			Console.ReadLine();
 		}
