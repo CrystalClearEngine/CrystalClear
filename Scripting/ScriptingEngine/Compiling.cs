@@ -68,7 +68,14 @@ namespace Scripting.ScriptingEngine
 							if (constructor.Invoke(null) is Events.IEStart scriptObject)
 							{
 								//lets run start
-								scriptObject.OnStart();
+								try
+								{
+									scriptObject.OnStart();
+								}
+								catch (Exception e)
+								{
+									Console.WriteLine(e);
+								}
 							}
 					}
 				}
