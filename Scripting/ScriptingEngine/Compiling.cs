@@ -2,7 +2,7 @@
 using System.CodeDom.Compiler;
 using System.Reflection;
 
-namespace Scripting
+namespace Scripting.ScriptingEngine
 {
 	static internal class Compiling
 	{

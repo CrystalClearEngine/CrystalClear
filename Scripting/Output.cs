@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Scripting.ScriptingEngine
+namespace Scripting
 {
 	public static class Output
 	{
