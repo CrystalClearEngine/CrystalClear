@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Scripting
@@ -17,13 +16,22 @@ namespace Scripting
 			using (File.CreateText(UserSettings.savePath)) { }
 		}
 
-		public static void SaveSetting(string name, string value) => SaveSetting(new UserSetting(name, value));
+		public static bool IsSetUp()
+		{
+			if (File.Exists(savePath))
+				return true;
+			else
+				return false;
+		}
+
+		public static void SaveSetting(string name, object value) => SaveSetting(new UserSetting(name, value));
 		public static void SaveSetting(UserSetting setting)
 		{
+			if (!IsSetUp())
+				throw new UserSettingsNotSetUpException();
 			if (setting.name.Contains(':'))
-			{
-				throw NameContainsIllegalCharException;
-			}
+				throw new NameContainsIllegalCharException();
+
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
@@ -36,7 +44,6 @@ namespace Scripting
 
 			File.AppendAllText(savePath, "\n" + setting.ToString()); //Write setting
 		}
-		public static Exception NameContainsIllegalCharException;
 
 		public static void DeleteSetting(UserSetting setting) => DeleteSetting(setting.name);
 		public static void DeleteSetting(string name)
@@ -57,9 +64,29 @@ namespace Scripting
 			File.Delete(savePath);
 		}
 
+
+		public static bool ExistsSetting(UserSetting setting) => ExistsSetting(setting.name);
+		public static bool ExistsSetting(string name)
+		{
+			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			for (int i = 0; i < lines.Length; i++)
+			{
+				string line = lines[i];
+				if (line.Split(':')[0].Contains(name)) //This setting exists
+					return true;
+			}
+			//If we "get here" the setting does not exist
+			return false;
+		}
+
 		public static UserSetting GetSetting(UserSetting setting) => GetSetting(setting.name);
 		public static UserSetting GetSetting(string name)
 		{
+			if (!IsSetUp())
+				throw new UserSettingsNotSetUpException();
+			if (!ExistsSetting(name))
+				throw new SettingNotFoundException();
+
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
@@ -69,21 +96,20 @@ namespace Scripting
 					return new UserSetting(line);
 				}
 			}
-			throw SettingNotFound;
+			throw new SettingNotFoundException();
 		}
-		public static Exception SettingNotFound;
 
 		public struct UserSetting
 		{
 			public override string ToString()
 			{
-				return name + ":" + value;
+				return name + ":" + ObjectToString(value);
 			}
 
 			public string name;
 			public object value;
 
-			public UserSetting(string name, string value)
+			public UserSetting(string name, object value)
 			{
 				this.name = name;
 				this.value = value;
@@ -91,26 +117,25 @@ namespace Scripting
 
 			public UserSetting(string settingString)
 			{
-				string name = string.Empty, value = null;
+				string name = string.Empty, stringValue = null;
 				foreach (char c in settingString)
 				{
-					if (value == null && c != ':')
+					if (stringValue == null && c != ':')
 						name += c;
 					else if (name == string.Empty)
-						throw CorruptUserSettingException;
-					else if (value == null)
+						throw new CorruptUserSettingException();
+					else if (stringValue == null)
 					{
-						value = string.Empty;
+						stringValue = string.Empty;
 						continue;
 					}
 					else
-						value += c;
+						stringValue += c;
 				}
 				this.name = name;
-				this.value = value;
+				this.value = StringToObject(stringValue);
 			}
 		}
-		public static Exception CorruptUserSettingException;
 
 		public static string ObjectToString(object obj)
 		{
@@ -132,4 +157,11 @@ namespace Scripting
 			}
 		}
 	}
+
+	public abstract class UserSettingsException : Exception { }
+
+	public class CorruptUserSettingException : UserSettingsException { }
+	public class NameContainsIllegalCharException : UserSettingsException { }
+	public class SettingNotFoundException : UserSettingsException { }
+	public class UserSettingsNotSetUpException : UserSettingsException { }
 }

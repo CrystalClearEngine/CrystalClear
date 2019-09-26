@@ -7,15 +7,17 @@ namespace Scripting
 	{
 		static void Main()
 		{
-			//Hardcoded code to compile
-			Assembly compiledScript = ScriptingEngine.Compiling.CompileCode(
+			for (int i = 0; i < 50; i++)
+			{
+				//Hardcoded code to compile
+				Assembly compiledScript = ScriptingEngine.Compiling.CompileCode(
 
-				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs")
+					System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs")
 
-			);
+				);
 
-			ScriptingEngine.Compiling.FindTypes(compiledScript);
-
+				ScriptingEngine.Compiling.FindTypes(compiledScript);
+			}
 			Console.ReadLine();
 		}
 	}

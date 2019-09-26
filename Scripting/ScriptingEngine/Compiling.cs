@@ -19,7 +19,8 @@ namespace Scripting.ScriptingEngine
 				CompilerParameters options = new CompilerParameters
 				{
 					GenerateExecutable = false, // we want a Dll (or "Class Library" as its called in .Net)
-					GenerateInMemory = true // Saves us from deleting the Dll when we are done with it, though you could set this to false and save start-up time by next time by not having to re-compile
+					GenerateInMemory = true, // Saves us from deleting the Dll when we are done with it, though you could set this to false and save start-up time by next time by not having to re-compile
+					IncludeDebugInformation = true
 				};
 				// And set any others you want, there a quite a few, take some time to look through them all and decide which fit your application best!
 
@@ -56,6 +57,9 @@ namespace Scripting.ScriptingEngine
 
 		public static void FindTypes(Assembly script)
 		{
+			if (script == null)
+				return;
+
 			// Now that we have a compiled script, we will now get all types. This will let us add them to lists such as "scrips" etc.
 			foreach (Type type in script.GetExportedTypes())
 			{
