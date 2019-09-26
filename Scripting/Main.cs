@@ -10,7 +10,7 @@ namespace Scripting
 			//Hardcoded code to compile
 			Assembly compiledScript = ScriptingEngine.Compiling.CompileCode(
 
-				System.IO.File.ReadAllText(@"E:\dev\crystal clear\program")
+				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs")
 
 			);
 

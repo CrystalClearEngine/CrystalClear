@@ -1,4 +1,4 @@
-using Scripting.Events;
+﻿using Scripting.Events;
 using Scripting.ScriptAttributes;
 using Scripting;
 using System;
@@ -16,7 +16,7 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 		UserSettings.SaveSetting(new UserSettings.UserSetting("Test", "Test 0"));
 		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", 10));
 	}
-	
+
 	public void OnFrameUpdate(float timeSinceLastFrame)
 	{
 		Output.Log("We shouldn´t get here...");
