@@ -1,5 +1,5 @@
 using /* CrystalClear. */Scripting.Events;
-using /*CrystalClear.*/Scripting.Attributes;
+using /*CrystalClear.*/Scripting.ScriptAttributes;
 using Scripting;
 using System;
 
@@ -10,6 +10,7 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 	{
 		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
 		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
+		UserSettings.SaveSetting(new UserSettings.Setting());
 	}
 	
 	public void OnFrameUpdate(float timeSinceLastFrame)

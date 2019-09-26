@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ScriptingEngine\Attributes.cs" />
-    <Compile Include="ScriptingUtils.cs" />
+    <Compile Include="ScriptUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
