@@ -44,9 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events.cs" />
-    <Compile Include="Scripting.cs" />
+    <Compile Include="ScriptingEngine\Compiling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="ScriptingEngine\Attributes.cs" />
+    <Compile Include="ScriptingUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

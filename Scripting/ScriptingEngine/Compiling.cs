@@ -4,39 +4,6 @@ using System.Reflection;
 
 namespace Scripting
 {
-	namespace Attributes
-	{
-		public class VisibleAttribute : Attribute
-		{
-
-		}
-
-		[AttributeUsage(AttributeTargets.Class)]
-		public class ScriptAttribute : Attribute
-		{
-
-		}
-	}
-
-	public static class Output
-	{
-		public static void Log(string str)
-		{
-			Console.WriteLine(str);
-		}
-		public static void Log(string str, ConsoleColor bgColor, ConsoleColor fgColor)
-		{
-			var prevFgColor = Console.ForegroundColor; //Store previous foreground and background color so that we can restore them after writing
-			var prevBgColor = Console.BackgroundColor;
-			Console.BackgroundColor = bgColor; //Set new colors
-			Console.ForegroundColor = fgColor;
-			Console.WriteLine(str); //Write string
-			Console.BackgroundColor = prevBgColor; //Restore previous colors
-			Console.ForegroundColor = prevFgColor;
-		}
-	}
-	
-
 	static internal class Compiling
 	{
 		public static Assembly CompileCode(string code)
