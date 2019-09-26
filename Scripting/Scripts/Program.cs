@@ -14,7 +14,7 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 		Output.Log(UserSettings.GetSetting("TestObj").value.ToString());
 		UserSettings.SetUp();
 		UserSettings.SaveSetting(new UserSettings.UserSetting("Test", "Test 0"));
-		//UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", 10));
+		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", "1"));
 	}
 
 	public void OnFrameUpdate(float timeSinceLastFrame)

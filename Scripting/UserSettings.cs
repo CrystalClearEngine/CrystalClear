@@ -28,7 +28,7 @@ namespace Scripting
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
-				if (line.StartsWith(setting.name)) //This setting should be overwritten as its name matches that of the setting we want to change
+				if (line.Split(':')[0].Contains(setting.name)) //This setting should be overwritten as its name matches that of the setting we want to change
 				{
 					File.WriteAllLines(savePath, lines.Where((v, j) => j != i)); //Delete setting
 				}
@@ -45,7 +45,7 @@ namespace Scripting
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
-				if (line.StartsWith(name)) //This setting should be deleted as it is matches the name of the setting we want to delete
+				if (line.Split(':')[0].Contains(name)) //This setting should be deleted as it is matches the name of the setting we want to delete
 				{
 					File.WriteAllLines(savePath, lines.Where((v, j) => j != i)); //Delete setting
 				}
@@ -64,7 +64,7 @@ namespace Scripting
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
-				if (line.StartsWith(name)) //This setting should be read and returned
+				if (line.Split(':')[0].Contains(name)) //This setting should be read and returned
 				{
 					return new UserSetting(line);
 				}
