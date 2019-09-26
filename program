@@ -9,6 +9,7 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 	public void OnStart()
 	{
 		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
+		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
 	}
 	
 	public void OnFrameUpdate(float timeSinceLastFrame)

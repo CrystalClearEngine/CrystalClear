@@ -26,9 +26,13 @@ namespace Scripting
 		}
 		public static void Log(string str, ConsoleColor bgColor, ConsoleColor fgColor)
 		{
+			var prevFgColor = Console.ForegroundColor;
+			var prevBgColor = Console.BackgroundColor;
 			Console.BackgroundColor = bgColor;
 			Console.ForegroundColor = fgColor;
 			Console.WriteLine(str);
+			Console.BackgroundColor = prevBgColor;
+			Console.ForegroundColor = prevFgColor;
 		}
 	}
 	
