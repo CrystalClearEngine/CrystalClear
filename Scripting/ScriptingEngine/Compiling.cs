@@ -22,6 +22,7 @@ namespace Scripting.ScriptingEngine
 					GenerateInMemory = true, // Saves us from deleting the Dll when we are done with it, though you could set this to false and save start-up time by next time by not having to re-compile
 					IncludeDebugInformation = true,
 					OutputAssembly = "Scripts",
+					TempFiles = new TempFileCollection(Environment.CurrentDirectory, true),
 				};
 				// And set any others you want, there a quite a few, take some time to look through them all and decide which fit your application best!
 
@@ -67,22 +68,22 @@ namespace Scripting.ScriptingEngine
 							if (constructor.Invoke(null) is Events.IEStart scriptObject)
 							{
 								//lets run start
-								//try
-								//{
+								try
+								{
 									scriptObject.OnStart();
-								//}
-								//catch (Exception e)
-								//{
-								//	var trace = new System.Diagnostics.StackTrace(e.InnerException, true);
-								//	if (trace.FrameCount > 0)
-								//	{
-								//		var frame = trace.GetFrame(trace.FrameCount - 1);
-								//		var className = frame.GetMethod().ReflectedType.Name;
-								//		var methodName = frame.GetMethod().ToString();
-								//		var lineNumber = frame.GetFileLineNumber();
-								//		Console.WriteLine(lineNumber);
-								//	}
-								//}
+								}
+								catch (Exception e)
+								{
+									var trace = new System.Diagnostics.StackTrace(e, true);
+									if (trace.FrameCount > 0)
+									{
+										var frame = trace.GetFrame(trace.FrameCount - 1);
+										var className = frame.GetMethod().ReflectedType.Name;
+										var methodName = frame.GetMethod().ToString();
+										var lineNumber = frame.GetFileLineNumber();
+										Console.WriteLine(className + methodName + lineNumber);
+									}
+								}
 							}
 					}
 				}

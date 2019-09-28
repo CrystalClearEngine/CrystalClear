@@ -12,6 +12,7 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
 		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
 		UserSettings.SetUp();
+		throw new Exception();
 		UserSettings.SaveSetting(new UserSettings.UserSetting("Test", "Test 0"));
 		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", new List<string>() { "Hello, World!", "Whats up world?", "Hey", "adasgasds" }));
 		Output.Log((string)UserSettings.GetSetting("Test").value);
