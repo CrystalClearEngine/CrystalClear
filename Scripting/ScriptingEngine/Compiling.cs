@@ -20,7 +20,8 @@ namespace Scripting.ScriptingEngine
 				{
 					GenerateExecutable = false, // we want a Dll (or "Class Library" as its called in .Net)
 					GenerateInMemory = true, // Saves us from deleting the Dll when we are done with it, though you could set this to false and save start-up time by next time by not having to re-compile
-					IncludeDebugInformation = true
+					IncludeDebugInformation = true,
+					OutputAssembly = "Scripts",
 				};
 				// And set any others you want, there a quite a few, take some time to look through them all and decide which fit your application best!
 
@@ -45,12 +46,6 @@ namespace Scripting.ScriptingEngine
 					}
 					return null;
 				}
-
-				if (result.Errors.HasWarnings)
-				{
-					// TODO: tell the user about the warnings, might want to prompt them if they want to continue
-					// runnning the "script"
-				}
 				return result.CompiledAssembly;
 			}
 		}
@@ -72,14 +67,22 @@ namespace Scripting.ScriptingEngine
 							if (constructor.Invoke(null) is Events.IEStart scriptObject)
 							{
 								//lets run start
-								try
-								{
+								//try
+								//{
 									scriptObject.OnStart();
-								}
-								catch (Exception e)
-								{
-									Console.WriteLine(e);
-								}
+								//}
+								//catch (Exception e)
+								//{
+								//	var trace = new System.Diagnostics.StackTrace(e.InnerException, true);
+								//	if (trace.FrameCount > 0)
+								//	{
+								//		var frame = trace.GetFrame(trace.FrameCount - 1);
+								//		var className = frame.GetMethod().ReflectedType.Name;
+								//		var methodName = frame.GetMethod().ToString();
+								//		var lineNumber = frame.GetFileLineNumber();
+								//		Console.WriteLine(lineNumber);
+								//	}
+								//}
 							}
 					}
 				}

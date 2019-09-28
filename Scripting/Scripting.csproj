@@ -50,6 +50,7 @@
     <Compile Include="ScriptingEngine\Attributes.cs" />
     <Compile Include="ScriptingEngine\FileCombining.cs" />
     <Compile Include="Output.cs" />
+    <Compile Include="ScriptingEngine\ScriptingTypes.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>

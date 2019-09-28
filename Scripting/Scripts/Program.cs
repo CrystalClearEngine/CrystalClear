@@ -13,13 +13,14 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
 		UserSettings.SetUp();
 		UserSettings.SaveSetting(new UserSettings.UserSetting("Test", "Test 0"));
-		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", new List<int>() { 100, 200, 1337 }));
+		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", new List<string>() { "Hello, World!", "Whats up world?", "Hey", "adasgasds" }));
 		Output.Log((string)UserSettings.GetSetting("Test").value);
-		List<int> intList = (List<int>)UserSettings.GetSetting("TestObj").value;
-		foreach (int num in intList)
+		List<string> intList = (List<string>)UserSettings.GetSetting("TestObj").value;
+		foreach (string str in intList)
 		{
-			Output.Log(num.ToString());
+			Output.Log(str);
 		}
+		Console.WriteLine(UserSettings.savePath);
 	}
 
 	public void OnFrameUpdate(float timeSinceLastFrame)
