@@ -117,23 +117,28 @@ namespace Scripting
 
 			public UserSetting(string settingString)
 			{
-				string name = string.Empty, stringValue = null;
-				foreach (char c in settingString)
-				{
-					if (stringValue == null && c != ':')
-						name += c;
-					else if (name == string.Empty)
-						throw new CorruptUserSettingException();
-					else if (stringValue == null)
-					{
-						stringValue = string.Empty;
-						continue;
-					}
-					else
-						stringValue += c;
-				}
-				this.name = name;
-				this.value = StringToObject(stringValue);
+				string[] splitString = settingString.Split(':');
+				if (splitString.Length != 2)
+					throw new CorruptUserSettingException();
+				name = splitString[0];
+				value = StringToObject(splitString[1]);
+				//string name = string.Empty, stringValue = null;
+				//foreach (char c in settingString)
+				//{
+				//	if (stringValue == null && c != ':')
+				//		name += c;
+				//	else if (name == string.Empty)
+				//		throw new CorruptUserSettingException();
+				//	else if (stringValue == null)
+				//	{
+				//		stringValue = string.Empty;
+				//		continue;
+				//	}
+				//	else
+				//		stringValue += c;
+				//}
+				//this.name = name;
+				//value = StringToObject(stringValue);
 			}
 		}
 
