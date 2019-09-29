@@ -35,10 +35,7 @@ namespace ProjectManagement
 			switch (inputArray[0])
 			{
 				case "new":
-					//if (inputArray.Length >= 2)
-					//	NewProject(inputArray[1], inputArray[2]);
-					//else
-						NewProject(inputArray[1]);
+					NewProject(inputArray[1]);
 					break;
 				case "use":
 					LoadProject(inputArray[1]);
@@ -47,9 +44,6 @@ namespace ProjectManagement
 					DeleteProject(inputArray[1]);
 					break;
 				case "lst":
-					//if (inputArray.Length >= 2)
-					//	NewProject(inputArray[1], inputArray[2]);
-					//else
 					ListProjects();
 					break;
 				case "in":
@@ -102,7 +96,7 @@ namespace ProjectManagement
 			}
 		}
 
-		private static void DeleteProject(string name, string path = null)
+		private static void DeleteProject(string name)
 		{
 			Console.WriteLine("Press 'y' to proceed deleting");
 			if (Console.ReadKey().KeyChar != 'y')
@@ -113,8 +107,6 @@ namespace ProjectManagement
 
 
 			string folderPath = workInPath + @"\" + name;
-			if (path != null)
-				folderPath = path + @"\" + name;
 
 			if (!IsProject(folderPath))
 			{
@@ -136,12 +128,10 @@ namespace ProjectManagement
 			di.Delete();
 		}
 
-		static void NewProject(string name, string path = null)
+		static void NewProject(string name)
 		{
 			ProjectInfo projectInfo = new ProjectInfo(name);
 			string folderPath = workInPath + @"\" + name;
-			if (path != null)
-				folderPath = path + @"\" + name;
 
 
 			Directory.CreateDirectory(folderPath);
