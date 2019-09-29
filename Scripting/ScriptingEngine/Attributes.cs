@@ -11,13 +11,13 @@ namespace Scripting
 	/// </summary>
 	namespace ScriptAttributes
 	{
-		public class VisibleAttribute : Attribute
+		public sealed class VisibleAttribute : Attribute
 		{
 
 		}
 
 		[AttributeUsage(AttributeTargets.Class)]
-		public class ScriptAttribute : Attribute
+		public sealed class ScriptAttribute : Attribute
 		{
 
 		}

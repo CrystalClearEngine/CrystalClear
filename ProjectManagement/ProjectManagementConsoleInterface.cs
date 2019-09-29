@@ -43,6 +43,9 @@ namespace ProjectManagement
 				case "use":
 					LoadProject(inputArray[1]);
 					break;
+				case "del":
+					DeleteProject(inputArray[1]);
+					break;
 				case "in":
 					workInPath = inputArray[1];
 					break;

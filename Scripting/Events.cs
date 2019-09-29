@@ -5,7 +5,7 @@ namespace Scripting
 	namespace Events
 	{
 		[AttributeUsage(AttributeTargets.Method)]
-		public class EventAttribute : Attribute { }
+		public abstract class EventAttribute : Attribute { }
 
 		public class OnEventAttribute : Attribute
 		{
@@ -21,7 +21,7 @@ namespace Scripting
 		/// </summary>
 		public interface IEvent { }
 
-		public class OnStart : EventAttribute { }
+		public sealed class OnStart : EventAttribute { }
 		public interface IEStart : IEvent
 		{
 			/// <summary>
@@ -30,7 +30,7 @@ namespace Scripting
 			void OnStart();
 		}
 
-		public class OnFrameUpdate : EventAttribute { }
+		public sealed class OnFrameUpdate : EventAttribute { }
 		public interface IEFrameUpdate : IEvent
 		{
 			/// <summary>
@@ -39,7 +39,7 @@ namespace Scripting
 			void OnFrameUpdate(float timeSinceLastFrame);
 		}
 
-		public class OnLowFPS : EventAttribute { }
+		public sealed class OnLowFPS : EventAttribute { }
 		public interface IELowFPS : IEvent
 		{
 			/// <summary>
@@ -49,7 +49,7 @@ namespace Scripting
 			void OnLowFPS(int FPS);
 		}
 
-		public class OnCompile : EventAttribute { }
+		public sealed class OnCompile : EventAttribute { }
 		public interface IECompile : IEvent
 		{
 			/// <summary>
