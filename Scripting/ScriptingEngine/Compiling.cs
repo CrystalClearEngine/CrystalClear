@@ -1,10 +1,12 @@
 ﻿using System;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Reflection;
+using CrystalClear.Scripting.Events.ScriptEvents;
 
-namespace Scripting.ScriptingEngine
+namespace CrystalClear.Scripting.ScriptingEngine
 {
-	static internal class Compiling
+	internal static class Compiling
 	{
 		public static Assembly CompileCode(string code)
 		{
@@ -15,7 +17,7 @@ namespace Scripting.ScriptingEngine
 			using (Microsoft.CSharp.CSharpCodeProvider csProvider = new Microsoft.CSharp.CSharpCodeProvider())
 			{
 
-				// Setup our options
+				// Setup our options!
 				CompilerParameters options = new CompilerParameters
 				{
 					GenerateExecutable = false, // we want a Dll (or "Class Library" as its called in .Net)
@@ -25,7 +27,7 @@ namespace Scripting.ScriptingEngine
 					TempFiles = new TempFileCollection(Environment.CurrentDirectory, true),
 				};
 				// And set any others you want, there a quite a few, take some time to look through them all and decide which fit your application best!
-
+				
 				// Add any references you want the users to be able to access, be warned that giving them access to some classes can allow
 				// harmful code to be written and executed. I recommend that you write your own Class library that is the only reference it allows
 				// thus they can only do the things you want them to.
@@ -47,47 +49,33 @@ namespace Scripting.ScriptingEngine
 					}
 					return null;
 				}
+
 				return result.CompiledAssembly;
 			}
 		}
 
-		public static void FindTypes(Assembly script)
+		public static Type[] FindInterfaceEvents(Assembly script)
 		{
-			if (script == null)
-				return;
+			List<Type> events = new List<Type>(); //temporary list
+
+			if (script == null) //nullcheck
+			{
+				return null; //eye for an eye, null for a null
+			}
 
 			// Now that we have a compiled script, we will now get all types. This will let us add them to lists such as "scrips" etc.
 			foreach (Type type in script.GetExportedTypes())
 			{
 				foreach (Type iface in type.GetInterfaces()) // Find all interfaces so that we can find for example event interfaces among them
 				{
-					if (iface == typeof(Events.IEvent)) // This is an event interface
+					if (iface == typeof(IEvent)) // This is an event interface
 					{
-						ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
-						if (constructor != null && constructor.IsPublic)
-							if (constructor.Invoke(null) is Events.IEStart scriptObject)
-							{
-								//lets run start
-								try
-								{
-									scriptObject.OnStart();
-								}
-								catch (Exception e)
-								{
-									var trace = new System.Diagnostics.StackTrace(e, true);
-									if (trace.FrameCount > 0)
-									{
-										var frame = trace.GetFrame(trace.FrameCount - 1);
-										var className = frame.GetMethod().ReflectedType.Name;
-										var methodName = frame.GetMethod().ToString();
-										var lineNumber = frame.GetFileLineNumber();
-										Console.WriteLine(className + methodName + lineNumber);
-									}
-								}
-							}
+						events.Add(iface);
 					}
 				}
 			}
+
+			return events.ToArray();
 		}
 	}
 }

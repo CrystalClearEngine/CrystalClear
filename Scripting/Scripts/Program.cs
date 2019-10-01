@@ -1,15 +1,15 @@
-﻿using Scripting.Events;
-using Scripting.ScriptAttributes;
-using Scripting;
+﻿using CrystalClear.Scripting;
+using CrystalClear.Scripting.Events.ScriptEvents;
+using CrystalClear.Scripting.ScriptAttributes;
 using System;
 using System.Collections.Generic;
 
 [Script]
-public class HelloWorldExample : IEStart, IEFrameUpdate
+public class HelloWorldExample : IEStart
 {
 	public void OnStart()
 	{
-		throw new Exception();
+		new Scripts.MyScript2();
 		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
 		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
 		UserSettings.SetUp();
@@ -22,10 +22,5 @@ public class HelloWorldExample : IEStart, IEFrameUpdate
 			Output.Log(str);
 		}
 		Console.WriteLine(UserSettings.savePath);
-	}
-
-	public void OnFrameUpdate(float timeSinceLastFrame)
-	{
-		Output.Log("We shouldn´t get here...");
 	}
 }

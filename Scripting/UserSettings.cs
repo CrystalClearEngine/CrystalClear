@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Scripting
+namespace CrystalClear.Scripting
 {
 	public static class UserSettings
 	{
@@ -12,25 +12,37 @@ namespace Scripting
 		public static void SetUp(string savePath = null)
 		{
 			if (savePath != null)
+			{
 				UserSettings.savePath = savePath;
+			}
+
 			using (File.CreateText(UserSettings.savePath)) { }
 		}
 
 		public static bool IsSetUp()
 		{
 			if (File.Exists(savePath))
+			{
 				return true;
+			}
 			else
+			{
 				return false;
+			}
 		}
 
 		public static void SaveSetting(string name, object value) => SaveSetting(new UserSetting(name, value));
 		public static void SaveSetting(UserSetting setting)
 		{
 			if (!IsSetUp())
+			{
 				throw new UserSettingsNotSetUpException();
+			}
+
 			if (setting.name.Contains(':'))
+			{
 				throw new NameContainsIllegalCharException();
+			}
 
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
@@ -73,7 +85,9 @@ namespace Scripting
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)) //This setting exists
+				{
 					return true;
+				}
 			}
 			//If we "get here" the setting does not exist
 			return false;
@@ -83,9 +97,14 @@ namespace Scripting
 		public static UserSetting GetSetting(string name)
 		{
 			if (!IsSetUp())
+			{
 				throw new UserSettingsNotSetUpException();
+			}
+
 			if (!ExistsSetting(name))
+			{
 				throw new SettingNotFoundException();
+			}
 
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
@@ -119,7 +138,10 @@ namespace Scripting
 			{
 				string[] splitString = settingString.Split(':');
 				if (splitString.Length != 2)
+				{
 					throw new CorruptUserSettingException();
+				}
+
 				name = splitString[0];
 				value = StringToObject(splitString[1]);
 				//string name = string.Empty, stringValue = null;

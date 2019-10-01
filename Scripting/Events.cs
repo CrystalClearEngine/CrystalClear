@@ -1,20 +1,47 @@
 ﻿using System;
+using System.Reflection;
 
-namespace Scripting
+namespace CrystalClear.Scripting.Events
 {
-	namespace Events
+	public static class Event
+	{
+		[Obsolete("Use Script.RunEvent or Event.RunEvent", false)]
+		public static void RunStartEvents(Type[] events)
+		{
+			foreach (var item in events)
+			{
+				ConstructorInfo constructor = item.GetType().GetConstructor(Type.EmptyTypes);
+				if (constructor != null && constructor.IsPublic)
+				{
+					if (constructor.Invoke(null) is ScriptEvents.IEStart scriptObject)
+					{
+						//lets run start
+						try
+						{
+							scriptObject.OnStart();
+						}
+						catch (Exception e)
+						{
+							var trace = new System.Diagnostics.StackTrace(e, true);
+							if (trace.FrameCount > 0)
+							{
+								var frame = trace.GetFrame(trace.FrameCount - 1);
+								var className = frame.GetMethod().ReflectedType.Name;
+								var methodName = frame.GetMethod().ToString();
+								var lineNumber = frame.GetFileLineNumber();
+								Console.WriteLine(className + methodName + lineNumber);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	namespace ScriptEvents
 	{
 		[AttributeUsage(AttributeTargets.Method)]
 		public abstract class EventAttribute : Attribute { }
-
-		public class OnEventAttribute : Attribute
-		{
-			public Type eventType;
-			public OnEventAttribute(Type eventType)
-			{
-				this.eventType = eventType;
-			}
-		}
 
 		/// <summary>
 		/// Empty interface only to be derived from

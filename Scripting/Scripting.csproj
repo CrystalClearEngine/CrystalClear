@@ -50,11 +50,18 @@
     <Compile Include="ScriptingEngine\Attributes.cs" />
     <Compile Include="ScriptingEngine\FileCombining.cs" />
     <Compile Include="Output.cs" />
+    <Compile Include="ScriptingEngine\Script.cs" />
     <Compile Include="ScriptingEngine\ScriptingTypes.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

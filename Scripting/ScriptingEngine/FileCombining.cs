@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace Scripting.ScriptingEngine
+namespace CrystalClear.Scripting.ScriptingEngine
 {
 	/// <summary>
-	/// Combines ALL user written code into one large file so that the compiler can compile it all at once.
+	/// Combines ALL user written code into one large file so that the compiler can compile it all at once and we dont have to worry about linking. If it works it aint stupid!
 	/// </summary>
 	public static class FileCombining
 	{
@@ -21,8 +17,18 @@ namespace Scripting.ScriptingEngine
 			}
 
 			//We need to put all using directives at the top of the file. Therefore we will use this magic regex which finds them all: using [^; ]*;
-			Regex.Matches(result, "using [^; ]*;");
-			return null;
+			string tempResult = Regex.Replace(result, "using [^; ]*;", "");
+
+			string usings = string.Empty;
+			foreach (var match in Regex.Matches(result, "using [^; ]*;"))
+			{
+				usings += "\n" + match.ToString();
+			}
+			result = tempResult;
+			result = result.Insert(0, usings);
+
+
+			return result;
 		}
 	}
 }

@@ -5,3 +5,6 @@ E:\dev\crystal clear\Scripting\obj\Debug\Scripting.csprojAssemblyReference.cache
 E:\dev\crystal clear\Scripting\obj\Debug\Scripting.csproj.CoreCompileInputs.cache
 E:\dev\crystal clear\Scripting\obj\Debug\Scripting.exe
 E:\dev\crystal clear\Scripting\obj\Debug\Scripting.pdb
+E:\dev\crystal clear\Scripting\bin\Debug\CrystalClear.dll
+E:\dev\crystal clear\Scripting\bin\Debug\CrystalClear.pdb
+E:\dev\crystal clear\Scripting\obj\Debug\Scripting.csproj.CopyComplete

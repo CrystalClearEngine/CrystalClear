@@ -1,16 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Xml;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace ProjectManagement
 {
-	static class ProjectManagementConsoleInterface
+	internal static class ProjectManagementConsoleInterface
 	{
-		static string workInPath = Directory.GetCurrentDirectory();
+		private static string workInPath = Directory.GetCurrentDirectory();
 
-		static void Main(string[] args)
+		private static void Main(string[] args)
 		{
 			if (args.Length >= 1)
 			{
@@ -27,10 +25,13 @@ namespace ProjectManagement
 			}
 		}
 
-		static void GetInput(string input = null)
+		private static void GetInput(string input = null)
 		{
 			if (input == null)
+			{
 				input = Console.ReadLine();
+			}
+
 			string[] inputArray = input.Split(' ');
 			switch (inputArray[0])
 			{
@@ -128,7 +129,7 @@ namespace ProjectManagement
 			di.Delete();
 		}
 
-		static void NewProject(string name)
+		private static void NewProject(string name)
 		{
 			ProjectInfo projectInfo = new ProjectInfo(name);
 			string folderPath = workInPath + @"\" + name;
@@ -141,12 +142,9 @@ namespace ProjectManagement
 			tw.Dispose();
 		}
 
-		static void LoadProject(string projectName = null, string path = null)
+		private static void LoadProject(string projectName)
 		{
-			if (projectName == null && path == null)
-			{
-				return;
-			}
+
 		}
 	}
 }

@@ -1,24 +1,44 @@
-﻿using System;
+﻿using CrystalClear.Scripting.ScriptingEngine;
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 
-namespace Scripting
+namespace CrystalClear.Scripting
 {
 	public static class MainClass
 	{
-		static void Main()
+		private static void Main()
 		{
-			//AppDomain scriptDomain = AppDomain.CreateDomain("ScriptDomain");
+			AppDomain scriptDomain = AppDomain.CreateDomain("ScriptDomain");
+
+			List<string> codeFiles = new List<string>()
+			{
+				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs"),
+				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\MyScript2.cs")
+			};
+
+			Console.WriteLine(FileCombining.CombineFiles(codeFiles));
+
+			string code =
+				FileCombining.CombineFiles(codeFiles);
 
 			//Hardcoded code to compile
-			Assembly compiledScript = ScriptingEngine.Compiling.CompileCode(
+			Assembly compiledScript = Compiling.CompileCode(
 
-				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs")
+				code
 
 			);
 
-			//scriptDomain.Load(compiledScript.GetName());
+			if (compiledScript == null)
+			{
+				Console.ReadLine();
+				Environment.Exit(-1);
+			}
 
-			ScriptingEngine.Compiling.FindTypes(compiledScript);
+			/*scriptDomain*/Assembly.Load("Scripts");
+
+			Events.Event.RunStartEvents(Compiling.FindInterfaceEvents(compiledScript));
+
 			Console.ReadLine();
 		}
 	}
