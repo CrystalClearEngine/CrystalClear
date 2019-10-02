@@ -101,10 +101,10 @@ namespace CrystalClear.Scripting
 				throw new UserSettingsNotSetUpException();
 			}
 
-			if (!ExistsSetting(name))
-			{
-				throw new SettingNotFoundException();
-			}
+			//if (!ExistsSetting(name))
+			//{
+			//	throw new SettingNotFoundException();
+			//}
 
 			string[] lines = File.ReadAllLines(savePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
