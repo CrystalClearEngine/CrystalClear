@@ -18,7 +18,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 					GenerateInMemory = true,
 					IncludeDebugInformation = true,
 					OutputAssembly = "Scripts",
-					TempFiles = new TempFileCollection(Environment.CurrentDirectory, true),
+					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false),
 				};
 
 				options.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
