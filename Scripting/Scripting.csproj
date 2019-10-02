@@ -48,7 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ScriptingEngine\Attributes.cs" />
-    <Compile Include="ScriptingEngine\FileCombining.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="ScriptingEngine\Script.cs" />
     <Compile Include="ScriptingEngine\ScriptingTypes.cs" />
