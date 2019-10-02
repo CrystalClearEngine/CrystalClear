@@ -9,24 +9,16 @@ namespace CrystalClear.Scripting
 	{
 		private static void Main()
 		{
-			AppDomain scriptDomain = AppDomain.CreateDomain("ScriptDomain");
-
-			List<string> codeFiles = new List<string>()
+			List<string> scriptFilesPaths = new List<string>()
 			{
-				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\Program.cs"),
-				System.IO.File.ReadAllText(@"E:\dev\crystal clear\Scripting\Scripts\MyScript2.cs")
+				@"E:\dev\crystal clear\Scripting\Scripts\Program.cs",
+				@"E:\dev\crystal clear\Scripting\Scripts\MyScript2.cs"
 			};
-
-			Console.WriteLine(FileCombining.CombineFiles(codeFiles));
-
-			string code =
-				FileCombining.CombineFiles(codeFiles);
 
 			//Hardcoded code to compile
 			Assembly compiledScript = Compiling.CompileCode(
 
-				code
-
+				scriptFilesPaths.ToArray()
 			);
 
 			if (compiledScript == null)
@@ -34,8 +26,6 @@ namespace CrystalClear.Scripting
 				Console.ReadLine();
 				Environment.Exit(-1);
 			}
-
-			/*scriptDomain*/Assembly.Load("Scripts");
 
 			Events.Event.RunStartEvents(Compiling.FindInterfaceEvents(compiledScript));
 

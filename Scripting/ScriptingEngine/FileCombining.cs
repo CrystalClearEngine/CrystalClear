@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace CrystalClear.Scripting.ScriptingEngine
@@ -6,6 +7,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 	/// <summary>
 	/// Combines ALL user written code into one large file so that the compiler can compile it all at once and we dont have to worry about linking. If it works it aint stupid!
 	/// </summary>
+	[Obsolete("The compiling class no longer neccessitates this to cobine the files, go use that instead!", true)]
 	public static class FileCombining
 	{
 		public static string CombineFiles(List<string> files)
