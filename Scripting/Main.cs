@@ -51,10 +51,11 @@ namespace CrystalClear.Scripting
 						if (attribute is SubscribeToAttribute subscribeToAttribute)
 						{
 							object instance = Activator.CreateInstance(script.ScriptType);
+
 							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, instance, method) is StartEventHandler startEventHandler)
 								StartEventClass.StartEvent += startEventHandler;
 							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, instance, method) is ExitEventHandler exitEventHandler)
-								ExitEventClass.StartEvent += exitEventHandler;
+								ExitEventClass.ExitEvent += exitEventHandler;
 						}
 					}
 				}
@@ -66,6 +67,8 @@ namespace CrystalClear.Scripting
 			Console.ReadLine();
 
 			ExitEventClass.RaiseExitEvent();
+
+			Console.Read();
 		}
 	}
 }

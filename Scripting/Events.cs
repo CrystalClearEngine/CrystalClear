@@ -19,26 +19,40 @@ namespace CrystalClear.Scripting.EventSystem
 
 	namespace Events
 	{
-		public delegate void StartEventHandler(object o, EventArgs args);
+		public class OnStartEvent : SubscribeToAttribute
+		{
+			public OnStartEvent()
+			{
+				EventType = typeof(StartEventHandler);
+			}
+		}
+		public delegate void StartEventHandler(EventArgs args);
 		public static class StartEventClass
 		{
 			public static void RaiseStartEvent()
 			{
-				StartEvent?.Invoke(null, new EventArgs(/*any info you want handlers to have*/));
+				StartEvent?.Invoke(new EventArgs(/*any info you want handlers to have*/));
 			}
 
 			public static event StartEventHandler StartEvent;
 		}
 
-		public delegate void ExitEventHandler(object o, EventArgs args);
+		public class OnExitEvent : SubscribeToAttribute
+		{
+			public OnExitEvent()
+			{
+				EventType = typeof(StartEventHandler);
+			}
+		}
+		public delegate void ExitEventHandler(EventArgs args);
 		public static class ExitEventClass
 		{
 			public static void RaiseExitEvent()
 			{
-				StartEvent?.Invoke(null, new EventArgs(/*any info you want handlers to have*/));
+				ExitEvent?.Invoke(new EventArgs(/*any info you want handlers to have*/));
 			}
 
-			public static event ExitEventHandler StartEvent;
+			public static event ExitEventHandler ExitEvent;
 		}
 	}
 }
