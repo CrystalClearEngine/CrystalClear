@@ -1,26 +1,22 @@
 ﻿using CrystalClear.Scripting;
-using CrystalClear.Scripting.Events.ScriptEvents;
 using CrystalClear.Scripting.ScriptAttributes;
 using System;
 using System.Collections.Generic;
+using CrystalClear.Scripting.EventSystem;
+using CrystalClear.Scripting.EventSystem.Events;
 
 [Script]
-public class HelloWorldExample : IEStart
+public class HelloWorldExample
 {
-	public void OnStart()
+	[SubscribeTo(typeof(StartEventHandler))]
+	public void OnStart(object o, EventArgs args)
 	{
-		new Scripts.MyScript2();
-		Output.Log("Hello, World!", ConsoleColor.Green, ConsoleColor.Black);
-		Output.Log("Hello, World!", ConsoleColor.Blue, ConsoleColor.Red);
-		UserSettings.SetUp();
-		UserSettings.SaveSetting(new UserSettings.UserSetting("Test", "Test 0"));
-		UserSettings.SaveSetting(new UserSettings.UserSetting("TestObj", new List<string>() { "Hello, World!", "Whats up world?", "Hey", "adasgasds" }));
-		Output.Log((string)UserSettings.GetSetting("Test").value);
-		List<string> intList = (List<string>)UserSettings.GetSetting("TestObj").value;
-		foreach (string str in intList)
-		{
-			Output.Log(str);
-		}
-		Console.WriteLine(UserSettings.savePath);
+		Console.WriteLine("Hello World");
+	}
+
+	[SubscribeTo(typeof(ExitEventHandler))]
+	public void OnExit(object o, EventArgs args)
+	{
+		Console.WriteLine("Bye World");
 	}
 }

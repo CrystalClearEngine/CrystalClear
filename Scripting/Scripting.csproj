@@ -35,6 +35,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.netcore.app\2.1.0\ref\netcoreapp2.1\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,7 +54,7 @@
     <Compile Include="ScriptingEngine\Attributes.cs" />
     <Compile Include="Output.cs" />
     <Compile Include="ScriptingEngine\Script.cs" />
-    <Compile Include="ScriptingEngine\ScriptingTypes.cs" />
+    <Compile Include="ScriptingTypes.cs" />
     <Compile Include="UserSettings.cs" />
   </ItemGroup>
   <ItemGroup>

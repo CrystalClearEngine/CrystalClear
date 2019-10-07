@@ -1,89 +1,44 @@
 ﻿using System;
-using System.Reflection;
 
-namespace CrystalClear.Scripting.Events
+namespace CrystalClear.Scripting.EventSystem
 {
-	public static class Event
+	public class SubscribeToAttribute : Attribute
 	{
-		[Obsolete("Use Script.RunEvent or Event.RunEvent", false)]
-		public static void RunStartEvents(Type[] events)
+		public Type EventType;
+
+		public SubscribeToAttribute(Type @event)
 		{
-			foreach (var item in events)
-			{
-				ConstructorInfo constructor = item.GetType().GetConstructor(Type.EmptyTypes);
-				if (constructor != null && constructor.IsPublic)
-				{
-					if (constructor.Invoke(null) is ScriptEvents.IEStart scriptObject)
-					{
-						//lets run start
-						try
-						{
-							scriptObject.OnStart();
-						}
-						catch (Exception e)
-						{
-							var trace = new System.Diagnostics.StackTrace(e, true);
-							if (trace.FrameCount > 0)
-							{
-								var frame = trace.GetFrame(trace.FrameCount - 1);
-								var className = frame.GetMethod().ReflectedType.Name;
-								var methodName = frame.GetMethod().ToString();
-								var lineNumber = frame.GetFileLineNumber();
-								Console.WriteLine(className + methodName + lineNumber);
-							}
-						}
-					}
-				}
-			}
+			EventType = @event;
+		}
+
+		protected SubscribeToAttribute()
+		{
+
 		}
 	}
-		
-	namespace ScriptEvents
+
+	namespace Events
 	{
-		[AttributeUsage(AttributeTargets.Method)]
-		public abstract class EventAttribute : Attribute { }
-
-		/// <summary>
-		/// Empty interface only to be derived from
-		/// </summary>
-		public interface IEvent { }
-
-		public sealed class OnStart : EventAttribute { }
-		public interface IEStart : IEvent
+		public delegate void StartEventHandler(object o, EventArgs args);
+		public static class StartEventClass
 		{
-			/// <summary>
-			/// Called at the start of the method
-			/// </summary>
-			void OnStart();
+			public static void RaiseStartEvent()
+			{
+				StartEvent?.Invoke(null, new EventArgs(/*any info you want handlers to have*/));
+			}
+
+			public static event StartEventHandler StartEvent;
 		}
 
-		public sealed class OnFrameUpdate : EventAttribute { }
-		public interface IEFrameUpdate : IEvent
+		public delegate void ExitEventHandler(object o, EventArgs args);
+		public static class ExitEventClass
 		{
-			/// <summary>
-			/// Called every time a new frame is drawn
-			/// </summary>
-			void OnFrameUpdate(float timeSinceLastFrame);
-		}
+			public static void RaiseExitEvent()
+			{
+				StartEvent?.Invoke(null, new EventArgs(/*any info you want handlers to have*/));
+			}
 
-		public sealed class OnLowFPS : EventAttribute { }
-		public interface IELowFPS : IEvent
-		{
-			/// <summary>
-			/// Called once FPS reaches below a certain threshold. (is forexample the standard event for rediscorvering to-be-culled dynamic objects in occulusion culling)
-			/// </summary>
-			/// <param name="FPS"> The framerate in frames per second the program is currently running at </param>
-			void OnLowFPS(int FPS);
-		}
-
-		public sealed class OnCompile : EventAttribute { }
-		public interface IECompile : IEvent
-		{
-			/// <summary>
-			/// Called once FPS goes below a certain threshold. (is forexample the standard event for rediscorvering to-be-culled dynamic objects in occulusion culling)
-			/// </summary>
-			/// <param name="FPS"> The framerate in frames per second the program is currently running at </param>
-			void OnCompile(int FPS);
+			public static event ExitEventHandler StartEvent;
 		}
 	}
 }

@@ -8,3 +8,7 @@ E:\dev\crystal clear\Scripting\obj\Debug\Scripting.pdb
 E:\dev\crystal clear\Scripting\bin\Debug\CrystalClear.dll
 E:\dev\crystal clear\Scripting\bin\Debug\CrystalClear.pdb
 E:\dev\crystal clear\Scripting\obj\Debug\Scripting.csproj.CopyComplete
+E:\dev\crystal clear\Scripting\bin\Debug\System.Numerics.Vectors.dll
+E:\dev\crystal clear\Scripting\bin\Debug\System.Runtime.dll
+E:\dev\crystal clear\Scripting\bin\Debug\System.Numerics.Vectors.xml
+E:\dev\crystal clear\Scripting\bin\Debug\System.Runtime.xml

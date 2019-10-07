@@ -6,7 +6,7 @@ namespace ProjectManagement
 {
 	internal static class ProjectManagementConsoleInterface
 	{
-		private static string workInPath = Directory.GetCurrentDirectory();
+		private static string _workInPath = Directory.GetCurrentDirectory();
 
 		private static void Main(string[] args)
 		{
@@ -48,7 +48,7 @@ namespace ProjectManagement
 					ListProjects();
 					break;
 				case "in":
-					workInPath = inputArray[1];
+					_workInPath = inputArray[1];
 					break;
 				default:
 					break;
@@ -57,7 +57,7 @@ namespace ProjectManagement
 
 		private static void ListProjects()
 		{
-			foreach (string folderPath in Directory.GetDirectories(workInPath))
+			foreach (string folderPath in Directory.GetDirectories(_workInPath))
 			{
 				if (IsProject(folderPath))
 				{
@@ -107,7 +107,7 @@ namespace ProjectManagement
 			}
 
 
-			string folderPath = workInPath + @"\" + name;
+			string folderPath = _workInPath + @"\" + name;
 
 			if (!IsProject(folderPath))
 			{
@@ -132,7 +132,7 @@ namespace ProjectManagement
 		private static void NewProject(string name)
 		{
 			ProjectInfo projectInfo = new ProjectInfo(name);
-			string folderPath = workInPath + @"\" + name;
+			string folderPath = _workInPath + @"\" + name;
 
 
 			Directory.CreateDirectory(folderPath);

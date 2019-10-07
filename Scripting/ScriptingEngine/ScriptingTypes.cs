@@ -1,4 +1,0 @@
-﻿namespace CrystalClear.Scripting.ScriptingEngine
-{
-
-}

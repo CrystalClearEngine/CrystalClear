@@ -1,16 +1,17 @@
-﻿using CrystalClear.Scripting.Events.ScriptEvents;
-using System.Reflection;
+﻿using System;
 
 namespace CrystalClear.Scripting.ScriptingEngine
 {
 	public class Script
 	{
-		public Script(string code) //Combine compiling and findtypes etc into one!!
+		public Script(Type scriptClass)
 		{
-
+			ScriptType = scriptClass;
 		}
 
-		public Assembly scriptAssembly;
-		public IEvent[] events;
+		/// <summary>
+		/// The type that is the script class
+		/// </summary>
+		public Type ScriptType;
 	}
 }

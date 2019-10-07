@@ -24,7 +24,7 @@ namespace ProjectManagement
 
 		public string projectPath;
 		public string name;
-		public string currentProjectVersion = CrystalClear.CrystalClearInformation.crystalClearVersion.ToString();
+		public string currentProjectVersion = CrystalClear.CrystalClearInformation.CrystalClearVersion.ToString();
 		public Version GetVersion()
 		{
 			return new Version(currentProjectVersion);

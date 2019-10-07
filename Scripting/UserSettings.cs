@@ -7,21 +7,21 @@ namespace CrystalClear.Scripting
 {
 	public static class UserSettings
 	{
-		public static string savePath = Environment.CurrentDirectory + @"\settings";
+		public static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
 
 		public static void SetUp(string savePath = null)
 		{
 			if (savePath != null)
 			{
-				UserSettings.savePath = savePath;
+				UserSettings.SettingsFilePath = savePath;
 			}
 
-			using (File.CreateText(UserSettings.savePath)) { }
+			using (File.CreateText(UserSettings.SettingsFilePath)) { }
 		}
 
 		public static bool IsSetUp()
 		{
-			if (File.Exists(savePath))
+			if (File.Exists(SettingsFilePath))
 			{
 				return true;
 			}
@@ -44,43 +44,43 @@ namespace CrystalClear.Scripting
 				throw new NameContainsIllegalCharException();
 			}
 
-			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(setting.name)) //This setting should be overwritten as its name matches that of the setting we want to change
 				{
-					File.WriteAllLines(savePath, lines.Where((v, j) => j != i)); //Delete setting
+					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); //Delete setting
 				}
 			}
 
-			File.AppendAllText(savePath, "\n" + setting.ToString()); //Write setting
+			File.AppendAllText(SettingsFilePath, "\n" + setting.ToString()); //Write setting
 		}
 
 		public static void DeleteSetting(UserSetting setting) => DeleteSetting(setting.name);
 		public static void DeleteSetting(string name)
 		{
-			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)) //This setting should be deleted as it is matches the name of the setting we want to delete
 				{
-					File.WriteAllLines(savePath, lines.Where((v, j) => j != i)); //Delete setting
+					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); //Delete setting
 				}
 			}
 		}
 
 		public static void DeleteAllSettings()
 		{
-			File.Delete(savePath);
+			File.Delete(SettingsFilePath);
 		}
 
 
 		public static bool ExistsSetting(UserSetting setting) => ExistsSetting(setting.name);
 		public static bool ExistsSetting(string name)
 		{
-			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
@@ -101,7 +101,12 @@ namespace CrystalClear.Scripting
 				throw new UserSettingsNotSetUpException();
 			}
 
-			string[] lines = File.ReadAllLines(savePath); //All settings in the file
+			if (!ExistsSetting(name))
+			{
+				throw new SettingNotFoundException();
+			}
+
+			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
@@ -159,7 +164,7 @@ namespace CrystalClear.Scripting
 			}
 		}
 
-		private static string ObjectToString(object obj)
+		public static string ObjectToString(object obj)
 		{
 			using (MemoryStream ms = new MemoryStream())
 			{
@@ -168,7 +173,7 @@ namespace CrystalClear.Scripting
 			}
 		}
 
-		private static object StringToObject(string base64String)
+		public static object StringToObject(string base64String)
 		{
 			byte[] bytes = Convert.FromBase64String(base64String);
 			using (MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length))
