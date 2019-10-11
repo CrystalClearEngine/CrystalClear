@@ -8,7 +8,7 @@ using CrystalClear.Scripting.EventSystem.Events;
 [Script]
 public class HelloWorldExample
 {
-	[SubscribeTo(typeof(StartEventHandler))]
+	[OnStartEvent]
 	public void OnStart(EventArgs args)
 	{
 		Console.WriteLine("Hello World");
@@ -19,7 +19,7 @@ public class HelloWorldExample
 		Console.WriteLine("Yay I was dynamically called!");
 	}
 
-	[SubscribeTo(typeof(ExitEventHandler))]
+	[OnExitEvent]
 	public void OnExit(EventArgs args)
 	{
 		Console.WriteLine("Bye World");

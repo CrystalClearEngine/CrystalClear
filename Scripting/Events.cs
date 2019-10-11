@@ -19,9 +19,9 @@ namespace CrystalClear.Scripting.EventSystem
 
 	namespace Events
 	{
-		public class OnStartEvent : SubscribeToAttribute
+		public class OnStartEventAttribute : SubscribeToAttribute
 		{
-			public OnStartEvent()
+			public OnStartEventAttribute()
 			{
 				EventType = typeof(StartEventHandler);
 			}
@@ -37,11 +37,12 @@ namespace CrystalClear.Scripting.EventSystem
 			public static event StartEventHandler StartEvent;
 		}
 
-		public class OnExitEvent : SubscribeToAttribute
+
+		public class OnExitEventAttribute : SubscribeToAttribute
 		{
-			public OnExitEvent()
+			public OnExitEventAttribute()
 			{
-				EventType = typeof(StartEventHandler);
+				EventType = typeof(ExitEventHandler);
 			}
 		}
 		public delegate void ExitEventHandler(EventArgs args);
