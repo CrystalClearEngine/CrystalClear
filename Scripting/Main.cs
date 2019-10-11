@@ -50,11 +50,9 @@ namespace CrystalClear.Scripting
 					{
 						if (attribute is SubscribeToAttribute subscribeToAttribute)
 						{
-							object instance = Activator.CreateInstance(script.ScriptType);
-
-							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, instance, method) is StartEventHandler startEventHandler)
+							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, script.ScriptInstance, method) is StartEventHandler startEventHandler)
 								StartEventClass.StartEvent += startEventHandler;
-							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, instance, method) is ExitEventHandler exitEventHandler)
+							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, script.ScriptInstance, method) is ExitEventHandler exitEventHandler)
 								ExitEventClass.ExitEvent += exitEventHandler;
 						}
 					}
@@ -62,6 +60,8 @@ namespace CrystalClear.Scripting
 			}
 
 			StartEventClass.RaiseStartEvent();
+
+			scripts[0].DynamicallyCallMethod("DynamicallyCallMe");
 
 
 			Console.ReadLine();

@@ -14,6 +14,11 @@ public class HelloWorldExample
 		Console.WriteLine("Hello World");
 	}
 
+	public void DynamicallyCallMe()
+	{
+		Console.WriteLine("Yay I was dynamically called!");
+	}
+
 	[SubscribeTo(typeof(ExitEventHandler))]
 	public void OnExit(EventArgs args)
 	{
