@@ -11,9 +11,16 @@ namespace CrystalClear.Scripting.EventSystem
 			EventType = @event;
 		}
 
-		protected SubscribeToAttribute()
-		{
+		protected SubscribeToAttribute() { }
+	}
 
+	public class CancellableEvent : EventArgs
+	{
+		public bool IsCancelled { get; protected set; }
+
+		public void Cancel()
+		{
+			IsCancelled = true;
 		}
 	}
 
@@ -26,12 +33,12 @@ namespace CrystalClear.Scripting.EventSystem
 				EventType = typeof(StartEventHandler);
 			}
 		}
-		public delegate void StartEventHandler(EventArgs args);
+		public delegate void StartEventHandler();
 		public static class StartEventClass
 		{
 			public static void RaiseStartEvent()
 			{
-				StartEvent?.Invoke(new EventArgs(/*any info you want handlers to have*/));
+				StartEvent?.Invoke();
 			}
 
 			public static event StartEventHandler StartEvent;
@@ -45,12 +52,17 @@ namespace CrystalClear.Scripting.EventSystem
 				EventType = typeof(ExitEventHandler);
 			}
 		}
-		public delegate void ExitEventHandler(EventArgs args);
+
+
+		public class ExitEventArgs : CancellableEvent { }
+		public delegate void ExitEventHandler(ExitEventArgs args);
 		public static class ExitEventClass
 		{
-			public static void RaiseExitEvent()
+			public static ExitEventArgs RaiseExitEvent()
 			{
-				ExitEvent?.Invoke(new EventArgs(/*any info you want handlers to have*/));
+				ExitEventArgs exitEventArgs = new ExitEventArgs();
+				ExitEvent?.Invoke(exitEventArgs);
+				return exitEventArgs;
 			}
 
 			public static event ExitEventHandler ExitEvent;

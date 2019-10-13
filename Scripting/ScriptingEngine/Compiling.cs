@@ -13,7 +13,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 				CompilerParameters options = new CompilerParameters
 				{
 					GenerateExecutable = false,
-					GenerateInMemory = true,
+					//GenerateInMemory = true,
 					IncludeDebugInformation = true,
 					OutputAssembly = "Scripts",
 					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false),

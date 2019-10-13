@@ -15,6 +15,8 @@ namespace CrystalClear.Scripting
 	{
 		private static void Main()
 		{
+			restart:
+
 			Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); // So that we get relevant exception messages. Who thought it would be a good idea to translate them and NOT LET YOU CHOOSE which language to use.
 			Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 
@@ -27,6 +29,7 @@ namespace CrystalClear.Scripting
 			Assembly compiledScript = Compiling.CompileCode(
 
 				scriptFilesPaths
+
 			);
 
 			if (compiledScript == null)
@@ -62,11 +65,16 @@ namespace CrystalClear.Scripting
 			StartEventClass.RaiseStartEvent();
 
 			scripts[0].DynamicallyCallMethod("DynamicallyCallMe");
+			scripts[0].DynamicallyCallMethods(new[]{"IToo", "AndMe"});
 
 
 			Console.ReadLine();
 
-			ExitEventClass.RaiseExitEvent();
+
+			if (ExitEventClass.RaiseExitEvent().IsCancelled == true)
+			{
+				goto restart;
+			}
 
 			Console.Read();
 		}
