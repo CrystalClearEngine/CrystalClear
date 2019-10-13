@@ -5,12 +5,14 @@ using System.Numerics;
 namespace CrystalClear.Scripting.ScriptingEngine.Scene
 {
 	/// <summary>
-	/// Represents any item that is part of the hierarchy
+	///     Represents any item that is part of the hierarchy
 	/// </summary>
-	public abstract class HierarchyObject { }
+	public abstract class HierarchyObject
+	{
+	}
 
 	/// <summary>
-	/// A WorldObject is an object that has a position, transform and display in the hierarchy.
+	///     A WorldObject is an object that has a position, transform and display in the hierarchy.
 	/// </summary>
 	public class WorldObject : HierarchyObject
 	{

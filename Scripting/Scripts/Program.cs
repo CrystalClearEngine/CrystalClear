@@ -1,9 +1,6 @@
-﻿using CrystalClear.Scripting;
-using CrystalClear.Scripting.ScriptAttributes;
-using System;
-using System.Collections.Generic;
-using CrystalClear.Scripting.EventSystem;
+﻿using System;
 using CrystalClear.Scripting.EventSystem.Events;
+using CrystalClear.Scripting.ScriptAttributes;
 
 [Script]
 public class HelloWorldExample
@@ -23,6 +20,7 @@ public class HelloWorldExample
 	{
 		Console.WriteLine("Yiey");
 	}
+
 	public void IToo()
 	{
 		Console.WriteLine("Yayy");

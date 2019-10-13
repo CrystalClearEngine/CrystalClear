@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using Microsoft.CSharp;
 
 namespace CrystalClear.Scripting.ScriptingEngine
 {
@@ -8,7 +9,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 	{
 		public static Assembly CompileCode(string[] fileNames)
 		{
-			using (Microsoft.CSharp.CSharpCodeProvider csProvider = new Microsoft.CSharp.CSharpCodeProvider())
+			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
 			{
 				CompilerParameters options = new CompilerParameters
 				{
@@ -16,7 +17,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 					//GenerateInMemory = true,
 					IncludeDebugInformation = true,
 					OutputAssembly = "Scripts",
-					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false),
+					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false)
 				};
 
 				options.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
@@ -27,10 +28,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 
 				if (result.Errors.HasErrors)
 				{
-					foreach (var error in result.Errors)
-					{
-						Console.WriteLine(error);
-					}
+					foreach (object error in result.Errors) Console.WriteLine(error);
 					return null;
 				}
 

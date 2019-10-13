@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CrystalClear.Scripting;
+﻿using CrystalClear.Scripting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {
@@ -24,7 +24,7 @@ namespace UnitTests
 			public void CreateAndReadSetting()
 			{
 				object ObjectToStore = "If you can read this, computer, then the save and load has been successful!";
-				string NameForSetting = "UnitTestSetting";
+				var NameForSetting = "UnitTestSetting";
 
 				UserSettings.SetUp();
 				UserSettings.SaveSetting(NameForSetting, ObjectToStore);
@@ -38,7 +38,7 @@ namespace UnitTests
 		}
 
 		[TestClass]
-		public class DeleteUserSettingsTestss
+		public class DeleteUserSettingsTest
 		{
 			[TestMethod]
 			public void DeleteAllUserSettings()
@@ -51,8 +51,8 @@ namespace UnitTests
 			[TestMethod]
 			public void DeleteSpecificUserSetting()
 			{
-				string NameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
-				string ObjectToStore = "123 ABC";
+				var NameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
+				var ObjectToStore = "123 ABC";
 
 				UserSettings.SetUp();
 

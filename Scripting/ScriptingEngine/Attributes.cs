@@ -5,12 +5,10 @@ namespace CrystalClear.Scripting.ScriptAttributes
 {
 	public sealed class VisibleAttribute : Attribute
 	{
-
 	}
 
 	[AttributeUsage(AttributeTargets.Class)]
 	public sealed class ScriptAttribute : Attribute
 	{
-
 	}
 }

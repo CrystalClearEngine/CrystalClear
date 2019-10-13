@@ -3,7 +3,7 @@
 namespace UI
 {
 	/// <summary>
-	/// Interaction logic for CreateNewEvent.xaml
+	///     Interaction logic for CreateNewEvent.xaml
 	/// </summary>
 	public partial class CreateNewEvent : Window
 	{

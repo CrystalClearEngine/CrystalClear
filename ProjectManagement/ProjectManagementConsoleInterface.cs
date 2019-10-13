@@ -11,28 +11,18 @@ namespace ProjectManagement
 		private static void Main(string[] args)
 		{
 			if (args.Length >= 1)
-			{
 				foreach (var arg in args)
-				{
 					GetInput(arg);
-				}
-			}
 
 			Console.WriteLine("Crystal Clear Engine project management interface");
-			while (true)
-			{
-				GetInput();
-			}
+			while (true) GetInput();
 		}
 
 		private static void GetInput(string input = null)
 		{
-			if (input == null)
-			{
-				input = Console.ReadLine();
-			}
+			if (input == null) input = Console.ReadLine();
 
-			string[] inputArray = input.Split(' ');
+			var inputArray = input.Split(' ');
 			switch (inputArray[0])
 			{
 				case "new":
@@ -50,31 +40,21 @@ namespace ProjectManagement
 				case "in":
 					_workInPath = inputArray[1];
 					break;
-				default:
-					break;
 			}
 		}
 
 		private static void ListProjects()
 		{
-			foreach (string folderPath in Directory.GetDirectories(_workInPath))
-			{
+			foreach (var folderPath in Directory.GetDirectories(_workInPath))
 				if (IsProject(folderPath))
-				{
 					Console.WriteLine(GetProjectName(folderPath) + " - " + folderPath);
-				}
-			}
 		}
 
 		private static bool IsProject(string path)
 		{
 			foreach (var file in Directory.GetFiles(path))
-			{
 				if (file.EndsWith(".crystalcore"))
-				{
 					return true;
-				}
-			}
 			return false;
 		}
 
@@ -82,17 +62,13 @@ namespace ProjectManagement
 		{
 			string crystalCorePath = null;
 			foreach (var file in Directory.GetFiles(path))
-			{
 				if (file.EndsWith(".crystalcore"))
-				{
 					crystalCorePath = file;
-				}
-			}
 
 			XmlSerializer xs = new XmlSerializer(typeof(ProjectInfo));
-			using (var sr = new StreamReader(crystalCorePath))
+			using (StreamReader sr = new StreamReader(crystalCorePath))
 			{
-				ProjectInfo projectInfo = (ProjectInfo)xs.Deserialize(sr);
+				ProjectInfo projectInfo = (ProjectInfo) xs.Deserialize(sr);
 				return projectInfo.name;
 			}
 		}
@@ -107,7 +83,7 @@ namespace ProjectManagement
 			}
 
 
-			string folderPath = _workInPath + @"\" + name;
+			var folderPath = _workInPath + @"\" + name;
 
 			if (!IsProject(folderPath))
 			{
@@ -117,14 +93,8 @@ namespace ProjectManagement
 
 			DirectoryInfo di = new DirectoryInfo(folderPath);
 
-			foreach (FileInfo file in di.GetFiles())
-			{
-				file.Delete();
-			}
-			foreach (DirectoryInfo dir in di.GetDirectories())
-			{
-				dir.Delete(true);
-			}
+			foreach (FileInfo file in di.GetFiles()) file.Delete();
+			foreach (DirectoryInfo dir in di.GetDirectories()) dir.Delete(true);
 
 			di.Delete();
 		}
@@ -132,7 +102,7 @@ namespace ProjectManagement
 		private static void NewProject(string name)
 		{
 			ProjectInfo projectInfo = new ProjectInfo(name);
-			string folderPath = _workInPath + @"\" + name;
+			var folderPath = _workInPath + @"\" + name;
 
 
 			Directory.CreateDirectory(folderPath);
@@ -144,7 +114,6 @@ namespace ProjectManagement
 
 		private static void LoadProject(string projectName)
 		{
-
 		}
 	}
 }
