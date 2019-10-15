@@ -1,4 +1,6 @@
-﻿namespace CrystalClear.Scripting.EventSystem.Events
+﻿using System;
+
+namespace CrystalClear.Scripting.EventSystem.Events
 {
 	public class OnStartEventAttribute : SubscribeToAttribute
 	{
@@ -14,9 +16,9 @@
 	{
 		public static void RaiseStartEvent()
 		{
-			StartEvent?.Invoke();
+			StartEventDelegate?.Invoke();
 		}
 
-		public static event StartEventHandler StartEvent;
+		public static StartEventHandler StartEventDelegate;
 	}
 }

@@ -15,7 +15,7 @@ namespace CrystalClear.Scripting.EventSystem
 		public void Subscribe(object instance)
 		{
 			Delegate eventHandler = Delegate.CreateDelegate(EventType, instance, Method);
-			StartEventClass.StartEvent += eventHandler as StartEventHandler;
+			StartEventClass.StartEventDelegate += eventHandler as StartEventHandler;
 			//if (Delegate.CreateDelegate(EventType, instance, Method) is
 			//	StartEventHandler startEventHandler)
 		}

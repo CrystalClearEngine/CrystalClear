@@ -1,4 +1,6 @@
-﻿namespace CrystalClear.Scripting.EventSystem.Events
+﻿using System;
+
+namespace CrystalClear.Scripting.EventSystem.Events
 {
 	public class OnExitEventAttribute : SubscribeToAttribute
 	{
@@ -19,10 +21,10 @@
 		public static ExitEventArgs RaiseExitEvent()
 		{
 			ExitEventArgs exitEventArgs = new ExitEventArgs();
-			ExitEvent?.Invoke(exitEventArgs);
+			ExitEventDelegate?.Invoke(exitEventArgs);
 			return exitEventArgs;
 		}
 
-		public static event ExitEventHandler ExitEvent;
+		public static ExitEventHandler ExitEventDelegate;
 	}
 }
