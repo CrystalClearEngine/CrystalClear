@@ -23,15 +23,15 @@ namespace UnitTests
 			[TestMethod]
 			public void CreateAndReadSetting()
 			{
-				object ObjectToStore = "If you can read this, computer, then the save and load has been successful!";
-				var NameForSetting = "UnitTestSetting";
+				object objectToStore = "If you can read this, computer, then the save and load has been successful!";
+				var nameForSetting = "UnitTestSetting";
 
 				UserSettings.SetUp();
-				UserSettings.SaveSetting(NameForSetting, ObjectToStore);
+				UserSettings.SaveSetting(nameForSetting, objectToStore);
 
-				object ResultingObjectAfterLoad = UserSettings.GetSetting(NameForSetting).value;
+				object resultingObjectAfterLoad = UserSettings.GetSetting(nameForSetting).Value;
 
-				Assert.AreEqual(ObjectToStore, ResultingObjectAfterLoad);
+				Assert.AreEqual(objectToStore, resultingObjectAfterLoad);
 
 				UserSettings.DeleteAllSettings();
 			}
@@ -51,17 +51,17 @@ namespace UnitTests
 			[TestMethod]
 			public void DeleteSpecificUserSetting()
 			{
-				var NameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
-				var ObjectToStore = "123 ABC";
+				var nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
+				var objectToStore = "123 ABC";
 
 				UserSettings.SetUp();
 
-				UserSettings.SaveSetting(NameOfObjectToStore, ObjectToStore);
-				Assert.IsTrue(UserSettings.ExistsSetting(NameOfObjectToStore));
+				UserSettings.SaveSetting(nameOfObjectToStore, objectToStore);
+				Assert.IsTrue(UserSettings.ExistsSetting(nameOfObjectToStore));
 
-				UserSettings.DeleteSetting(NameOfObjectToStore);
+				UserSettings.DeleteSetting(nameOfObjectToStore);
 
-				Assert.IsFalse(UserSettings.ExistsSetting(NameOfObjectToStore));
+				Assert.IsFalse(UserSettings.ExistsSetting(nameOfObjectToStore));
 				UserSettings.DeleteAllSettings();
 			}
 		}

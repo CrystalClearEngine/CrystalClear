@@ -34,13 +34,13 @@ namespace CrystalClear.Scripting
 		{
 			if (!IsSetUp()) throw new UserSettingsNotSetUpException();
 
-			if (setting.name.Contains(':')) throw new NameContainsIllegalCharException();
+			if (setting.Name.Contains(':')) throw new NameContainsIllegalCharException();
 
 			var lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
 			for (var i = 0; i < lines.Length; i++)
 			{
 				var line = lines[i];
-				if (line.Split(':')[0].Contains(setting.name)
+				if (line.Split(':')[0].Contains(setting.Name)
 				) //This setting should be overwritten as its name matches that of the setting we want to change
 					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); //Delete setting
 			}
@@ -50,7 +50,7 @@ namespace CrystalClear.Scripting
 
 		public static void DeleteSetting(UserSetting setting)
 		{
-			DeleteSetting(setting.name);
+			DeleteSetting(setting.Name);
 		}
 
 		public static void DeleteSetting(string name)
@@ -73,7 +73,7 @@ namespace CrystalClear.Scripting
 
 		public static bool ExistsSetting(UserSetting setting)
 		{
-			return ExistsSetting(setting.name);
+			return ExistsSetting(setting.Name);
 		}
 
 		public static bool ExistsSetting(string name)
@@ -92,7 +92,7 @@ namespace CrystalClear.Scripting
 
 		public static UserSetting GetSetting(UserSetting setting)
 		{
-			return GetSetting(setting.name);
+			return GetSetting(setting.Name);
 		}
 
 		public static UserSetting GetSetting(string name)
@@ -136,16 +136,16 @@ namespace CrystalClear.Scripting
 		{
 			public override string ToString()
 			{
-				return name + ":" + ObjectToString(value);
+				return Name + ":" + ObjectToString(Value);
 			}
 
-			public string name;
-			public object value;
+			public string Name;
+			public object Value;
 
 			public UserSetting(string name, object value)
 			{
-				this.name = name;
-				this.value = value;
+				this.Name = name;
+				this.Value = value;
 			}
 
 			public UserSetting(string settingString)
@@ -153,8 +153,8 @@ namespace CrystalClear.Scripting
 				var splitString = settingString.Split(':');
 				if (splitString.Length != 2) throw new CorruptUserSettingException();
 
-				name = splitString[0];
-				value = StringToObject(splitString[1]);
+				Name = splitString[0];
+				Value = StringToObject(splitString[1]);
 				//string name = string.Empty, stringValue = null;
 				//foreach (char c in settingString)
 				//{

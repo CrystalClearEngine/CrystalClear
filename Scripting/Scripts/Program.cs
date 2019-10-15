@@ -21,7 +21,7 @@ public class HelloWorldExample
 		Console.WriteLine("Yiey");
 	}
 
-	public void IToo()
+	public void Too()
 	{
 		Console.WriteLine("Yayy");
 	}

@@ -69,7 +69,7 @@ namespace ProjectManagement
 			using (StreamReader sr = new StreamReader(crystalCorePath))
 			{
 				ProjectInfo projectInfo = (ProjectInfo) xs.Deserialize(sr);
-				return projectInfo.name;
+				return projectInfo.Name;
 			}
 		}
 

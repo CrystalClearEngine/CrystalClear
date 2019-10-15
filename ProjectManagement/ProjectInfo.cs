@@ -7,10 +7,10 @@ namespace ProjectManagement
 {
 	public class ProjectInfo
 	{
-		public string currentProjectVersion = CrystalClearInformation.CrystalClearVersion.ToString();
-		public string name;
+		public string CurrentProjectVersion = CrystalClearInformation.CrystalClearVersion.ToString();
+		public string Name;
 
-		public string projectPath;
+		public string ProjectPath;
 
 		public ProjectInfo()
 		{
@@ -27,12 +27,12 @@ namespace ProjectManagement
 
 		public ProjectInfo(string name)
 		{
-			this.name = name;
+			this.Name = name;
 		}
 
 		public Version GetVersion()
 		{
-			return new Version(currentProjectVersion);
+			return new Version(CurrentProjectVersion);
 		}
 
 		public static void CreateProject(string name)

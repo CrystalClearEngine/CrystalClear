@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Threading;
 using CrystalClear.Scripting.EventSystem;
@@ -38,30 +37,18 @@ namespace CrystalClear.Scripting
 				Environment.Exit(-1);
 			}
 
-
-			var scripts = (from exportedType in compiledScript.GetExportedTypes()
-				from attribute in exportedType.GetCustomAttributes()
-				where attribute is ScriptAttribute
-				select new Script(exportedType)).ToList();
+			Script[] scripts = Script.FindScripts(compiledScript);
 
 			foreach (Script script in scripts)
-				foreach (MethodInfo method in script.ScriptType.GetMethods())
-					foreach (Attribute attribute in method.GetCustomAttributes())
-						if (attribute is SubscribeToAttribute subscribeToAttribute)
-						{
-							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, script.ScriptInstance, method) is
-								StartEventHandler startEventHandler)
-								StartEventClass.StartEvent += startEventHandler;
-							if (Delegate.CreateDelegate(subscribeToAttribute.EventType, script.ScriptInstance, method) is
-								ExitEventHandler exitEventHandler)
-								ExitEventClass.ExitEvent += exitEventHandler;
-						}
+				foreach (Event @event in script.GetEvents())
+				{
+					@event.Subscribe(script.ScriptInstance);
+				}
 
 			StartEventClass.RaiseStartEvent();
 
-
-			scripts[0].DynamicallyCallMethod("DynamicallyCallMe");
-			scripts[0].DynamicallyCallMethods(new[] {"IToo", "AndMe"});
+			//scripts[0].DynamicallyCallMethod("DynamicallyCallMe");
+			//scripts[0].DynamicallyCallMethods(new[] {"IToo", "AndMe"});
 
 			Console.ReadLine();
 
