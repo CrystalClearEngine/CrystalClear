@@ -62,13 +62,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
       <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
       <Name>CrystalClear</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScriptRuntime\ScriptRuntime.csproj">
+    <ProjectReference Include="..\ScriptUtils\ScriptUtils.csproj">
       <Project>{9e957c42-32f6-4414-82ce-5ff2b0268f90}</Project>
-      <Name>ScriptRuntime</Name>
+      <Name>ScriptUtils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

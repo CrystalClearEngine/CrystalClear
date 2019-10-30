@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripting", "Scripting\Scripting.csproj", "{BFA013CF-54A1-497B-9172-66AB645A006A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripting", "Scripting Projects\Scripting\Scripting.csproj", "{BFA013CF-54A1-497B-9172-66AB645A006A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{8ED3114A-A2D3-445C-8FCB-BD68AEDDE69B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Scripting\Scripts\Scripts.csproj", "{1F71727B-2A64-484D-9FDB-C6E1DA5162EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Scripting Projects\Scripts\Scripts.csproj", "{1F71727B-2A64-484D-9FDB-C6E1DA5162EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectManagement", "ProjectManagement\ProjectManagement.csproj", "{7E4021EA-0A40-48A8-9355-8591F9BF6D1E}"
 EndProject
@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrystalClear", "CrystalClea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{53674175-BE72-441F-8713-A0DC613C50D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptRuntime", "ScriptRuntime\ScriptRuntime.csproj", "{9E957C42-32F6-4414-82CE-5FF2B0268F90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptUtils", "Scripting Projects\ScriptUtils\ScriptUtils.csproj", "{9E957C42-32F6-4414-82CE-5FF2B0268F90}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
