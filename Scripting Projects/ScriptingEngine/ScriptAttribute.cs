@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrystalClear.Scripting.ScriptAttributes
+namespace CrystalClear.ScriptingEngine
 {
 
 	[AttributeUsage(AttributeTargets.Class)]

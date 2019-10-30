@@ -2,7 +2,7 @@
 
 using System.Numerics;
 
-namespace CrystalClear.Scripting.ScriptingEngine.Scene
+namespace CrystalClear.ScriptingEngine
 {
 	/// <summary>
 	///     Represents any item that is part of the hierarchy

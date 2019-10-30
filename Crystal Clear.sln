@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripting", "Scripting Projects\Scripting\Scripting.csproj", "{BFA013CF-54A1-497B-9172-66AB645A006A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptingEngine", "Scripting Projects\ScriptingEngine\ScriptingEngine.csproj", "{BFA013CF-54A1-497B-9172-66AB645A006A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{8ED3114A-A2D3-445C-8FCB-BD68AEDDE69B}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{53674175-BE72-441F-8713-A0DC613C50D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptUtils", "Scripting Projects\ScriptUtils\ScriptUtils.csproj", "{9E957C42-32F6-4414-82CE-5FF2B0268F90}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripting Projects", "Scripting Projects", "{7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFA013CF-54A1-497B-9172-66AB645A006A} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
+		{1F71727B-2A64-484D-9FDB-C6E1DA5162EE} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
+		{9E957C42-32F6-4414-82CE-5FF2B0268F90} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7387A616-2E87-478B-8CD1-337574F927AC}

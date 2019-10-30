@@ -2,12 +2,10 @@
 using System.Globalization;
 using System.Reflection;
 using System.Threading;
-using CrystalClear.Scripting.EventSystem;
-using CrystalClear.Scripting.EventSystem.Events;
-using CrystalClear.Scripting.ScriptAttributes;
 using CrystalClear.Scripting.ScriptingEngine;
+using CrystalClear.ScriptingEngine;
 
-namespace CrystalClear.Scripting
+namespace CrystalClear.ScriptingEngine
 {
 	public static class MainClass
 	{

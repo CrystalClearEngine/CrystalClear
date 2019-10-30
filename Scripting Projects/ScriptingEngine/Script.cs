@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using CrystalClear.Scripting.EventSystem;
-using CrystalClear.Scripting.EventSystem.Events;
-using CrystalClear.Scripting.ScriptAttributes;
+using CrystalClear.EventSystem;
+using CrystalClear.ScriptingEngine;
 
 namespace CrystalClear.Scripting.ScriptingEngine
 {

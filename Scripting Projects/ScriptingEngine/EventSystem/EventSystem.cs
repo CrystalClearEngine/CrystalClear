@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using CrystalClear.Scripting.EventSystem.Events;
 
-namespace CrystalClear.Scripting.EventSystem
+namespace CrystalClear.EventSystem
 {
 	public interface IEventClass
 	{

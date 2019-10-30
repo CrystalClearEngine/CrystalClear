@@ -3,7 +3,7 @@ using System.CodeDom.Compiler;
 using System.Reflection;
 using Microsoft.CSharp;
 
-namespace CrystalClear.Scripting.ScriptingEngine
+namespace CrystalClear.ScriptingEngine
 {
 	internal static class Compiling
 	{
