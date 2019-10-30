@@ -11,16 +11,16 @@ namespace CrystalClear.Scripting.ScriptingEngine
 		{
 			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
 			{
+				// Set the options for the compilation
 				CompilerParameters options = new CompilerParameters
 				{
 					GenerateExecutable = false,
-					//GenerateInMemory = true,
 					IncludeDebugInformation = true,
-					OutputAssembly = "Scripts",
 					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false)
 				};
 
-				options.ReferencedAssemblies.Add(Assembly.GetExecutingAssembly().Location);
+				// Set references for the compiled code
+				options.ReferencedAssemblies.Add("\\netstandard2.0\\ScriptRuntime.dll");
 
 				// Compile our code
 				CompilerResults result;

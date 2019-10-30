@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace CrystalClear.Scripting.EventSystem.Events
 {
@@ -6,19 +7,40 @@ namespace CrystalClear.Scripting.EventSystem.Events
 	{
 		public OnStartEventAttribute()
 		{
-			EventType = typeof(StartEventHandler);
+			EventType = typeof(StartEventClass.StartEventHandler);
 		}
 	}
 
-	public delegate void StartEventHandler();
-
-	public static class StartEventClass
+	public class StartEventClass : IEventClass
 	{
-		public static void RaiseStartEvent()
+		public delegate void StartEventHandler();
+
+		public StartEventHandler StartEventDelegate;
+
+		public void Subscribe(Delegate eventHandler)
 		{
-			StartEventDelegate?.Invoke();
+			StartEventDelegate += (StartEventHandler)eventHandler;
 		}
 
-		public static StartEventHandler StartEventDelegate;
+		public void Subscribe(MethodInfo method, object instance)
+		{
+			Delegate eventHandler = Delegate.CreateDelegate(typeof(StartEventHandler), instance, method);
+			Subscribe(eventHandler);
+		}
+
+		public void UnSubscribe(Delegate eventHandler)
+		{
+			Delegate.Remove(StartEventDelegate, eventHandler);
+		}
+
+		public void ClearSubscribers()
+		{
+			Delegate.RemoveAll(StartEventDelegate, StartEventDelegate);
+		}
+
+		public void RaiseEvent()
+		{
+
+		}
 	}
 }

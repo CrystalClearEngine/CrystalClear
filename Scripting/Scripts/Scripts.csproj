@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj" />
+    <ProjectReference Include="..\..\ScriptRuntime\ScriptRuntime.csproj" />
     <ProjectReference Include="..\..\UI\UI.csproj" />
     <ProjectReference Include="..\Scripting.csproj" />
   </ItemGroup>

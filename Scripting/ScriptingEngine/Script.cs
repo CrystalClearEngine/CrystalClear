@@ -49,15 +49,13 @@ namespace CrystalClear.Scripting.ScriptingEngine
 			return scripts;
 		}
 
-		public List<Event> GetEvents()
+		public void SubscribeAllEvents()
 		{
-			List<Event> eventsList = new List<Event>();
-
 			foreach (MethodInfo method in ScriptType.GetMethods())
 				foreach (Attribute attribute in method.GetCustomAttributes())
 					if (attribute is SubscribeToAttribute subscribeToAttribute)
 					{
-						eventsList.Add(new Event(subscribeToAttribute.EventType, method));
+						
 						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
 						//	StartEventHandler startEventHandler)
 						//	StartEventClass.StartEvent += startEventHandler;
@@ -65,8 +63,6 @@ namespace CrystalClear.Scripting.ScriptingEngine
 						//	ExitEventHandler exitEventHandler)
 						//	ExitEventClass.ExitEvent += exitEventHandler;
 					}
-
-			return eventsList;
 		}
 	}
 }

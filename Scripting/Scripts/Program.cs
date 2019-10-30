@@ -1,4 +1,5 @@
 ﻿using System;
+using CrystalClear.Scripting.EventSystem;
 using CrystalClear.Scripting.EventSystem.Events;
 using CrystalClear.Scripting.ScriptAttributes;
 
@@ -9,27 +10,5 @@ public class HelloWorldExample
 	public void OnStart()
 	{
 		Console.WriteLine("Hello World");
-	}
-
-	public void DynamicallyCallMe()
-	{
-		Console.WriteLine("Yay I was dynamically called!");
-	}
-
-	public void AndMe()
-	{
-		Console.WriteLine("Yiey");
-	}
-
-	public void Too()
-	{
-		Console.WriteLine("Yayy");
-	}
-
-	[OnExitEvent]
-	public void OnExit(ExitEventArgs args)
-	{
-		args.Cancel();
-		Console.WriteLine("Bye!");
 	}
 }

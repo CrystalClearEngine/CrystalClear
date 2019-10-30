@@ -12,3 +12,5 @@ E:\dev\crystal clear\Scripting\bin\Debug\System.Numerics.Vectors.dll
 E:\dev\crystal clear\Scripting\bin\Debug\System.Runtime.dll
 E:\dev\crystal clear\Scripting\bin\Debug\System.Numerics.Vectors.xml
 E:\dev\crystal clear\Scripting\bin\Debug\System.Runtime.xml
+E:\dev\crystal clear\Scripting\bin\Debug\ScriptRuntime.dll
+E:\dev\crystal clear\Scripting\bin\Debug\ScriptRuntime.pdb

@@ -4,24 +4,17 @@ using CrystalClear.Scripting.EventSystem.Events;
 
 namespace CrystalClear.Scripting.EventSystem
 {
-	public struct Event
+	public interface IEventClass
 	{
-		public Event(Type eventType, MethodInfo method)
-		{
-			EventType = eventType;
-			Method = method;
-		}
+		void Subscribe(Delegate eventHandler);
 
-		public void Subscribe(object instance)
-		{
-			Delegate eventHandler = Delegate.CreateDelegate(EventType, instance, Method);
-			StartEventClass.StartEventDelegate += eventHandler as StartEventHandler;
-			//if (Delegate.CreateDelegate(EventType, instance, Method) is
-			//	StartEventHandler startEventHandler)
-		}
+		void Subscribe(MethodInfo method, object instance);
 
-		public Type EventType;
-		public MethodInfo Method;
+		void UnSubscribe(Delegate eventHandler);
+
+		void RaiseEvent();
+
+		void ClearSubscribers();
 	}
 
 	public class SubscribeToAttribute : Attribute
