@@ -11,7 +11,7 @@ namespace ProjectManagement
 		private static void Main(string[] args)
 		{
 			if (args.Length >= 1)
-				foreach (var arg in args)
+				foreach (string arg in args)
 					GetInput(arg);
 
 			Console.WriteLine("Crystal Clear Engine project management interface");
@@ -22,7 +22,7 @@ namespace ProjectManagement
 		{
 			if (input == null) input = Console.ReadLine();
 
-			var inputArray = input.Split(' ');
+			string[] inputArray = input.Split(' ');
 			switch (inputArray[0])
 			{
 				case "new":
@@ -45,14 +45,14 @@ namespace ProjectManagement
 
 		private static void ListProjects()
 		{
-			foreach (var folderPath in Directory.GetDirectories(_workInPath))
+			foreach (string folderPath in Directory.GetDirectories(_workInPath))
 				if (IsProject(folderPath))
 					Console.WriteLine(GetProjectName(folderPath) + " - " + folderPath);
 		}
 
 		private static bool IsProject(string path)
 		{
-			foreach (var file in Directory.GetFiles(path))
+			foreach (string file in Directory.GetFiles(path))
 				if (file.EndsWith(".crystalcore"))
 					return true;
 			return false;
@@ -61,7 +61,7 @@ namespace ProjectManagement
 		private static string GetProjectName(string path)
 		{
 			string crystalCorePath = null;
-			foreach (var file in Directory.GetFiles(path))
+			foreach (string file in Directory.GetFiles(path))
 				if (file.EndsWith(".crystalcore"))
 					crystalCorePath = file;
 
@@ -83,7 +83,7 @@ namespace ProjectManagement
 			}
 
 
-			var folderPath = _workInPath + @"\" + name;
+			string folderPath = _workInPath + @"\" + name;
 
 			if (!IsProject(folderPath))
 			{
@@ -102,7 +102,7 @@ namespace ProjectManagement
 		private static void NewProject(string name)
 		{
 			ProjectInfo projectInfo = new ProjectInfo(name);
-			var folderPath = _workInPath + @"\" + name;
+			string folderPath = _workInPath + @"\" + name;
 
 
 			Directory.CreateDirectory(folderPath);

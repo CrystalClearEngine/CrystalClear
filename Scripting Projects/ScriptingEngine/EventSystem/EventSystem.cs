@@ -29,7 +29,7 @@ namespace CrystalClear.EventSystem
 		{
 		}
 	}
-	
+
 	public class CancellableEventArgs : EventArgs
 	{
 		public bool IsCancelled { get; protected set; }

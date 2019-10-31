@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using CrystalClear.EventSystem;
-using CrystalClear.ScriptingEngine;
+using CrystalClear.ScriptUtils;
 
 namespace CrystalClear.Scripting.ScriptingEngine
 {
-	public struct Script
+	internal struct Script
 	{
 		public object ScriptInstance;
 
@@ -23,20 +22,25 @@ namespace CrystalClear.Scripting.ScriptingEngine
 			ScriptInstance = Activator.CreateInstance(scriptClass);
 		}
 
-		public void DynamicallyCallMethod(string methodName, object[] parameters = null)
+		public object DynamicallyCallMethod(string methodName, object[] parameters = null)
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
 				if (method.Name == methodName)
-					method.Invoke(ScriptInstance, parameters);
+					return method.Invoke(ScriptInstance, parameters);
+
+			throw new Exception("Method not found!"); // Todo make into proper exception
 		}
 
-		public void DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
+		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
 		{
-			var methods = ScriptType.GetMethods();
-			for (var i = 0; i < methodNames.Length; i++)
+			List<object> returnObjects = new List<object>();
+			MethodInfo[] methods = ScriptType.GetMethods();
+			for (int i = 0; i < methodNames.Length; i++)
 				foreach (MethodInfo method in methods)
 					if (method.Name == methodNames[i])
-						method.Invoke(ScriptInstance, parametersList?[i]);
+						returnObjects.Add(method.Invoke(ScriptInstance, parametersList?[i]));
+
+			return returnObjects.ToArray();
 		}
 
 		public static Script[] FindScripts(Assembly assembly)
@@ -51,17 +55,16 @@ namespace CrystalClear.Scripting.ScriptingEngine
 		public void SubscribeAllEvents()
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
-				foreach (Attribute attribute in method.GetCustomAttributes())
-					if (attribute is SubscribeToAttribute subscribeToAttribute)
-					{
-						
-						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-						//	StartEventHandler startEventHandler)
-						//	StartEventClass.StartEvent += startEventHandler;
-						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-						//	ExitEventHandler exitEventHandler)
-						//	ExitEventClass.ExitEvent += exitEventHandler;
-					}
+			foreach (Attribute attribute in method.GetCustomAttributes())
+				if (attribute is SubscribeToAttribute subscribeToAttribute)
+				{
+					//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
+					//	StartEventHandler startEventHandler)
+					//	StartEventClass.StartEvent += startEventHandler;
+					//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
+					//	ExitEventHandler exitEventHandler)
+					//	ExitEventClass.ExitEvent += exitEventHandler;
+				}
 		}
 	}
 }

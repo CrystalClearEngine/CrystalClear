@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Reflection;
-using System.Threading;
 using CrystalClear.Scripting.ScriptingEngine;
-using CrystalClear.ScriptingEngine;
 
 namespace CrystalClear.ScriptingEngine
 {
@@ -13,7 +10,7 @@ namespace CrystalClear.ScriptingEngine
 		{
 			string[] scriptFilesPaths =
 			{
-				@"E:\dev\crystal clear\Scripting\Scripts\Program.cs"
+				@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
 			};
 
 			//Hardcoded code to compile
@@ -23,17 +20,16 @@ namespace CrystalClear.ScriptingEngine
 
 			if (compiledScript == null)
 			{
-				Console.WriteLine("Compilation failed (compiled assembly is null :( )");
+				Console.WriteLine("Compilation failed (compiled assembly is null)");
 				Console.ReadLine();
 				Environment.Exit(-1);
 			}
 
 			Script[] scripts = Script.FindScripts(compiledScript);
 
-			foreach (Script script in scripts)
-			{
-				script.SubscribeAllEvents();
-			}
+			foreach (Script script in scripts) script.SubscribeAllEvents();
+
+			scripts[0].DynamicallyCallMethod("OnStart");
 		}
 	}
 }

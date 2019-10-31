@@ -24,7 +24,7 @@ namespace UnitTests
 			public void CreateAndReadSetting()
 			{
 				object objectToStore = "If you can read this, computer, then the save and load has been successful!";
-				var nameForSetting = "UnitTestSetting";
+				string nameForSetting = "UnitTestSetting";
 
 				UserSettings.SetUp();
 				UserSettings.SaveSetting(nameForSetting, objectToStore);
@@ -51,8 +51,8 @@ namespace UnitTests
 			[TestMethod]
 			public void DeleteSpecificUserSetting()
 			{
-				var nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
-				var objectToStore = "123 ABC";
+				string nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
+				string objectToStore = "123 ABC";
 
 				UserSettings.SetUp();
 

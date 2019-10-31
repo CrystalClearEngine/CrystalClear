@@ -19,8 +19,15 @@ namespace CrystalClear.ScriptingEngine
 					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false)
 				};
 
+				// The collection of references
+				string[] references =
+				{
+					"E:\\dev\\crystal clear\\Scripting Projects\\ScriptUtils\\bin\\Debug\\netstandard2.0\\ScriptUtils.dll",
+					Assembly.GetExecutingAssembly().Location
+				};
+
 				// Set references for the compiled code
-				options.ReferencedAssemblies.Add("\\netstandard2.0\\ScriptRuntime.dll");
+				options.ReferencedAssemblies.AddRange(references);
 
 				// Compile our code
 				CompilerResults result;

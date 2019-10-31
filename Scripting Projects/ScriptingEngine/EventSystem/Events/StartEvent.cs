@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using CrystalClear.EventSystem;
 
 namespace CrystalClear.EventSystem.Events
 {
@@ -20,7 +19,7 @@ namespace CrystalClear.EventSystem.Events
 
 		public void Subscribe(Delegate eventHandler)
 		{
-			StartEventDelegate += (StartEventHandler)eventHandler;
+			StartEventDelegate += (StartEventHandler) eventHandler;
 		}
 
 		public void Subscribe(MethodInfo method, object instance)
@@ -41,7 +40,6 @@ namespace CrystalClear.EventSystem.Events
 
 		public void RaiseEvent()
 		{
-
 		}
 	}
 }
