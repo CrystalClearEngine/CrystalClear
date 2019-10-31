@@ -30,8 +30,7 @@ namespace CrystalClear.ScriptingEngine
 				options.ReferencedAssemblies.AddRange(references);
 
 				// Compile our code
-				CompilerResults result;
-				result = csProvider.CompileAssemblyFromFile(options, fileNames);
+				CompilerResults result = csProvider.CompileAssemblyFromFile(options, fileNames);
 
 				if (result.Errors.HasErrors)
 				{

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace UI
+namespace CrystalClear.UI
 {
 	/// <summary>
 	///     Interaction logic for CreateNewEvent.xaml

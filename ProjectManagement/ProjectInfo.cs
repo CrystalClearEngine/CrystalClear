@@ -3,9 +3,9 @@ using System.IO;
 using System.Xml.Serialization;
 using CrystalClear;
 
-namespace ProjectManagement
+namespace CrystalClear.ProjectManagement
 {
-	public class ProjectInfo
+	internal class ProjectInfo
 	{
 		public string CurrentProjectVersion = CrystalClearInformation.CrystalClearVersion.ToString();
 		public string Name;

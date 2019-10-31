@@ -47,7 +47,7 @@ namespace CrystalClear.Scripting.ScriptingEngine
 		{
 			Script[] scripts = (from exportedType in assembly.GetExportedTypes()
 				from attribute in exportedType.GetCustomAttributes()
-				where attribute is ScriptAttribute
+				where attribute is IsScriptAttribute
 				select new Script(exportedType)).ToArray();
 			return scripts;
 		}

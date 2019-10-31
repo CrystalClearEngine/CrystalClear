@@ -2,7 +2,7 @@
 using System.IO;
 using System.Xml.Serialization;
 
-namespace ProjectManagement
+namespace CrystalClear.ProjectManagement
 {
 	internal static class ProjectManagementConsoleInterface
 	{

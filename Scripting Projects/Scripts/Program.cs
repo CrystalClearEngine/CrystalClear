@@ -1,13 +1,12 @@
-﻿using System;
-using CrystalClear.EventSystem.Events;
+﻿using CrystalClear.EventSystem.Events;
 using CrystalClear.ScriptUtils;
 
-[Script]
+[IsScript]
 public class HelloWorldExample
 {
 	[OnStartEvent]
 	public void OnStart()
 	{
-		Console.WriteLine("Hello World");
+		Output.Log("Hello World");
 	}
 }
