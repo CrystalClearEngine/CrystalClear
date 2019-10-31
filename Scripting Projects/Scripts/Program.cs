@@ -1,6 +1,6 @@
 ﻿using System;
 using CrystalClear.EventSystem.Events;
-using CrystalClear.ScriptingEngine;
+using CrystalClear.ScriptUtils;
 
 [Script]
 public class HelloWorldExample
