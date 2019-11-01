@@ -1,35 +1,32 @@
 ﻿using System;
 using System.Reflection;
-using CrystalClear.Scripting.ScriptingEngine;
+using CrystalClear.ScriptingEngine;
 
-namespace CrystalClear.ScriptingEngine
+public static class MainClass
 {
-	public static class MainClass
+	private static void Main()
 	{
-		private static void Main()
+		string[] scriptFilesPaths =
 		{
-			string[] scriptFilesPaths =
-			{
-				@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
-			};
+			@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
+		};
 
-			//Hardcoded code to compile
-			Assembly compiledScript = Compiling.CompileCode(
-				scriptFilesPaths
-			);
+		//Hardcoded code to compile
+		Assembly compiledScript = Compiling.CompileCode(
+			scriptFilesPaths
+		);
 
-			if (compiledScript == null)
-			{
-				Console.WriteLine("Compilation failed (compiled assembly is null)");
-				Console.ReadLine();
-				Environment.Exit(-1);
-			}
-
-			Script[] scripts = Script.FindScripts(compiledScript);
-
-			foreach (Script script in scripts) script.SubscribeAllEvents();
-
-			scripts[0].DynamicallyCallMethod("OnStart");
+		if (compiledScript == null)
+		{
+			Console.WriteLine("Compilation failed (compiled assembly is null)");
+			Console.ReadLine();
+			Environment.Exit(-1);
 		}
+
+		Script[] scripts = Script.FindScripts(compiledScript);
+
+		foreach (Script script in scripts) script.SubscribeAllEvents();
+
+		scripts[0].DynamicallyCallMethod("OnStart");
 	}
 }

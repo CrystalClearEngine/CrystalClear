@@ -5,7 +5,7 @@ using System.Reflection;
 using CrystalClear.EventSystem;
 using CrystalClear.ScriptUtils;
 
-namespace CrystalClear.Scripting.ScriptingEngine
+namespace CrystalClear.ScriptingEngine
 {
 	internal struct Script
 	{

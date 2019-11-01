@@ -16,6 +16,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{53674175-BE72-441F-8713-A0DC613C50D2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptUtils", "Scripting Projects\ScriptUtils\ScriptUtils.csproj", "{9E957C42-32F6-4414-82CE-5FF2B0268F90}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BFA013CF-54A1-497B-9172-66AB645A006A} = {BFA013CF-54A1-497B-9172-66AB645A006A}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripting Projects", "Scripting Projects", "{7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}"
 EndProject

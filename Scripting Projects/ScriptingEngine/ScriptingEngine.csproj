@@ -48,6 +48,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ScriptUtils">
+      <HintPath>..\ScriptUtils\bin\Debug\netstandard2.0\ScriptUtils.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -74,26 +77,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
-      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
-      <Name>CrystalClear</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptUtils\ScriptUtils.csproj">
-      <Project>{9e957c42-32f6-4414-82ce-5ff2b0268f90}</Project>
-      <Name>ScriptUtils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+    <!--<BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+		-->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
