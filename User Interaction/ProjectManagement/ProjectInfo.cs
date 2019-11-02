@@ -10,7 +10,7 @@ namespace CrystalClear.ProjectManagement
 		public string CurrentProjectVersion = CrystalClearInformation.CrystalClearVersion.ToString();
 		public string Name;
 
-		public string ProjectPath;
+		//public string ProjectPath;
 
 		public ProjectInfo()
 		{
@@ -35,9 +35,9 @@ namespace CrystalClear.ProjectManagement
 			return new Version(CurrentProjectVersion);
 		}
 
-		public static void CreateProject(string name)
-		{
-		}
+		//public static void CreateProject(string name)
+		//{
+		//}
 
 		public void DeleteProject()
 		{

@@ -95,7 +95,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
       <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
       <Name>CrystalClear</Name>
     </ProjectReference>
