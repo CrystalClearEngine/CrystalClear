@@ -1,9 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>The utilities DLL that all scripts reference and that contains functionality like UserSettings, Output and the ScriptAttribute etc.</Description>
-    <RootNamespace>CrystalClear.ScriptUtils</RootNamespace>
-  </PropertyGroup>
-
-</Project>

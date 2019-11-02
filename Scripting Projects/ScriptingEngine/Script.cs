@@ -21,6 +21,14 @@ namespace CrystalClear.ScriptingEngine
 			ScriptType = scriptClass;
 			ScriptInstance = Activator.CreateInstance(scriptClass);
 		}
+		public static Script[] FindScriptsInAssembly(Assembly assembly)
+		{
+			Script[] scripts = (from exportedType in assembly.GetExportedTypes()
+				from attribute in exportedType.GetCustomAttributes()
+				where attribute is IsScriptAttribute
+				select new Script(exportedType)).ToArray();
+			return scripts;
+		}
 
 		public object DynamicallyCallMethod(string methodName, object[] parameters = null)
 		{
@@ -41,15 +49,6 @@ namespace CrystalClear.ScriptingEngine
 						returnObjects.Add(method.Invoke(ScriptInstance, parametersList?[i]));
 
 			return returnObjects.ToArray();
-		}
-
-		public static Script[] FindScripts(Assembly assembly)
-		{
-			Script[] scripts = (from exportedType in assembly.GetExportedTypes()
-				from attribute in exportedType.GetCustomAttributes()
-				where attribute is IsScriptAttribute
-				select new Script(exportedType)).ToArray();
-			return scripts;
 		}
 
 		public void SubscribeAllEvents()

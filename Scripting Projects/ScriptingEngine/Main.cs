@@ -23,7 +23,7 @@ public static class MainClass
 			Environment.Exit(-1);
 		}
 
-		Script[] scripts = Script.FindScripts(compiledScript);
+		Script[] scripts = Script.FindScriptsInAssembly(compiledScript);
 
 		foreach (Script script in scripts) script.SubscribeAllEvents();
 
