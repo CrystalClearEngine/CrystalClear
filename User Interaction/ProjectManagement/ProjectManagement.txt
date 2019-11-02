@@ -1,0 +1,1 @@
+﻿This is the project that you manage Crystal Clear projects with. It is cross platform too!
