@@ -6,9 +6,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj" />
+    <ProjectReference Include="..\..\ScriptingEngine\ScriptingEngine.csproj" />
+    <ProjectReference Include="..\..\ScriptUtils\ScriptUtils.csproj" />
     <ProjectReference Include="..\..\UI\UI.csproj" />
-    <ProjectReference Include="..\ScriptingEngine\ScriptingEngine.csproj" />
-    <ProjectReference Include="..\ScriptUtils\ScriptUtils.csproj" />
   </ItemGroup>
 
 </Project>
