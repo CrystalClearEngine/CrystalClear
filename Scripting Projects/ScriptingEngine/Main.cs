@@ -28,5 +28,7 @@ public static class MainClass
 		foreach (Script script in scripts) script.SubscribeAllEvents();
 
 		scripts[0].DynamicallyCallMethod("OnStart");
+
+		Console.Read();
 	}
 }

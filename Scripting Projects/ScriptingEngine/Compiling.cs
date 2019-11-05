@@ -22,8 +22,9 @@ namespace CrystalClear.ScriptingEngine
 				// The collection of references
 				string[] references =
 				{
-					"E:\\dev\\crystal clear\\Scripting Projects\\ScriptUtils\\bin\\Debug\\netstandard2.0\\ScriptUtils.dll",
-					Assembly.GetExecutingAssembly().Location
+					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtils dll
+					@"E:\dev\crystal clear\Scripting Projects\Standard\bin\Debug\Standard.dll", // The path to the Standard dll
+					Assembly.GetExecutingAssembly().Location // The location of the ScriptingEngine
 				};
 
 				// Set references for the compiled code

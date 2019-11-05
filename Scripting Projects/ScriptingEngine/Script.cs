@@ -12,7 +12,7 @@ namespace CrystalClear.ScriptingEngine
 		public object ScriptInstance;
 
 		/// <summary>
-		///     The type of the script class
+		/// The type of the script class
 		/// </summary>
 		public Type ScriptType;
 

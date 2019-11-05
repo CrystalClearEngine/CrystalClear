@@ -8,7 +8,8 @@
     <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj" />
     <ProjectReference Include="..\..\User Interaction\UI\UI.csproj" />
     <ProjectReference Include="..\ScriptingEngine\ScriptingEngine.csproj" />
-    <ProjectReference Include="..\ScriptUtils\ScriptUtils.csproj" />
+    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
+    <ProjectReference Include="..\Standard\Standard.csproj" />
   </ItemGroup>
 
 </Project>

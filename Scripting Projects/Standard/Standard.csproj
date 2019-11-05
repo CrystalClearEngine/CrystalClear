@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B1D01C71-DAEC-4A94-88EC-F403F90FE824}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>ScriptingEngine</RootNamespace>
-    <AssemblyName>ScriptingEngine</AssemblyName>
+    <ProjectGuid>{F01C3295-9E47-48F3-8EDB-81042B4F261C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Standard</RootNamespace>
+    <AssemblyName>Standard</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -44,32 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Compiling.cs" />
-    <Compile Include="EventSystem\EventSystem.cs" />
-    <Compile Include="EventSystem\Events\StartEvent.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="HierarchyObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Script.cs" />
+    <Compile Include="WorldObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ScriptingEngine.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
-      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
-      <Name>CrystalClear</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj">
-      <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
-      <Name>ScriptUtilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Standard\Standard.csproj">
-      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
-      <Name>Standard</Name>
-    </ProjectReference>
+    <Content Include="StandardClasses.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

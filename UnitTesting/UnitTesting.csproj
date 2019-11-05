@@ -56,13 +56,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Scripting Projects\ScriptUtils\ScriptUtils.csproj">
-      <Project>{4ef7040f-7f1e-4e0d-9130-5ce26b1b3d50}</Project>
-      <Name>ScriptUtils</Name>
-    </ProjectReference>
+    <Content Include="UnitTesting.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UnitTesting.txt" />
+    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scripting Projects\Scripts\Scripts.csproj">
+      <Project>{bb670f71-784e-4548-84e9-2e023d6350fb}</Project>
+      <Name>Scripts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scripting Projects\ScriptUtilities\ScriptUtilities.csproj">
+      <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
+      <Name>ScriptUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
