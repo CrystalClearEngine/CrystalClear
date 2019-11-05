@@ -73,10 +73,6 @@
       <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
       <Name>ScriptUtilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Standard\Standard.csproj">
-      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
-      <Name>Standard</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\..\packages\Microsoft.CodeAnalysis.VersionCheckAnalyzer.2.9.7\analyzers\dotnet\cs\Microsoft.CodeAnalysis.VersionCheckAnalyzer.resources.dll" />

@@ -1,7 +1,6 @@
-﻿using CrystalClear.EventSystem.Events;
+﻿using CrystalClear.Standard.HierarchyObjects;
+using CrystalClear.Standard.Events;
 using CrystalClear.ScriptUtils;
-using CrystalClear.Standard;
-using CrystalClear.Standard.HierarchyObjects;
 
 [IsScript]
 public class HelloWorldExample : ScriptObject

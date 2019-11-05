@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Reflection;
+using CrystalClear.EventSystem;
 
-namespace CrystalClear.EventSystem.Events
+namespace CrystalClear.Standard.Events
 {
 	public class OnStartEventAttribute : SubscribeToAttribute
 	{
