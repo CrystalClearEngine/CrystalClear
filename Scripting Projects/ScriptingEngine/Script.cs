@@ -36,7 +36,11 @@ namespace CrystalClear.ScriptingEngine
 				if (method.Name == methodName)
 					return method.Invoke(ScriptInstance, parameters);
 
-			throw new Exception("Method not found!"); // Todo make into proper exception
+			throw new MethodNotFoundException();
+		}
+
+		private class MethodNotFoundException : Exception
+		{
 		}
 
 		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)

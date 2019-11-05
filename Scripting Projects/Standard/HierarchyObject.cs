@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StandardHierarchyObjects
+namespace CrystalClear.Standard.HierarchyObjects
 {
 	/// <summary>
 	/// Represents any item that is part of the hierarchy

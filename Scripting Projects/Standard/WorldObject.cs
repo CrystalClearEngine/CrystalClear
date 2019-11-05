@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
 
-namespace StandardHierarchyObjects
+namespace CrystalClear.Standard.HierarchyObjects
 {
 	/// <summary>
 	/// A WorldObject is an object that has a position, transform and display in the hierarchy.

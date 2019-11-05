@@ -7,7 +7,7 @@ namespace CrystalClear.ScriptUtils
 {
 	public static class UserSettings
 	{
-		public static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
+		/*volatile (maybe?)*/ static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
 
 		public static void SetUp(string savePath = null)
 		{

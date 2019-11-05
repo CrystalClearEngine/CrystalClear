@@ -16,6 +16,7 @@ namespace CrystalClear.EventSystem
 		void ClearSubscribers();
 	}
 
+	[AttributeUsage(AttributeTargets.Method)]
 	public class SubscribeToAttribute : Attribute
 	{
 		public Type EventType;

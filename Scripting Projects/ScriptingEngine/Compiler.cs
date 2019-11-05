@@ -5,7 +5,7 @@ using Microsoft.CSharp;
 
 namespace CrystalClear.ScriptingEngine
 {
-	internal static class Compiling
+	internal static class Compiler
 	{
 		public static Assembly CompileCode(string[] fileNames)
 		{

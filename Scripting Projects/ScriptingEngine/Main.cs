@@ -12,7 +12,7 @@ public static class MainClass
 		};
 
 		//Hardcoded code to compile
-		Assembly compiledScript = Compiling.CompileCode(
+		Assembly compiledScript = Compiler.CompileCode(
 			scriptFilesPaths
 		);
 
