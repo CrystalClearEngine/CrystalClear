@@ -11,7 +11,7 @@ public static class MainClass
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
 		};
 
-		//Hardcoded code to compile
+		// Hardcoded code to compile
 		Assembly compiledScript = Compiler.CompileCode(
 			scriptFilesPaths
 		);

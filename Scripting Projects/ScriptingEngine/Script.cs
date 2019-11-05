@@ -39,10 +39,6 @@ namespace CrystalClear.ScriptingEngine
 			throw new MethodNotFoundException();
 		}
 
-		private class MethodNotFoundException : Exception
-		{
-		}
-
 		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
 		{
 			List<object> returnObjects = new List<object>();
@@ -69,5 +65,15 @@ namespace CrystalClear.ScriptingEngine
 					//	ExitEventClass.ExitEvent += exitEventHandler;
 				}
 		}
+
+		#region Exceptions
+		public class ScriptException : Exception
+		{
+		}
+
+		public class MethodNotFoundException : ScriptException
+		{
+		}
+		#endregion
 	}
 }

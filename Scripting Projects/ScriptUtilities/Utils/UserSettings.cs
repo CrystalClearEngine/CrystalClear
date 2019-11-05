@@ -36,16 +36,16 @@ namespace CrystalClear.ScriptUtils
 
 			if (setting.Name.Contains(':')) throw new NameContainsIllegalCharException();
 
-			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(setting.Name)
-				) //This setting should be overwritten as its name matches that of the setting we want to change
-					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); //Delete setting
+				) // This setting should be overwritten as its name matches that of the setting we want to change
+					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); // Delete setting
 			}
 
-			File.AppendAllText(SettingsFilePath, "\n" + setting); //Write setting
+			File.AppendAllText(SettingsFilePath, "\n" + setting); // Write setting
 		}
 
 		public static void DeleteSetting(UserSetting setting)
@@ -55,13 +55,13 @@ namespace CrystalClear.ScriptUtils
 
 		public static void DeleteSetting(string name)
 		{
-			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)
-				) //This setting should be deleted as it is matches the name of the setting we want to delete
-					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); //Delete setting
+				) // This setting should be deleted as it is matches the name of the setting we want to delete
+					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); // Delete setting
 			}
 		}
 
@@ -78,15 +78,15 @@ namespace CrystalClear.ScriptUtils
 
 		public static bool ExistsSetting(string name)
 		{
-			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
-				if (line.Split(':')[0].Contains(name)) //This setting exists
+				if (line.Split(':')[0].Contains(name)) // This setting exists
 					return true;
 			}
 
-			//If we "get here" the setting does not exist
+			// If we "get here" the setting does not exist
 			return false;
 		}
 
@@ -101,11 +101,11 @@ namespace CrystalClear.ScriptUtils
 
 			if (!ExistsSetting(name)) throw new SettingNotFoundException();
 
-			string[] lines = File.ReadAllLines(SettingsFilePath); //All settings in the file
+			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
-				if (line.Split(':')[0].Contains(name)) //This setting should be read and returned
+				if (line.Split(':')[0].Contains(name)) // This setting should be read and returned
 					return new UserSetting(line);
 			}
 
