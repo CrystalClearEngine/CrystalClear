@@ -155,23 +155,6 @@ namespace CrystalClear.ScriptUtils
 
 				Name = splitString[0];
 				Value = StringToObject(splitString[1]);
-				//string name = string.Empty, stringValue = null;
-				//foreach (char c in settingString)
-				//{
-				//	if (stringValue == null && c != ':')
-				//		name += c;
-				//	else if (name == string.Empty)
-				//		throw new CorruptUserSettingException();
-				//	else if (stringValue == null)
-				//	{
-				//		stringValue = string.Empty;
-				//		continue;
-				//	}
-				//	else
-				//		stringValue += c;
-				//}
-				//this.name = name;
-				//value = StringToObject(stringValue);
 			}
 		}
 	}
