@@ -34,7 +34,7 @@ namespace CrystalClear.ScriptUtilities
 		{
 			if (!IsSetUp()) throw new UserSettingsNotSetUpException();
 
-			if (setting.Name.Contains(':')) throw new NameContainsIllegalCharException();
+			if (setting.Name.Contains(':')) throw new UserSettingNameContainsColon();
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
@@ -130,15 +130,11 @@ namespace CrystalClear.ScriptUtilities
 				ms.Position = 0;
 				return new BinaryFormatter().Deserialize(ms);
 			}
+			
 		}
 
 		public struct UserSetting : IEquatable<UserSetting>
 		{
-			public override string ToString()
-			{
-				return Name + ":" + ObjectToString(Value);
-			}
-
 			public string Name;
 			public object Value;
 
@@ -148,13 +144,18 @@ namespace CrystalClear.ScriptUtilities
 				Value = value;
 			}
 
-			public UserSetting(string settingString)
+			public UserSetting(string settingValueString)
 			{
-				string[] splitString = settingString.Split(':');
-				if (splitString.Length != 2) throw new CorruptUserSettingException();
+				string[] splitString = settingValueString.Split(':');
+				if (splitString.Length != 2) throw new CorruptUserSettingException(settingValueString);
 
 				Name = splitString[0];
 				Value = StringToObject(splitString[1]);
+			}
+
+			public override string ToString()
+			{
+				return Name + ":" + ObjectToString(Value);
 			}
 
 			public static bool operator ==(UserSetting left, UserSetting right)
@@ -175,34 +176,47 @@ namespace CrystalClear.ScriptUtilities
 
 				return false;
 			}
+
+			public override bool Equals(object obj)
+			{
+				return obj is UserSetting && Equals((UserSetting)obj);
+			}
 		}
 	}
 
 	#region Exceptions
+
 	/// <summary>
 	/// An exception thrown by a method in UserExceptions
 	/// </summary>
 	public abstract class UserSettingsException : Exception
 	{
 	}
+
 	/// <summary>
-	/// 
+	/// An exception thrown by a method in UserExceptions that regards a single exception
 	/// </summary>
 	public abstract class UserSettingException : UserSettingsException
 	{
 	}
 
-
 	public class CorruptUserSettingException : UserSettingException
 	{
+		public CorruptUserSettingException(string UserSettingName)
+		{
+			this.UserSettingName = UserSettingName;
+		}
+
+		public string UserSettingName { get; private set; }
 	}
 
-	public class NameContainsIllegalCharException : UserSettingsException
+	public class UserSettingNameContainsColon : UserSettingsException
 	{
 	}
 
 	public class SettingNotFoundException : UserSettingsException
 	{
+		
 	}
 
 	public class UserSettingsNotSetUpException : UserSettingsException

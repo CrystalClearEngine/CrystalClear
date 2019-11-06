@@ -22,7 +22,8 @@ namespace CrystalClear.ScriptingEngine
 				// The collection of references
 				string[] references =
 				{
-					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtils dll
+					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtilities dll
+					@"E:\dev\crystal clear\Scripting Projects\EventSystem\bin\Debug\EventSystem.dll", // The path to the EventSystem dll
 					@"E:\dev\crystal clear\Scripting Projects\Standard\bin\Debug\Standard.dll", // The path to the Standard dll
 					Assembly.GetExecutingAssembly().Location // The location of the ScriptingEngine
 				};
@@ -33,9 +34,10 @@ namespace CrystalClear.ScriptingEngine
 				// Compile our code
 				CompilerResults result = csProvider.CompileAssemblyFromFile(options, fileNames);
 
+				foreach (object error in result.Errors) Console.WriteLine(error);
+
 				if (result.Errors.HasErrors)
 				{
-					foreach (object error in result.Errors) Console.WriteLine(error);
 					return null;
 				}
 
