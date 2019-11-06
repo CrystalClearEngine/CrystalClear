@@ -130,7 +130,6 @@ namespace CrystalClear.ScriptUtilities
 				ms.Position = 0;
 				return new BinaryFormatter().Deserialize(ms);
 			}
-			
 		}
 
 		public struct UserSetting : IEquatable<UserSetting>

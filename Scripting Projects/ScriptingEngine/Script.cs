@@ -54,16 +54,16 @@ namespace CrystalClear.ScriptingEngine
 		public void SubscribeAllEvents()
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
-			foreach (Attribute attribute in method.GetCustomAttributes())
-				if (attribute is SubscribeToAttribute subscribeToAttribute)
-				{
-					//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-					//	StartEventHandler startEventHandler)
-					//	StartEventClass.StartEvent += startEventHandler;
-					//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-					//	ExitEventHandler exitEventHandler)
-					//	ExitEventClass.ExitEvent += exitEventHandler;
-				}
+				foreach (Attribute attribute in method.GetCustomAttributes())
+					if (attribute is SubscribeToAttribute subscribeToAttribute)
+					{
+						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
+						//	StartEventHandler startEventHandler)
+						//	StartEventClass.StartEvent += startEventHandler;
+						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
+						//	ExitEventHandler exitEventHandler)
+						//	ExitEventClass.ExitEvent += exitEventHandler;
+					}
 		}
 
 		#region Exceptions
