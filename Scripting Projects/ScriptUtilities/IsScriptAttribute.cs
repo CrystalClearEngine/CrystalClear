@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrystalClear.ScriptUtils
+namespace CrystalClear.ScriptUtilities
 {
 	[AttributeUsage(AttributeTargets.Class)]
 	public sealed class IsScriptAttribute : Attribute

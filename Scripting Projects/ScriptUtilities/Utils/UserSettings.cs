@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace CrystalClear.ScriptUtils
+namespace CrystalClear.ScriptUtilities
 {
 	public static class UserSettings
 	{
@@ -132,7 +132,7 @@ namespace CrystalClear.ScriptUtils
 			}
 		}
 
-		public struct UserSetting
+		public struct UserSetting : IEquatable<UserSetting>
 		{
 			public override string ToString()
 			{
@@ -156,14 +156,44 @@ namespace CrystalClear.ScriptUtils
 				Name = splitString[0];
 				Value = StringToObject(splitString[1]);
 			}
+
+			public static bool operator ==(UserSetting left, UserSetting right)
+			{
+				return left.Equals(right);
+			}
+
+			public static bool operator !=(UserSetting left, UserSetting right)
+			{
+				return !(left == right);
+			}
+
+			public bool Equals(UserSetting other)
+			{
+				if (other.Name == Name)
+					if (other.Value.Equals(Value))
+						return true;
+
+				return false;
+			}
 		}
 	}
 
+	#region Exceptions
+	/// <summary>
+	/// An exception thrown by a method in UserExceptions
+	/// </summary>
 	public abstract class UserSettingsException : Exception
 	{
 	}
+	/// <summary>
+	/// 
+	/// </summary>
+	public abstract class UserSettingException : UserSettingsException
+	{
+	}
 
-	public class CorruptUserSettingException : UserSettingsException
+
+	public class CorruptUserSettingException : UserSettingException
 	{
 	}
 
@@ -178,4 +208,5 @@ namespace CrystalClear.ScriptUtils
 	public class UserSettingsNotSetUpException : UserSettingsException
 	{
 	}
+	#endregion
 }

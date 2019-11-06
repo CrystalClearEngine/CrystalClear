@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CrystalClear.EventSystem;
-using CrystalClear.ScriptUtils;
+using CrystalClear.ScriptUtilities;
 
 namespace CrystalClear.ScriptingEngine
 {

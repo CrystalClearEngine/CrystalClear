@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CrystalClear.ScriptUtils
+namespace CrystalClear.ScriptUtilities
 {
 	public static class Output
 	{
