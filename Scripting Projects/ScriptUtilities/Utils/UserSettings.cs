@@ -99,7 +99,7 @@ namespace CrystalClear.ScriptUtilities
 		{
 			if (!IsSetUp()) throw new UserSettingsNotSetUpException();
 
-			if (!ExistsSetting(name)) throw new SettingNotFoundException();
+			if (!ExistsSetting(name)) throw new SettingNotFoundException(name);
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
@@ -109,7 +109,7 @@ namespace CrystalClear.ScriptUtilities
 					return new UserSetting(line);
 			}
 
-			throw new SettingNotFoundException();
+			throw new SettingNotFoundException(name);
 		}
 
 		public static string ObjectToString(object obj)
@@ -215,7 +215,12 @@ namespace CrystalClear.ScriptUtilities
 
 	public class SettingNotFoundException : UserSettingsException
 	{
-		
+		public SettingNotFoundException(string NameOfNotFoundSetting)
+		{
+			this.NameOfNotFoundSetting = NameOfNotFoundSetting;
+		}
+
+		public string NameOfNotFoundSetting;
 	}
 
 	public class UserSettingsNotSetUpException : UserSettingsException
