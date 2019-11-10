@@ -14,20 +14,32 @@ namespace CrystalClear.Standard.Events
 
 	public class StartEventClass : IEvent
 	{
-		private StartEventClass()
-		{
-		}
-
-		static StartEventClass()
+		static StartEventClass() // The static constructor for this class, makes sure that there is an instance of the starteventinstance just waiting to be used!
 		{
 			StartEventInstance = new StartEventClass();
 		}
 
-		public delegate void StartEventHandler();
-
-		private StartEventHandler StartEventDelegate;
+		/// <summary>
+		/// It is recomended not to create new instances of this class
+		/// </summary>
+		public StartEventClass()
+		{
+		}
 
 		public static IEvent StartEventInstance;
+
+		public delegate void StartEventHandler();
+
+		private static StartEventHandler StartEventDelegate;
+
+		#region IEventImplementation
+		public IEvent EventInstance
+		{
+			get
+			{
+				return StartEventInstance;
+			}
+		}
 
 		public void Subscribe(Delegate eventHandler)
 		{
@@ -54,5 +66,6 @@ namespace CrystalClear.Standard.Events
 		{
 			StartEventDelegate();
 		}
+		#endregion
 	}
 }
