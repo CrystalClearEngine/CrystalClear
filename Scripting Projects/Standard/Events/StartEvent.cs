@@ -23,20 +23,11 @@ namespace CrystalClear.Standard.Events
 			StartEventInstance = new StartEventClass();
 		}
 
-		public static IEvent StartEventInstance;
-
-		public IEvent EventInstance
-		{
-			get
-			{
-				return StartEventInstance;
-			}
-		}
-
 		public delegate void StartEventHandler();
 
 		private StartEventHandler StartEventDelegate;
 
+		public static IEvent StartEventInstance;
 
 		public void Subscribe(Delegate eventHandler)
 		{
