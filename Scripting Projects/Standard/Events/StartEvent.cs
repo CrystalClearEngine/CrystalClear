@@ -8,24 +8,24 @@ namespace CrystalClear.Standard.Events
 	{
 		public OnStartEventAttribute()
 		{
-			EventType = typeof(StartEventClass.StartEventHandler);
+			Event = new StartEventClass();
 		}
 	}
 
-	public class StartEventClass : IEventClass
+	public class StartEventClass : IEvent
 	{
 		public delegate void StartEventHandler();
 
-		public StartEventHandler StartEventDelegate;
+		private StartEventHandler StartEventDelegate;
 
 		public void Subscribe(Delegate eventHandler)
 		{
 			StartEventDelegate += (StartEventHandler) eventHandler;
 		}
 
-		public void Subscribe(MethodInfo method, object instance)
+		public void Subscribe(MethodInfo method, object scriptInstance)
 		{
-			Delegate eventHandler = Delegate.CreateDelegate(typeof(StartEventHandler), instance, method);
+			Delegate eventHandler = Delegate.CreateDelegate(typeof(StartEventHandler), scriptInstance, method);
 			Subscribe(eventHandler);
 		}
 
@@ -39,8 +39,9 @@ namespace CrystalClear.Standard.Events
 			Delegate.RemoveAll(StartEventDelegate, StartEventDelegate);
 		}
 
-		public void RaiseEvent()
+		public void OnEvent()
 		{
+			StartEventDelegate();
 		}
 	}
 }

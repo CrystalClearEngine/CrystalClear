@@ -18,10 +18,12 @@ public static class MainClass
 
 		if (compiledScript == null)
 		{
-			Console.WriteLine("Compilation failed (compiled assembly is null)");
+			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
 			Console.ReadLine();
 			Environment.Exit(-1);
 		}
+
+		CrystalClear.Standard.Events.StartEventClass TheStartEvent = new CrystalClear.Standard.Events.StartEventClass();
 
 		Script[] scripts = Script.FindScriptsInAssembly(compiledScript);
 

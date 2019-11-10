@@ -57,12 +57,7 @@ namespace CrystalClear.ScriptingEngine
 				foreach (Attribute attribute in method.GetCustomAttributes())
 					if (attribute is SubscribeToAttribute subscribeToAttribute)
 					{
-						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-						//	StartEventHandler startEventHandler)
-						//	StartEventClass.StartEvent += startEventHandler;
-						//if (Delegate.CreateDelegate(subscribeToAttribute.EventType, ScriptInstance, method) is
-						//	ExitEventHandler exitEventHandler)
-						//	ExitEventClass.ExitEvent += exitEventHandler;
+						subscribeToAttribute.Event.Subscribe(method, ScriptInstance);
 					}
 		}
 
