@@ -5,6 +5,8 @@ namespace CrystalClear.EventSystem
 {
 	public interface IEvent
 	{
+		IEvent EventInstance { get; }
+
 		void Subscribe(Delegate delegateToSubscribe);
 
 		void Subscribe(MethodInfo method, object scriptInstance);

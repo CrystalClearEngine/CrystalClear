@@ -8,15 +8,35 @@ namespace CrystalClear.Standard.Events
 	{
 		public OnStartEventAttribute()
 		{
-			Event = new StartEventClass();
+			Event = StartEventClass.StartEventInstance;
 		}
 	}
 
 	public class StartEventClass : IEvent
 	{
+		private StartEventClass()
+		{
+		}
+
+		static StartEventClass()
+		{
+			StartEventInstance = new StartEventClass();
+		}
+
+		public static IEvent StartEventInstance;
+
+		public IEvent EventInstance
+		{
+			get
+			{
+				return StartEventInstance;
+			}
+		}
+
 		public delegate void StartEventHandler();
 
 		private StartEventHandler StartEventDelegate;
+
 
 		public void Subscribe(Delegate eventHandler)
 		{

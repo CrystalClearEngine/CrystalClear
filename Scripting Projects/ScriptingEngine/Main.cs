@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using CrystalClear.ScriptingEngine;
+using CrystalClear.Standard.Events;
 
 public static class MainClass
 {
@@ -23,13 +24,11 @@ public static class MainClass
 			Environment.Exit(-1);
 		}
 
-		CrystalClear.Standard.Events.StartEventClass TheStartEvent = new CrystalClear.Standard.Events.StartEventClass();
-
 		Script[] scripts = Script.FindScriptsInAssembly(compiledScript);
 
 		foreach (Script script in scripts) script.SubscribeAllEvents();
 
-		scripts[0].DynamicallyCallMethod("OnStart");
+		StartEventClass.StartEventInstance.OnEvent();
 
 		Console.Read();
 	}
