@@ -51,7 +51,7 @@
     <Compile Include="HierarchyObjects\WorldObject.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="StandardClasses.txt" />
+    <Content Include="Standard.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">

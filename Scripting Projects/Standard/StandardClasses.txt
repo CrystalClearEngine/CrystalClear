@@ -1,1 +1,0 @@
-﻿StandardClasses contains the classes referenced by scripts that are esentially written and handled just like users actual scripts
