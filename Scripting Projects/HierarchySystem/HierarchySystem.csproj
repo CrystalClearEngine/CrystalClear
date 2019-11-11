@@ -4,16 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F01C3295-9E47-48F3-8EDB-81042B4F261C}</ProjectGuid>
+    <ProjectGuid>{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CrystalClear.Standard</RootNamespace>
-    <AssemblyName>Standard</AssemblyName>
+    <RootNamespace>CrystalClear.HierarchySystem</RootNamespace>
+    <AssemblyName>HierarchySystem</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,33 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\StartEvent.cs" />
-    <Compile Include="HierarchyObjects\HierarchyObject.cs" />
+    <Compile Include="Hierarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HierarchyObjects\ScriptObject.cs" />
-    <Compile Include="HierarchyObjects\WorldObject.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="StandardClasses.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
-      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
-      <Name>CrystalClear</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\EventSystem\EventSystem.csproj">
-      <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
-      <Name>EventSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj">
-      <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
-      <Name>HierarchySystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj">
-      <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
-      <Name>ScriptUtilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

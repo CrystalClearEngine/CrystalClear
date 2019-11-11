@@ -18,7 +18,13 @@ namespace CrystalClear.Standard.HierarchyObjects
 	/// </summary>
 	public struct LARIS
 	{
-		//public Vector3 Location { get; set; } = new Vector3(0, 0, 0);
-		//public Quaternion Rotation { get; set; } = new Quaternion();
+		public LARIS(Vector3 location, Quaternion rotation)
+		{
+			Location = location;
+			Rotation = rotation;
+		}
+
+		public Vector3 Location { get; set; }
+		public Quaternion Rotation { get; set; }
 	}
 }

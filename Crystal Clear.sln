@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptUtilities", "Scriptin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSystem", "Scripting Projects\EventSystem\EventSystem.csproj", "{5FFF5362-4EB6-4776-8A7D-6557E41C7538}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchySystem", "Scripting Projects\HierarchySystem\HierarchySystem.csproj", "{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{5FFF5362-4EB6-4776-8A7D-6557E41C7538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FFF5362-4EB6-4776-8A7D-6557E41C7538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FFF5362-4EB6-4776-8A7D-6557E41C7538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{F01C3295-9E47-48F3-8EDB-81042B4F261C} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 		{87FFF9E3-3922-4098-92EB-F53237B11353} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 		{5FFF5362-4EB6-4776-8A7D-6557E41C7538} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
+		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7387A616-2E87-478B-8CD1-337574F927AC}
