@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\StartEvent.cs" />
-    <Compile Include="HierarchyObjects\HierarchyObject.cs" />
+    <Compile Include="HierarchyObjects\UIObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HierarchyObjects\ScriptObject.cs" />
     <Compile Include="HierarchyObjects\WorldObject.cs" />

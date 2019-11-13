@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSystem", "Scripting Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchySystem", "Scripting Projects\HierarchySystem\HierarchySystem.csproj", "{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main\Main.csproj", "{CA1447F1-F165-4A1E-8B3C-C985D8905F91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

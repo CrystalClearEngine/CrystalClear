@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Numerics;
+using CrystalClear.HierarchySystem;
 
 namespace CrystalClear.Standard.HierarchyObjects
 {

@@ -7,8 +7,11 @@ using CrystalClear.HierarchySystem;
 
 namespace CrystalClear.Standard.HierarchyObjects
 {
-	public class ScriptObject : HierarchyObject
+	public class UIObject : HierarchyObject
 	{
+		public void Click(int mouseButtonNr)
+		{
 
+		}
 	}
 }
