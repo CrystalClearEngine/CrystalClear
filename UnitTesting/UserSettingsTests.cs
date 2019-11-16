@@ -1,69 +1,73 @@
 ﻿using CrystalClear.ScriptUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace UnitTests // TODO implement cleanup
 {
+	[TestClass]
 	public class UserSettingsTests
 	{
-		[TestClass]
-		public class SetUpUserSettingsTest
+		[TestInitialize]
+		public void Initialize()
 		{
-			[TestMethod]
-			public void SetUpUserSettings()
-			{
-				UserSettings.SetUp();
-				Assert.IsTrue(UserSettings.IsSetUp());
-				UserSettings.DeleteAllSettings();
-			}
+			UserSettings.SetUp();
 		}
 
-		[TestClass]
-		public class CreateAndReadSettingTest
+		[TestMethod]
+		public void SetUpUserSettings()
 		{
-			[TestMethod]
-			public void CreateAndReadSetting()
-			{
-				object objectToStore = "If you can read this, computer, then the save and load has been successful!";
-				string nameForSetting = "UnitTestSetting";
-
-				UserSettings.SetUp();
-				UserSettings.SaveSetting(nameForSetting, objectToStore);
-
-				object resultingObjectAfterLoad = UserSettings.GetSetting(nameForSetting).Value;
-
-				Assert.AreEqual(objectToStore, resultingObjectAfterLoad);
-
-				UserSettings.DeleteAllSettings();
-			}
+			Assert.IsTrue(UserSettings.IsSetUp());
 		}
 
-		[TestClass]
-		public class DeleteUserSettingsTest
+		[TestMethod]
+		public void CreateAndReadSetting()
 		{
-			[TestMethod]
-			public void DeleteAllUserSettings()
-			{
-				UserSettings.SetUp();
-				UserSettings.DeleteAllSettings();
-				Assert.IsFalse(UserSettings.IsSetUp());
-			}
+			object objectToStore = "If you can read this, computer, then the save and load has been successful!";
+			string settingName = "UnitTestSetting";
 
-			[TestMethod]
-			public void DeleteSpecificUserSetting()
-			{
-				string nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
-				string objectToStore = "123 ABC";
+			UserSettings.SaveSetting(settingName, objectToStore);
 
-				UserSettings.SetUp();
+			object resultingObjectAfterLoad = UserSettings.GetSetting(settingName).Value;
 
-				UserSettings.SaveSetting(nameOfObjectToStore, objectToStore);
-				Assert.IsTrue(UserSettings.ExistsSetting(nameOfObjectToStore));
+			Assert.AreEqual(objectToStore, resultingObjectAfterLoad);
+		}
 
-				UserSettings.DeleteSetting(nameOfObjectToStore);
+		public void CreateAndReadObjectSetting()
+		{
+			object objectToStore = new CrystalClear.Standard.HierarchyObjects.WorldObject();
+			string settingName = "UnitTestSetting";
 
-				Assert.IsFalse(UserSettings.ExistsSetting(nameOfObjectToStore));
-				UserSettings.DeleteAllSettings();
-			}
+			UserSettings.SaveSetting(settingName, objectToStore);
+
+			object resultingObjectAfterLoad = UserSettings.GetSetting(settingName).Value;
+
+			Assert.AreEqual(objectToStore, resultingObjectAfterLoad);
+		}
+
+		[TestMethod]
+		public void DeleteAllUserSettings()
+		{
+			UserSettings.DeleteAllSettings();
+			Assert.IsFalse(UserSettings.IsSetUp());
+		}
+
+		[TestMethod]
+		public void DeleteSpecificUserSetting()
+		{
+			string nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
+			string objectToStore = "123 ABC";
+
+			UserSettings.SaveSetting(nameOfObjectToStore, objectToStore);
+			Assert.IsTrue(UserSettings.ExistsSetting(nameOfObjectToStore));
+
+			UserSettings.DeleteSetting(nameOfObjectToStore);
+
+			Assert.IsFalse(UserSettings.ExistsSetting(nameOfObjectToStore));
+		}
+
+		[TestCleanup]
+		public void Cleanup()
+		{
+			UserSettings.DeleteAllSettings();
 		}
 	}
 }

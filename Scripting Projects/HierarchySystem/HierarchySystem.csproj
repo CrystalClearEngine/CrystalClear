@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HierarchySystem.cs" />
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
