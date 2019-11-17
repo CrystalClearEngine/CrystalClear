@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="HierarchyRoot.cs" />
     <Compile Include="HierarchySystem.cs" />
     <Compile Include="HierarchyObject.cs" />
+    <Compile Include="IHierarchyObjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

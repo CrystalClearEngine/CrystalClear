@@ -7,39 +7,21 @@ using System.Threading.Tasks;
 
 namespace CrystalClear.HierarchySystem
 {
-	public class HierarchyRoot
-	{
-		public string Name
-		{
-			get;
-			private set;
-		}
-
-		public Dictionary<string, HierarchyObject> HierarchyObjects = new Dictionary<string, HierarchyObject>();
-
-		public HierarchyObject FollowPath(string path)
-		{
-			string[] pathSegments = path.Split('/');
-			if (pathSegments.Length == 0)
-			{
-				throw new Exception(pathSegments[0] + " is not a HierarchyObject");
-			}
-			return HierarchyObjects[pathSegments[0]].FollowPath(path.Remove(0, pathSegments[0].Length));
-		}
-	}
-
 	public static class HierarchySystem
 	{
 		public static HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
-			if (pathSegments.Length == 0)
-			{
-				throw new Exception(pathSegments[0] + " is not a HierarchyObject");
-			}
 			return LoadedHierarchies[pathSegments[0]].FollowPath(path.Remove(0, pathSegments[0].Length));
 		}
 
 		public static Dictionary<string, HierarchyRoot> LoadedHierarchies = new Dictionary<string, HierarchyRoot>();
+
+		public static string GetName(HierarchyRoot hierarchyRoot) // TODO make this properly manage multiple values with the same type, maybe by not allowing duplicate values to be addes as one part of the solution
+		{
+			string key;
+			key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyRoot).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
+			return key;
+		}
 	}
 }
