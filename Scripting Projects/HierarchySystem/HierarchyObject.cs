@@ -8,7 +8,7 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject/* : IHierarchyObjectManager*/
 	{
-		public HierarchyObject(HierarchyRoot hierarchyRoot = null, HierarchyObject parent = null) // ...And this is only for derived HierarchyObjectTypes!
+		public HierarchyObject(HierarchyObject hierarchyRoot = null, HierarchyObject parent = null) // ...And this is only for derived HierarchyObjectTypes!
 		{
 			this.hierarchyRoot = hierarchyRoot;
 			this.parent = parent;
@@ -22,8 +22,8 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		private HierarchyRoot hierarchyRoot;
-		public HierarchyRoot HierarchyRoot
+		private HierarchyObject hierarchyRoot;
+		public HierarchyObject HierarchyRoot
 		{
 			get => hierarchyRoot;
 		}
@@ -52,18 +52,19 @@ namespace CrystalClear.HierarchySystem
 
 		public Dictionary<string, HierarchyObject> Hierarchy
 		{
-			get
-			{
-				return HierarchyRoot.HierarchyObjects;
-			}
+			get => HierarchyRoot.LocalHierarchy;
 		}
 
-		public Dictionary<string, HierarchyObject> LocalHierarchy = new Dictionary<string, HierarchyObject>();
+		private Dictionary<string, HierarchyObject> localHierarchy = new Dictionary<string, HierarchyObject>();
+		public Dictionary<string, HierarchyObject> LocalHierarchy
+		{
+			get => localHierarchy;
+		}
 
 		public HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
-			if (pathSegments.Length == 0) // We have reached the end of the path, this is the destination!
+			if (pathSegments.Length <= 1) // We have reached the end of the path, this is the destination!
 			{
 				return this;
 			}
