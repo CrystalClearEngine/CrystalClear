@@ -24,9 +24,11 @@ namespace UnitTesting
 		}
 		
 		[TestMethod]
-		public void TestFollowPath()
+		public void TestFollowPath() // Test for making sure the follow path system works
 		{
-			HierarchySystem.FollowPath("test/ho1");
+			HierarchyObject hierarchyObjectToFind = new ScriptObject();
+			HierarchySystem.LoadedHierarchies["test"].HierarchyObjects.Add("followPathTest", hierarchyObjectToFind);
+			Assert.AreEqual(hierarchyObjectToFind, HierarchySystem.FollowPath("test/followPathTest"));
 		}
 
 		/// <summary>

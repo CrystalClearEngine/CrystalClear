@@ -7,8 +7,12 @@ using System.Threading.Tasks;
 
 namespace CrystalClear.HierarchySystem
 {
-	public static class HierarchySystem
+	public /*static*/ class HierarchySystem/* : IHierarchyObjectManager*/
 	{
+		static HierarchySystem() // Just to make sure we´re clear - HierarchySystem is effectively a static class, just not marked as it so it can implement //IHierarchyObjectManager
+		{
+		}
+
 		public static HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');

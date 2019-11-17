@@ -6,12 +6,8 @@ namespace CrystalClear.HierarchySystem
 	/// <summary>
 	/// Represents any item that is part of the hierarchy
 	/// </summary>
-	public abstract class HierarchyObject
+	public abstract class HierarchyObject/* : IHierarchyObjectManager*/
 	{
-		protected HierarchyObject() // This is for Scripts only! Using this for HierarchyObjects might cause problems for users who want to script it...
-		{
-		}
-
 		public HierarchyObject(HierarchyRoot hierarchyRoot = null, HierarchyObject parent = null) // ...And this is only for derived HierarchyObjectTypes!
 		{
 			this.hierarchyRoot = hierarchyRoot;
@@ -22,7 +18,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return parent == null; // We know that we are at the root if our parent is null (parent has to be a HierarchyRoot)
+				return (parent == null); // We know that we are the root if our parent is null (parent has to be a HierarchyRoot)
 			}
 		}
 
