@@ -10,7 +10,6 @@ static class MainClass
 {
 	private static void Main(string[] args)
 	{
-		UIObject toBeClicked = HierarchySystem.LoadedHierarchies["UI"].HierarchyObjects["UIMap"].LocalHierarchy["StartButton"] as UIObject;
-		toBeClicked.Click(0);
+
 	}
 }

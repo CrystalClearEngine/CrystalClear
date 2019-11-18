@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace CrystalClear.HierarchySystem
 {
-	public /*static*/ class HierarchySystem/* : IHierarchyObjectManager*/
+	public class HierarchySystem
 	{
-		static HierarchySystem() // Just to make sure we´re clear - HierarchySystem is effectively a static class, just not marked as it so it can implement //IHierarchyObjectManager
-		{
-		}
-
 		public static HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
@@ -21,19 +17,19 @@ namespace CrystalClear.HierarchySystem
 			return LoadedHierarchies[nextObject].FollowPath(pathToFollow);
 		}
 
-		public static Dictionary<string, HierarchyRoot> LoadedHierarchies = new Dictionary<string, HierarchyRoot>();
+		public static Dictionary<string, HierarchyObject> LoadedHierarchies = new Dictionary<string, HierarchyObject>();
 
-		private void SetName(HierarchyRoot hierarchyRoot)
+		public static void SetName(HierarchyObject hierarchyObject, string newName) // TODO below TODO
 		{
-			string key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyRoot).Key;
+			string key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyObject).Key;
 			LoadedHierarchies.Remove(key);
-			LoadedHierarchies.Add(key, hierarchyRoot);
+			LoadedHierarchies.Add(newName, hierarchyObject);
 		}
 
-		public static string GetName(HierarchyRoot hierarchyRoot) // TODO make this properly manage multiple values with the same type, maybe by not allowing duplicate values to be addes as one part of the solution
+		public static string GetName(HierarchyObject hierarchyObject) // TODO make this properly manage multiple values with the same type, maybe by not allowing duplicate values to be addes as one part of the solution
 		{
 			string key;
-			key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyRoot).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
+			key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyObject).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
 			return key;
 		}
 	}

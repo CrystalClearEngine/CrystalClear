@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CrystalClear.HierarchySystem
 {
 	[HiddenHierarchyObject]
-	public class HierarchyRoot : HierarchyObject/* : IHierarchyObjectManager*/
+	public class HierarchyRoot : HierarchyObject
 	{
 		public HierarchyRoot() // Hmmm well I was gonna make a constructor with parameters and all, but I´ll settle for this as I don´t know what to add
 		{
@@ -19,12 +19,6 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		private Dictionary<string, HierarchyObject> hierarchyObjects = new Dictionary<string, HierarchyObject>();
-		public Dictionary<string, HierarchyObject> HierarchyObjects
-		{
-			get => hierarchyObjects;
-		}
-
-		public new Dictionary<string, HierarchyObject> LocalHierarchy => HierarchyObjects;
+		public Dictionary<string, HierarchyObject> HierarchyObjects => LocalHierarchy; // Refer HierarchyObjects to LocalHierarchy instead
 	}
 }

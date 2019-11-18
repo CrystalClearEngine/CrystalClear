@@ -27,7 +27,7 @@ namespace UnitTesting
 		public void TestFollowPath() // Test for making sure the follow path system works
 		{
 			HierarchyObject hierarchyObjectToFind = new ScriptObject();
-			HierarchySystem.LoadedHierarchies["test"].HierarchyObjects.Add("followPathTest", hierarchyObjectToFind);
+			HierarchySystem.LoadedHierarchies["test"].LocalHierarchy.Add("followPathTest", hierarchyObjectToFind);
 			Assert.AreEqual(hierarchyObjectToFind, HierarchySystem.FollowPath("test/followPathTest"));
 		}
 
@@ -37,7 +37,7 @@ namespace UnitTesting
 		[TestCleanup]
 		public void Cleanup()
 		{
-			HierarchySystem.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyRoot>();
+			HierarchySystem.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyObject>();
 		}
 	}
 }

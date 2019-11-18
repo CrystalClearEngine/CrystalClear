@@ -32,6 +32,10 @@ namespace CrystalClear.HierarchySystem
 		public string HierarchyName
 		{
 			get => root.Name;
+			set
+			{
+				HierarchySystem.SetName(HierarchyRoot, value);
+			}
 		}
 
 		private HierarchyObject parent;
@@ -48,15 +52,23 @@ namespace CrystalClear.HierarchySystem
 
 		public string Name
 		{
-			get => parent.GetName(this);
-			set => parent.SetName(this);
+			get
+			{
+				if (IsAtRoot == false)
+				{
+					return parent.GetName(this);
+				}
+				else
+					return HierarchySystem.GetName(this);
+			}
+			set => parent.SetName(this, value);
 		}
 
-		private void SetName(HierarchyObject hierarchyObject)
+		private void SetName(HierarchyObject hierarchyObject, string newName)
 		{
 			string key = localHierarchy.FirstOrDefault(x => x.Value == hierarchyObject).Key;
 			localHierarchy.Remove(key);
-			localHierarchy.Add(key, hierarchyObject);
+			localHierarchy.Add(newName, hierarchyObject);
 		}
 
 		private string GetName(HierarchyObject hierarchyObject)
@@ -72,9 +84,11 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		private Dictionary<string, HierarchyObject> localHierarchy = new Dictionary<string, HierarchyObject>();
-		public Dictionary<string, HierarchyObject> LocalHierarchy
+		public Dictionary<string, HierarchyObject> LocalHierarchy => localHierarchy;
+
+		public void Add(string path, HierarchyObject hierarchyObject)
 		{
-			get => localHierarchy;
+
 		}
 
 		public HierarchyObject FollowPath(string path)
