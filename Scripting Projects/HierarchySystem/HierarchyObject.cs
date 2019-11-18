@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// Represents any item that is part of the hierarchy
 	/// </summary>
-	public abstract class HierarchyObject/* : IHierarchyObjectManager*/
+	public abstract class HierarchyObject
 	{
 		public HierarchyObject(HierarchyObject hierarchyRoot = null, HierarchyObject parent = null) // ...And this is only for derived HierarchyObjectTypes!
 		{
-			this.hierarchyRoot = hierarchyRoot;
+			this.root = hierarchyRoot;
 			this.parent = parent;
 		}
 
@@ -22,15 +23,15 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		private HierarchyObject hierarchyRoot;
+		private HierarchyObject root;
 		public HierarchyObject HierarchyRoot
 		{
-			get => hierarchyRoot;
+			get => root;
 		}
 
 		public string HierarchyName
 		{
-			get => hierarchyRoot.Name;
+			get => root.Name;
 		}
 
 		private HierarchyObject parent;
@@ -47,7 +48,22 @@ namespace CrystalClear.HierarchySystem
 
 		public string Name
 		{
-			get => hierarchyRoot.Name;
+			get => parent.GetName(this);
+			set => parent.SetName(this);
+		}
+
+		private void SetName(HierarchyObject hierarchyObject)
+		{
+			string key = localHierarchy.FirstOrDefault(x => x.Value == hierarchyObject).Key;
+			localHierarchy.Remove(key);
+			localHierarchy.Add(key, hierarchyObject);
+		}
+
+		private string GetName(HierarchyObject hierarchyObject)
+		{
+			string key;
+			key = localHierarchy.FirstOrDefault(x => x.Value == hierarchyObject).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
+			return key;
 		}
 
 		public Dictionary<string, HierarchyObject> Hierarchy
@@ -64,11 +80,15 @@ namespace CrystalClear.HierarchySystem
 		public HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
+			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1);
+			string nextObject = pathSegments[1];
+
 			if (pathSegments.Length <= 1) // We have reached the end of the path, this is the destination!
 			{
 				return this;
 			}
-			return LocalHierarchy[pathSegments[0]].FollowPath(path.Remove(0, pathSegments[0].Length + 1));
+
+			return localHierarchy[nextObject].FollowPath(pathToFollow);
 		}
 	}
 }

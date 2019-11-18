@@ -26,12 +26,5 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		public new Dictionary<string, HierarchyObject> LocalHierarchy => HierarchyObjects;
-
-
-		public new HierarchyObject FollowPath(string path)
-		{
-			string[] pathSegments = path.Split('/');
-			return HierarchyObjects[pathSegments[0]].FollowPath(path.Remove(0, pathSegments[0].Length + 1 /*+ 1 to make sure we remove the '/' from the path*/));
-		}
 	}
 }

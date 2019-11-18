@@ -16,10 +16,19 @@ namespace CrystalClear.HierarchySystem
 		public static HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
-			return LoadedHierarchies[pathSegments[0]].FollowPath(path.Remove(0, pathSegments[0].Length));
+			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1);
+			string nextObject = pathSegments[1];
+			return LoadedHierarchies[nextObject].FollowPath(pathToFollow);
 		}
 
 		public static Dictionary<string, HierarchyRoot> LoadedHierarchies = new Dictionary<string, HierarchyRoot>();
+
+		private void SetName(HierarchyRoot hierarchyRoot)
+		{
+			string key = LoadedHierarchies.FirstOrDefault(x => x.Value == hierarchyRoot).Key;
+			LoadedHierarchies.Remove(key);
+			LoadedHierarchies.Add(key, hierarchyRoot);
+		}
 
 		public static string GetName(HierarchyRoot hierarchyRoot) // TODO make this properly manage multiple values with the same type, maybe by not allowing duplicate values to be addes as one part of the solution
 		{
