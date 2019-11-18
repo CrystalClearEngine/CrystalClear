@@ -12,12 +12,22 @@ namespace CrystalClear.HierarchySystem
 		public static HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
-			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1);
-			string nextObject = pathSegments[1];
+			string pathToFollow = path;
+			string nextObject = pathSegments[0];
 			return LoadedHierarchies[nextObject].FollowPath(pathToFollow);
 		}
 
 		public static Dictionary<string, HierarchyObject> LoadedHierarchies = new Dictionary<string, HierarchyObject>();
+
+		public static void Load(string filePath)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void Add(string name, HierarchyObject hierarchyObject)
+		{
+			LoadedHierarchies.Add(name, hierarchyObject);
+		}
 
 		public static void SetName(HierarchyObject hierarchyObject, string newName) // TODO below TODO
 		{

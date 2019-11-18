@@ -9,7 +9,7 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 	{
-		public HierarchyObject(HierarchyObject hierarchyRoot = null, HierarchyObject parent = null) // ...And this is only for derived HierarchyObjectTypes!
+		public HierarchyObject(HierarchyObject hierarchyRoot = null, HierarchyObject parent = null)
 		{
 			this.root = hierarchyRoot;
 			this.parent = parent;
@@ -84,23 +84,24 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		private Dictionary<string, HierarchyObject> localHierarchy = new Dictionary<string, HierarchyObject>();
-		public Dictionary<string, HierarchyObject> LocalHierarchy => localHierarchy;
+		public /*we want to make this effectively readonly*/ Dictionary<string, HierarchyObject> LocalHierarchy => localHierarchy;
 
-		public void Add(string path, HierarchyObject hierarchyObject)
+		public void Add(string name, HierarchyObject hierarchyObject)
 		{
-
+			LocalHierarchy.Add(name, hierarchyObject);
 		}
 
 		public HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/');
-			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1);
-			string nextObject = pathSegments[1];
 
-			if (pathSegments.Length <= 1) // We have reached the end of the path, this is the destination!
+			if (pathSegments.Length == 1) // We have reached the end of the path, this is the destination!
 			{
 				return this;
 			}
+
+			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1);
+			string nextObject = pathSegments[1];
 
 			return localHierarchy[nextObject].FollowPath(pathToFollow);
 		}
