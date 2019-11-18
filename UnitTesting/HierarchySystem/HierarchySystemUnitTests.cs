@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CrystalClear.HierarchySystem;
+﻿using CrystalClear.HierarchySystem;
 using CrystalClear.Standard.HierarchyObjects;
-using System.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTesting
 {
@@ -26,7 +24,7 @@ namespace UnitTesting
 			hierarchyRoot.Add("ho3", ho3);
 			HierarchySystem.Add("test", hierarchyRoot);
 		}
-		
+
 		[TestMethod]
 		public void TestFollowPath() // Test for making sure the follow path system works
 		{

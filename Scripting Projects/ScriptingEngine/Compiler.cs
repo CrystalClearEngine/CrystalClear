@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.CSharp;
+using System;
 using System.CodeDom.Compiler;
 using System.Reflection;
-using Microsoft.CSharp;
 
 namespace CrystalClear.ScriptingEngine
 {
@@ -35,7 +35,10 @@ namespace CrystalClear.ScriptingEngine
 				// Compile our code
 				CompilerResults result = csProvider.CompileAssemblyFromFile(options, fileNames);
 
-				foreach (object error in result.Errors) Console.WriteLine(error);
+				foreach (object error in result.Errors)
+				{
+					Console.WriteLine(error);
+				}
 
 				if (result.Errors.HasErrors)
 				{

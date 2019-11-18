@@ -8,7 +8,7 @@ namespace CrystalClear.HierarchySystem
 	{
 		public HierarchyRoot() // Hmmm well I was gonna make a constructor with parameters and all, but I´ll settle for this as I don´t know what to add
 		{
-			
+
 		}
 
 		public new string Name

@@ -7,11 +7,15 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class UserSettings
 	{
-		/*volatile (maybe?)*/ static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
+		/*volatile (maybe?)*/
+		private static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
 
 		public static void SetUp(string savePath = null)
 		{
-			if (savePath != null) SettingsFilePath = savePath;
+			if (savePath != null)
+			{
+				SettingsFilePath = savePath;
+			}
 
 			using (File.CreateText(SettingsFilePath))
 			{
@@ -21,7 +25,10 @@ namespace CrystalClear.ScriptUtilities
 		public static bool IsSetUp()
 		{
 			if (File.Exists(SettingsFilePath))
+			{
 				return true;
+			}
+
 			return false;
 		}
 
@@ -32,9 +39,15 @@ namespace CrystalClear.ScriptUtilities
 
 		public static void SaveSetting(UserSetting setting)
 		{
-			if (!IsSetUp()) throw new UserSettingsNotSetUpException();
+			if (!IsSetUp())
+			{
+				throw new UserSettingsNotSetUpException();
+			}
 
-			if (setting.Name.Contains(':')) throw new UserSettingNameContainsColon();
+			if (setting.Name.Contains(':'))
+			{
+				throw new UserSettingNameContainsColon();
+			}
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
@@ -42,7 +55,9 @@ namespace CrystalClear.ScriptUtilities
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(setting.Name)
 				) // This setting should be overwritten as its name matches that of the setting we want to change
+				{
 					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); // Delete setting
+				}
 			}
 
 			File.AppendAllText(SettingsFilePath, "\n" + setting); // Write setting
@@ -61,7 +76,9 @@ namespace CrystalClear.ScriptUtilities
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)
 				) // This setting should be deleted as it is matches the name of the setting we want to delete
+				{
 					File.WriteAllLines(SettingsFilePath, lines.Where((v, j) => j != i)); // Delete setting
+				}
 			}
 		}
 
@@ -83,7 +100,9 @@ namespace CrystalClear.ScriptUtilities
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)) // This setting exists
+				{
 					return true;
+				}
 			}
 
 			// If we "get here" the setting does not exist
@@ -97,16 +116,24 @@ namespace CrystalClear.ScriptUtilities
 
 		public static UserSetting GetSetting(string name)
 		{
-			if (!IsSetUp()) throw new UserSettingsNotSetUpException();
+			if (!IsSetUp())
+			{
+				throw new UserSettingsNotSetUpException();
+			}
 
-			if (!ExistsSetting(name)) throw new SettingNotFoundException(name);
+			if (!ExistsSetting(name))
+			{
+				throw new SettingNotFoundException(name);
+			}
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
 			for (int i = 0; i < lines.Length; i++)
 			{
 				string line = lines[i];
 				if (line.Split(':')[0].Contains(name)) // This setting should be read and returned
+				{
 					return new UserSetting(line);
+				}
 			}
 
 			throw new SettingNotFoundException(name);
@@ -150,7 +177,10 @@ namespace CrystalClear.ScriptUtilities
 			public UserSetting(string settingValueString)
 			{
 				string[] splitString = settingValueString.Split(':');
-				if (splitString.Length != 2) throw new CorruptUserSettingException(settingValueString);
+				if (splitString.Length != 2)
+				{
+					throw new CorruptUserSettingException(settingValueString);
+				}
 
 				Name = splitString[0];
 				Value = StringToObject(splitString[1]);
@@ -174,8 +204,12 @@ namespace CrystalClear.ScriptUtilities
 			public bool Equals(UserSetting other)
 			{
 				if (other.Name == Name)
+				{
 					if (other.Value.Equals(Value))
+					{
 						return true;
+					}
+				}
 
 				return false;
 			}

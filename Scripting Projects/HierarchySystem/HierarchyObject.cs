@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace CrystalClear.HierarchySystem
@@ -11,7 +10,7 @@ namespace CrystalClear.HierarchySystem
 	{
 		public HierarchyObject(HierarchyObject hierarchyRoot = null, HierarchyObject parent = null)
 		{
-			this.root = hierarchyRoot;
+			root = hierarchyRoot;
 			this.parent = parent;
 		}
 
@@ -44,9 +43,13 @@ namespace CrystalClear.HierarchySystem
 			get
 			{
 				if (IsAtRoot == false)
+				{
 					return parent;
+				}
 				else
+				{
 					return HierarchyRoot;
+				}
 			}
 		}
 
@@ -59,7 +62,9 @@ namespace CrystalClear.HierarchySystem
 					return parent.GetName(this);
 				}
 				else
+				{
 					return HierarchySystem.GetName(this);
+				}
 			}
 			set => parent.SetName(this, value);
 		}

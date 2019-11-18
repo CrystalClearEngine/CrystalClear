@@ -1,7 +1,7 @@
-﻿using System;
-using System.Reflection;
-using CrystalClear.ScriptingEngine;
+﻿using CrystalClear.ScriptingEngine;
 using CrystalClear.Standard.Events;
+using System;
+using System.Reflection;
 
 public static class MainClass
 {
@@ -26,7 +26,10 @@ public static class MainClass
 
 		Script[] scripts = Script.FindScriptsInAssembly(compiledScript);
 
-		foreach (Script script in scripts) script.SubscribeAllEvents();
+		foreach (Script script in scripts)
+		{
+			script.SubscribeAllEvents();
+		}
 
 		StartEventClass.StartEventInstance.OnEvent();
 

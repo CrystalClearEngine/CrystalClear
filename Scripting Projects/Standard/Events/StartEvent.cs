@@ -1,6 +1,6 @@
-﻿using System;
+﻿using CrystalClear.EventSystem;
+using System;
 using System.Reflection;
-using CrystalClear.EventSystem;
 
 namespace CrystalClear.Standard.Events
 {
@@ -43,7 +43,7 @@ namespace CrystalClear.Standard.Events
 
 		public void Subscribe(Delegate eventHandler)
 		{
-			StartEventDelegate += (StartEventHandler) eventHandler;
+			StartEventDelegate += (StartEventHandler)eventHandler;
 		}
 
 		public void Subscribe(MethodInfo method, object scriptInstance)

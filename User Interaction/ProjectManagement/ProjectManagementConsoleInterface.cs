@@ -11,16 +11,26 @@ namespace CrystalClear.ProjectManagement
 		private static void Main(string[] args)
 		{
 			if (args.Length >= 1)
+			{
 				foreach (string arg in args)
+				{
 					GetInput(arg);
+				}
+			}
 
 			Console.WriteLine("Crystal Clear Engine project management interface");
-			while (true) GetInput();
+			while (true)
+			{
+				GetInput();
+			}
 		}
 
 		private static void GetInput(string input = null)
 		{
-			if (input == null) input = Console.ReadLine();
+			if (input == null)
+			{
+				input = Console.ReadLine();
+			}
 
 			string[] inputArray = input.Split(' ');
 			switch (inputArray[0])
@@ -46,15 +56,24 @@ namespace CrystalClear.ProjectManagement
 		private static void ListProjects()
 		{
 			foreach (string folderPath in Directory.GetDirectories(_workInPath))
+			{
 				if (IsProject(folderPath))
+				{
 					Console.WriteLine(GetProjectName(folderPath) + " - " + folderPath);
+				}
+			}
 		}
 
 		private static bool IsProject(string path)
 		{
 			foreach (string file in Directory.GetFiles(path))
+			{
 				if (file.EndsWith(".crystalcore"))
+				{
 					return true;
+				}
+			}
+
 			return false;
 		}
 
@@ -62,13 +81,17 @@ namespace CrystalClear.ProjectManagement
 		{
 			string crystalCorePath = null;
 			foreach (string file in Directory.GetFiles(path))
+			{
 				if (file.EndsWith(".crystalcore"))
+				{
 					crystalCorePath = file;
+				}
+			}
 
 			XmlSerializer xs = new XmlSerializer(typeof(ProjectInfo));
 			using (StreamReader sr = new StreamReader(crystalCorePath))
 			{
-				ProjectInfo projectInfo = (ProjectInfo) xs.Deserialize(sr);
+				ProjectInfo projectInfo = (ProjectInfo)xs.Deserialize(sr);
 				return projectInfo.Name;
 			}
 		}
@@ -93,8 +116,15 @@ namespace CrystalClear.ProjectManagement
 
 			DirectoryInfo di = new DirectoryInfo(folderPath);
 
-			foreach (FileInfo file in di.GetFiles()) file.Delete();
-			foreach (DirectoryInfo dir in di.GetDirectories()) dir.Delete(true);
+			foreach (FileInfo file in di.GetFiles())
+			{
+				file.Delete();
+			}
+
+			foreach (DirectoryInfo dir in di.GetDirectories())
+			{
+				dir.Delete(true);
+			}
 
 			di.Delete();
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
-using CrystalClear;
 
 namespace CrystalClear.ProjectManagement
 {
@@ -21,7 +20,7 @@ namespace CrystalClear.ProjectManagement
 			XmlSerializer xs = new XmlSerializer(typeof(ProjectInfo));
 			using (StreamReader sr = new StreamReader(file.FullName))
 			{
-				ProjectInfo projectInfo = (ProjectInfo) xs.Deserialize(sr);
+				ProjectInfo projectInfo = (ProjectInfo)xs.Deserialize(sr);
 			}
 		}
 
