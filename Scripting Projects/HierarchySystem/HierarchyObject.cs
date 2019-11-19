@@ -59,11 +59,12 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		private HierarchyObject parent;
 		/// <summary>
-		/// Returns the parent, but does not allow setting it.
+		/// Returns the parent, and utlizes ReParentChild() to set it.
 		/// </summary>
-		public object Parent
+		public HierarchyObject Parent
 		{
 			get => parent;
+			set => ReParentChild(parent, value, this);
 		}
 
 		/// <summary>
@@ -75,38 +76,14 @@ namespace CrystalClear.HierarchySystem
 			{
 				if (IsRoot == false)
 				{
-					return parent.GetName(this);
+					return parent.GetChildName(this);
 				}
 				else
 				{
 					return HierarchySystem.GetName(this);
 				}
 			}
-			set => parent.SetName(this, value);
-		}
-
-		/// <summary>
-		/// This method sets the name of this 
-		/// </summary>
-		/// <param name="hierarchyObject">The HierarchyObject that should recieve a name change</param>
-		/// <param name="newName">The new name for the object</param>
-		private void SetName(HierarchyObject hierarchyObject, string newName)
-		{
-			string key = localHierarchy.FirstOrDefault(x => x.Value == hierarchyObject).Key;
-			localHierarchy.Remove(key);
-			localHierarchy.Add(newName, hierarchyObject);
-		}
-
-		/// <summary>
-		/// Gets the name of a child HierarchyObject.
-		/// </summary>
-		/// <param name="hierarchyObject">The HierarchyObject to get the name of</param>
-		/// <returns>The name of this object</returns>
-		private string GetName(HierarchyObject hierarchyObject)
-		{
-			string key;
-			key = localHierarchy.FirstOrDefault(x => x.Value == hierarchyObject).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
-			return key;
+			set => parent.SetChildName(this, value);
 		}
 
 		/// <summary>
@@ -126,19 +103,65 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		public Dictionary<string, HierarchyObject> LocalHierarchy => localHierarchy;
 
+		#region HierarchyManagement
 		/// <summary>
-		/// Adds the HierarchyObject and changes it´s parent.
+		/// This method sets the name of the specified child to the specified new name. 
 		/// </summary>
-		/// <param name="name">The name to use in the reparent</param>
-		/// <param name="hierarchyObject">The HierarchyObject to reparent</param>
-		public void ReParent(string name, HierarchyObject hierarchyObject)
+		/// <param name="child">The HierarchyObject that should recieve a name change</param>
+		/// <param name="newName">The new name for the object</param>
+		private void SetChildName(HierarchyObject child, string newName)
 		{
-			LocalHierarchy.Add(name, hierarchyObject);
-			hierarchyObject.parent = this;
+			string key = localHierarchy.FirstOrDefault(x => x.Value == child).Key;
+			localHierarchy.Remove(key);
+			localHierarchy.Add(newName, child);
 		}
 
 		/// <summary>
-		/// Follows a path, relatively from this point.
+		/// Gets the name of a child HierarchyObject that is present as a direct child of this HierarchyObject.
+		/// </summary>
+		/// <param name="child">The HierarchyObject to get the name of</param>
+		/// <returns>The name of this object</returns>
+		private string GetChildName(HierarchyObject child)
+		{
+			string key;
+			key = LocalHierarchy.FirstOrDefault(x => x.Value == child).Key; // Get the key of this hierarchyRoot. Lets hope you dont have duplicate hierarchyRoots though... hmmm lets TODO that
+			return key;
+		}
+
+		/// <summary>
+		/// Will add a HierarchyObject to the LocalHierarchy and also set the HierarchyObject´s parent accordingly
+		/// </summary>
+		/// <param name="name">The name of the HierarchyObject to add</param>
+		/// <param name="child">The HierarchyObject to add</param>
+		public void AddChild(string name, HierarchyObject child)
+		{
+			LocalHierarchy.Add(name, child);
+			child.parent = this;
+		}
+
+		/// <summary>
+		/// Changes the parent of a HierarchyObject in a Hierarchy.
+		/// </summary>
+		public static void ReParentChild(HierarchyObject oldParent, HierarchyObject newParent, HierarchyObject child)
+		{
+			string childName = oldParent.GetChildName(child);
+			oldParent.RemoveChild(child);
+			newParent.AddChild(childName, child);
+		}
+
+		/// <summary>
+		/// Removes the specified child HierarchyObject from the LocalHierarchy.
+		/// </summary>
+		/// <param name="child">The child HierarchyObject to remove</param>
+		private void RemoveChild(HierarchyObject child)
+		{
+			KeyValuePair<string, HierarchyObject> item = localHierarchy.First(HierarchyObject => HierarchyObject.Value == child);
+
+			localHierarchy.Remove(item.Key);
+		}
+
+		/// <summary>
+		/// Follows a path relatively from this point.
 		/// </summary>
 		/// <param name="path">The path to follow. HierarchyObjects are separated by '/'</param>
 		/// <returns>The HierarchyObject at the end of the path</returns>
@@ -156,5 +179,6 @@ namespace CrystalClear.HierarchySystem
 
 			return localHierarchy[nextObject].FollowPath(pathToFollow); // We are going to do some of that sweet bitter sweet recursion magic by returning the result of a follow call to the HierarchyObject that is next in the path.
 		}
+		#endregion
 	}
 }
