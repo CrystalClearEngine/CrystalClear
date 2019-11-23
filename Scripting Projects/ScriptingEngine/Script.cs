@@ -7,12 +7,18 @@ using System.Reflection;
 
 namespace CrystalClear.ScriptingEngine
 {
-	internal struct Script
+	/// <summary>
+	/// Stores the type and (currently) instance of a script. This is really a helper class.
+	/// </summary>
+	public struct Script
 	{
+		/// <summary>
+		/// The current instance of this script. This is going to be replaced in the future as the instance will be stored in the HierarchyObject that has the script!
+		/// </summary>
 		public object ScriptInstance;
 
 		/// <summary>
-		/// The type of the script class
+		/// The type of the script class.
 		/// </summary>
 		public Type ScriptType;
 
@@ -21,6 +27,12 @@ namespace CrystalClear.ScriptingEngine
 			ScriptType = scriptClass;
 			ScriptInstance = Activator.CreateInstance(scriptClass);
 		}
+
+		/// <summary>
+		/// Finds all classes with the script attribute and that inherits from HierarchyObject or a derivative thereof and returns them.
+		/// </summary>
+		/// <param name="assembly">The assembly to find the scripts in</param>
+		/// <returns>The found scripts</returns>
 		public static Script[] FindScriptsInAssembly(Assembly assembly)
 		{
 			Script[] scripts = (from exportedType in assembly.GetExportedTypes()
@@ -30,6 +42,12 @@ namespace CrystalClear.ScriptingEngine
 			return scripts;
 		}
 
+		/// <summary>
+		/// Calls a method in the script by name.
+		/// </summary>
+		/// <param name="methodName">The name of the method</param>
+		/// <param name="parameters">The paramaters for the call</param>
+		/// <returns>The return value (if any)</returns>
 		public object DynamicallyCallMethod(string methodName, object[] parameters = null)
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
@@ -61,6 +79,9 @@ namespace CrystalClear.ScriptingEngine
 			return returnObjects.ToArray();
 		}
 
+		/// <summary>
+		/// Subscribes all events in the script.
+		/// </summary>
 		public void SubscribeAllEvents()
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
