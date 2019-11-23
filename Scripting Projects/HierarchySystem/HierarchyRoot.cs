@@ -6,10 +6,11 @@ namespace CrystalClear.HierarchySystem
 	[HiddenHierarchyObject]
 	public class HierarchyRoot : HierarchyObject
 	{
-		public HierarchyRoot() // Hmmm well I was gonna make a constructor with parameters and all, but I´ll settle for this as I don´t know what to add
-		{
+		private readonly new bool IsRoot = true;
 
-		}
+		private readonly new HierarchyObject Parent = null;
+
+		private readonly new HierarchyObject Root = null;
 
 		public new string Name
 		{
