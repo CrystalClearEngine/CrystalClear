@@ -17,10 +17,10 @@ namespace CrystalClear.HierarchySystem
 		public static Dictionary<string, HierarchyObject> LoadedHierarchies = new Dictionary<string, HierarchyObject>();
 
 
-		public static void Load(string filePath)
-		{
-			throw new NotImplementedException();
-		}
+		//public static void Load(string filePath)
+		//{
+		//	throw new NotImplementedException();
+		//}
 
 		public static void Add(string name, HierarchyObject hierarchyObject)
 		{

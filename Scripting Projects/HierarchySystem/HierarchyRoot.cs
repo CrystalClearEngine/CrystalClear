@@ -6,11 +6,13 @@ namespace CrystalClear.HierarchySystem
 	[HiddenHierarchyObject]
 	public class HierarchyRoot : HierarchyObject
 	{
-		private readonly new bool IsRoot = true;
+#pragma warning disable IDE0051 // Remove unused private members
+		private new bool IsRoot => true;
 
-		private readonly new HierarchyObject Parent = null;
+		public new HierarchyObject Parent => null;
 
-		private readonly new HierarchyObject Root = null;
+		private new HierarchyObject Root => null;
+#pragma warning restore IDE0051 // Remove unused private members
 
 		public new string Name
 		{
@@ -21,5 +23,6 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		public Dictionary<string, HierarchyObject> HierarchyObjects => LocalHierarchy; // Refer HierarchyObjects to LocalHierarchy instead
+
 	}
 }
