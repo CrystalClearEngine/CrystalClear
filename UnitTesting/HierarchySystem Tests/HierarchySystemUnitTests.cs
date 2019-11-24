@@ -6,7 +6,7 @@ namespace UnitTests
 {
 	[TestCategory("HierarchySystem")]
 	[TestClass]
-	public class HierarchySystemUnitTests
+	public class HierarchySystemTests
 	{
 		/// <summary>
 		/// Initialize needs to run before every test.
@@ -44,7 +44,7 @@ namespace UnitTests
 		/// Tests the SetHierarchyName() method in HierarchySystem.
 		/// </summary>
 		[TestMethod]
-		public void TestSetHierarchyName()
+		public void SetHierarchyName()
 		{
 			string newName = "newName";
 			HierarchyObject hierarchyObject = HierarchySystem.LoadedHierarchies["test"];
@@ -57,7 +57,7 @@ namespace UnitTests
 		/// Tests the GetHierarchyName() method in HierarchySystem.
 		/// </summary>
 		[TestMethod]
-		public void TestGetHierarchyName()
+		public void GetHierarchyName()
 		{
 			HierarchyRoot hierarchyRoot = new HierarchyRoot();
 			string hierarchyName = "GetThisName";
@@ -73,12 +73,5 @@ namespace UnitTests
 		{
 			HierarchySystem.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyObject>();
 		}
-	}
-
-	[TestCategory("HierarchySystem")]
-	[TestClass]
-	public class HierarchyObjectUnitTests
-	{
-
 	}
 }

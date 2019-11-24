@@ -131,7 +131,7 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The name of this object</returns>
 		public string GetChildName(HierarchyObject child)
 		{
-			string key = LocalHierarchy.FirstOrDefault(x => ReferenceEquals(x.Value, child)).Key;
+			string key = LocalHierarchy.First(x => ReferenceEquals(x.Value, child)).Key;
 			return key;
 		}
 

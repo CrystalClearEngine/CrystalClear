@@ -50,7 +50,7 @@ namespace CrystalClear.HierarchySystem
 
 		public static string GetHierarchyName(HierarchyObject hierarchyObject)
 		{
-			string key = LoadedHierarchies.FirstOrDefault(x => ReferenceEquals(x.Value, hierarchyObject)).Key;
+			string key = LoadedHierarchies.First(x => ReferenceEquals(x.Value, hierarchyObject)).Key;
 			return key;
 		}
 	}
