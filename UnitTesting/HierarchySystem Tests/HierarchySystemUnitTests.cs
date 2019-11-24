@@ -2,8 +2,9 @@
 using CrystalClear.Standard.HierarchyObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTesting
+namespace UnitTests
 {
+	[TestCategory("HierarchySystem")]
 	[TestClass]
 	public class HierarchySystemUnitTests
 	{
@@ -74,6 +75,7 @@ namespace UnitTesting
 		}
 	}
 
+	[TestCategory("HierarchySystem")]
 	[TestClass]
 	public class HierarchyObjectUnitTests
 	{

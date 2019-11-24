@@ -1,8 +1,9 @@
 ﻿using CrystalClear.ScriptUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests // TODO implement cleanup
+namespace UnitTests
 {
+	[TestCategory("ScriptingUtilities")]
 	[TestClass]
 	public class UserSettingsTests
 	{
