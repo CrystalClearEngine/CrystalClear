@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTesting
 {
 	[TestClass]
-	public class HierarchySystemUnitTest
+	public class HierarchySystemUnitTests
 	{
 		/// <summary>
 		/// Initialize needs to run before every test.
@@ -26,10 +26,10 @@ namespace UnitTesting
 		}
 
 		/// <summary>
-		/// Tests the FollowPath system
+		/// Tests the FollowPath system.
 		/// </summary>
 		[TestMethod]
-		public void TestFollowPath() // Test for making sure the follow path system works
+		public void TestFollowPath()
 		{
 			HierarchyObject hierarchyObjectToFind = new ScriptObject();
 			HierarchyObject hierarchyObjectToFind2 = new UIObject();
@@ -40,6 +40,31 @@ namespace UnitTesting
 		}
 
 		/// <summary>
+		/// Tests the SetHierarchyName() method in HierarchySystem.
+		/// </summary>
+		[TestMethod]
+		public void TestSetHierarchyName()
+		{
+			string newName = "newName";
+			HierarchyObject hierarchyObject = HierarchySystem.LoadedHierarchies["test"];
+			HierarchySystem.SetHierarchyName("test", newName);
+			Assert.IsTrue(HierarchySystem.LoadedHierarchies.ContainsKey(newName));
+			Assert.AreEqual(HierarchySystem.GetHierarchyName(hierarchyObject), newName);
+		}
+
+		/// <summary>
+		/// Tests the GetHierarchyName() method in HierarchySystem.
+		/// </summary>
+		[TestMethod]
+		public void TestGetHierarchyName()
+		{
+			HierarchyRoot hierarchyRoot = new HierarchyRoot();
+			string hierarchyName = "GetThisName";
+			HierarchySystem.AddHierarchy(hierarchyName, hierarchyRoot);
+			Assert.AreEqual(HierarchySystem.GetHierarchyName(hierarchyRoot), hierarchyName);
+		}
+
+		/// <summary>
 		/// Cleanup to be run after every test.
 		/// </summary>
 		[TestCleanup]
@@ -47,5 +72,11 @@ namespace UnitTesting
 		{
 			HierarchySystem.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyObject>();
 		}
+	}
+
+	[TestClass]
+	public class HierarchyObjectUnitTests
+	{
+
 	}
 }
