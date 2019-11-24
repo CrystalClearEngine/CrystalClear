@@ -11,14 +11,17 @@ namespace CrystalClear.HierarchySystem
 
 		public new HierarchyObject Parent => null;
 
-		private new HierarchyObject Root => null;
+		private new HierarchyObject Root
+		{
+			get => this;
+		}
 #pragma warning restore IDE0051 // Remove unused private members
 
 		public new string Name
 		{
 			get
 			{
-				return HierarchySystem.GetName(this);
+				return HierarchySystem.GetHierarchyName(this);
 			}
 		}
 

@@ -43,7 +43,7 @@ namespace CrystalClear.ScriptingEngine
 		}
 
 		/// <summary>
-		/// Calls a method in the script by name.
+		/// Calls a method in the script by method name.
 		/// </summary>
 		/// <param name="methodName">The name of the method</param>
 		/// <param name="parameters">The paramaters for the call</param>
@@ -61,6 +61,10 @@ namespace CrystalClear.ScriptingEngine
 			throw new MethodNotFoundException();
 		}
 
+		/// <summary>
+		/// Calls methods in the script by method name.
+		/// </summary>
+		/// <returns>The return values</returns>
 		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
 		{
 			List<object> returnObjects = new List<object>();

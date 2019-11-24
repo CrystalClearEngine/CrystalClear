@@ -22,7 +22,7 @@ namespace UnitTesting
 			hierarchyRoot.AddChild("ho1", ho1);
 			hierarchyRoot.AddChild("ho2", ho2);
 			hierarchyRoot.AddChild("ho3", ho3);
-			HierarchySystem.Add("test", hierarchyRoot);
+			HierarchySystem.AddHierarchy("test", hierarchyRoot);
 		}
 
 		/// <summary>
