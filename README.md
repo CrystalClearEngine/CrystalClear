@@ -3,11 +3,7 @@ The Crystal Clear Engine is a highly WIP game and software engine, so far writte
 
 Since the engine is not even nearly complete, there is no version of this engine available to download.
 
-The engine will be considered to have entered alpha when the five pillars have been made functional.
-
-**The five pillars of Crystal Clear**
-
-The five pillars of the Crystal Clear engine are:
+The engine will be considered to have entered alpha when the following features have all been made functional:
 
 1. ScriptingEngine
 
