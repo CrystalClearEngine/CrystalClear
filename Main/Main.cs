@@ -20,7 +20,7 @@ public static class MainClass
 		if (compiledScript == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
-			Console.ReadLine();
+			Console.ReadKey();
 			Environment.Exit(-1);
 		}
 
@@ -33,6 +33,6 @@ public static class MainClass
 
 		StartEventClass.StartEventInstance.OnEvent();
 
-		Console.Read();
+		Console.ReadKey();
 	}
 }

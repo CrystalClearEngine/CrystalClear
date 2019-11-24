@@ -48,5 +48,11 @@
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ScriptingEngine\ScriptingEngine.csproj">
+      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
+      <Name>ScriptingEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

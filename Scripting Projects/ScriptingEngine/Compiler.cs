@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace CrystalClear.ScriptingEngine
 {
-	internal static class Compiler
+	public static class Compiler
 	{
 		public static Assembly CompileCode(string[] fileNames)
 		{
