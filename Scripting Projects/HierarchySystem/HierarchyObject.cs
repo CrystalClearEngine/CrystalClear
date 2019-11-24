@@ -88,7 +88,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
-		protected Dictionary<string, HierarchyObject> Hierarchy => localHierarchy;
+		protected Dictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
 
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
