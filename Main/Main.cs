@@ -18,7 +18,7 @@ public static class MainClass
 		// Hardcoded code to compile
 		Assembly compiledScript = Compiler.CompileCode(scriptFilesPaths);
 
-		//If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
+		// If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
 		if (compiledScript == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
@@ -26,7 +26,7 @@ public static class MainClass
 			Environment.Exit(-1);
 		}
 
-		//Find all scripts that are present in the newly compiled assembly
+		// Find all scripts that are present in the newly compiled assembly
 		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledScript);
 		ScriptObject scriptObject = new ScriptObject();
 		foreach (Type scriptType in scriptTypes)
@@ -34,8 +34,10 @@ public static class MainClass
 			scriptObject.AddScript(scriptType);
 		}
 
+		// Raise the start event
 		StartEventClass.StartEventInstance.OnEvent();
 
+		// Wait for user input before closing
 		Console.ReadKey();
 	}
 }
