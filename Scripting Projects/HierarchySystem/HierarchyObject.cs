@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using CrystalClear.HierarchySystem;
+using CrystalClear.ScriptingEngine;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -10,6 +11,18 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 	{
+		/// <summary>
+		/// The scripts that are currently attatched to this object.
+		/// </summary>
+		public List<Script> Scripts = new List<Script>();
+
+		public void AddScript(Type scriptType, object[] parameters) => AddScript(new Script(scriptType, parameters));
+		public void AddScript(Type scriptType) => AddScript(new Script(scriptType));
+		public void AddScript(Script script)
+		{
+			Scripts.Add(script);
+		}
+
 		/// <summary>
 		/// Is this HierarchyObject the root of the entiere hierarchy (has no parent, is part of the LoadedHierarchies)?
 		/// </summary>
@@ -96,7 +109,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		protected Dictionary<string, HierarchyObject> localHierarchy = new Dictionary<string, HierarchyObject>();
 		/// <summary>
-		/// The public LocalHierarchy. It containins all child HierarchyObjects that this HierarchyObject has.
+		/// The publicly accessible LocalHierarchy.
 		/// </summary>
 		public Dictionary<string, HierarchyObject> LocalHierarchy => localHierarchy;
 

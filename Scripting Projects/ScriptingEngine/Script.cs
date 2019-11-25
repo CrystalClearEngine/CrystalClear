@@ -8,24 +8,34 @@ using System.Reflection;
 namespace CrystalClear.ScriptingEngine
 {
 	/// <summary>
-	/// Stores the type and (currently) instance of a script. This is really a helper class.
+	/// Stores the type and instance of a script.
 	/// </summary>
 	public struct Script
 	{
 		/// <summary>
-		/// The current instance of this script. This is going to be replaced in the future as the instance will be stored in the HierarchyObject that has the script!
+		/// The current instance of this script.
 		/// </summary>
-		public object ScriptInstance;
+		public readonly object ScriptInstance;
 
 		/// <summary>
 		/// The type of the script class.
 		/// </summary>
-		public Type ScriptType;
+		public readonly Type ScriptType;
 
-		public Script(Type scriptClass)
+		/// <summary>
+		/// Creates a script and instanciates it with the provided parameters.
+		/// </summary>
+		/// <param name="scriptClass">The script´s type</param>
+		/// <param name="parameters">The parameters to use for the constructor</param>>
+		public Script(Type scriptClass, object[] parameters = null)
 		{
 			ScriptType = scriptClass;
-			ScriptInstance = Activator.CreateInstance(scriptClass);
+			if (parameters != null)
+				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
+			else
+				ScriptInstance = Activator.CreateInstance(scriptClass);
+
+			SubscribeAllEvents();
 		}
 
 		/// <summary>
@@ -33,12 +43,12 @@ namespace CrystalClear.ScriptingEngine
 		/// </summary>
 		/// <param name="assembly">The assembly to find the scripts in</param>
 		/// <returns>The found scripts</returns>
-		public static Script[] FindScriptsInAssembly(Assembly assembly)
+		public static Type[] FindScriptTypesInAssembly(Assembly assembly)
 		{
-			Script[] scripts = (from exportedType in assembly.GetExportedTypes()
+			Type[] scripts = (from exportedType in assembly.GetExportedTypes()
 								from attribute in exportedType.GetCustomAttributes()
 								where attribute is IsScriptAttribute
-								select new Script(exportedType)).ToArray();
+								select exportedType).ToArray();
 			return scripts;
 		}
 

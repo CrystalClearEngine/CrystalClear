@@ -2,6 +2,8 @@
 using CrystalClear.Standard.Events;
 using System;
 using System.Reflection;
+using CrystalClear.HierarchySystem;
+using CrystalClear.Standard.HierarchyObjects;
 
 public static class MainClass
 {
@@ -13,10 +15,9 @@ public static class MainClass
 		};
 
 		// Hardcoded code to compile
-		Assembly compiledScript = Compiler.CompileCode(
-			scriptFilesPaths
-		);
+		Assembly compiledScript = Compiler.CompileCode(scriptFilesPaths);
 
+		//If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
 		if (compiledScript == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
@@ -24,11 +25,12 @@ public static class MainClass
 			Environment.Exit(-1);
 		}
 
-		Script[] scripts = Script.FindScriptsInAssembly(compiledScript);
-
-		foreach (Script script in scripts)
+		//Find all scripts that are present in the newly compiled assembly
+		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledScript);
+		ScriptObject scriptObject = new ScriptObject();
+		foreach (Type scriptType in scriptTypes)
 		{
-			script.SubscribeAllEvents();
+			scriptObject.AddScript(scriptType);
 		}
 
 		StartEventClass.StartEventInstance.OnEvent();
