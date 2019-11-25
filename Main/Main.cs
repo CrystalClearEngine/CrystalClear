@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using CrystalClear.HierarchySystem;
 using CrystalClear.Standard.HierarchyObjects;
+using CrystalClear.EventSystem;
 
 public static class MainClass
 {

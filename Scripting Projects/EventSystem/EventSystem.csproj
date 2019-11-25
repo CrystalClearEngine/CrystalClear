@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="EventSystem.cs" />
     <Compile Include="IEvent.cs" />
-    <Compile Include="Methods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
