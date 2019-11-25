@@ -6,9 +6,8 @@ namespace CrystalClear.Standard.Events
 {
 	public class OnStartEventAttribute : SubscribeToAttribute
 	{
-		public OnStartEventAttribute()
+		public OnStartEventAttribute() : base(typeof(StartEventClass))
 		{
-			Event = StartEventClass.StartEventInstance;
 		}
 	}
 
@@ -19,10 +18,7 @@ namespace CrystalClear.Standard.Events
 			StartEventInstance = new StartEventClass();
 		}
 
-		/// <summary>
-		/// It is recomended not to create new instances of this class
-		/// </summary>
-		public StartEventClass()
+		private StartEventClass()
 		{
 		}
 

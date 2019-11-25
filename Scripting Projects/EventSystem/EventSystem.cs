@@ -12,9 +12,5 @@ namespace CrystalClear.EventSystem
 			IEvent iEvent = (IEvent)Activator.CreateInstance(eventType);
 			Event = iEvent.EventInstance;
 		}
-
-		protected SubscribeToAttribute() // Only for use in deriving attributes (see OnStartEventAttribute)
-		{
-		}
 	}
 }
