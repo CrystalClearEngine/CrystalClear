@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CrystalClear.ScriptingEngine
+namespace CrystalClear.ScriptUtilities
 {
 	/// <summary>
 	/// Stores the type and instance of a script. *Might* be replaced fully by HierarchyScript in the future. Might also be made generic.
@@ -27,12 +27,13 @@ namespace CrystalClear.ScriptingEngine
 		/// </summary>
 		/// <param name="scriptClass">The script´s type</param>
 		/// <param name="parameters">The parameters to use for the constructor</param>>
-		public Script(object AttatchedTo = null, Type scriptClass, object[] parameters = null)
+		public Script(Type scriptClass, object[] parameters = null, object AttatchedTo = null)
 		{
 			if (AttatchedTo != null)
 			{
-
+				ScriptInstance = Activator.CreateInstance<scriptClass>(scriptClass, parameters);
 			}
+
 			ScriptType = scriptClass;
 			if (parameters != null)
 				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
