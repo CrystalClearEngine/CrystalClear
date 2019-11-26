@@ -44,6 +44,7 @@
     <Compile Include="HiddenAttribute.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="HierarchyRoot.cs" />
+    <Compile Include="HierarchyScript.cs" />
     <Compile Include="HierarchySystem.cs" />
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

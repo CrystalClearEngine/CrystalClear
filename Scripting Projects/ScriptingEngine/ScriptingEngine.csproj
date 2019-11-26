@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B1D01C71-DAEC-4A94-88EC-F403F90FE824}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>ScriptingEngine</RootNamespace>
+    <RootNamespace>CrystalClear.ScriptingEngine</RootNamespace>
     <AssemblyName>ScriptingEngine</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

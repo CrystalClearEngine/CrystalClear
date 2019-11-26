@@ -8,15 +8,10 @@ using System.Reflection;
 namespace CrystalClear.ScriptingEngine
 {
 	/// <summary>
-	/// Stores the type and instance of a script.
+	/// Stores the type and instance of a script. *Might* be replaced fully by HierarchyScript in the future. Might also be made generic.
 	/// </summary>
 	public struct Script
 	{
-		/// <summary>
-		/// The HierarchyObject that this script is attatched to.
-		/// </summary>
-		public readonly object AttatchedTo;
-
 		/// <summary>
 		/// The current instance of this script.
 		/// </summary>
@@ -32,15 +27,17 @@ namespace CrystalClear.ScriptingEngine
 		/// </summary>
 		/// <param name="scriptClass">The script´s type</param>
 		/// <param name="parameters">The parameters to use for the constructor</param>>
-		public Script(object attatchedTo, Type scriptClass, object[] parameters = null)
+		public Script(object AttatchedTo = null, Type scriptClass, object[] parameters = null)
 		{
+			if (AttatchedTo != null)
+			{
+
+			}
 			ScriptType = scriptClass;
 			if (parameters != null)
 				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
 			else
 				ScriptInstance = Activator.CreateInstance(scriptClass);
-
-			AttatchedTo = attatchedTo;
 
 			SubscribeAllEvents();
 		}
