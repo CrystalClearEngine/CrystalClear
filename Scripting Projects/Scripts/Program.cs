@@ -2,6 +2,7 @@
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
+using CrystalClear.HierarchySystem;
 
 [IsScript]
 public class HelloWorldExample : HierarchyScript<ScriptObject>

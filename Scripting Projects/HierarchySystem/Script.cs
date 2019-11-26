@@ -1,16 +1,17 @@
 ﻿using CrystalClear.EventSystem;
+using CrystalClear.ScriptUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace CrystalClear.ScriptUtilities
+namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// Stores the type and instance of a HierarchyScript.
 	/// </summary>
 	public struct Script // TODO (maybe) Make this into a general runtime-generated code "container" class maybe? It already contains features such as the SubscribeAllEvents, althogh maybe that should be a part of the EventSystem instead?
-	{
+	{ // TODO (maybe) create project called scripting for this and similar (like IsScriptAttribute maybe)
 		/// <summary>
 		/// The current instance of this script.
 		/// </summary>
@@ -27,7 +28,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="AttatchedTo">The object that this script is attatched to.</param>
 		/// <param name="scriptClass">The script´s type</param>
 		/// <param name="parameters">The parameters to use for the constructor.</param>>
-		public Script(object AttatchedTo, Type scriptClass, object[] parameters = null)
+		public Script(HierarchyObject AttatchedTo, Type scriptClass, object[] parameters = null) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
 			ScriptType = scriptClass;
 
@@ -35,6 +36,8 @@ namespace CrystalClear.ScriptUtilities
 				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
 			else
 				ScriptInstance = Activator.CreateInstance(scriptClass);
+
+			
 
 			SubscribeAllEvents();
 		}

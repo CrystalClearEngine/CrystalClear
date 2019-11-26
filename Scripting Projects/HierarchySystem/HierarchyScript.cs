@@ -5,18 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using CrystalClear.HierarchySystem;
 
-namespace CrystalClear.ScriptingEngine
+namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
-	/// The type that all HierarchyScripts derive from. This like a scripting "interface" for scripts to act through.
+	/// The type that all HierarchyScripts derive from. This is like a scripting "interface" for scripts to act through.
 	/// </summary>
-	/// <typeparam name="T">The type of HierarhcyObjects that this Script will be targeting.</typeparam>
+	/// <typeparam name="T">The type of HierarhcyObjects that this HierarchyScript will be targeting.</typeparam>
 	public abstract class HierarchyScript<T>
 	{
-		protected HierarchyScript()
-		{
-		}
-
 		public T HierarchyObject;
 	}
 }
