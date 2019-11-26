@@ -13,6 +13,11 @@ namespace CrystalClear.ScriptingEngine
 	public struct Script
 	{
 		/// <summary>
+		/// The HierarchyObject that this script is attatched to.
+		/// </summary>
+		public readonly object AttatchedTo;
+
+		/// <summary>
 		/// The current instance of this script.
 		/// </summary>
 		public readonly object ScriptInstance;
@@ -27,13 +32,15 @@ namespace CrystalClear.ScriptingEngine
 		/// </summary>
 		/// <param name="scriptClass">The script´s type</param>
 		/// <param name="parameters">The parameters to use for the constructor</param>>
-		public Script(Type scriptClass, object[] parameters = null)
+		public Script(object attatchedTo, Type scriptClass, object[] parameters = null)
 		{
 			ScriptType = scriptClass;
 			if (parameters != null)
 				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
 			else
 				ScriptInstance = Activator.CreateInstance(scriptClass);
+
+			AttatchedTo = attatchedTo;
 
 			SubscribeAllEvents();
 		}

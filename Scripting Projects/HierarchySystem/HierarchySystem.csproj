@@ -53,6 +53,10 @@
       <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
       <Name>ScriptingEngine</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj">
+      <Project>{87FFF9E3-3922-4098-92EB-F53237B11353}</Project>
+      <Name>ScriptUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

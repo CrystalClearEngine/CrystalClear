@@ -18,7 +18,10 @@ namespace CrystalClear.Standard.Events
 			StartEventInstance = new StartEventClass();
 		}
 
-		private StartEventClass()
+		/// <summary>
+		/// Do not create instances of this method unless absolutely neccessary.
+		/// </summary>
+		public StartEventClass()
 		{
 		}
 

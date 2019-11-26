@@ -9,5 +9,6 @@ public class HelloWorldExample : ScriptObject
 	public void OnStart()
 	{
 		Output.Log("Hello World");
+		tempValue = 1001;
 	}
 }
