@@ -7,7 +7,7 @@
     <ProjectGuid>{87FFF9E3-3922-4098-92EB-F53237B11353}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ScriptUtilities</RootNamespace>
+    <RootNamespace>CrystalClear.ScriptUtilities</RootNamespace>
     <AssemblyName>ScriptUtilities</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IsScriptAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Utilities\Output.cs" />

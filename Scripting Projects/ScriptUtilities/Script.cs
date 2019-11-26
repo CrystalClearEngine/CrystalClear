@@ -1,5 +1,4 @@
 ﻿using CrystalClear.EventSystem;
-using CrystalClear.ScriptUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +7,9 @@ using System.Reflection;
 namespace CrystalClear.ScriptUtilities
 {
 	/// <summary>
-	/// Stores the type and instance of a script. *Might* be replaced fully by HierarchyScript in the future. Might also be made generic.
+	/// Stores the type and instance of a HierarchyScript.
 	/// </summary>
-	public struct Script
+	public struct Script // TODO (maybe) Make this into a general runtime-generated code "container" class maybe? It already contains features such as the SubscribeAllEvents, althogh maybe that should be a part of the EventSystem instead?
 	{
 		/// <summary>
 		/// The current instance of this script.
@@ -25,16 +24,13 @@ namespace CrystalClear.ScriptUtilities
 		/// <summary>
 		/// Creates a script and instanciates it with the provided parameters.
 		/// </summary>
+		/// <param name="AttatchedTo">The object that this script is attatched to.</param>
 		/// <param name="scriptClass">The script´s type</param>
-		/// <param name="parameters">The parameters to use for the constructor</param>>
-		public Script(Type scriptClass, object[] parameters = null, object AttatchedTo = null)
+		/// <param name="parameters">The parameters to use for the constructor.</param>>
+		public Script(object AttatchedTo, Type scriptClass, object[] parameters = null)
 		{
-			if (AttatchedTo != null)
-			{
-				ScriptInstance = Activator.CreateInstance<scriptClass>(scriptClass, parameters);
-			}
-
 			ScriptType = scriptClass;
+
 			if (parameters != null)
 				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
 			else
@@ -46,8 +42,8 @@ namespace CrystalClear.ScriptUtilities
 		/// <summary>
 		/// Finds all classes with the script attribute and that inherits from HierarchyObject or a derivative thereof and returns them.
 		/// </summary>
-		/// <param name="assembly">The assembly to find the scripts in</param>
-		/// <returns>The found scripts</returns>
+		/// <param name="assembly">The assembly to find the scripts in.</param>
+		/// <returns>The found scripts.</returns>
 		public static Type[] FindScriptTypesInAssembly(Assembly assembly)
 		{
 			Type[] scripts = (from exportedType in assembly.GetExportedTypes()
@@ -60,9 +56,9 @@ namespace CrystalClear.ScriptUtilities
 		/// <summary>
 		/// Calls a method in the script by method name.
 		/// </summary>
-		/// <param name="methodName">The name of the method</param>
-		/// <param name="parameters">The paramaters for the call</param>
-		/// <returns>The return value (if any)</returns>
+		/// <param name="methodName">The name of the method.</param>
+		/// <param name="parameters">The paramaters for the call.</param>
+		/// <returns>The return value (if any).</returns>
 		public object DynamicallyCallMethod(string methodName, object[] parameters = null)
 		{
 			foreach (MethodInfo method in ScriptType.GetMethods())
@@ -79,7 +75,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <summary>
 		/// Calls methods in the script by method name.
 		/// </summary>
-		/// <returns>The return values</returns>
+		/// <returns>The return values.</returns>
 		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
 		{
 			List<object> returnObjects = new List<object>();

@@ -13,11 +13,6 @@ namespace CrystalClear.ScriptingEngine
 	/// <typeparam name="T">The type of HierarhcyObjects that this Script will be targeting.</typeparam>
 	public abstract class HierarchyScript<T>
 	{
-		public HierarchyScript(T hierarchyObject) //TODO Keep in mind that we might want to force the use of an "approved" type. Then we could use HierarchyObject hierarchyObject as parameter or (HierarchyObject)hierarchyObject in the assignment.
-		{
-			this.HierarchyObject = hierarchyObject;
-		}
-
 		protected HierarchyScript()
 		{
 		}
