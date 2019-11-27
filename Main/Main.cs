@@ -29,6 +29,7 @@ public static class MainClass
 
 		// Find all scripts that are present in the newly compiled assembly.
 		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
+		// Create a ScriptObject to experiment on. Muahaha!
 		ScriptObject scriptObject = new ScriptObject();
 		foreach (Type scriptType in scriptTypes)
 		{
