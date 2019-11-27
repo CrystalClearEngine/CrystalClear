@@ -35,16 +35,19 @@ namespace CrystalClear.ScriptingEngine
 				// Compile our code
 				CompilerResults result = csProvider.CompileAssemblyFromFile(options, fileNames);
 
+				// Iterate through all errors and report them to the user
 				foreach (object error in result.Errors)
 				{
 					Console.WriteLine(error);
 				}
 
+				// If we have errors then return null
 				if (result.Errors.HasErrors)
 				{
 					return null;
 				}
 
+				// Return our successfull compiled assembly
 				return result.CompiledAssembly;
 			}
 		}
