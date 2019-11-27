@@ -25,19 +25,14 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Creates a script and instanciates it with the provided parameters.
 		/// </summary>
-		/// <param name="AttatchedTo">The object that this script is attatched to.</param>
+		/// <param name="attatchedTo">The object that this script is attatched to.</param>
 		/// <param name="scriptClass">The script´s type</param>
 		/// <param name="parameters">The parameters to use for the constructor.</param>>
-		public Script(HierarchyObject AttatchedTo, Type scriptClass, object[] parameters = null) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
+		public Script(HierarchyObject attatchedTo, Type scriptClass) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
 			ScriptType = scriptClass;
 
-			if (parameters != null)
-				ScriptInstance = Activator.CreateInstance(scriptClass, parameters);
-			else
-				ScriptInstance = Activator.CreateInstance(scriptClass);
-
-			
+			ScriptInstance = ScriptType.BaseType.GetMethod("CreateHierarchyScript").MakeGenericMethod(attatchedTo.GetType()).Invoke(null, new object[] {attatchedTo, scriptClass});
 
 			SubscribeAllEvents();
 		}

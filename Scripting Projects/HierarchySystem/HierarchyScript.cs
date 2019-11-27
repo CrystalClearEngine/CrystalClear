@@ -14,5 +14,16 @@ namespace CrystalClear.HierarchySystem
 	public abstract class HierarchyScript<T>
 	{
 		public T HierarchyObject;
+
+		public static HierarchyScript<Type> CreateHierarchyScript<Type>(Type attatchedTo, System.Type scriptClass)
+		{
+			HierarchyScript<Type> hierarchyScript;
+
+			hierarchyScript = (HierarchyScript<Type>)Activator.CreateInstance(scriptClass);
+
+			hierarchyScript.HierarchyObject = attatchedTo;
+
+			return hierarchyScript;
+		}
 	}
 }

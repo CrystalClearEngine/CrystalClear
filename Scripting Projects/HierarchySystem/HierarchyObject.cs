@@ -12,12 +12,12 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 	{
+		public int test1 = 123;
+
 		/// <summary>
 		/// The scripts that are currently attatched to this object.
 		/// </summary>
 		public List<Script> Scripts = new List<Script>();
-
-		public void AddScript(Type scriptType, object[] parameters) => AddScript(new Script(this, scriptType, parameters));
 		public void AddScript(Type scriptType) => AddScript(new Script(this, scriptType));
 		public void AddScript(Script script)
 		{
