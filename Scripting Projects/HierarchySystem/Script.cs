@@ -34,7 +34,7 @@ namespace CrystalClear.HierarchySystem
 
 			ScriptInstance = ScriptType.BaseType.GetMethod("CreateHierarchyScript").MakeGenericMethod(attatchedTo.GetType()).Invoke(null, new object[] {attatchedTo, scriptClass});
 
-			EventSystem.EventSystem.SubscribeAllEvents(ScriptType, ScriptInstance);
+			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
 		/// <summary>

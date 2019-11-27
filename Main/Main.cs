@@ -10,35 +10,35 @@ public static class MainClass
 {
 	private static void Main()
 	{
-		// The files to compile
+		// The files to compile.
 		string[] scriptFilesPaths =
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
 		};
 
-		// Hardcoded code to compile
-		Assembly compiledScript = Compiler.CompileCode(scriptFilesPaths);
+		// Compile the code.
+		Assembly compiledAssembly = Compiler.CompileCode(scriptFilesPaths);
 
 		// If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
-		if (compiledScript == null)
+		if (compiledAssembly == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
 			Console.ReadKey();
 			Environment.Exit(-1);
 		}
 
-		// Find all scripts that are present in the newly compiled assembly
-		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledScript);
+		// Find all scripts that are present in the newly compiled assembly.
+		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
 		ScriptObject scriptObject = new ScriptObject();
 		foreach (Type scriptType in scriptTypes)
 		{
 			scriptObject.AddScript(scriptType);
 		}
 
-		// Raise the start event
+		// Raise the start event.
 		StartEventClass.StartEventInstance.OnEvent();
 
-		// Wait for user input before closing
+		// Wait for user input before closing the application.
 		Console.ReadKey();
 	}
 }
