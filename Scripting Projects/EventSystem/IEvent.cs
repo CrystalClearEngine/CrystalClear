@@ -17,8 +17,8 @@ namespace CrystalClear.EventSystem
 		/// Subscribe(Delegate) but letting the implementor turn it into a delegate
 		/// </summary>
 		/// <param name="method">The MethodInfo to subscribe</param>
-		/// <param name="scriptInstance">The instance of the script containing the method</param>
-		void Subscribe(MethodInfo method, object scriptInstance);
+		/// <param name="instance">The instance of the script containing the method</param>
+		void Subscribe(MethodInfo method, object instance);
 
 		/// <summary>
 		/// Lets you unsubscribe delegates from the event

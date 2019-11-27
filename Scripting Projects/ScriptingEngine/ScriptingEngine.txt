@@ -1,2 +1,1 @@
-﻿The beating heart of the scripting side of things
-The ScriptingEngine not only complies scripts into script objects that you can use, it also hosts the EventSystem, the beating heart of actually getting stuff to happen in your scripts!
+﻿The ScriptingEngine manages compilation.

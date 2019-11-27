@@ -1,16 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CrystalClear.EventSystem
 {
-	[AttributeUsage(AttributeTargets.Method)]
-	public class SubscribeToAttribute : Attribute
+	public static class EventSystem
 	{
-		public IEvent Event; // The event *instance* to subscribe this method to
-
-		public SubscribeToAttribute(Type eventType)
+		/// <summary>
+		/// Subscribes all events in the script.
+		/// </summary>
+		public static void SubscribeAllEvents(Type classToSubscribe, object instance)
 		{
-			IEvent iEvent = (IEvent)Activator.CreateInstance(eventType);
-			Event = iEvent.EventInstance;
+			foreach (MethodInfo method in classToSubscribe.GetMethods())
+			{
+				foreach (Attribute attribute in method.GetCustomAttributes())
+				{
+					if (attribute is SubscribeToAttribute subscribeToAttribute)
+					{
+						subscribeToAttribute.Event.Subscribe(method, instance);
+					}
+				}
+			}
 		}
 	}
 }

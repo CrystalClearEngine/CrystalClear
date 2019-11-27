@@ -10,8 +10,8 @@ namespace CrystalClear.HierarchySystem
 	/// <summary>
 	/// Stores the type and instance of a HierarchyScript.
 	/// </summary>
-	public struct Script // TODO (maybe) Make this into a general runtime-generated code "container" class maybe? It already contains features such as the SubscribeAllEvents, althogh maybe that should be a part of the EventSystem instead?
-	{ // TODO (maybe) create project called scripting for this and similar (like IsScriptAttribute maybe)
+	public struct Script
+	{
 		/// <summary>
 		/// The current instance of this script.
 		/// </summary>
@@ -34,7 +34,7 @@ namespace CrystalClear.HierarchySystem
 
 			ScriptInstance = ScriptType.BaseType.GetMethod("CreateHierarchyScript").MakeGenericMethod(attatchedTo.GetType()).Invoke(null, new object[] {attatchedTo, scriptClass});
 
-			SubscribeAllEvents();
+			EventSystem.EventSystem.SubscribeAllEvents(ScriptType, ScriptInstance);
 		}
 
 		/// <summary>
@@ -90,23 +90,6 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			return returnObjects.ToArray();
-		}
-
-		/// <summary>
-		/// Subscribes all events in the script.
-		/// </summary>
-		public void SubscribeAllEvents()
-		{
-			foreach (MethodInfo method in ScriptType.GetMethods())
-			{
-				foreach (Attribute attribute in method.GetCustomAttributes())
-				{
-					if (attribute is SubscribeToAttribute subscribeToAttribute)
-					{
-						subscribeToAttribute.Event.Subscribe(method, ScriptInstance);
-					}
-				}
-			}
 		}
 
 		#region Exceptions
