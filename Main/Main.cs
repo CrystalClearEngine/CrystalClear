@@ -10,6 +10,7 @@ public static class MainClass
 {
 	private static void Main()
 	{
+		// The files to compile
 		string[] scriptFilesPaths =
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
