@@ -12,8 +12,6 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 	{
-		public int test1 = 123;
-
 		/// <summary>
 		/// The scripts that are currently attatched to this object.
 		/// </summary>

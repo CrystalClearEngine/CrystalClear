@@ -11,13 +11,5 @@ public class HelloWorldExample : HierarchyScript<ScriptObject>
 	public void OnStart()
 	{
 		Output.Log("Hello World");
-		Output.Log(HierarchyObject.test1.ToString());
-		Output.Log(HierarchyObject.test2.ToString());
-
-		HierarchyObject.test1 = 1;
-		HierarchyObject.test2 = 2;
-
-		Output.Log(HierarchyObject.test1.ToString());
-		Output.Log(HierarchyObject.test2.ToString());
 	}
 }
