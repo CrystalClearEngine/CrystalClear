@@ -16,7 +16,7 @@ public static class MainClass
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\Program.cs"
 		};
 
-		// Compile the code.
+		// Compile our code.
 		Assembly compiledAssembly = Compiler.CompileCode(scriptFilesPaths);
 
 		// If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
