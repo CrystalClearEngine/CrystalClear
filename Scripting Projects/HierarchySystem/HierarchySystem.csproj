@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HiddenAttribute.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="HierarchyRoot.cs" />
     <Compile Include="HierarchyScript.cs" />
     <Compile Include="HierarchySystem.cs" />
