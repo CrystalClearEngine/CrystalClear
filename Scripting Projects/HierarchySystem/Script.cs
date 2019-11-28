@@ -38,7 +38,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Finds all classes with the script attribute and that inherits from HierarchyObject or a derivative thereof and returns them.
+		/// Finds all types with the script attribute and returns them.
 		/// </summary>
 		/// <param name="assembly">The assembly to find the scripts in.</param>
 		/// <returns>The found scripts.</returns>
@@ -50,6 +50,21 @@ namespace CrystalClear.HierarchySystem
 								select exportedType).ToArray();
 			return scripts;
 		}
+
+		/// <summary>
+		/// Finds all types with the script attribute and returns them.
+		/// </summary>
+		/// <param name="types">The types to find the scripts in.</param>
+		/// <returns>The found scripts.</returns>
+		public static Type[] FindScriptTypesInTypes(Type[] types)
+		{
+			Type[] scripts = (from type in types
+							  from attribute in type.GetCustomAttributes()
+							  where attribute is IsScriptAttribute
+							  select type).ToArray();
+			return scripts;
+		}
+
 
 		/// <summary>
 		/// Calls a method in the script by method name.

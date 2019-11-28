@@ -27,6 +27,20 @@ namespace CrystalClear.EventSystem
 		}
 
 		/// <summary>
+		/// Subscribes all events in the method.
+		/// </summary>
+		public static void SubscribeMethod(MethodInfo method, object instance)
+		{
+			foreach (Attribute attribute in method.GetCustomAttributes())
+			{
+				if (attribute is SubscribeToAttribute subscribeToAttribute)
+				{ // TODO prevent duplicate entries
+					subscribeToAttribute.Event.Subscribe(method, instance);
+				}
+			}
+		}
+
+		/// <summary>
 		/// Same as SubscribeEvents, but in bulk. Make sure that the array lenghts of classesToSubscribe and instances match.
 		/// </summary>
 		public static void SubscribeEvents(Type[] classesToSubscribe, object[] instances)

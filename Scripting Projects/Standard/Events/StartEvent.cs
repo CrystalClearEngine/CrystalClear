@@ -13,7 +13,7 @@ namespace CrystalClear.Standard.Events
 
 	public class StartEventClass : IEvent
 	{
-		static StartEventClass() // The static constructor for this class, makes sure that there is an instance of the starteventinstance just waiting to be used!
+		static StartEventClass() // The static constructor for this class, makes sure that there is an instance just waiting to be used!
 		{
 			StartEventInstance = new StartEventClass();
 		}
