@@ -5,7 +5,7 @@ namespace CrystalClear.EventSystem
 	[AttributeUsage(AttributeTargets.Method)]
 	public class SubscribeToAttribute : Attribute
 	{
-		public IEvent Event; // The event *instance* to subscribe this method to
+		public IEvent Event; // The event *instance* to subscribe this method to.
 
 		public SubscribeToAttribute(Type eventType)
 		{

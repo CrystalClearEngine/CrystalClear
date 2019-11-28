@@ -75,24 +75,21 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="methodName">The name of the method.</param>
 		/// <param name="parameters">The paramaters for the call.</param>
-		/// <returns>The return value (if any).</returns>
-		public object DynamicallyCallMethod(string methodName, object[] parameters = null)
+		/// <returns>The return of the invoke (if any).</returns>
+		public object DynamicallyCallMethod(string methodName, object[] parameters = null, Type[] parameterTypes = null)
 		{
-			foreach (MethodInfo method in ScriptType.GetMethods())
+			if (parameterTypes != null)
 			{
-				if (method.Name == methodName)
-				{
-					return method.Invoke(ScriptInstance, parameters);
-				}
+				return ScriptType.GetMethod(methodName, parameterTypes).Invoke(ScriptInstance, parameters);
 			}
 
-			throw new MethodNotFoundException();
+			return ScriptType.GetMethod(methodName).Invoke(ScriptInstance, parameters);
 		}
 
 		/// <summary>
 		/// Calls methods in the script by method name.
 		/// </summary>
-		/// <returns>The return values.</returns>
+		/// <returns>The returns of the invokes.</returns>
 		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
 		{
 			if (methodNames.Length == parametersList.Length)
