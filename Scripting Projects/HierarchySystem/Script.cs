@@ -93,8 +93,13 @@ namespace CrystalClear.HierarchySystem
 		/// Calls methods in the script by method name.
 		/// </summary>
 		/// <returns>The return values.</returns>
-		public object[] DynamicallyCallMethods(string[] methodNames, List<object[]> parametersList = null)
+		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
 		{
+			if (methodNames.Length == parametersList.Length)
+			{
+				throw new Exception("Incorrect array sizes - array lengths of classesToSubscribe and instances dont match");
+			}
+
 			List<object> returnObjects = new List<object>();
 			MethodInfo[] methods = ScriptType.GetMethods();
 			for (int i = 0; i < methodNames.Length; i++)
@@ -103,7 +108,7 @@ namespace CrystalClear.HierarchySystem
 				{
 					if (method.Name == methodNames[i])
 					{
-						returnObjects.Add(method.Invoke(ScriptInstance, parametersList?[i]));
+						returnObjects.Add(method.Invoke(ScriptInstance, parametersList[i]));
 					}
 				}
 			}

@@ -47,7 +47,7 @@ namespace CrystalClear.EventSystem
 		{
 			if (classesToSubscribe.Length != instances.Length)
 			{
-				throw new Exception("Incorrect array sizes - array lenghts of classesToSubscribe and instances dont match");
+				throw new Exception("Incorrect array sizes - array lengths of classesToSubscribe and instances dont match");
 			}
 
 			for (int i = 0; i < classesToSubscribe.Length; i++)
