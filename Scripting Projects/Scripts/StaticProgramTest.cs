@@ -1,8 +1,5 @@
-﻿using CrystalClear.ScriptingEngine;
-using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
-using CrystalClear.Standard.HierarchyObjects;
-using CrystalClear.HierarchySystem;
 
 public static class StaticProgramTest
 {
