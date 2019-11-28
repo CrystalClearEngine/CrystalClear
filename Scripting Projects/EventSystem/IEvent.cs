@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
-	public interface IEvent // This interface lets event implementors be creative and unrestricted when creating their own events, while letting the users of the events easily subscribe, unsubscribe, raise or otherwise modify the event in a safe way
+	public interface IEvent
 	{
 		IEvent EventInstance { get; }
 

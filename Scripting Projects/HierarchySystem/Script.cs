@@ -44,7 +44,7 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The found scripts.</returns>
 		public static Type[] FindScriptTypesInAssembly(Assembly assembly)
 		{
-			Type[] scripts = (from exportedType in assembly.GetExportedTypes()
+			Type[] scripts = (from exportedType in assembly.GetTypes()
 								from attribute in exportedType.GetCustomAttributes()
 								where attribute is IsScriptAttribute
 								select exportedType).ToArray();

@@ -28,27 +28,19 @@ public static class MainClass
 			return; // Exit.
 		}
 
+		// Cache the results.
+		Type[] typesInCode = compiledAssembly.GetTypes();
+
+		EventSystem.FindAndSubscribeEventMethods(typesInCode);
+
 		// Find all scripts that are present in the newly compiled assembly.
-		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
+		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
 		// Create a ScriptObject to experiment on. Muahaha!
 		ScriptObject scriptObject = new ScriptObject();
 		// Add the scripts to scriptObject.
 		foreach (Type scriptType in scriptTypes)
 		{
 			scriptObject.AddScript(scriptType);
-		}
-
-		// Iterate through all types in the assembly. No privacy for private members here.
-		foreach (Type type in compiledAssembly.GetTypes())
-		{
-			// Iterate through all methods in the type.
-			foreach (MethodInfo method in type.GetMethods())
-			{
-				// Is the method static?
-				if (method.IsStatic)
-					// Let the event system handle the rest.
-					EventSystem.SubscribeMethod(method, null);
-			}
 		}
 
 		// Raise the start event.
