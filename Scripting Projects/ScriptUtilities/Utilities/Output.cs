@@ -4,6 +4,14 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class Output
 	{
+		public static void Log(object[] objs)
+		{
+			foreach (object obj in objs)
+			{
+				Console.WriteLine(obj);
+			}
+		}
+
 		public static void Log(object obj)
 		{
 			Console.WriteLine(obj);
