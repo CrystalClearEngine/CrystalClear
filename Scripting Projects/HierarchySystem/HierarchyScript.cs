@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CrystalClear.HierarchySystem;
 
-namespace CrystalClear.HierarchySystem
+namespace CrystalClear.HierarchySystem.Scripting
 {
 	/// <summary>
 	/// The type that all HierarchyScripts derive from. This is like a scripting "interface" for scripts to act through.

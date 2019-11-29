@@ -12,7 +12,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 	}
 
 	/// <summary>
-	/// Location And Rotation In Space
+	/// Location And Rotation In Space.
 	/// </summary>
 	public struct LARIS
 	{
