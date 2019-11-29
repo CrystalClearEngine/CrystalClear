@@ -15,15 +15,32 @@ namespace CrystalClear.HierarchySystem
 	{
 		public T HierarchyObject;
 
-		public static HierarchyScript<Type> CreateHierarchyScript<Type>(Type attatchedTo, System.Type scriptClass)
+		public static HierarchyScript<Type> CreateHierarchyScript<Type>(Type attatchedTo, System.Type scriptType)
 		{
 			HierarchyScript<Type> hierarchyScript;
 
-			hierarchyScript = (HierarchyScript<Type>)Activator.CreateInstance(scriptClass);
+			hierarchyScript = (HierarchyScript<Type>)Activator.CreateInstance(scriptType);
 
 			hierarchyScript.HierarchyObject = attatchedTo;
 
 			return hierarchyScript;
+		}
+	}
+
+	internal static class HierarchyScript
+	{
+		public static object CreateHierarchyScript(HierarchyObject attatchedTo, Type scriptType)
+		{
+			object instance; // Initialize object to store.
+
+			instance = scriptType // Set instance.
+				.BaseType // The type which scriptType directly inherits from.
+				.GetMethod("CreateHierarchyScript") // Get the method called CreateHierarchyScript.
+				.MakeGenericMethod( // It is a generic method so treat it as such.
+				attatchedTo.GetType()) // Use the type from attatchedTo.
+				.Invoke(null, new object[] { attatchedTo, scriptType }); // Invoke the CreateHierarchyScript method and use the return.
+
+			return instance; // Return stored object
 		}
 	}
 }

@@ -13,6 +13,11 @@ namespace CrystalClear.HierarchySystem
 	public abstract class HierarchyObject
 	{
 		/// <summary>
+		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
+		/// </summary>
+		public abstract void OnCreate();
+
+		/// <summary>
 		/// The scripts that are currently attatched to this object.
 		/// </summary>
 		public List<Script> Scripts = new List<Script>();
@@ -210,6 +215,8 @@ namespace CrystalClear.HierarchySystem
 			{
 				this.parent = parent;
 			}
+
+			OnCreate();
 		}
 
 		/// <summary>
