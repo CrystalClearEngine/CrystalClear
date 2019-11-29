@@ -17,7 +17,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		public virtual void OnCreate()
 		{
-			// Do some initialization maybe? It´s up to you...
+			// Do some initialization maybe? It´s all up to you...
 		}
 
 		/// <summary>

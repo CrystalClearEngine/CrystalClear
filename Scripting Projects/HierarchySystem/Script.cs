@@ -87,25 +87,24 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The returns of the invokes.</returns>
 		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
 		{
-			if (methodNames.Length == parametersList.Length)
+			if (methodNames.Length == parametersList.Length) // Bulk check.
 			{
 				throw new Exception("Incorrect array sizes - array lengths of classesToSubscribe and instances dont match");
 			}
 
-			List<object> returnObjects = new List<object>();
-			MethodInfo[] methods = ScriptType.GetMethods();
-			for (int i = 0; i < methodNames.Length; i++)
+			List<object> returnObjects = new List<object>(); // Initialize returnObjects.
+
+			for (int i = 0; i < methodNames.Length; i++) // Iterate through all names in methodNames.
 			{
-				foreach (MethodInfo method in methods)
-				{
-					if (method.Name == methodNames[i])
-					{
-						returnObjects.Add(method.Invoke(ScriptInstance, parametersList[i]));
-					}
-				}
+				string methodName = methodNames[i]; // Set the help string methodName to methodNames at i index.
+				object[] parameters = parametersList[i]; // Set the help object parameters to parameterList at i index.
+
+				returnObjects.Add( // Add return to returnObjects.
+					ScriptType.GetMethod(methodName) // Get the method named methodName.
+					.Invoke(ScriptInstance, parameters)); // Invoke the method.
 			}
 
-			return returnObjects.ToArray();
+			return returnObjects.ToArray(); // Return returnObjects.
 		}
 
 		#region Exceptions
