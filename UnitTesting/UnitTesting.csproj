@@ -55,7 +55,7 @@
     <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Properties\packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="UnitTesting.txt" />
