@@ -2,7 +2,7 @@
 using CrystalClear.Standard.Events;
 using System;
 using System.Reflection;
-using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.Standard.HierarchyObjects;
 using CrystalClear.EventSystem;
 
