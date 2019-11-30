@@ -2,7 +2,7 @@
 using CrystalClear.Standard.Events;
 using System;
 using System.Reflection;
-using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.Standard.HierarchyObjects;
 using CrystalClear.EventSystem;
 
@@ -20,7 +20,7 @@ public static class MainClass
 		// Compile our code.
 		Assembly compiledAssembly = Compiler.CompileCode(scriptFilesPaths);
 
-		// If the compiled assembly is null, something went wrong during compilation (there was probably en error in the code).
+		// If the compiled assembly is null something went wrong during compilation (there was probably en error in the code).
 		if (compiledAssembly == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)"); // Explain to user.
