@@ -8,6 +8,7 @@ using CrystalClear.ScriptUtilities;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -24,11 +25,10 @@ namespace CrystalClear.HierarchySystem
 		{
 			FileStream fs = new FileStream(path, FileMode.Create);
 
-			// Construct a BinaryFormatter and use it to serialize the data to the stream.
-			BinaryFormatter formatter = new BinaryFormatter();
+			XmlSerializer serializer = new XmlSerializer(typeof(HierarchyObject));
 			try
 			{
-				formatter.Serialize(fs, this);
+				serializer.Serialize(fs, this);
 			}
 			catch (SerializationException e)
 			{
@@ -49,11 +49,11 @@ namespace CrystalClear.HierarchySystem
 			FileStream fs = new FileStream(path, FileMode.Open);
 			try
 			{
-				BinaryFormatter formatter = new BinaryFormatter();
+				XmlSerializer serializer = new XmlSerializer(typeof(HierarchyObject));
 
 				// Deserialize the HierarchyObject from the file and 
 				// assign the reference to the local variable.
-				hierarchyObject = (HierarchyObject)formatter.Deserialize(fs);
+				hierarchyObject = (HierarchyObject)serializer.Deserialize(fs);
 			}
 			catch (SerializationException e)
 			{

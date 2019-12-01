@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CrystalClear.HierarchySystem;
 using CrystalClear.Standard.HierarchyObjects;
+using System.IO;
 
 namespace UnitTests
 {
@@ -25,14 +26,18 @@ namespace UnitTests
 		[TestMethod]
 		public void SerializeAndDeserializeHierarchyObject()
 		{
+			string path = @"E:\dev\CrystalClear\";
+			File.Delete(path);
+
 			ScriptObject scriptObject = new ScriptObject();
 			ScriptObject childScriptObject = new ScriptObject();
 			string childName = "childScriptObject";
 			scriptObject.AddChild(childName, childScriptObject);
 
-			scriptObject.Serialize(@"E:\dev\CrystalClear\");
+			scriptObject.Serialize(path);
 
-			Assert.AreEqual(scriptObject, HierarchyObject.Deserialize(@"E:\dev\CrystalClear\"));
+			Assert.AreEqual(scriptObject, HierarchyObject.Deserialize(path));
+			File.Delete(path);
 		}
 	}
 }
