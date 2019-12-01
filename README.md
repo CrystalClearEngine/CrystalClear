@@ -7,17 +7,26 @@ One of the main focuses of the engine is to make the development process as easy
 **to be implemented.*
 
 # The engine
+
 *World*
+
 The world in Crystal Clear is built up of HierarchyObjects. These magnificent beings live in Hierarchies, massive trees which can be quickly traversed, and that can be loaded and unloaded at will.
 
+
 *Scripting*
+
 The brains of your game or software is scripts. HierarchyScripts are attatchable to HierarchyObjects, although all scripting does not have to be done in them. Static methods can be subscribed to events, and can work just as well.
 
+
 *Customizability*
+
 Not only can you create your own scripts, nearly all facets of the engine are expandable. You can create custom HierarchyObject types, in fact, the default HierarchyObject types are all manually implememtable. Custom events can be defined and used as well. And creating custom is really easy.
 
+
 *Platform support*
+
 Currently *no* platforms are supported, since exporting has not been implemented yet. The editor is supported on windows, but nowhere else at the moment. This will likely change, especially as cross-platform options are explored. One likely direction for the engine is to use Mono, which will massively increase the platform support.
+
 
 # Try it out
 Since the engine is not even nearly complete at this point, there is no version of the engine available to download. Sorry about that :/
