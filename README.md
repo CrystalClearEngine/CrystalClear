@@ -20,7 +20,7 @@ The brains of your game or software is scripts. HierarchyScripts are attatchable
 
 *Customizability*
 
-Not only can you create your own scripts, nearly all facets of the engine are expandable. You can create custom HierarchyObject types, in fact, the default HierarchyObject types are all manually implememtable. Custom events can be defined and used as well. And creating custom is really easy.
+Not only can you create your own scripts, nearly all facets of the engine are expandable. You can create custom HierarchyObject types, in fact, the default HierarchyObject types are all manually implememtable (anything in 'CrystalClear.Standard' you can create yourself!). Custom events can be defined and used as well. And creating custom is really easy.
 
 
 *Platform support*
