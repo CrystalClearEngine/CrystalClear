@@ -5,6 +5,9 @@ using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.HierarchySystem;
 using CrystalClear.ScriptingEngine;
 using CrystalClear.ScriptUtilities;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -13,6 +16,58 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 	{
+		/// <summary>
+		/// Serialize and write this HierarchyObject to the specified path.
+		/// </summary>
+		/// <param name="path">The path to write the serialized HierarchyObject to.</param>
+		public void Serialize(string path)
+		{
+			FileStream fs = new FileStream(path, FileMode.Create);
+
+			// Construct a BinaryFormatter and use it to serialize the data to the stream.
+			BinaryFormatter formatter = new BinaryFormatter();
+			try
+			{
+				formatter.Serialize(fs, this);
+			}
+			catch (SerializationException e)
+			{
+				Console.WriteLine("Failed to serialize HierarchyObject. Reason: " + e.Message);
+				throw;
+			}
+			finally
+			{
+				fs.Close();
+			}
+		}
+
+		public static HierarchyObject Deserialize(string path)
+		{
+			HierarchyObject hierarchyObject = null;
+
+			// Open the file containing the data that you want to deserialize.
+			FileStream fs = new FileStream(path, FileMode.Open);
+			try
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+
+				// Deserialize the HierarchyObject from the file and 
+				// assign the reference to the local variable.
+				hierarchyObject = (HierarchyObject)formatter.Deserialize(fs);
+			}
+			catch (SerializationException e)
+			{
+				Console.WriteLine("Failed to deserialize HierarchyObject. Reason: " + e.Message);
+				throw;
+			}
+			finally
+			{
+				fs.Close();
+			}
+
+			return hierarchyObject;
+		}
+
 		/// <summary>
 		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
 		/// </summary>
@@ -25,6 +80,7 @@ namespace CrystalClear.HierarchySystem
 		/// The scripts that are currently attatched to this object.
 		/// </summary>
 		public List<Script> Scripts = new List<Script>();
+
 		public void AddScript(Type scriptType) => AddScript(new Script(this, scriptType));
 		public void AddScript(Script script)
 		{

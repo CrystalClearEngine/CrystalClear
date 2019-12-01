@@ -21,5 +21,18 @@ namespace UnitTests
 			Assert.AreEqual(childName, scriptObject.GetChildName(childScriptObject));
 			Assert.AreEqual(childName, childScriptObject.Name);
 		}
+
+		[TestMethod]
+		public void SerializeAndDeserializeHierarchyObject()
+		{
+			ScriptObject scriptObject = new ScriptObject();
+			ScriptObject childScriptObject = new ScriptObject();
+			string childName = "childScriptObject";
+			scriptObject.AddChild(childName, childScriptObject);
+
+			scriptObject.Serialize(@"E:\dev\CrystalClear\");
+
+			Assert.AreEqual(scriptObject, HierarchyObject.Deserialize(@"E:\dev\CrystalClear\"));
+		}
 	}
 }
