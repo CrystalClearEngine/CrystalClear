@@ -22,8 +22,17 @@ namespace CrystalClear.HierarchySystem.Scripting
 		public T HierarchyObject;
 	}
 
+	/// <summary>
+	/// Static methods for dealing with HierarchyScripts.
+	/// </summary>
 	internal static class HierarchyScript
 	{
+		/// <summary>
+		/// Create an instance of a script deriving from HierarchyScript.
+		/// </summary>
+		/// <param name="attatchedTo">The HierarchyObject that this script is attatched to.</param>
+		/// <param name="scriptType">The type of the script.</param>
+		/// <returns>An instance of the script.</returns>
 		public static object CreateHierarchyScript(object attatchedTo, Type scriptType)
 		{
 			object instance; // Initialize object to store.

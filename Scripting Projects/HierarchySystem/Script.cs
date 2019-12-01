@@ -29,11 +29,14 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="scriptType">The script´s type.</param>
 		public Script(HierarchyObject attatchedTo, Type scriptType) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
-			ScriptType = scriptType; // Assign ScriptType.
+			// Assign ScriptType.
+			ScriptType = scriptType;
 
+			// Assign ScriptInstance to the return of HierarchyScript.CreateHierarchyScript, which will be an instance of the script.
 			ScriptInstance = HierarchyScript.CreateHierarchyScript(attatchedTo, scriptType);
 
-			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance); // Subscribe the events.
+			// Subscribe the events.
+			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
 		/// <summary>
@@ -43,11 +46,12 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <returns>The found scripts.</returns>
 		public static Type[] FindScriptTypesInAssembly(Assembly assembly)
 		{
+			// Find and store the found script types.
 			Type[] scripts = (from exportedType in assembly.GetTypes()
 								from attribute in exportedType.GetCustomAttributes()
 								where attribute is IsScriptAttribute
 								select exportedType).ToArray();
-			return scripts;
+			return scripts; // Return scripts.
 		}
 
 		/// <summary>
@@ -57,11 +61,12 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <returns>The found scripts.</returns>
 		public static Type[] FindScriptTypesInTypes(Type[] types)
 		{
+			// Find and store the found script types.
 			Type[] scripts = (from type in types
 							  from attribute in type.GetCustomAttributes()
 							  where attribute is IsScriptAttribute
 							  select type).ToArray();
-			return scripts;
+			return scripts; // Return scripts.
 		}
 
 
@@ -70,41 +75,54 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// </summary>
 		/// <param name="methodName">The name of the method.</param>
 		/// <param name="parameters">The paramaters for the call.</param>
-		/// <returns>The return of the invoke (if any).</returns>
+		/// <returns>The return of the call (if any).</returns>
 		public object DynamicallyCallMethod(string methodName, object[] parameters = null, Type[] parameterTypes = null)
 		{
-			if (parameterTypes != null)
-			{
+			// Are the parameterTypes not null?
+			if (parameterTypes != null) // TODO: detect these types from the parameters
+			{ // That means we can use them to aid in our search.
+
+				// Return the result of the invoke.
 				return ScriptType.GetMethod(methodName, parameterTypes).Invoke(ScriptInstance, parameters);
 			}
 
+			// Return the result of the invoke.
 			return ScriptType.GetMethod(methodName).Invoke(ScriptInstance, parameters);
 		}
 
 		/// <summary>
 		/// Calls methods in the script by method name.
 		/// </summary>
-		/// <returns>The returns of the invokes.</returns>
+		/// <returns>The returns of the calls.</returns>
 		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
 		{
-			if (methodNames.Length == parametersList.Length) // Bulk check.
-			{
-				throw new Exception("Incorrect array sizes - array lengths of classesToSubscribe and instances dont match");
+			// Bulk check.
+			if (methodNames.Length == parametersList.Length)
+			{ // Uh oh. We have recieved differently sized arrays...
+				throw new Exception("Unequal array sizes - array lengths of classesToSubscribe and instances dont match");
 			}
 
-			List<object> returnObjects = new List<object>(); // Initialize returnObjects.
+			// Initialize returnObjects.
+			List<object> returnObjects = new List<object>();
 
-			for (int i = 0; i < methodNames.Length; i++) // Iterate through all names in methodNames.
+			// Iterate through all names in methodNames.
+			for (int i = 0; i < methodNames.Length; i++)
 			{
-				string methodName = methodNames[i]; // Set the help string methodName to methodNames at i index.
-				object[] parameters = parametersList[i]; // Set the help object parameters to parameterList at i index.
+				// Set the help string methodName to methodNames at i index.
+				string methodName = methodNames[i];
+				// Set the help object parameters to parameterList at i index.
+				object[] parameters = parametersList[i];
 
-				returnObjects.Add( // Add return to returnObjects.
-					ScriptType.GetMethod(methodName) // Get the method named methodName.
-					.Invoke(ScriptInstance, parameters)); // Invoke the method.
+				// Add return to returnObjects.
+				returnObjects.Add(
+					// Get the method named methodName.
+					ScriptType.GetMethod(methodName)
+					// Invoke the method.
+					.Invoke(ScriptInstance, parameters));
 			}
 
-			return returnObjects.ToArray(); // Return returnObjects.
+			// Return returnObjects as an array.
+			return returnObjects.ToArray();
 		}
 
 		#region Exceptions

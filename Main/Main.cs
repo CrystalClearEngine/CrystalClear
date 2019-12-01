@@ -31,6 +31,7 @@ public static class MainClass
 		// Cache the results.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
+		// Find and subscribe event methods in our types.
 		EventSystem.FindAndSubscribeEventMethods(typesInCode);
 
 		// Find all scripts that are present in the newly compiled assembly.

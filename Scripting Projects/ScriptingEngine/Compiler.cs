@@ -5,8 +5,16 @@ using System.Reflection;
 
 namespace CrystalClear.ScriptingEngine
 {
+	/// <summary>
+	/// Static class for compiler features.
+	/// </summary>
 	public static class Compiler
 	{
+		/// <summary>
+		/// Compiles C# code files to an assembly. Will in the future likely also support other .net languages!
+		/// </summary>
+		/// <param name="fileNames">The files to compile.</param>
+		/// <returns>The compiled assembly.</returns>
 		public static Assembly CompileCode(string[] fileNames)
 		{
 			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
