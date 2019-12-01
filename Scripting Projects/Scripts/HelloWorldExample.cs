@@ -9,6 +9,6 @@ public class HelloWorldExample : HierarchyScript<ScriptObject>
 	[OnStartEvent]
 	public void OnStart()
 	{
-		Output.Log("Hello World");
+		Output.Log(HierarchyObject.HelloWorldText);
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CrystalClear.HierarchySystem;
+using System.Reflection;
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
@@ -13,34 +14,25 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// <typeparam name="T">The type of HierarhcyObjects that this HierarchyScript will be targeting.</typeparam>
 	public abstract class HierarchyScript<T>
 	{
-		public T HierarchyObject;
-
-		public static HierarchyScript<Type> CreateHierarchyScript<Type>(Type attatchedTo, System.Type scriptType)
+		public void SetUp(T hierarchyObject)
 		{
-			HierarchyScript<Type> hierarchyScript;
-
-			hierarchyScript = (HierarchyScript<Type>)Activator.CreateInstance(scriptType);
-
-			hierarchyScript.HierarchyObject = attatchedTo;
-
-			return hierarchyScript;
+			HierarchyObject = hierarchyObject;
 		}
+
+		public T HierarchyObject;
 	}
 
 	internal static class HierarchyScript
 	{
-		public static object CreateHierarchyScript(HierarchyObject attatchedTo, Type scriptType)
+		public static object CreateHierarchyScript(object attatchedTo, Type scriptType)
 		{
 			object instance; // Initialize object to store.
 
-			instance = scriptType // Set instance.
-				.BaseType // The type which scriptType directly inherits from.
-				.GetMethod("CreateHierarchyScript") // Get the method called CreateHierarchyScript.
-				.MakeGenericMethod( // It is a generic method so treat it as such.
-				attatchedTo.GetType()) // Use the type from attatchedTo.
-				.Invoke(null, new object[] { attatchedTo, scriptType }); // Invoke the CreateHierarchyScript method and use the return.
+			instance = Activator.CreateInstance(scriptType); // Create an instance.
 
-			return instance; // Return stored object
+			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo }); // Invoke SetUp to set the HierarchyObject.
+
+			return instance; // Return stored object.
 		}
 	}
 }
