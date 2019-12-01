@@ -41,6 +41,11 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
+		/// <summary>
+		/// Deserializes a HierarchyObject.
+		/// </summary>
+		/// <param name="path">The path to find the serialized HierarchyObject on.</param>
+		/// <returns>The deserialized HierarchyObject.</returns>
 		public static HierarchyObject Deserialize(string path)
 		{
 			HierarchyObject hierarchyObject = null;
