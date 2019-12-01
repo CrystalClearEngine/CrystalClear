@@ -2,7 +2,7 @@
 The Crystal Clear Engine is a highly WIP game and software engine, so far written entierly in C#.
 
 # Goals
-One of the main focuses of the engine is to make the development process as easy and elegant as possible. This means minimal boilerplate code, many utility methods, rapid prototyping and powerful debugging tools*. The engine's code is also heavily documented and is openly available to peek at, or of course contribute to!
+One of the main focuses of the engine is to make the development process as easy and elegant as possible. This means minimal boilerplate code, many utility methods, rapid prototyping and powerful debugging tools*. The engine's code is also heavily documented and openly available to peek at, or of course contribute to!
 
 **to be implemented.*
 
