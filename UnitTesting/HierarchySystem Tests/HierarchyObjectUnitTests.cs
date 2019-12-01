@@ -22,22 +22,5 @@ namespace UnitTests
 			Assert.AreEqual(childName, scriptObject.GetChildName(childScriptObject));
 			Assert.AreEqual(childName, childScriptObject.Name);
 		}
-
-		[TestMethod]
-		public void SerializeAndDeserializeHierarchyObject()
-		{
-			string path = @"E:\dev\CrystalClear\";
-			File.Delete(path);
-
-			ScriptObject scriptObject = new ScriptObject();
-			ScriptObject childScriptObject = new ScriptObject();
-			string childName = "childScriptObject";
-			scriptObject.AddChild(childName, childScriptObject);
-
-			scriptObject.Serialize(path);
-
-			Assert.AreEqual(scriptObject, HierarchyObject.Deserialize(path));
-			File.Delete(path);
-		}
 	}
 }

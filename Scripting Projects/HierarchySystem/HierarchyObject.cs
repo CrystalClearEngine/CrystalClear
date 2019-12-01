@@ -18,62 +18,6 @@ namespace CrystalClear.HierarchySystem
 	public abstract class HierarchyObject
 	{
 		/// <summary>
-		/// Serialize and write this HierarchyObject to the specified path.
-		/// </summary>
-		/// <param name="path">The path to write the serialized HierarchyObject to.</param>
-		public void Serialize(string path)
-		{
-			FileStream fs = new FileStream(path, FileMode.Create);
-
-			XmlSerializer serializer = new XmlSerializer(typeof(HierarchyObject));
-			try
-			{
-				serializer.Serialize(fs, this);
-			}
-			catch (SerializationException e)
-			{
-				Console.WriteLine("Failed to serialize HierarchyObject. Reason: " + e.Message);
-				throw;
-			}
-			finally
-			{
-				fs.Close();
-			}
-		}
-
-		/// <summary>
-		/// Deserializes a HierarchyObject.
-		/// </summary>
-		/// <param name="path">The path to find the serialized HierarchyObject on.</param>
-		/// <returns>The deserialized HierarchyObject.</returns>
-		public static HierarchyObject Deserialize(string path)
-		{
-			HierarchyObject hierarchyObject = null;
-
-			// Open the file containing the data that you want to deserialize.
-			FileStream fs = new FileStream(path, FileMode.Open);
-			try
-			{
-				XmlSerializer serializer = new XmlSerializer(typeof(HierarchyObject));
-
-				// Deserialize the HierarchyObject from the file and 
-				// assign the reference to the local variable.
-				hierarchyObject = (HierarchyObject)serializer.Deserialize(fs);
-			}
-			catch (SerializationException e)
-			{
-				Console.WriteLine("Failed to deserialize HierarchyObject. Reason: " + e.Message);
-				throw;
-			}
-			finally
-			{
-				fs.Close();
-			}
-
-			return hierarchyObject;
-		}
-
-		/// <summary>
 		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
 		/// </summary>
 		public virtual void OnCreate()
