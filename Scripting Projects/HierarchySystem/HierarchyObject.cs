@@ -81,7 +81,15 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		public List<Script> Scripts = new List<Script>();
 
+		/// <summary>
+		/// Adds a script based on the specified type to this HierarchyObject.
+		/// </summary>
+		/// <param name="scriptType">The type of the script we are going to add.</param>
 		public void AddScript(Type scriptType) => AddScript(new Script(this, scriptType));
+		/// <summary>
+		/// Adds a script to this HierarchyObject.
+		/// </summary>
+		/// <param name="script">The script to add.</param>
 		public void AddScript(Script script)
 		{
 			Scripts.Add(script);
