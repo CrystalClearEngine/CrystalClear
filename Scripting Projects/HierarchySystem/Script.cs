@@ -59,7 +59,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// </summary>
 		/// <param name="types">The types to find the scripts in.</param>
 		/// <returns>The found scripts.</returns>
-		public static Type[] FindScriptTypesInTypes(Type[] types)
+		public static Type[] FindScriptTypesInTypes(params Type[] types)
 		{
 			// Find and store the found script types.
 			Type[] scripts = (from type in types
@@ -76,14 +76,21 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="methodName">The name of the method.</param>
 		/// <param name="parameters">The paramaters for the call.</param>
 		/// <returns>The return of the call (if any).</returns>
-		public object DynamicallyCallMethod(string methodName, object[] parameters = null, Type[] parameterTypes = null)
+		public object DynamicallyCallMethod(string methodName, params object[] parameters)
 		{
+			List<Type> parameterTypes = new List<Type>();
+
+			foreach (object parameter in parameters)
+			{
+				parameterTypes.Add(parameter.GetType());
+			}
+
 			// Are the parameterTypes not null?
 			if (parameterTypes != null) // TODO: detect these types from the parameters
 			{ // That means we can use them to aid in our search.
 
 				// Return the result of the invoke.
-				return ScriptType.GetMethod(methodName, parameterTypes).Invoke(ScriptInstance, parameters);
+				return ScriptType.GetMethod(methodName, parameterTypes.ToArray()).Invoke(ScriptInstance, parameters);
 			}
 
 			// Return the result of the invoke.
