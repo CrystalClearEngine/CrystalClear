@@ -85,8 +85,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 				parameterTypes.Add(parameter.GetType());
 			}
 
-			// Are the parameterTypes not null?
-			if (parameterTypes != null) // TODO: detect these types from the parameters
+			// Are the parameterTypes not empty?
+			if (parameterTypes.Count > 0)
 			{ // That means we can use them to aid in our search.
 
 				// Return the result of the invoke.
