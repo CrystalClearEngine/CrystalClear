@@ -34,7 +34,7 @@ namespace CrystalClear.EventSystem
 			foreach (Attribute attribute in method.GetCustomAttributes())
 			{
 				if (attribute is SubscribeToAttribute subscribeToAttribute)
-				{ // TODO prevent duplicate entries
+				{
 					subscribeToAttribute.ScriptEvent.Subscribe(method, instance);
 				}
 			}

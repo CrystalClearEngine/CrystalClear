@@ -10,7 +10,10 @@ namespace CrystalClear.EventSystem
 
 		public SubscribeToAttribute(Type eventType)
 		{
-			ScriptEvent = (ScriptEvent)eventType.GetProperty("Instance").GetValue(null); // TODO: replace this reflection with proper code. if possible...
+			ScriptEvent = 
+				(ScriptEvent)eventType
+				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+				.GetValue(null); // TODO: replace this reflection with "proper" code. if possible...
 		}
 	}
 }

@@ -8,14 +8,22 @@ namespace CrystalClear.EventSystem
 {
 	public delegate void EventDelegateType();
 
-	public abstract class Singleton<T> where T : class, new() // TODO: split into 2 classes, one is Singleton<T> and the other is ScriptEvent : Singleton<ScriptEvent>
+	public abstract class Singleton<T> where T : class, new()
 	{
+		static Singleton()
+		{
+		}
+
+		protected Singleton()
+		{
+		}
+
 		private static T _instance;
 
 		public static T Instance => _instance ?? (_instance = new T());
 	}
 
-	public class ScriptEvent : Singleton<ScriptEvent> // TODO: split into 2 classes, one is Singleton<T> and the other is ScriptEvent : Singleton<ScriptEvent>
+	public class ScriptEvent : Singleton<ScriptEvent>
 	{
 		public virtual void RaiseEvent(params object[] raiseParameters)
 		{
