@@ -35,13 +35,17 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <returns>An instance of the script.</returns>
 		public static object CreateHierarchyScript(object attatchedTo, Type scriptType)
 		{
-			object instance; // Initialize object to store.
+			// Initialize object to store.
+			object instance;
 
-			instance = Activator.CreateInstance(scriptType); // Create an instance.
+			// Create an instance.
+			instance = Activator.CreateInstance(scriptType);
 
-			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo }); // Invoke SetUp to set the HierarchyObject.
+			// Invoke SetUp to set the HierarchyObject.
+			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo });
 
-			return instance; // Return stored object.
+			// Return stored object.
+			return instance;
 		}
 	}
 }
