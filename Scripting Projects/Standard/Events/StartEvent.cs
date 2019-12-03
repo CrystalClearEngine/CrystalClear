@@ -1,5 +1,6 @@
 ﻿using CrystalClear.EventSystem;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace CrystalClear.Standard.Events
@@ -11,60 +12,31 @@ namespace CrystalClear.Standard.Events
 		}
 	}
 
-	public class StartEventClass : IEvent
+	public class StartEventClass : ScriptEvent
 	{
-		static StartEventClass() // The static constructor for this class, makes sure that there is an instance just waiting to be used!
+		public event EventDelegateType Event;
+
+		public override Delegate[] GetSubscribers()
 		{
-			StartEventInstance = new StartEventClass();
+			return Event.GetInvocationList();
 		}
 
-		/// <summary>
-		/// Do not create instances of this method unless absolutely neccessary.
-		/// </summary>
-		public StartEventClass()
+		public override void RaiseEvent(params object[] raiseParameters)
 		{
+			if (raiseParameters != null)
+				throw new Exception("No raise parameters necessary for this event.");
+
+			Event();
 		}
 
-		public static IEvent StartEventInstance;
-
-		public delegate void StartEventHandler();
-
-		private static StartEventHandler StartEventDelegate;
-
-		#region IEventImplementation
-		public IEvent EventInstance
+		public override void Subscribe(Delegate toSubscribe)
 		{
-			get
-			{
-				return StartEventInstance;
-			}
+			Event += (EventDelegateType)toSubscribe;
 		}
 
-		public void Subscribe(Delegate eventHandler)
+		public override void Unsubscribe(Delegate toUnsubscribe)
 		{
-			StartEventDelegate += (StartEventHandler)eventHandler;
+			Event -= (EventDelegateType)toUnsubscribe;
 		}
-
-		public void Subscribe(MethodInfo method, object scriptInstance)
-		{
-			Delegate eventHandler = Delegate.CreateDelegate(typeof(StartEventHandler), scriptInstance, method);
-			Subscribe(eventHandler);
-		}
-
-		public void UnSubscribe(Delegate eventHandler)
-		{
-			Delegate.Remove(StartEventDelegate, eventHandler);
-		}
-
-		public void ClearSubscribers()
-		{
-			Delegate.RemoveAll(StartEventDelegate, StartEventDelegate);
-		}
-
-		public void OnEvent()
-		{
-			StartEventDelegate();
-		}
-		#endregion
 	}
 }

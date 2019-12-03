@@ -45,7 +45,7 @@ public static class MainClass
 		}
 
 		// Raise the start event.
-		StartEventClass.StartEventInstance.OnEvent();
+		StartEventClass.Instance.RaiseEvent();
 
 		// Wait for user input before closing the application.
 		Console.ReadKey();

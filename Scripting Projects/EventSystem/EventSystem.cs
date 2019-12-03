@@ -20,7 +20,7 @@ namespace CrystalClear.EventSystem
 				{
 					if (attribute is SubscribeToAttribute subscribeToAttribute)
 					{
-						subscribeToAttribute.Event.Subscribe(method, instance);
+						subscribeToAttribute.ScriptEvent.Subscribe(method, instance);
 					}
 				}
 			}
@@ -35,7 +35,7 @@ namespace CrystalClear.EventSystem
 			{
 				if (attribute is SubscribeToAttribute subscribeToAttribute)
 				{ // TODO prevent duplicate entries
-					subscribeToAttribute.Event.Subscribe(method, instance);
+					subscribeToAttribute.ScriptEvent.Subscribe(method, instance);
 				}
 			}
 		}
@@ -59,7 +59,7 @@ namespace CrystalClear.EventSystem
 					{
 						if (attribute is SubscribeToAttribute subscribeToAttribute)
 						{
-							subscribeToAttribute.Event.Subscribe(method, instances[i]);
+							subscribeToAttribute.ScriptEvent.Subscribe(method, instances[i]);
 						}
 					}
 				}
