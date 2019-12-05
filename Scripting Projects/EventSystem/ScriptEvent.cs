@@ -33,4 +33,6 @@ namespace CrystalClear.EventSystem
 
 		public static T Instance => _instance ?? (_instance = new T());
 	}
+
+	// TODO create deriving class for easier templating and creating custom events (StartEvent essentially!)
 }
