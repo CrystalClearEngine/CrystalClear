@@ -12,7 +12,7 @@ namespace CrystalClear.Standard.Events
 		}
 	}
 
-	public class StartEventClass : ScriptEvent
+	public class StartEventClass : SingletonScriptEvent<StartEventClass>
 	{
 		public event EventDelegateType Event;
 
@@ -23,7 +23,8 @@ namespace CrystalClear.Standard.Events
 
 		public override void RaiseEvent(params object[] raiseParameters)
 		{
-			if (raiseParameters != null)
+			if (raiseParameters.Length > 0
+				)
 				throw new Exception("No raise parameters necessary for this event.");
 
 			Event();
@@ -32,6 +33,12 @@ namespace CrystalClear.Standard.Events
 		public override void Subscribe(Delegate toSubscribe)
 		{
 			Event += (EventDelegateType)toSubscribe;
+		}
+
+		public override void Subscribe(MethodInfo method, object instance)
+		{
+			Delegate @delegate = method.CreateDelegate(typeof(EventDelegateType), instance);
+			Event += (EventDelegateType)@delegate;
 		}
 
 		public override void Unsubscribe(Delegate toUnsubscribe)

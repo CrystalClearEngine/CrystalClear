@@ -1,38 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrystalClear.EventSystem
 {
 	public delegate void EventDelegateType();
 
-	public class ScriptEvent : Singleton<ScriptEvent>
+	public abstract class ScriptEvent
 	{
-		public virtual void RaiseEvent(params object[] raiseParameters)
+		// Methods.
+		public abstract void RaiseEvent(params object[] raiseParameters);
+
+		public abstract void Subscribe(System.Reflection.MethodInfo method, object instance);
+
+		public abstract void Subscribe(Delegate toSubscribe);
+
+		public abstract void Unsubscribe(Delegate toUnsubscribe);
+
+		public abstract Delegate[] GetSubscribers();
+	}
+
+	public abstract class SingletonScriptEvent<T> : ScriptEvent where T : SingletonScriptEvent<T>, new()
+	{
+		// Singleton stuff.
+		static SingletonScriptEvent()
 		{
-			throw new NotSupportedException();
 		}
 
-		public virtual void Subscribe(System.Reflection.MethodInfo method, object instance)
+		protected SingletonScriptEvent()
 		{
-			throw new NotSupportedException();
 		}
 
-		public virtual void Subscribe(Delegate toSubscribe)
-		{
-			throw new NotSupportedException();
-		}
+		private static T _instance;
 
-		public virtual void Unsubscribe(Delegate toUnsubscribe)
-		{
-			throw new NotSupportedException();
-		}
-
-		public virtual Delegate[] GetSubscribers()
-		{
-			throw new NotSupportedException();
-		}
+		public static T Instance => _instance ?? (_instance = new T());
 	}
 }

@@ -7,9 +7,11 @@ namespace CrystalClear.EventSystem
 	public class SubscribeToAttribute : Attribute
 	{
 		public ScriptEvent ScriptEvent;
+		public Type EventType;
 
 		public SubscribeToAttribute(Type eventType)
 		{
+			EventType = eventType;
 			ScriptEvent = 
 				(ScriptEvent)eventType
 				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
