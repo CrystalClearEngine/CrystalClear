@@ -1,14 +1,7 @@
-﻿using System;
+﻿using CrystalClear.HierarchySystem.Scripting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.HierarchySystem;
-using CrystalClear.ScriptingEngine;
-using CrystalClear.ScriptUtilities;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -56,7 +49,9 @@ namespace CrystalClear.HierarchySystem
 					return (parent == null); // If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
 				}
 				else
+				{
 					return false;
+				}
 			}
 		}
 
@@ -72,7 +67,9 @@ namespace CrystalClear.HierarchySystem
 					return this;
 				}
 				else
+				{
 					return Parent.Root;
+				}
 			}
 		}
 
@@ -180,7 +177,7 @@ namespace CrystalClear.HierarchySystem
 			LocalHierarchy.Add(name, child);
 			child.SetUp(this);
 		}
-		
+
 		/// <summary>
 		/// Changes the parent of a HierarchyObject in the direct LocalHierarchy.s
 		/// </summary>
@@ -226,7 +223,9 @@ namespace CrystalClear.HierarchySystem
 		public void SetUp(HierarchyObject parent = null)
 		{
 			if (this.parent == null && parent == null) // Parent null check.
+			{
 				throw new Exception("No parent specified! Please set the parent before calling or include it as a parameter.");
+			}
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{

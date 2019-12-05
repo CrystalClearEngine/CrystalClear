@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrystalClear.EventSystem
 {
@@ -81,8 +77,10 @@ namespace CrystalClear.EventSystem
 				{
 					// Is the method static?
 					if (method.IsStatic)
+					{
 						// Let the event system handle the rest.
 						EventSystem.SubscribeMethod(method, null);
+					}
 				}
 			}
 		}

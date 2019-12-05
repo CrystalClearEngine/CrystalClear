@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CrystalClear.HierarchySystem;
-using CrystalClear.Standard.HierarchyObjects;
-using System.IO;
+﻿using CrystalClear.Standard.HierarchyObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {

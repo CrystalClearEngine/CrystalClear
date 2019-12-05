@@ -83,7 +83,7 @@ namespace CrystalClear.HierarchySystem
 					x => // X is the KeyValue pair of the dictionary.
 					ReferenceEquals(x.Value, hierarchy)) // If the reference (x's value)'s instance equals the instance of the Hierarchy, then this is the Hierarchy we are searching for.
 							.Key; // Get the item's key.
-			// Return the key.
+								  // Return the key.
 			return key;
 		}
 	}

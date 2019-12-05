@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.ScriptUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,9 +47,9 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			// Find and store the found script types.
 			Type[] scripts = (from exportedType in assembly.GetTypes()
-								from attribute in exportedType.GetCustomAttributes()
-								where attribute is IsScriptAttribute
-								select exportedType).ToArray();
+							  from attribute in exportedType.GetCustomAttributes()
+							  where attribute is IsScriptAttribute
+							  select exportedType).ToArray();
 			return scripts; // Return scripts.
 		}
 
