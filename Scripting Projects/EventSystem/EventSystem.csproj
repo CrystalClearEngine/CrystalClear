@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="ScriptEvent.cs" />
     <Compile Include="EventSystem.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="SubscribeToAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
