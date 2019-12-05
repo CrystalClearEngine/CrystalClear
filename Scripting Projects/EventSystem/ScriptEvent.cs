@@ -22,16 +22,20 @@ namespace CrystalClear.EventSystem
 	public abstract class SingletonScriptEvent<T> : ScriptEvent where T : SingletonScriptEvent<T>, new()
 	{
 		// Singleton stuff.
+		// Static constructor to ensure that any SingletonScriptEvent will be created at runtime unless overriden in a deriving class.
 		static SingletonScriptEvent()
 		{
 		}
 
+		// Protected constructor for new T() and deriving classes.
 		protected SingletonScriptEvent()
 		{
 		}
 
+		// The instance.
 		private static T _instance;
 
+		// The instance's public property.
 		public static T Instance => _instance ?? (_instance = new T());
 	}
 
@@ -76,7 +80,7 @@ namespace CrystalClear.EventSystem
 		/// Subscribes a method to the event using a MethodInfo and instance. Utilizes CreateDelegate in MethodInfo.
 		/// </summary>
 		/// <param name="method">The method to subscribe.</param>
-		/// <param name="instance">The method´s class insance to subscribe to. (Null if the method is static)</param>
+		/// <param name="instance">The method's class insance to subscribe to. (Null if the method is static)</param>
 		public override void Subscribe(MethodInfo method, object instance)
 		{
 			Delegate @delegate = method.CreateDelegate(typeof(StandardEventHandler), instance);

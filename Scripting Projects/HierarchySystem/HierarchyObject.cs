@@ -22,7 +22,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		public virtual void OnCreate()
 		{
-			// Do some initialization maybe? It´s all up to you...
+			// Do some initialization maybe? It's all up to you...
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Returns the name of the containing hierarchy, or calls the HierarchySystem´s rename method if set.
+		/// Returns the name of the containing hierarchy, or calls the HierarchySystem's rename method if set.
 		/// </summary>
 		public string HierarchyName
 		{
@@ -89,7 +89,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// The field referencing this HierarchyObject´s parent in the Hierarchy.
+		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
 		private HierarchyObject parent;
 		/// <summary>
@@ -171,7 +171,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Adds a HierarchyObject to the LocalHierarchy and also set the HierarchyObject´s parent accordingly
+		/// Adds a HierarchyObject to the LocalHierarchy and also set the HierarchyObject's parent accordingly
 		/// </summary>
 		/// <param name="name">The name of the HierarchyObject to add</param>
 		/// <param name="child">The HierarchyObject to add</param>
@@ -228,7 +228,7 @@ namespace CrystalClear.HierarchySystem
 			if (this.parent == null && parent == null) // Parent null check.
 				throw new Exception("No parent specified! Please set the parent before calling or include it as a parameter.");
 
-			if (parent != null) // The parent parameter isn´t at default value, need to set the current object parent.
+			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
 				this.parent = parent;
 			}
@@ -250,7 +250,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Removes the specified child by name from the LocalHierarchy.
 		/// </summary>
-		/// <param name="childName">The child´s name</param>
+		/// <param name="childName">The child's name</param>
 		public void RemoveChild(string childName)
 		{
 			localHierarchy.Remove(childName);
@@ -271,7 +271,7 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			string pathToFollow = path.Remove(0, pathSegments[0].Length + 1); // Remove the top level HierarchyObject from the path as we continue forwards.
-			string nextObject = pathSegments[1]; // The next HierarchyObject´s name.
+			string nextObject = pathSegments[1]; // The next HierarchyObject's name.
 
 			return localHierarchy[nextObject].FollowPath(pathToFollow); // We are going to do some of that sweet bitter sweet recursion magic by returning the result of a follow call to the HierarchyObject that is next in the path.
 		}

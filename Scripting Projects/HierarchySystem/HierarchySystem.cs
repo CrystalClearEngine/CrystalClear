@@ -47,9 +47,9 @@ namespace CrystalClear.HierarchySystem
 		{
 			// Get the current name.
 			string key = GetHierarchyName(hierarchyObject);
-			// Remove the HierarchyObject from LoadedHierarchies using it´s old name.
+			// Remove the HierarchyObject from LoadedHierarchies using it's old name.
 			LoadedHierarchies.Remove(key);
-			// Add the HierarchyObject back with it´s new name.
+			// Add the HierarchyObject back with it's new name.
 			LoadedHierarchies.Add(newName, hierarchyObject);
 		}
 
@@ -62,9 +62,9 @@ namespace CrystalClear.HierarchySystem
 		{
 			// Get the HierarchyObject that will be renamed.
 			HierarchyObject hierarchy = LoadedHierarchies[currentName];
-			// Remove the Hierarchy from the LoadedHierarchies using it´s old name.
+			// Remove the Hierarchy from the LoadedHierarchies using it's old name.
 			LoadedHierarchies.Remove(currentName);
-			// Add the Hierarchy back with it´s new name.
+			// Add the Hierarchy back with it's new name.
 			LoadedHierarchies.Add(newName, hierarchy);
 		}
 
@@ -81,8 +81,8 @@ namespace CrystalClear.HierarchySystem
 			key = LoadedHierarchies
 				.First( // Get the first occurance of...
 					x => // X is the KeyValue pair of the dictionary.
-					ReferenceEquals(x.Value, hierarchy)) // If the reference (x´s value)´s instance equals the instance of the Hierarchy, then this is the Hierarchy we are searching for.
-							.Key; // Get the item´s key.
+					ReferenceEquals(x.Value, hierarchy)) // If the reference (x's value)'s instance equals the instance of the Hierarchy, then this is the Hierarchy we are searching for.
+							.Key; // Get the item's key.
 			// Return the key.
 			return key;
 		}

@@ -10,7 +10,7 @@ namespace UnitTests
 	public class HierarchyObjectTests
 	{
 		/// <summary>
-		/// Test for ensuring that the HierarchyObject´s GetChildName() method is functional and works as expected.
+		/// Test for ensuring that the HierarchyObject's GetChildName() method is functional and works as expected.
 		/// </summary>
 		[TestMethod]
 		public void GetChildName()
