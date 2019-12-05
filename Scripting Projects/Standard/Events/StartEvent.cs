@@ -23,8 +23,7 @@ namespace CrystalClear.Standard.Events
 
 		public override void RaiseEvent(params object[] raiseParameters)
 		{
-			if (raiseParameters.Length > 0
-				)
+			if (raiseParameters.Length > 0)
 				throw new Exception("No raise parameters necessary for this event.");
 
 			Event();

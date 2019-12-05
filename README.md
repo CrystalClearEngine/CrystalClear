@@ -22,7 +22,7 @@ The HierarchyScripting way of scripting is commonly known as component-based scr
 
 *Customizability*
 
-Not only can you create your own scripts, nearly all facets of the engine are expandable. You can create custom HierarchyObject types, in fact, the default HierarchyObject types are all manually implementable (anything in 'CrystalClear.Standard' you can create yourself!). Custom events can be defined and used as well.
+Not only can you create your own scripts, nearly all facets of the engine are expandable. You can create custom HierarchyObject types, in fact, the default HierarchyObject types are all manually implementable (anything in `CrystalClear.Standard` you can create yourself!). Custom events can be defined and used as well.
 
 Creating custom is really easy.
 
