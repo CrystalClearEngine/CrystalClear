@@ -1,4 +1,4 @@
-﻿namespace CrystalClear.EventSystem
+﻿namespace CrystalClear.ScriptUtilities
 {
 	public abstract class Singleton<T> where T : class, new()
 	{
