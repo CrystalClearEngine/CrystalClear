@@ -1,4 +1,5 @@
 ﻿using CrystalClear.EventSystem;
+using System;
 
 namespace CrystalClear.Standard.Events
 {
@@ -9,7 +10,7 @@ namespace CrystalClear.Standard.Events
 		}
 	}
 
-	public class StartEventClass : StandardSingletonScriptEvent<StartEventClass>
+	public class StartEventClass : SingletonScriptEvent<StartEventClass, EventArgs>
 	{
 	}
 }
