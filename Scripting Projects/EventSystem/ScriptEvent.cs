@@ -10,7 +10,7 @@ namespace CrystalClear.EventSystem
 		// Methods.
 		public abstract void RaiseEvent(params object[] raiseParameters);
 
-		public abstract void Subscribe(System.Reflection.MethodInfo method, object instance);
+		public abstract void Subscribe(MethodInfo method, object instance);
 
 		public abstract void Subscribe(Delegate toSubscribe);
 
@@ -52,7 +52,7 @@ namespace CrystalClear.EventSystem
 		/// <returns>The subscribed delegates.</returns>
 		public override Delegate[] GetSubscribers()
 		{
-			return Event.GetInvocationList();
+			return Instance.Event.GetInvocationList();
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace CrystalClear.EventSystem
 				throw new Exception("No raise parameters necessary for this event.");
 			}
 
-			Event();
+			Instance.Event();
 		}
 
 		/// <summary>
@@ -75,7 +75,7 @@ namespace CrystalClear.EventSystem
 		/// <param name="toSubscribe">The delegate to subscribe.</param>
 		public override void Subscribe(Delegate toSubscribe)
 		{
-			Event += (StandardEventHandler)toSubscribe;
+			Instance.Event += (StandardEventHandler)toSubscribe;
 		}
 
 		/// <summary>
@@ -86,7 +86,7 @@ namespace CrystalClear.EventSystem
 		public override void Subscribe(MethodInfo method, object instance)
 		{
 			Delegate @delegate = method.CreateDelegate(typeof(StandardEventHandler), instance);
-			Event += (StandardEventHandler)@delegate;
+			Instance.Event += (StandardEventHandler)@delegate;
 		}
 
 		/// <summary>
@@ -95,7 +95,7 @@ namespace CrystalClear.EventSystem
 		/// <param name="toUnsubscribe">The delegate to unsubscribe.</param>
 		public override void Unsubscribe(Delegate toUnsubscribe)
 		{
-			Event -= (StandardEventHandler)toUnsubscribe;
+			Instance.Event -= (StandardEventHandler)toUnsubscribe;
 		}
 	}
 }
