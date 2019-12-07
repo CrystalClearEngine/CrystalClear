@@ -10,7 +10,7 @@ One of the main focuses of the engine is to make the development process as easy
 
 *World*
 
-The world in Crystal Clear is built up of HierarchyObjects. These magnificent beings live in Hierarchies, massive trees which can be quickly traversed, and that can be loaded and unloaded at will.
+The world in Crystal Clear is built up of HierarchyObjects. These magnificent beings live in Hierarchies, massive trees which can be quickly traversed, and that can be loaded and unloaded (even saved to be loaded from their previous state!) at will.
 
 
 *Scripting*
