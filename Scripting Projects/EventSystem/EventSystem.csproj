@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScriptEvent.cs" />
+    <Compile Include="ScriptEvent\EventArgsScriptEvent.cs" />
+    <Compile Include="ScriptEvent\ScriptEvent.cs" />
     <Compile Include="EventSystem.cs" />
-    <Compile Include="Singleton.cs" />
+    <Compile Include="ScriptEvent\SingletonEventArgsScriptEvent.cs" />
     <Compile Include="SubscribeToAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

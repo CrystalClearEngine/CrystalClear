@@ -4,23 +4,6 @@ using System.Reflection;
 namespace CrystalClear.EventSystem
 {
 	/// <summary>
-	/// The base class for ScriptObjects. This contains the abstract methods but no implementation details.
-	/// </summary>
-	public abstract class ScriptEvent
-	{
-		// Methods.
-		public abstract void RaiseEvent(EventArgs args = null, object sender = null);
-
-		public abstract void Subscribe(MethodInfo method, object instance);
-
-		public abstract void Subscribe(Delegate toSubscribe);
-
-		public abstract void Unsubscribe(Delegate toUnsubscribe);
-
-		public abstract Delegate[] GetSubscribers();
-	}
-
-	/// <summary>
 	/// A class that contains methods and implementation details for events that use EventHandler.
 	/// </summary>
 	/// <typeparam name="TEventArgs">The EventArgs to use in the EventHandler.</typeparam>
@@ -81,33 +64,5 @@ namespace CrystalClear.EventSystem
 		{
 			Event -= (EventHandler<TEventArgs>)toUnsubscribe;
 		}
-	}
-
-	/// <summary>
-	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.
-	/// </summary>
-	/// <typeparam name="InstanceType">The type of the instance. Should generally be the same as the deriving class.</typeparam>
-	/// <typeparam name="TEventArgs"></typeparam>
-	public abstract class SingletonEventArgsScriptEvent<InstanceType, TEventArgs> : EventArgsScriptEvent<TEventArgs>
-		where InstanceType : SingletonEventArgsScriptEvent<InstanceType, TEventArgs>, new()
-		where TEventArgs : EventArgs
-	{
-		// Singleton stuff.
-
-		// Static constructor to ensure that any SingletonScriptEvent will be created at runtime unless overriden in a deriving class.
-		static SingletonEventArgsScriptEvent()
-		{
-		}
-
-		// Protected constructor for new T() and deriving classes.
-		protected SingletonEventArgsScriptEvent()
-		{
-		}
-
-		// The instance.
-		private static InstanceType _instance;
-
-		// The instance's public property.
-		public static InstanceType Instance => _instance ?? (_instance = new InstanceType());
 	}
 }
