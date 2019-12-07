@@ -3,10 +3,13 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
+	/// <summary>
+	/// The base class for ScriptObjects. This contains the abstract methods but no implementation details.
+	/// </summary>
 	public abstract class ScriptEvent
 	{
 		// Methods.
-		public abstract void RaiseEvent(EventArgs args);
+		public abstract void RaiseEvent(EventArgs args = null, object sender = null);
 
 		public abstract void Subscribe(MethodInfo method, object instance);
 
@@ -17,7 +20,11 @@ namespace CrystalClear.EventSystem
 		public abstract Delegate[] GetSubscribers();
 	}
 
-	public abstract class TemplateScriptEvent<TEventArgs> : ScriptEvent
+	/// <summary>
+	/// A class that contains methods and implementation details for events that use EventHandler.
+	/// </summary>
+	/// <typeparam name="TEventArgs">The EventArgs to use in the EventHandler.</typeparam>
+	public abstract class EventArgsScriptEvent<TEventArgs> : ScriptEvent
 	where TEventArgs : EventArgs
 	{
 		/// <summary>
@@ -38,9 +45,12 @@ namespace CrystalClear.EventSystem
 		/// Raises the event.
 		/// </summary>
 		/// <param name="args">The arguments for this event.</param>
-		public override void RaiseEvent(EventArgs args)
+		public override void RaiseEvent(EventArgs args = null, object sender = null)
 		{
-			Event(this, (TEventArgs)args);
+			if (args == null)
+				args = EventArgs.Empty;
+
+			Event(sender, (TEventArgs)args);
 		}
 
 		/// <summary>
@@ -73,25 +83,31 @@ namespace CrystalClear.EventSystem
 		}
 	}
 
-	public abstract class SingletonScriptEvent<T, TEventArgs> : TemplateScriptEvent<TEventArgs>
-		where T : SingletonScriptEvent<T, TEventArgs>, new()
+	/// <summary>
+	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.
+	/// </summary>
+	/// <typeparam name="InstanceType">The type of the instance. Should generally be the same as the deriving class.</typeparam>
+	/// <typeparam name="TEventArgs"></typeparam>
+	public abstract class SingletonEventArgsScriptEvent<InstanceType, TEventArgs> : EventArgsScriptEvent<TEventArgs>
+		where InstanceType : SingletonEventArgsScriptEvent<InstanceType, TEventArgs>, new()
 		where TEventArgs : EventArgs
 	{
 		// Singleton stuff.
+
 		// Static constructor to ensure that any SingletonScriptEvent will be created at runtime unless overriden in a deriving class.
-		static SingletonScriptEvent()
+		static SingletonEventArgsScriptEvent()
 		{
 		}
 
 		// Protected constructor for new T() and deriving classes.
-		protected SingletonScriptEvent()
+		protected SingletonEventArgsScriptEvent()
 		{
 		}
 
 		// The instance.
-		private static T _instance;
+		private static InstanceType _instance;
 
 		// The instance's public property.
-		public static T Instance => _instance ?? (_instance = new T());
+		public static InstanceType Instance => _instance ?? (_instance = new InstanceType());
 	}
 }

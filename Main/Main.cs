@@ -45,7 +45,7 @@ public static class MainClass
 		}
 
 		// Raise the start event.
-		StartEventClass.Instance.RaiseEvent(new EventArgs()); // TODO make event args optional if none are neccessary
+		StartEventClass.Instance.RaiseEvent();
 
 		// Wait for user input before closing the application.
 		Console.ReadKey();
