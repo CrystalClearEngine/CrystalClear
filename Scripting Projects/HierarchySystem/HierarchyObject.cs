@@ -21,7 +21,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The scripts that are currently attatched to this object.
 		/// </summary>
-		public List<Script> Scripts = new List<Script>();
+		public List<Script> Scripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it´s own separate thing (they can be like data containers etc, or maybe don´t need to exist at all or under a different name).
 
 		/// <summary>
 		/// Adds a script based on the specified type to this HierarchyObject.

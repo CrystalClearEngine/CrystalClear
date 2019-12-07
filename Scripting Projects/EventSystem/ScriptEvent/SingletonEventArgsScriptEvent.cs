@@ -6,7 +6,7 @@ namespace CrystalClear.EventSystem
 	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.
 	/// </summary>
 	/// <typeparam name="InstanceType">The type of the instance. Should generally be the same as the deriving class.</typeparam>
-	/// <typeparam name="TEventArgs"></typeparam>
+	/// <typeparam name="TEventArgs">The event args type.</typeparam>
 	public abstract class SingletonEventArgsScriptEvent<InstanceType, TEventArgs> : EventArgsScriptEvent<TEventArgs>
 		where InstanceType : SingletonEventArgsScriptEvent<InstanceType, TEventArgs>, new()
 		where TEventArgs : EventArgs
