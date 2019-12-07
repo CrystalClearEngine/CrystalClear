@@ -14,13 +14,13 @@ public static class MainClass
 		string[] scriptFilesPaths =
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs"
+			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs",
 		};
 
 		// Compile our code.
 		Assembly compiledAssembly = Compiler.CompileCode(scriptFilesPaths);
 
-		// If the compiled assembly is null something went wrong during compilation (there was probably en error in the code).
+		// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 		if (compiledAssembly == null)
 		{
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)"); // Explain to user.
