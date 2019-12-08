@@ -55,10 +55,6 @@
       <Project>{5FFF5362-4EB6-4776-8A7D-6557E41C7538}</Project>
       <Name>EventSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ScriptingEngine\ScriptingEngine.csproj">
-      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
-      <Name>ScriptingEngine</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj">
       <Project>{87FFF9E3-3922-4098-92EB-F53237B11353}</Project>
       <Name>ScriptUtilities</Name>
