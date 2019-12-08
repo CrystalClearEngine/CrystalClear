@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E994
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interaction", "User Interaction", "{C6AA185B-2A75-4A98-B99D-8B67C97CE00B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptingEngine", "Scripting Projects\ScriptingEngine\ScriptingEngine.csproj", "{B1D01C71-DAEC-4A94-88EC-F403F90FE824}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Compiling", "Scripting Projects\ScriptingEngine\Compiling.csproj", "{B1D01C71-DAEC-4A94-88EC-F403F90FE824}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Scripting Projects\Scripts\Scripts.csproj", "{BB670F71-784E-4548-84E9-2E023D6350FB}"
 EndProject

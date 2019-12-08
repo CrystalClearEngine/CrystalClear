@@ -69,9 +69,9 @@
       <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
       <Name>HierarchySystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\ScriptingEngine\ScriptingEngine.csproj">
+    <ProjectReference Include="..\Scripting Projects\ScriptingEngine\Compiling.csproj">
       <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
-      <Name>ScriptingEngine</Name>
+      <Name>Compiling</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\ScriptUtilities\ScriptUtilities.csproj">
       <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
