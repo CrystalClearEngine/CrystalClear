@@ -16,12 +16,12 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The start event class.
 	/// </summary>
-	public class StartEventClass : SingletonEventArgsScriptEvent<StartEventClass, EventArgs>
+	public class StartEventClass : SingletonScriptEventHandlerScriptEvent<StartEventClass>
 	{
 		// Showing how methods can be overriden in deriving events.
-		public override void RaiseEvent(EventArgs args = null, object sender = null)
+		public override void RaiseEvent()
 		{
-			base.RaiseEvent(args, sender);
+			base.RaiseEvent();
 			Console.WriteLine("The start event was raised.");
 		}
 	}

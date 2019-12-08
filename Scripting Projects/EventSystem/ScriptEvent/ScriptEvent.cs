@@ -11,13 +11,6 @@ namespace CrystalClear.EventSystem
 		// Methods.
 
 		/// <summary>
-		/// Raises the event with the provided EventArgs and the provided sender.
-		/// </summary>
-		/// <param name="args">The arguments for the raise.</param>
-		/// <param name="sender">The sender of the </param>
-		public abstract void RaiseEvent(EventArgs args = null, object sender = null); // TODO maybe remove this method and let the inheritors manage it
-
-		/// <summary>
 		/// Subscribes a method to the event.
 		/// </summary>
 		/// <param name="method"></param>
