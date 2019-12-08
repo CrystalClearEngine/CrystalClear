@@ -44,7 +44,8 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return (parent == null); // If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
+				// If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
+				return (parent == null);
 			}
 		}
 
@@ -55,10 +56,12 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
+				// Is this the root?
 				if (IsRoot)
 				{
 					return this;
 				}
+				// If not, then we should refer to our parent. They should know :).
 				else
 				{
 					return Parent.Root;
