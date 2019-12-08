@@ -13,7 +13,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
 		/// </summary>
-		public virtual void OnCreate()
+		protected virtual void OnCreate()
 		{
 			// Do some initialization maybe? It's all up to you...
 		}
