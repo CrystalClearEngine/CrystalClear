@@ -8,7 +8,7 @@ using System;
 public class HelloWorldExample : HierarchyScript<ScriptObject>
 {
 	[OnStartEvent]
-	public void OnStart(object sender, EventArgs args)
+	public void OnStart()
 	{
 		Output.Log(HierarchyObject.HelloWorldText);
 	}
