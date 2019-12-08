@@ -4,11 +4,6 @@ using System.Reflection;
 namespace CrystalClear.EventSystem
 {
 	/// <summary>
-	/// The ScriptEventHandler is an empty delegate type for simple 
-	/// </summary>
-	public delegate void ScriptEventHandler();
-
-	/// <summary>
 	/// A class that contains methods and implementation details for events that use the ScriptEventHandler.
 	/// </summary>
 	public abstract class ScriptEventHandlerScriptEvent : ScriptEvent
