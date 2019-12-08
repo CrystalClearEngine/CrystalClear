@@ -2,13 +2,12 @@
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
-using System;
 
 [IsScript]
 public class HelloWorldExample : HierarchyScript<ScriptObject>
 {
 	[OnStartEvent]
-	public void OnStart(object sender, EventArgs args)
+	public void OnStart()
 	{
 		Output.Log(HierarchyObject.HelloWorldText);
 	}
