@@ -38,20 +38,13 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Is this HierarchyObject the root of the entire hierarchy (has no parent and is part of the LoadedHierarchies)?
+		/// Is this HierarchyObject the root of the entire hierarchy (has no parent)?
 		/// </summary>
 		public bool IsRoot
 		{
 			get
 			{
-				if (HierarchySystem.LoadedHierarchies.ContainsValue(this)) // Extra check that this simply wasnt incorrectly initialized.
-				{
-					return (parent == null); // If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
-				}
-				else
-				{
-					return false;
-				}
+				return (parent == null); // If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
 			}
 		}
 

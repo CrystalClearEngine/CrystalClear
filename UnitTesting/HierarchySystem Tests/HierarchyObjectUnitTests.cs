@@ -20,5 +20,15 @@ namespace UnitTests
 			Assert.AreEqual(childName, scriptObject.GetChildName(childScriptObject));
 			Assert.AreEqual(childName, childScriptObject.Name);
 		}
+
+		[TestMethod]
+		public void GetRoot()
+		{
+			ScriptObject root = new ScriptObject();
+			ScriptObject child = new ScriptObject();
+			root.AddChild("child", child);
+
+			Assert.IsTrue(ReferenceEquals(root, child.Root));
+		}
 	}
 }
