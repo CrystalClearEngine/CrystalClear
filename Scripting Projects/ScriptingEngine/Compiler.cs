@@ -3,7 +3,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Reflection;
 
-namespace CrystalClear.Compiling
+namespace CrystalClear.CompilationSystem
 {
 	/// <summary>
 	/// Static class for compiler features.

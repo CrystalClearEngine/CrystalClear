@@ -9,7 +9,7 @@
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
     <ProjectReference Include="..\..\User Interaction\UI\UI.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
-    <ProjectReference Include="..\ScriptingEngine\Compiling.csproj" />
+    <ProjectReference Include="..\ScriptingEngine\CompilationSystem.csproj" />
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
     <ProjectReference Include="..\Standard\Standard.csproj" />
   </ItemGroup>

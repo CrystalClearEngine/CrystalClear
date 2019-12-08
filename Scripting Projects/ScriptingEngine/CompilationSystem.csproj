@@ -4,14 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CA1447F1-F165-4A1E-8B3C-C985D8905F91}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>CrystalClear.Main</RootNamespace>
-    <AssemblyName>Main</AssemblyName>
+    <ProjectGuid>{B1D01C71-DAEC-4A94-88EC-F403F90FE824}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>CrystalClear.CompilationSystem</RootNamespace>
+    <AssemblyName>Compiling</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,9 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -43,40 +49,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
+    <Compile Include="Compiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+    <Content Include="ScriptingEngine.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
       <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
       <Name>CrystalClear</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\EventSystem\EventSystem.csproj">
+    <ProjectReference Include="..\EventSystem\EventSystem.csproj">
       <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
       <Name>EventSystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
-      <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
-      <Name>HierarchySystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\ScriptingEngine\Compiling.csproj">
-      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
-      <Name>Compiling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\ScriptUtilities\ScriptUtilities.csproj">
+    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj">
       <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
       <Name>ScriptUtilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
-      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
-      <Name>Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\User Interaction\UI\UI.csproj">
-      <Project>{8ed3114a-a2d3-445c-8fcb-bd68aedde69b}</Project>
-      <Name>UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
