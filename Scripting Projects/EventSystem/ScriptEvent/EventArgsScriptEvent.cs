@@ -28,7 +28,7 @@ namespace CrystalClear.EventSystem
 		/// Raises the event.
 		/// </summary>
 		/// <param name="args">The arguments for this event.</param>
-		public override void RaiseEvent(EventArgs args = null, object sender = null)
+		public virtual void RaiseEvent(EventArgs args = null, object sender = null)
 		{
 			if (args == null)
 				args = EventArgs.Empty;
