@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="HierarchySystem Tests\HierarchyObjectUnitTests.cs" />
     <Compile Include="HierarchySystem Tests\HierarchySystemUnitTests.cs" />
+    <Compile Include="HierarchySystem Tests\WorldObjectUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
   </ItemGroup>

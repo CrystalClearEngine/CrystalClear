@@ -77,14 +77,14 @@ namespace CrystalClear.HierarchySystem
 		{
 			// Define a string named key, to be used for storing the key.
 			string key;
-			// Set key.
-			key = LoadedHierarchies
+			
+			key = LoadedHierarchies // Set key.
 				.First( // Get the first occurance of...
 					x => // X is the KeyValue pair of the dictionary.
 					ReferenceEquals(x.Value, hierarchy)) // If the reference (x's value)'s instance equals the instance of the Hierarchy, then this is the Hierarchy we are searching for.
 							.Key; // Get the item's key.
-								  // Return the key.
-			return key;
+
+			return key; // Return the key.
 		}
 	}
 }
