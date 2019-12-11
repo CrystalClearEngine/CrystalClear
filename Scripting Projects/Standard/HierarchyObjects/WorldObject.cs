@@ -4,17 +4,33 @@ using System.Collections.Generic;
 namespace CrystalClear.Standard.HierarchyObjects
 {
 	/// <summary>
-	/// A WorldObject is an HierarchyObject that has a transform.
+	/// A WorldObject is an HierarchyObject that has a Transform.
 	/// </summary>
 	public class WorldObject : HierarchyObject
 	{
+		/// <summary>
+		/// Creates a WorldObject with the provided Transform.
+		/// </summary>
+		/// <param name="transform">The transfrom to use.</param>
 		public WorldObject(Transform transform)
 		{
 			Transform = transform;
 		}
 
 		/// <summary>
-		/// Creates a WorldObject with a 3D transform ().
+		/// Creates a new WorldObject and creates a Transform with all Vectors initialized with the axis.
+		/// </summary>
+		/// <param name="axis">The dimension for the Transform.</param>
+		public WorldObject(int axis)
+		{
+			Transform transfrom = new Transform(
+				new Vector(axis),
+				new Vector(axis),
+				new Vector(axis));
+		}
+
+		/// <summary>
+		/// Creates a WorldObject with a 3D Transform.
 		/// </summary>
 		public WorldObject()
 		{
@@ -26,7 +42,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 				Transform transform = (child as WorldObject).Transform;
 				if (transform != null)
 				{
-					childTransforms.Add(Transform);
+					childTransforms.Add(transform);
 				}
 			}
 
@@ -42,24 +58,24 @@ namespace CrystalClear.Standard.HierarchyObjects
 			// Iterate through the children in the localHierarchy.
 			foreach (HierarchyObject child in LocalHierarchy.Values)
 			{
-				// Initialize a new transform to store the transform of the child (if any).
+				// Initialize a new Transform to store the Transform of the child (if any).
 				Transform transform = (child as WorldObject).Transform;
-				// Did the child have a transform?
+				// Did the child have a Transform?
 				if (transform != null)
 				{
-					// Add the child's transform to the child transforms!
-					childTransforms.Add(Transform);
+					// Add the child's Transform to the child transforms!
+					childTransforms.Add(transform);
 				}
 			}
-			// Set the child transforms to the temporary child transform.
+			// Set the child transforms to the temporary child Transform.
 			Transform.Children = childTransforms.ToArray();
 		}
 
 		protected override void OnReparent(HierarchyObject newParent)
 		{
-			Transform.Parent = // Set the transform's parent.
+			Transform.Parent = // Set the Transform's parent.
 				(Parent as WorldObject)? // Get the parent as WorldObject or null.
-				.Transform; // Get the parent's transform.
+				.Transform; // Get the parent's Transform.
 		}
 	}
 
