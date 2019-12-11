@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CrystalClear.Standard.HierarchyObjects;
 using System.Linq;
+using CrystalClear.ScriptUtilities;
 
 namespace UnitTests
 {

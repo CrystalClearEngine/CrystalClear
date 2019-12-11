@@ -46,8 +46,10 @@
     <Compile Include="IsScriptAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
+    <Compile Include="Transform.cs" />
     <Compile Include="Utilities\Output.cs" />
     <Compile Include="Utilities\UserSettings.cs" />
+    <Compile Include="Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptUtils.txt" />
