@@ -39,7 +39,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 			List<Transform> childTransforms = new List<Transform>();
 			foreach (HierarchyObject child in LocalHierarchy.Values)
 			{
-				Transform transform = (child as WorldObject).Transform;
+				Transform transform = (child as WorldObject)?.Transform;
 				if (transform != null)
 				{
 					childTransforms.Add(transform);
@@ -59,7 +59,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 			foreach (HierarchyObject child in LocalHierarchy.Values)
 			{
 				// Initialize a new Transform to store the Transform of the child (if any).
-				Transform transform = (child as WorldObject).Transform;
+				Transform transform = (child as WorldObject)?.Transform;
 				// Did the child have a Transform?
 				if (transform != null)
 				{

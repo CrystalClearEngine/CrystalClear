@@ -202,8 +202,8 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Returns the name of a child HierarchyObject that is present in the LocalHierarchy of this HierarchyObject.
 		/// </summary>
-		/// <param name="child">The HierarchyObject to get the name of</param>
-		/// <returns>The name of this object</returns>
+		/// <param name="child">The HierarchyObject to get the name of.</param>
+		/// <returns>The name of this object.</returns>
 		public string GetChildName(HierarchyObject child)
 		{
 			string key = LocalHierarchy.First(x => ReferenceEquals(x.Value, child)).Key;
@@ -213,19 +213,20 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Adds a HierarchyObject to the LocalHierarchy and also set the HierarchyObject's parent accordingly
 		/// </summary>
-		/// <param name="name">The name of the HierarchyObject to add</param>
-		/// <param name="child">The HierarchyObject to add</param>
+		/// <param name="name">The name of the HierarchyObject to add.</param>
+		/// <param name="child">The HierarchyObject to add.</param>
 		public void AddChild(string name, HierarchyObject child)
 		{
 			LocalHierarchy.Add(name, child);
 			child.SetUp(this);
+			OnLocalHierarchyChange();
 		}
 
 		/// <summary>
-		/// Changes the parent of a HierarchyObject in the direct LocalHierarchy.s
+		/// Changes the parent of a HierarchyObject in the LocalHierarchy.
 		/// </summary>
-		/// <param name="newParent">The parent to move the child to</param>
-		/// <param name="child">The child to move</param>
+		/// <param name="newParent">The parent to move the child to.</param>
+		/// <param name="child">The child to move.</param>
 		public void ReParentChild(HierarchyObject newParent, HierarchyObject child)
 		{
 			string childName = child.Name;
@@ -236,9 +237,9 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Changes the parent of a HierarchyObject in a Hierarchy.
 		/// </summary>
-		/// <param name="oldParent">The parent to remove the HierarchyObject from</param>
-		/// <param name="newParent">The parent to add the HierarchyObject to</param>
-		/// <param name="child">The child object to re-parent</param>
+		/// <param name="oldParent">The parent to remove the HierarchyObject from.</param>
+		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
+		/// <param name="child">The child object to re-parent.</param>
 		public static void ReParent(HierarchyObject oldParent, HierarchyObject newParent, HierarchyObject child)
 		{
 			string childName = child.Name;
