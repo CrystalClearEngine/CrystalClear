@@ -75,6 +75,14 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
+		public bool IsLoadedHierarchy
+		{
+			get
+			{
+				return HierarchySystem.LoadedHierarchies.Values.Contains(this);
+			}
+		}
+
 		/// <summary>
 		/// Returns the root of this Hierarchy.
 		/// </summary>
@@ -110,18 +118,13 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		[Obsolete("This is a property field and should not be directly set!")]
-#pragma	warning disable CS0649
 		private HierarchyObject parent;
-#pragma warning restore CS0649
 		/// <summary>
 		/// Returns the parent, and utlizes ReParentChild() to set it.
 		/// </summary>
 		public HierarchyObject Parent
 		{
-#pragma warning disable CS0618 // Type or member is obsolete
 			get => parent;
-#pragma warning restore CS0618 // Type or member is obsolete
 			set
 			{
 				ReParentThis(value);
@@ -246,20 +249,21 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Changes the parent of this HierarchyObject.
 		/// </summary>
-		/// <param name="oldParent">The parent to remove the HierarchyObject from</param>
-		/// <param name="newParent">The parent to add the HierarchyObject to</param>
-		/// <param name="child">The child object to re-parent</param>
+		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
 		public void ReParentThis(HierarchyObject newParent)
 		{
 			string childName = Name;
-			Parent.RemoveChild(childName);
+			if (!IsRoot)
+			{
+				Parent.RemoveChild(childName);
+			}
 			newParent.AddChild(childName, this);
 		}
 
 		/// <summary>
 		/// Sets up the HierarchyObject.
 		/// </summary>
-		/// <param name="parent">Optional parent override</param>
+		/// <param name="parent">Optional parent override.</param>
 		public void SetUp(HierarchyObject parent = null)
 		{
 			if (Parent == null && parent == null) // Parent null check.
@@ -269,7 +273,7 @@ namespace CrystalClear.HierarchySystem
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
-				Parent = parent;
+				this.parent = parent;
 			}
 
 			OnCreate();
@@ -278,7 +282,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Removes the specified child by HierarchyObject from the LocalHierarchy.
 		/// </summary>
-		/// <param name="child">The child HierarchyObject to remove</param>
+		/// <param name="child">The child HierarchyObject to remove.</param>
 		public void RemoveChild(HierarchyObject child)
 		{
 			KeyValuePair<string, HierarchyObject> item = LocalHierarchy.First(HierarchyObject => HierarchyObject.Value == child);
@@ -289,14 +293,14 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Removes the specified child by name from the LocalHierarchy.
 		/// </summary>
-		/// <param name="childName">The child's name</param>
-		public void RemoveChild(string childName) => RemoveChild(childName);
+		/// <param name="childName">The child's name.</param>
+		public void RemoveChild(string childName) => LocalHierarchy.Remove(childName);
 
 		/// <summary>
 		/// Follows a path relatively from this point and returns the specified HierarchyObject.
 		/// </summary>
-		/// <param name="path">The path to follow. HierarchyObjects are separated by '/'</param>
-		/// <returns>The HierarchyObject at the end of the path</returns>
+		/// <param name="path">The path to follow. HierarchyObjects are separated by '/'.</param>
+		/// <returns>The HierarchyObject at the end of the path.</returns>
 		public HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/'); // Split the path into the individual HierarchyObjects to follow.

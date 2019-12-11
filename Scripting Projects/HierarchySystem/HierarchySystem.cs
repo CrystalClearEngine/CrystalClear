@@ -77,7 +77,10 @@ namespace CrystalClear.HierarchySystem
 		{
 			// Define a string named key, to be used for storing the key.
 			string key;
-			
+
+			if (!LoadedHierarchies.ContainsValue(hierarchy))
+				return "unknown"; // TODO maybe use exception (custom exception type)?
+
 			key = LoadedHierarchies // Set key.
 				.First( // Get the first occurance of...
 					x => // X is the KeyValue pair of the dictionary.
