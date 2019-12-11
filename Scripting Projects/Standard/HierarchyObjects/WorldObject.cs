@@ -23,7 +23,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 		/// <param name="axis">The dimension for the Transform.</param>
 		public WorldObject(int axis)
 		{
-			Transform transfrom = new Transform(
+			Transform = new Transform(
 				new Vector(axis),
 				new Vector(axis),
 				new Vector(axis));
