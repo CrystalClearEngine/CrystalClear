@@ -11,9 +11,6 @@ namespace CrystalClear.EventSystem
 
 		public SubscribeToAttribute(Type eventType)
 		{
-			if (!eventType.IsAssignableFrom(typeof(ScriptEvent)))
-				return;
-
 			EventType = eventType;
 
 			ScriptEvent =
