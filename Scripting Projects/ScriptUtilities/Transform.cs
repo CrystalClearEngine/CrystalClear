@@ -1,4 +1,6 @@
-﻿namespace CrystalClear.ScriptUtilities
+﻿using System.Collections.Generic;
+
+namespace CrystalClear.ScriptUtilities
 {
 	/// <summary>
 	/// A Transform is an object that keeps track of, and manages numerous functions related to the transformation and position, rotation and scaling properties of an object.
@@ -13,7 +15,7 @@
 		/// <param name="scale">The global scale to use for this Transform.</param>
 		/// <param name="parent">The parent to use for this Transform.</param>
 		/// <param name="children">The children to use for this Transform.</param>
-		public Transform(Vector position, Vector rotation, Vector scale, Transform parent = null, Transform[] children = null)
+		public Transform(Vector position, Vector rotation, Vector scale, Transform parent = null, List<Transform> children = null)
 		{
 			// Set the global position.
 			globalPosition = position;
@@ -28,13 +30,57 @@
 		}
 
 		/// <summary>
+		/// Creates a new Transform with all Vectors initialized with the axis as axis count.
+		/// </summary>
+		/// <param name="axis">The dimension for the Transform.</param>
+		public Transform(int axis)
+		{
+			globalPosition = new Vector(axis);
+			globalRotation = new Vector(axis);
+			globalScale = new Vector(axis);
+		}
+
+		/// <summary>
+		/// Adds a child to this Transform's children.
+		/// </summary>
+		/// <param name="child">The child to add.</param>
+		public void AddChildTransform(Transform child)
+		{
+			// Set the child's parent to this.
+			child.Parent = this;
+			// Add the child to Children.
+			Children.Add(child);
+		}
+
+		/// <summary>
+		/// Removes a child from this Transform's children.
+		/// </summary>
+		/// <param name="child">The child to remove.</param>
+		public void RemoveChildTransform(Transform child)
+		{
+			// Remove the child's parent.
+			child.Parent = null;
+			// Remove the child from Children.
+			Children.Remove(child);
+		}
+
+		/// <summary>
+		/// Removes a child from this Transform's children.
+		/// </summary>
+		/// <param name="id">The index at which the child to remove is located.</param>
+		public void RemoveChildTransform(int id)
+		{
+			Children.RemoveAt(id);
+		}
+
+		/// <summary>
 		/// The parent of this Transform.
 		/// </summary>
 		public Transform Parent;
 		/// <summary>
 		/// The children of this Transform.
 		/// </summary>
-		public Transform[] Children;
+		public List<Transform> Children = new List<Transform>();
 
 		/// <summary>
 		/// The global position of this Transform.
@@ -49,7 +95,7 @@
 
 				foreach (Transform child in Children)
 				{
-					child.globalPosition += change;
+					child.globalPosition -= change;
 				}
 
 				globalPosition = value;

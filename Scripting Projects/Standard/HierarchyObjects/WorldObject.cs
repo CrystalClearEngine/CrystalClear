@@ -19,15 +19,12 @@ namespace CrystalClear.Standard.HierarchyObjects
 		}
 
 		/// <summary>
-		/// Creates a new WorldObject and creates a Transform with all Vectors initialized with the axis.
+		/// Creates a new WorldObject and creates a Transform with all Vectors initialized with the axis as axis count.
 		/// </summary>
 		/// <param name="axis">The dimension for the Transform.</param>
 		public WorldObject(int axis)
 		{
-			Transform = new Transform(
-				new Vector(axis),
-				new Vector(axis),
-				new Vector(axis));
+			Transform = new Transform(axis);
 		}
 
 		/// <summary>
@@ -47,7 +44,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 				}
 			}
 
-			Transform = new Transform(new Vector(3), new Vector(3), new Vector(3), parent, childTransforms.ToArray()); ;
+			Transform = new Transform(new Vector(3), new Vector(3), new Vector(3), parent, childTransforms); ;
 		}
 
 		public Transform Transform;
@@ -69,7 +66,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 				}
 			}
 			// Set the child transforms to the temporary child Transform.
-			Transform.Children = childTransforms.ToArray();
+			Transform.Children = childTransforms;
 		}
 
 		protected override void OnReparent(HierarchyObject newParent)

@@ -1,6 +1,9 @@
-﻿namespace CrystalClear.ScriptUtilities
+﻿using System;
+using System.Collections.Generic;
+
+namespace CrystalClear.ScriptUtilities
 {
-	public struct Vector
+	public struct Vector : IEquatable<Vector>
 	{
 		/// <summary>
 		/// Initialize a Vector with the specified amount of axis.
@@ -30,21 +33,26 @@
 		}
 
 		/// <summary>
+		/// The axis of this Vector.
+		/// </summary>
+		public float[] Axis;
+
+		/// <summary>
 		/// The subtraction operator for the Vector. The difference is a new Vector with all it's axis equal to the difference of the corresponding axis of a - b.
 		/// </summary>
-		/// <param name="a">The first Vector.</param>
-		/// <param name="b">The second Vector.</param>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
 		/// <returns>The difference Vector.</returns>
 		public static Vector operator - (Vector a, Vector b)
 		{
 			if (a.Axis.Length != b.Axis.Length)
 			{
-				throw new System.Exception("The axis of the two vectors are not comparable.");
+				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector difference = new Vector(a.Axis);
+			Vector difference = new Vector(a.Axis.Length);
 
-			for (int i = 0; i < difference.Axis.Length; i++)
+			for (int i = 0; i < a.Axis.Length; i++)
 			{
 				difference.Axis[i] = a.Axis[i] - b.Axis[i];
 			}
@@ -55,17 +63,17 @@
 		/// <summary>
 		/// The addition operator for the Vector. The sum is a new Vector with all it's axis equal to the sum of the corresponding axis of a + b.
 		/// </summary>
-		/// <param name="a">The first Vector.</param>
-		/// <param name="b">The second Vector.</param>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
 		/// <returns>The sum Vector.</returns>
 		public static Vector operator + (Vector a, Vector b)
 		{
 			if (a.Axis.Length != b.Axis.Length)
 			{
-				throw new System.Exception("The axis of the two vectors are not comparable.");
+				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector sum = new Vector(a.Axis);
+			Vector sum = new Vector(a.Axis.Length);
 
 			for (int i = 0; i < sum.Axis.Length; i++)
 			{
@@ -78,17 +86,17 @@
 		/// <summary>
 		/// The division operator for the Vector. The quotient is a new Vector with all it's axis equal to the quotient of the corresponding axis of a / b.
 		/// </summary>
-		/// <param name="a">The first Vector.</param>
-		/// <param name="b">The second Vector.</param>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
 		/// <returns>The quotient Vector.</returns>
 		public static Vector operator / (Vector a, Vector b)
 		{
 			if (a.Axis.Length != b.Axis.Length)
 			{
-				throw new System.Exception("The axis of the two vectors are not comparable.");
+				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector quotient = new Vector(a.Axis);
+			Vector quotient = new Vector(a.Axis.Length);
 
 			for (int i = 0; i < quotient.Axis.Length; i++)
 			{
@@ -101,17 +109,17 @@
 		/// <summary>
 		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
 		/// </summary>
-		/// <param name="a">The first Vector.</param>
-		/// <param name="b">The second Vector.</param>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
 		/// <returns>The product Vector.</returns>
 		public static Vector operator * (Vector a, Vector b)
 		{
 			if (a.Axis.Length != b.Axis.Length)
 			{
-				throw new System.Exception("The axis of the two vectors are not comparable.");
+				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector product = new Vector(a.Axis);
+			Vector product = new Vector(a.Axis.Length);
 
 			for (int i = 0; i < product.Axis.Length; i++)
 			{
@@ -121,6 +129,53 @@
 			return product;
 		}
 
-		public float[] Axis;
+		/// <summary>
+		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
+		/// </summary>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
+		/// <returns>The product Vector.</returns>
+		public static bool operator == (Vector a, Vector b)
+		{
+			if (a.Axis.Length != b.Axis.Length)
+			{
+				throw new Exception("The axis of the two vectors are not comparable.");
+			}
+
+			bool @true = true;
+
+			for (int i = 0; i < a.Axis.Length && @true; i++)
+			{
+				@true = a.Axis[i] == b.Axis[i];
+			}
+
+			return @true;
+		}
+
+		/// <summary>
+		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
+		/// </summary>
+		/// <param name="a">Vector a.</param>
+		/// <param name="b">Vector b.</param>
+		/// <returns>The product Vector.</returns>
+		public static bool operator !=(Vector a, Vector b)
+		{
+			return !(a == b);
+		}
+
+		public override bool Equals(object obj)
+		{
+			return obj is Vector vector && vector == this;
+		}
+
+		public bool Equals(Vector other)
+		{
+			return Equals(other);
+		}
+
+		public override int GetHashCode()
+		{
+			return 633581876 + EqualityComparer<float[]>.Default.GetHashCode(Axis);
+		}
 	}
 }

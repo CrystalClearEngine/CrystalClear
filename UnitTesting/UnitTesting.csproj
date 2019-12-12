@@ -54,6 +54,7 @@
     <Compile Include="HierarchySystem Tests\WorldObjectUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
+    <Compile Include="Transform Tests\TransformTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\packages.config" />
