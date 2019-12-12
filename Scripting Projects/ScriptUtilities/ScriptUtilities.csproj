@@ -54,11 +54,5 @@
   <ItemGroup>
     <None Include="ScriptUtils.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EventSystem\EventSystem.csproj">
-      <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
-      <Name>EventSystem</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
