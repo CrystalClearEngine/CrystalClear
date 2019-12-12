@@ -15,6 +15,7 @@ public static class MainClass
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs",
+			@"E:\dev\crystal clear\Scripting Projects\Scripts\StepRoutineTest.cs",
 		};
 
 		// Compile our code.
