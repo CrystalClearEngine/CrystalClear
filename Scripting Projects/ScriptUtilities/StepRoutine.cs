@@ -12,39 +12,34 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class StepRoutine
 	{
-		public static void Start(IEnumerable stepRoutine)
+		public static void Start(IEnumerator enumerator)
 		{
-			Thread thread = new Thread(() => _Start(stepRoutine));
-			thread.Start();
-		}
-
-		private static async void _Start(IEnumerable stepRoutine)
-		{
-			foreach (WaitFor waitFor in stepRoutine)
+			enumerator.MoveNext();
+			((WaitFor)enumerator.Current).ScriptEvent.Subscribe(new ScriptEventHandler(() =>
 			{
-				await Task.Run(waitFor.Wait);
-			}
-			Thread.CurrentThread.Abort();
+				if (!enumerator.MoveNext())
+				{
+					return;
+				}
+			}));
 		}
 	}
 
-	public class WaitFor
+	public class WaitFor // TODO: create separate WaitForScriptEvent and keep this as a base.
 	{
+		public ScriptEvent ScriptEvent;
+
 		public WaitFor(Type scriptEventType)
 		{
-			ScriptEvent scriptEvent =
+			ScriptEvent =
 				(ScriptEvent)scriptEventType
 				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-				.GetValue(null);
-
-			scriptEvent.Subscribe(new Action(() => ShouldWait = false).Method, this);
+				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
 		}
 
-		private bool ShouldWait;
-
-		public async Task Wait()
+		public WaitFor(ScriptEvent scriptEvent)
 		{
-			while (ShouldWait == false) ;
+			ScriptEvent = scriptEvent;
 		}
 	}
 }
