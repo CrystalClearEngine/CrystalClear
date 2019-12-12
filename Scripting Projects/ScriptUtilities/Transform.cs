@@ -40,6 +40,13 @@ namespace CrystalClear.ScriptUtilities
 			globalScale = new Vector(axis);
 		}
 
+		public void TransformBy(Vector position, Vector rotation, Vector scale)
+		{
+			GlobalPosition += position;
+			GlobalRotation += rotation;
+			GlobalScale += scale;
+		}
+
 		/// <summary>
 		/// Adds a child to this Transform's children.
 		/// </summary>
