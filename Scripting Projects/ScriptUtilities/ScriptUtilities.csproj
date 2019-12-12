@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coroutine.cs" />
     <Compile Include="IsScriptAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
@@ -53,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptUtils.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EventSystem\EventSystem.csproj">
+      <Project>{5FFF5362-4EB6-4776-8A7D-6557E41C7538}</Project>
+      <Name>EventSystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
