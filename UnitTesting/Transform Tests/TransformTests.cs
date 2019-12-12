@@ -17,12 +17,12 @@ namespace UnitTests
 			// Add childTransform to baseTransform.
 			baseTransform.AddChildTransform(childTransform);
 
-			// Increase the global position of the baseTransform by one on the second axis (y).
-			baseTransform.GlobalPosition += new Vector(0f, 1f, 0f);
+			// Increase the global position of the baseTransform by five on the second axis (y).
+			baseTransform.GlobalPosition += new Vector(0f, 5f, 0f);
 
 			// Asserts.
 			Assert.IsTrue(childTransform.LocalPosition == new Vector(0f, 0f, 0f));
-			Assert.IsTrue(childTransform.GlobalPosition == new Vector(0f, 1f, 0f));
+			Assert.IsTrue(childTransform.GlobalPosition == new Vector(0f, 5f, 0f));
 		}
 
 		[TestMethod]
