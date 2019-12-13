@@ -14,14 +14,19 @@ namespace CrystalClear.ScriptUtilities
 	{
 		public static void Start(IEnumerator enumerator)
 		{
+			ScriptEventHandler scriptEventHandlerAction = new ScriptEventHandler(() => new Stack());
+			scriptEventHandlerAction = new ScriptEventHandler(() => Test(enumerator, scriptEventHandlerAction));
 			enumerator.MoveNext();
-			((WaitFor)enumerator.Current).ScriptEvent.Subscribe(new ScriptEventHandler(() =>
+			((WaitFor)enumerator.Current).ScriptEvent.Subscribe(scriptEventHandlerAction);
+		}
+
+		public static void Test(IEnumerator enumerator, ScriptEventHandler scriptEventHandlerAction)
+		{
+			((WaitFor)enumerator.Current).ScriptEvent.Unsubscribe(scriptEventHandlerAction);
+			if (enumerator.MoveNext())
 			{
-				if (!enumerator.MoveNext())
-				{
-					return;
-				}
-			}));
+				((WaitFor)enumerator.Current).ScriptEvent.Subscribe(scriptEventHandlerAction);
+			}
 		}
 	}
 

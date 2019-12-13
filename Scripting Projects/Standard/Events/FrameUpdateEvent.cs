@@ -6,9 +6,9 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event attribute.
 	/// </summary>
-	public class FrameUpdateEventAttribute : SubscribeToAttribute
+	public class OnFrameUpdateAttribute : SubscribeToAttribute
 	{
-		public FrameUpdateEventAttribute() : base(typeof(FrameUpdateEventClass))
+		public OnFrameUpdateAttribute() : base(typeof(FrameUpdateEventClass))
 		{
 		}
 	}
