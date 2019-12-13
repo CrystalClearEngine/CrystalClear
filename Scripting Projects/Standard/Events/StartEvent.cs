@@ -22,7 +22,7 @@ namespace CrystalClear.Standard.Events
 		public override void RaiseEvent()
 		{
 			base.RaiseEvent();
-			Console.WriteLine("The start event was raised sucessfully.");
+			Console.WriteLine("The start event was raised successfully.");
 		}
 	}
 }
