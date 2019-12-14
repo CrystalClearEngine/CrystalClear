@@ -6,18 +6,19 @@ namespace CrystalClear.EventSystem
 	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.
 	/// </summary>
 	/// <typeparam name="TInstance">The type of the instance. Should generally be the same as the deriving class.</typeparam>
-	public abstract class SingletonScriptEventHandlerScriptEvent<TInstance> : ScriptEventHandlerScriptEvent
+	public abstract class SingletonScriptEvent<TInstance, TScriptEvent> : ScriptEvent
 		where TInstance : SingletonScriptEventHandlerScriptEvent<TInstance>, new()
+		where TScriptEvent : ScriptEvent, new()
 	{
 		// Singleton stuff.
 
 		// Static constructor to ensure that SingletonScriptEvent can't be instanciated.
-		static SingletonScriptEventHandlerScriptEvent()
+		static SingletonScriptEvent()
 		{
 		}
 
 		// Protected parameterless constructor for new T() and deriving classes.
-		protected SingletonScriptEventHandlerScriptEvent()
+		protected SingletonScriptEvent()
 		{
 		}
 

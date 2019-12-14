@@ -17,14 +17,22 @@ namespace CrystalClear.CompilationSystem
 		/// <returns>The compiled assembly.</returns>
 		public static Assembly CompileCode(string[] fileNames)
 		{
+			using (TempFileCollection temp = new TempFileCollection(Environment.CurrentDirectory))
 			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
 			{
 				// Set the options for the compilation.
 				CompilerParameters options = new CompilerParameters
 				{
 					GenerateExecutable = false,
+#if DEBUG
 					IncludeDebugInformation = true,
+					GenerateInMemory = false,
+					TempFiles = new TempFileCollection(Environment.CurrentDirectory, true)
+#else
+					IncludeDebugInformation = false,
+					GenerateInMemory = true,
 					TempFiles = new TempFileCollection(Environment.CurrentDirectory, false)
+#endif
 				};
 
 				// The collection of references.
