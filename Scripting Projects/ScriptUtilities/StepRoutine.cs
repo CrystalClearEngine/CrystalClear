@@ -12,20 +12,27 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class StepRoutine
 	{
-		public static void Start(IEnumerator enumerator)
+		public static void Start(IEnumerator stepRoutine)
 		{
-			ScriptEventHandler scriptEventHandlerAction = new ScriptEventHandler(() => new Stack());
-			scriptEventHandlerAction = new ScriptEventHandler(() => Test(enumerator, scriptEventHandlerAction));
-			enumerator.MoveNext();
-			((WaitFor)enumerator.Current).ScriptEvent.Subscribe(scriptEventHandlerAction);
+			// Initialize stepRoutineRunnerDelegate.
+			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
+			// Assign the action.
+			stepRoutineRunnerDelegate = new ScriptEventHandler(() => RunStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
+			// Start the StepRoutine.
+			stepRoutine.MoveNext();
+			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
+			((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 		}
 
-		public static void Test(IEnumerator enumerator, ScriptEventHandler scriptEventHandlerAction)
+		private static void RunStepRoutine(IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
-			((WaitFor)enumerator.Current).ScriptEvent.Unsubscribe(scriptEventHandlerAction);
-			if (enumerator.MoveNext())
+			// Unsubscribe this delegate so it won't run again.
+			((WaitFor)stepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
+			// Move the enumerator forwards.
+			if (stepRoutine.MoveNext())
 			{
-				((WaitFor)enumerator.Current).ScriptEvent.Subscribe(scriptEventHandlerAction);
+				// Subscribe the delegate to the new WaitFor ScriptEvent.
+				((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
 		}
 	}
