@@ -1,6 +1,7 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace CrystalClear.HierarchySystem
@@ -162,16 +163,16 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
-		protected Dictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
+		protected ImmutableDictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
 
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
-		private Dictionary<string, HierarchyObject> localHierarchy = new Dictionary<string, HierarchyObject>();
+		private ImmutableDictionary<string, HierarchyObject> localHierarchy = ImmutableDictionary<string, HierarchyObject>.Empty;
 		/// <summary>
 		/// The publicly accessible LocalHierarchy.
 		/// </summary>
-		public Dictionary<string, HierarchyObject> LocalHierarchy
+		public ImmutableDictionary<string, HierarchyObject> LocalHierarchy
 		{
 			get => localHierarchy;
 			set

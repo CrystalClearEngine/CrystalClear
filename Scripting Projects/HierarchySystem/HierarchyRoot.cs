@@ -1,5 +1,6 @@
 ﻿using CrystalClear.HierarchySystem.Attributes;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -33,7 +34,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		// Refer HierarchyObjects to LocalHierarchy instead.
-		public Dictionary<string, HierarchyObject> HierarchyObjects => LocalHierarchy;
+		public ImmutableDictionary<string, HierarchyObject> HierarchyObjects => LocalHierarchy;
 
 	}
 }
