@@ -5,6 +5,11 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class Output
 	{
+		public static void Log()
+		{
+			Console.WriteLine();
+		}
+
 		/// <summary>
 		/// Write an array of objects to the console or log.
 		/// </summary>

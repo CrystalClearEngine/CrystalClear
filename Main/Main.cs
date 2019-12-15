@@ -16,6 +16,7 @@ public static class MainClass
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\StepRoutineTest.cs",
+			@"E:\dev\crystal clear\Scripting Projects\Scripts\ConstructableScript.cs",
 		};
 
 		// Compile our code.
@@ -43,6 +44,26 @@ public static class MainClass
 		foreach (Type scriptType in scriptTypes)
 		{
 			scriptObject.AddScript(scriptType);
+		}
+
+		foreach (Type scriptType in scriptTypes)
+		{
+			Console.WriteLine($"{{ {scriptType.Name} contains these constructors:");
+			foreach (ConstructorInfo constructor in scriptType.GetConstructors())
+			{
+				Console.Write($"    Constructor with {constructor.GetParameters().Length} parameters:");
+				foreach (ParameterInfo parameter in constructor.GetParameters())
+				{
+					Console.Write(" " + parameter.Name + "{");
+					Console.Write($"Optional: {parameter.IsOptional}, ");
+					Console.Write($"In: {parameter.IsIn}, ");
+					Console.Write($"Out: {parameter.IsOut}, ");
+					Console.Write($"Type: {parameter.ParameterType}");
+					Console.Write("},");
+				}
+				Console.WriteLine("  ;");
+			}
+			Console.WriteLine("}");
 		}
 
 		// Raise the start event.
