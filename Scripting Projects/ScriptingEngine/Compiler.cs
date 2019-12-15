@@ -20,6 +20,8 @@ namespace CrystalClear.CompilationSystem
 			using (TempFileCollection temp = new TempFileCollection(Environment.CurrentDirectory))
 			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
 			{
+				AppDomain.CurrentDomain.ProcessExit += new EventHandler((object sender, EventArgs e) => temp.Delete());
+
 				// Set the options for the compilation.
 				CompilerParameters options = new CompilerParameters
 				{

@@ -20,13 +20,6 @@ namespace Scripts
 			Console.WriteLine("Started routine!");
 
 			FrameUpdateEventClass.Instance.RaiseEvent();
-			FrameUpdateEventClass.Instance.RaiseEvent();
-			FrameUpdateEventClass.Instance.RaiseEvent();
-			FrameUpdateEventClass.Instance.RaiseEvent();
-			TestEventClass.Instance.RaiseEvent();
-			TestEventClass.Instance.RaiseEvent();
-			TestEventClass.Instance.RaiseEvent();
-			TestEventClass.Instance.RaiseEvent();
 			TestEventClass.Instance.RaiseEvent();
 		}
 
