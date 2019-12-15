@@ -8,7 +8,7 @@ namespace CrystalClear.HierarchySystem
 	/// <summary>
 	/// Represents any item that is part of the hierarchy
 	/// </summary>
-	public abstract class HierarchyObject
+	public abstract class HierarchyObject // TODO make FindHierarchyObjects method like in Script
 	{
 		/// <summary>
 		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
