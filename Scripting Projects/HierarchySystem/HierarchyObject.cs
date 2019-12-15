@@ -12,14 +12,6 @@ namespace CrystalClear.HierarchySystem
 	public abstract class HierarchyObject // TODO make FindHierarchyObjects method like in Script
 	{
 		/// <summary>
-		/// OnCreate is called when the HierarchyObject is created in a Hierarchy for the first time.
-		/// </summary>
-		protected virtual void OnCreate()
-		{
-			// Do some initialization maybe? It's all up to you...
-		}
-
-		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
 		/// </summary>
 		protected virtual void OnLocalHierarchyChange()
@@ -224,7 +216,7 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="child">The HierarchyObject to add.</param>
 		public void AddChild(string name, HierarchyObject child)
 		{
-			LocalHierarchy.Add(name, child);
+			localHierarchy = localHierarchy.Add(name, child);
 			child.SetUp(this);
 			OnLocalHierarchyChange();
 		}
@@ -282,9 +274,11 @@ namespace CrystalClear.HierarchySystem
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
 				this.parent = parent;
+				OnReparent(parent);
+				return;
 			}
 
-			OnCreate();
+			OnReparent(Parent);
 		}
 
 		/// <summary>
@@ -293,16 +287,20 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="child">The child HierarchyObject to remove.</param>
 		public void RemoveChild(HierarchyObject child)
 		{
-			KeyValuePair<string, HierarchyObject> item = LocalHierarchy.First(HierarchyObject => HierarchyObject.Value == child);
+			string key = LocalHierarchy.First(HierarchyObject => HierarchyObject.Value == child).Key;
 
-			RemoveChild(item.Key);
+			RemoveChild(key);
 		}
 
 		/// <summary>
 		/// Removes the specified child by name from the LocalHierarchy.
 		/// </summary>
 		/// <param name="childName">The child's name.</param>
-		public void RemoveChild(string childName) => LocalHierarchy.Remove(childName);
+		public void RemoveChild(string childName)
+		{
+			localHierarchy = localHierarchy.Remove(childName);
+			OnLocalHierarchyChange();
+		}
 
 		/// <summary>
 		/// Follows a path relatively from this point and returns the specified HierarchyObject.
