@@ -33,7 +33,7 @@ namespace CrystalClear.EventSystem
 			if (args == null)
 				args = EventArgs.Empty;
 
-			Event(sender, (TEventArgs)args);
+			Event?.Invoke(sender, (TEventArgs)args);
 		}
 
 		/// <summary>

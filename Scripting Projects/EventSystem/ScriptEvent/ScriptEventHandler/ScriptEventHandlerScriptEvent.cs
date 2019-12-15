@@ -27,7 +27,7 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public virtual void RaiseEvent()
 		{
-			Event();
+			Event?.Invoke();
 		}
 
 		/// <summary>
