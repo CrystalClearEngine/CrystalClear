@@ -26,6 +26,10 @@ namespace CrystalClear.HierarchySystem
 
 		}
 
+		/// <summary>
+		/// OnReparent is called when the HierarchyObject's parent updates.
+		/// </summary>
+		/// <param name="newParent">The new parent.</param>
 		protected virtual void OnReparent(HierarchyObject newParent)
 		{
 
@@ -75,6 +79,9 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
+		/// <summary>
+		/// Checks wether or not this Hierarchy is in the LoadedHierarchies' list.
+		/// </summary>
 		public bool IsLoadedHierarchy
 		{
 			get
