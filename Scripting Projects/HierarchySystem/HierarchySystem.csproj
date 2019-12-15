@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HiddenAttribute.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="HierarchyRoot.cs" />
     <Compile Include="HierarchyScript.cs" />
