@@ -153,7 +153,6 @@ namespace CrystalClear.HierarchySystem
 				}
 				else
 				{
-					// TODO try catch this maybe? or maybe a try catch inside the method itelf...
 					return HierarchySystem.GetHierarchyName(this);
 				}
 			}
