@@ -46,23 +46,30 @@
       <HintPath>..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HierarchySystem Tests\HierarchyObjectUnitTests.cs" />
-    <Compile Include="HierarchySystem Tests\HierarchySystemUnitTests.cs" />
-    <Compile Include="HierarchySystem Tests\WorldObjectUnitTest.cs" />
+    <Compile Include="HierarchyObject Tests\HierarchyObjectUnitTests.cs" />
+    <Compile Include="HiearchySystem Tests\HierarchySystemUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
-    <Compile Include="Transform Tests\TransformTests.cs" />
+    <Compile Include="Transform and Vector Tests\TransformTests.cs" />
+    <Compile Include="ScriptingUtilities\UserSettingsTests.cs" />
+    <Compile Include="HierarchyObject Tests\WorldObjectUnitTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="UnitTesting.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Main\EditorMain.csproj">
+      <Project>{ca1447f1-f165-4a1e-8b3c-c985d8905f91}</Project>
+      <Name>EditorMain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scripting Projects\CompilationSystem\CompilationSystem.csproj">
+      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
+      <Name>CompilationSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\EventSystem\EventSystem.csproj">
       <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
       <Name>EventSystem</Name>
@@ -71,9 +78,9 @@
       <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
       <Name>HierarchySystem</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\ScriptingEngine\CompilationSystem.csproj">
-      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
-      <Name>CompilationSystem</Name>
+    <ProjectReference Include="..\Scripting Projects\Scripts\Scripts.csproj">
+      <Project>{bb670f71-784e-4548-84e9-2e023d6350fb}</Project>
+      <Name>Scripts</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\ScriptUtilities\ScriptUtilities.csproj">
       <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
@@ -82,6 +89,10 @@
     <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
       <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
       <Name>Standard</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\User Interaction\UI\UI.csproj">
+      <Project>{8ed3114a-a2d3-445c-8fcb-bd68aedde69b}</Project>
+      <Name>UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

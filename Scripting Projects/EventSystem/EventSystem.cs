@@ -62,11 +62,15 @@ namespace CrystalClear.EventSystem
 			}
 		}
 
+		/// <summary>
+		/// Finds and subscribes static event methods.
+		/// </summary>
+		/// <param name="assembly">The assembly to search for static event methods.</param>
 		public static void FindAndSubscribeEventMethods(Assembly assembly) => FindAndSubscribeEventMethods(assembly.GetTypes());
 		/// <summary>
 		/// Finds and subscribes static event methods.
 		/// </summary>
-		/// <param name="types">The types to "scan" for static event methods.</param>
+		/// <param name="types">The types to search for static event methods.</param>
 		public static void FindAndSubscribeEventMethods(Type[] types)
 		{
 			// Iterate through all provided types.

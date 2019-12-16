@@ -7,25 +7,45 @@ using System.Reflection;
 namespace CrystalClear.HierarchySystem.Scripting
 {
 	/// <summary>
-	/// Stores the type and instance of a HierarchyScript.
+	/// Stores the type and instance of a Script.
 	/// </summary>
 	public struct Script
 	{
 		/// <summary>
-		/// The current instance of this script.
+		/// The instance of the Script.
 		/// </summary>
 		public readonly object ScriptInstance;
 
 		/// <summary>
-		/// The type of the script class.
+		/// The type of the Script.
 		/// </summary>
 		public readonly Type ScriptType;
 
 		/// <summary>
-		/// Creates a script and instanciates it with the provided parameters.
+		/// Creates a Script of any type.
 		/// </summary>
-		/// <param name="attatchedTo">The object that this script is attatched to.</param>
-		/// <param name="scriptType">The script's type.</param>
+		/// <param name="scriptType">The type of the Script.</param>
+		public Script(Type scriptType)
+		{
+			// Assign ScriptType.
+			ScriptType = scriptType;
+
+			if (!scriptType.IsAbstract && !scriptType.IsSealed)
+				// Assign ScriptInstance to an instance of the Script.
+				ScriptInstance = Activator.CreateInstance(scriptType);
+			else
+				// There is no instance of ScriptType since it is static.
+				ScriptInstance = null;
+
+			// Subscribe the events.
+			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
+		}
+
+		/// <summary>
+		/// Creates a HierarchyScript and instanciates it with the provided parameters.
+		/// </summary>
+		/// <param name="attatchedTo">The HierarchyObject that this script is attatched to.</param>
+		/// <param name="scriptType">The type of the HierarchyObject.</param>
 		public Script(HierarchyObject attatchedTo, Type scriptType) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
 			// Assign ScriptType.
@@ -34,7 +54,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// Assign ScriptInstance to the return of HierarchyScript.CreateHierarchyScript, which will be an instance of the script.
 			ScriptInstance = HierarchyScript.CreateHierarchyScript(attatchedTo, scriptType);
 
-			// Subscribe the events.
+			// Subscribe events.
 			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
@@ -50,7 +70,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 							  from attribute in exportedType.GetCustomAttributes()
 							  where attribute is IsScriptAttribute
 							  select exportedType).ToArray();
-			return scripts; // Return scripts.
+			// Return scripts.
+			return scripts;
 		}
 
 		/// <summary>
@@ -65,7 +86,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 							  from attribute in type.GetCustomAttributes()
 							  where attribute is IsScriptAttribute
 							  select type).ToArray();
-			return scripts; // Return scripts.
+			// Return scripts.
+			return scripts;
 		}
 
 

@@ -7,10 +7,15 @@ using System.Linq;
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
-	/// Represents any item that is part of the hierarchy
+	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
 	public abstract class HierarchyObject // TODO make FindHierarchyObjects method like in Script
 	{
+		#region Virtual Event Methods
+		// Overrideable event methods.
+		// Q: Why not use events?
+		// A: They should be implementable in deriving classes without needing to set the subsriptions up.
+
 		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
 		/// </summary>
@@ -27,7 +32,9 @@ namespace CrystalClear.HierarchySystem
 		{
 
 		}
+		#endregion
 
+		#region Script Handling
 		/// <summary>
 		/// Adds a Script to the HierarchyObject.
 		/// </summary>
@@ -44,7 +51,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The scripts that are currently attatched to this object.
 		/// </summary>
-		public List<Script> Scripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
+		public List<Script> AttatchedScripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
 
 		/// <summary>
 		/// Adds a script based on the specified type to this HierarchyObject.
@@ -57,9 +64,11 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="script">The script to add.</param>
 		public void AddScript(Script script)
 		{
-			Scripts.Add(script);
+			AttatchedScripts.Add(script);
 		}
+		#endregion
 
+		#region Helper Properties
 		/// <summary>
 		/// Is this HierarchyObject the root of the entire hierarchy (has no parent)?
 		/// </summary>
@@ -116,23 +125,6 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// The field referencing this HierarchyObject's parent in the Hierarchy.
-		/// </summary>
-		private HierarchyObject parent;
-		/// <summary>
-		/// Returns the parent, and utlizes ReParentChild() to set it.
-		/// </summary>
-		public HierarchyObject Parent
-		{
-			get => parent;
-			set
-			{
-				ReParentThis(value);
-				OnReparent(value);
-			}
-		}
-
-		/// <summary>
 		/// Returns the name of this HierarchyObject by looking it up via GetName() on the parent (or HierarchySystem if this HierarchyObject is the root). This property supports setting the name, which uses the SetName() method on the parent or HierarchySystem if this Hierarchy object is the root.
 		/// </summary>
 		public string Name
@@ -155,7 +147,9 @@ namespace CrystalClear.HierarchySystem
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
 		protected ImmutableDictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
+		#endregion
 
+		#region HierarchyManagement
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
@@ -189,7 +183,24 @@ namespace CrystalClear.HierarchySystem
 				OnLocalHierarchyChange();
 			}
 		}
-		#region HierarchyManagement
+
+		/// <summary>
+		/// The field referencing this HierarchyObject's parent in the Hierarchy.
+		/// </summary>
+		private HierarchyObject parent;
+		/// <summary>
+		/// Returns the parent, and utlizes ReParentChild() to set it.
+		/// </summary>
+		public HierarchyObject Parent
+		{
+			get => parent;
+			set
+			{
+				ReParentThis(value);
+				OnReparent(value);
+			}
+		}
+
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
 		/// </summary>
