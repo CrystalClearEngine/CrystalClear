@@ -46,6 +46,7 @@ public static class MainClass
 			scriptObject.AddScript(scriptType);
 		}
 
+		// Show some temporary debug info about the compiled scripts.
 		foreach (Type scriptType in scriptTypes)
 		{
 			Console.WriteLine($"{{ {scriptType.Name} contains these constructors:");
