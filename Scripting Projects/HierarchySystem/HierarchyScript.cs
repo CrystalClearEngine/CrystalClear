@@ -13,7 +13,11 @@ namespace CrystalClear.HierarchySystem.Scripting
 			HierarchyObject = hierarchyObject;
 		}
 
-		public T HierarchyObject;
+		public T HierarchyObject
+		{
+			get;
+			private set;
+		}
 	}
 
 	/// <summary>
