@@ -159,7 +159,8 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
-		private ImmutableDictionary<string, HierarchyObject> localHierarchy = ImmutableDictionary<string, HierarchyObject>.Empty;
+		private ImmutableDictionary<string, HierarchyObject> localHierarchy = ImmutableDictionary<string, HierarchyObject>.Empty; // TODO create Hierarchy class, that calls events etc automatically and can clean up this code! It would even have an indexed property...
+
 		/// <summary>
 		/// The publicly accessible LocalHierarchy.
 		/// </summary>
@@ -173,6 +174,21 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
+		/// <summary>
+		/// Accesses the LocalHierarchy of this HierarchyObject.
+		/// </summary>
+		public HierarchyObject this[string index]
+		{
+			get
+			{
+				return localHierarchy[index];
+			}
+			set
+			{
+				localHierarchy = localHierarchy.SetItem(index, value);
+				OnLocalHierarchyChange();
+			}
+		}
 		#region HierarchyManagement
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
