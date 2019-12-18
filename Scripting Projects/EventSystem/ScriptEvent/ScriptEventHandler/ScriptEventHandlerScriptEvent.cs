@@ -19,7 +19,7 @@ namespace CrystalClear.EventSystem
 		/// <returns>The subscribed delegates.</returns>
 		public override Delegate[] GetSubscribers()
 		{
-			return Event.GetInvocationList();
+			return Event?.GetInvocationList();
 		}
 
 		/// <summary>
@@ -27,6 +27,7 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public virtual void RaiseEvent()
 		{
+			Delegate[] _ = GetSubscribers();
 			Event?.Invoke();
 		}
 

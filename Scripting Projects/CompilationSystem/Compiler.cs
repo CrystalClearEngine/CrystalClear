@@ -20,6 +20,7 @@ namespace CrystalClear.CompilationSystem
 			using (TempFileCollection temp = new TempFileCollection(Environment.CurrentDirectory))
 			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
 			{
+				// Make sure our temp files get deleted by deleting them on process exit.
 				AppDomain.CurrentDomain.ProcessExit += new EventHandler((object sender, EventArgs e) => temp.Delete());
 
 				// Set the options for the compilation.

@@ -41,31 +41,60 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="hierarchyObject">The HierarchyObject to add the Script to.</param>
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
-		public static HierarchyObject operator + (HierarchyObject hierarchyObject, Script script)
+		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
 			HierarchyObject result = hierarchyObject;
-			result.AddScript(script);
+			result.AddScriptManually(script);
+			return result;
+		}
+
+		public static HierarchyObject operator +(HierarchyObject hierarchyObject, ScriptStorage scriptStorage)
+		{
+			HierarchyObject result = hierarchyObject;
+			result.AddScriptManually(scriptStorage.CreateScript());
 			return result;
 		}
 
 		/// <summary>
-		/// The scripts that are currently attatched to this object.
+		/// The Scripts that are currently attatched to this object.
 		/// </summary>
 		public List<Script> AttatchedScripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
 
 		/// <summary>
-		/// Adds a script based on the specified type to this HierarchyObject.
+		/// Adds a HiearchyScript based on the specified type to this HierarchyObject.
 		/// </summary>
-		/// <param name="scriptType">The type of the script we are going to add.</param>
-		public void AddScript(Type scriptType) => AddScript(new Script(this, scriptType));
-		/// <summary>
-		/// Adds a script to this HierarchyObject.
-		/// </summary>
-		/// <param name="script">The script to add.</param>
-		public void AddScript(Script script)
+		/// <param name="scriptType">The type of the Script to add.</param>
+		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
+		public void AddHierarchyScript(Type scriptType, object[] constructorParameters = null)
 		{
-			AttatchedScripts.Add(script);
+			AddScriptManually(new Script(this, scriptType, constructorParameters));
 		}
+
+		/// <summary>
+		/// Adds a Script of any type other than HierarchyScript to this HiearchyObject.
+		/// </summary>
+		/// <param name="scriptType">The type of the Script to add.</param>
+		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
+		public void AddNonHiearchyScriptScript(Type scriptType, object[] constructorParameters = null)
+		{
+			AddScriptManually(new Script(scriptType, constructorParameters));
+		}
+
+		/// <summary>
+		/// Adds a Script of any type to this HiearchyObject. If this is a HierarchyScript or not will be automatically detected.
+		/// </summary>
+		/// <param name="scriptType">The type of the Script to add.</param>
+		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
+		public void AddScript(Type scriptType, object[] constructorParameters = null)
+		{
+			AddScriptManually(new Script(scriptType, constructorParameters, this));
+		}
+
+		/// <summary>
+		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
+		/// </summary>
+		/// <param name="script">The Script to add.</param>
+		public void AddScriptManually(Script script) => AttatchedScripts.Add(script);
 		#endregion
 
 		#region Helper Properties
@@ -295,7 +324,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			if (Parent == null && parent == null) // Parent null check.
 			{
-				throw new Exception("No parent specified! Please set the parent before calling or include it as a parameter.");
+				throw new ArgumentException("No parent specified! Please set the parent before calling or include it as a parameter.");
 			}
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.

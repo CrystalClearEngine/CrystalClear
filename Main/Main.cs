@@ -25,9 +25,12 @@ public static class MainClass
 		// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 		if (compiledAssembly == null)
 		{
-			Console.WriteLine("Compilation failed :( (compiled assembly is null)"); // Explain to user.
-			Console.ReadKey(); // Wait for user input.
-			return; // Exit.
+			// Explain to user that the compilation failed.
+			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
+			// Wait for user input.
+			Console.ReadKey();
+			// Return to exit.
+			return;
 		}
 
 		// Cache the results.
@@ -47,30 +50,42 @@ public static class MainClass
 		}
 
 		// Show some temporary debug info about the compiled scripts.
-		foreach (Type scriptType in scriptTypes)
-		{
-			Console.WriteLine($"{{ {scriptType.Name} contains these constructors:");
-			foreach (ConstructorInfo constructor in scriptType.GetConstructors())
-			{
-				Console.Write($"    Constructor with {constructor.GetParameters().Length} parameters:");
-				foreach (ParameterInfo parameter in constructor.GetParameters())
-				{
-					Console.Write(" " + parameter.Name + "{");
-					Console.Write($"Optional: {parameter.IsOptional}, ");
-					Console.Write($"In: {parameter.IsIn}, ");
-					Console.Write($"Out: {parameter.IsOut}, ");
-					Console.Write($"Type: {parameter.ParameterType}");
-					Console.Write("},");
-				}
-				Console.WriteLine("  ;");
-			}
-			Console.WriteLine("}");
-		}
+		//foreach (Type scriptType in scriptTypes)
+		//{
+		//	Console.WriteLine($"{{ {scriptType.Name} contains these constructors:");
+		//	foreach (ConstructorInfo constructor in scriptType.GetConstructors())
+		//	{
+		//		Console.Write($"    Constructor with {constructor.GetParameters().Length} parameters:");
+		//		foreach (ParameterInfo parameter in constructor.GetParameters())
+		//		{
+		//			Console.Write(" " + parameter.Name + "{");
+		//			Console.Write($"Optional: {parameter.IsOptional}, ");
+		//			Console.Write($"In: {parameter.IsIn}, ");
+		//			Console.Write($"Out: {parameter.IsOut}, ");
+		//			Console.Write($"Type: {parameter.ParameterType}");
+		//			Console.Write("},");
+		//		}
+		//		Console.WriteLine("  ;");
+		//	}
+		//	Console.WriteLine("}");
+		//}
+
+		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], attatchedTo: scriptObject);
+		scriptObject.AttatchedScripts.RemoveAt(2);
+		scriptObject.AddScriptManually(scriptStorage.CreateScript());
 
 		// Raise the start event.
 		StartEventClass.Instance.RaiseEvent();
 
 		// Wait for user input before closing the application.
+		Console.ReadKey();
+
+		foreach (Delegate deleg in StartEventClass.Instance.GetSubscribers())
+		{
+			Console.WriteLine(deleg.Method.Name);
+		}
+
+		StartEventClass.Instance.RaiseEvent();
 		Console.ReadKey();
 	}
 }
