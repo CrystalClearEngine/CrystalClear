@@ -7,7 +7,7 @@ using CrystalClear.Standard.HierarchyObjects;
 public class HelloWorldExample : HierarchyScript<ScriptObject>
 {
 	[OnStartEvent]
-	public void OnStart()
+	public void PrintHelloWorld()
 	{
 		Output.Log(HierarchyObject.HelloWorldText);
 	}

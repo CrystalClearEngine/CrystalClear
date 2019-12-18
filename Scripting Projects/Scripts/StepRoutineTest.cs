@@ -1,7 +1,5 @@
 ﻿using CrystalClear.ScriptUtilities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
@@ -13,7 +11,7 @@ namespace Scripts
 	public class StepRoutineTest : HierarchyScript<ScriptObject>
 	{
 		[OnStartEvent]
-		public void StepRoutineRunner()
+		public void RunMyStepRoutine()
 		{
 			Console.WriteLine("Trying to start routine!");
 			StepRoutine.Start(MyStepRoutine());
