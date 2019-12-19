@@ -29,7 +29,7 @@ Creating custom is really easy.
 
 *Platform support*
 
-Currently *no* platforms are supported, since exporting has not been implemented yet. The editor is supported on windows, but nowhere else at the moment. This will likely change, especially as cross-platform options are explored. One likely direction for the engine is to use Mono, which will massively increase the platform support.
+Currently *no* platforms are supported, since exporting has not been implemented yet. The editor is supported on Windows, but nowhere else at the moment. This will likely change, especially as cross-platform options are explored. One likely direction for the engine is to use Mono, which will massively increase the platform support.
 
 
 # Try it out
