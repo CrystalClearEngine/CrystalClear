@@ -13,10 +13,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunMyStepRoutine()
 		{
-			Console.WriteLine("Trying to start routine!");
 			StepRoutine.Start(MyStepRoutine());
-			Console.WriteLine("Started routine!");
-
 			FrameUpdateEventClass.Instance.RaiseEvent();
 			TestEventClass.Instance.RaiseEvent();
 		}

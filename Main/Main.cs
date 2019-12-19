@@ -49,12 +49,6 @@ public static class MainClass
 			scriptObject.AddScript(scriptType);
 		}
 
-		// Debug information...
-		foreach (Delegate deleg in StartEventClass.Instance.GetSubscribers())
-		{
-			Console.WriteLine(deleg.Method.Name);
-		}
-
 		// Show some temporary debug info about the compiled scripts.
 		//foreach (Type scriptType in scriptTypes)
 		//{
@@ -84,17 +78,6 @@ public static class MainClass
 		StartEventClass.Instance.RaiseEvent();
 
 		// Wait for user input before closing the application.
-		Console.ReadKey();
-
-		// Debug information...
-		foreach (Delegate deleg in StartEventClass.Instance.GetSubscribers())
-		{
-			Console.WriteLine(deleg.Method.Name);
-		}
-
-		// Raise the event again.
-		StartEventClass.Instance.RaiseEvent();
-		// Exit when user is done.
 		Console.ReadKey();
 	}
 }

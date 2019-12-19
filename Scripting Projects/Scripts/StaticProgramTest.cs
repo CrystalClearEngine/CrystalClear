@@ -1,7 +1,6 @@
 ﻿using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
 
-[IsScript]
 public static class StaticProgramTest
 {
 	[OnStartEvent]

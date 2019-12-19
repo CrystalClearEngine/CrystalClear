@@ -49,26 +49,26 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
 		public Script(Type scriptType, object[] constructorParameters = null)
 		{
+			// IsScript check.
+			if (!IsScript(scriptType))
+			{
+				throw new ArgumentException("The provided type is not a script!");
+			}
+
 			// Assign ScriptType.
 			ScriptType = scriptType;
 
-			// Is the Script type not static?
-			if (!scriptType.IsAbstract && !scriptType.IsSealed)
+			// Are there any constructor parameters?
+			if (constructorParameters != null)
 			{
-				if (constructorParameters != null)
-				{
-					// Assign ScriptInstance to an instance of the Script using the provided constructor parameters.
-					ScriptInstance = Activator.CreateInstance(scriptType, constructorParameters);
-				}
-				else
-				{
-					// Assign ScriptInstance to an instance of the Script.
-					ScriptInstance = Activator.CreateInstance(scriptType);
-				}
+				// Assign ScriptInstance to an instance of the Script using the provided constructor parameters.
+				ScriptInstance = Activator.CreateInstance(scriptType, constructorParameters);
 			}
 			else
-				// There is no instance of ScriptType since it is static.
-				ScriptInstance = null;
+			{
+				// Assign ScriptInstance to an instance of the Script.
+				ScriptInstance = Activator.CreateInstance(scriptType);
+			}
 
 			// Subscribe the events.
 			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
@@ -82,6 +82,12 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
 		public Script(HierarchyObject attatchedTo, Type scriptType, object[] constructorParameters = null) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
+			// IsScript check.
+			if (!IsScript(scriptType))
+			{
+				throw new ArgumentException("The provided type is not a script!");
+			}
+
 			// Assign ScriptType.
 			ScriptType = scriptType;
 
@@ -97,16 +103,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// </summary>
 		/// <param name="assembly">The assembly to find the scripts in.</param>
 		/// <returns>The found scripts.</returns>
-		public static Type[] FindScriptTypesInAssembly(Assembly assembly)
-		{
-			// Find and store the found script types.
-			Type[] scripts = (from exportedType in assembly.GetTypes()
-							  from attribute in exportedType.GetCustomAttributes()
-							  where attribute is IsScriptAttribute
-							  select exportedType).ToArray();
-			// Return scripts.
-			return scripts;
-		}
+		public static Type[] FindScriptTypesInAssembly(Assembly assembly) => FindScriptTypesInTypes(assembly.GetTypes());
 
 		/// <summary>
 		/// Finds all types with the script attribute and returns them.
@@ -116,9 +113,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 		public static Type[] FindScriptTypesInTypes(params Type[] types)
 		{
 			// Find and store the found script types.
-			Type[] scripts = (from type in types
-							  from attribute in type.GetCustomAttributes()
-							  where attribute is IsScriptAttribute
+			Type[] scripts = (from type in types // Iterator variable.
+							  where IsScript(type) // Is this a script?
 							  select type).ToArray();
 			// Return scripts.
 			return scripts;
@@ -186,6 +182,12 @@ namespace CrystalClear.HierarchySystem.Scripting
 
 			// Return returnObjects as an array because it is neater that way.
 			return returnObjects.ToArray();
+		}
+
+		public static bool IsScript(Type toCheck)
+		{
+			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?
+				&& !(toCheck.IsAbstract && toCheck.IsSealed); // Static check.
 		}
 
 		#region Exceptions
