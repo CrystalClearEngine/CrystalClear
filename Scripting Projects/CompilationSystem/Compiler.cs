@@ -1,7 +1,7 @@
-﻿using Microsoft.CSharp;
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using Microsoft.CSharp;
 
 namespace CrystalClear.CompilationSystem
 {
@@ -26,7 +26,7 @@ namespace CrystalClear.CompilationSystem
 				// Set the options for the compilation.
 				CompilerParameters options = new CompilerParameters
 				{
-					GenerateExecutable = false,
+					GenerateExecutable = false, // We don't want an executable.
 #if DEBUG
 					IncludeDebugInformation = true,
 					GenerateInMemory = false,
