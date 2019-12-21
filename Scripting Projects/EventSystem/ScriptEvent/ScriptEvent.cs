@@ -13,20 +13,20 @@ namespace CrystalClear.EventSystem
 		/// <summary>
 		/// Subscribes a method to the event.
 		/// </summary>
-		/// <param name="method"></param>
-		/// <param name="instance"></param>
+		/// <param name="method">The method to subscribe.</param>
+		/// <param name="instance">The instance of the method's class to use.</param>
 		public abstract void Subscribe(MethodInfo method, object instance);
 
 		/// <summary>
 		/// Subscribes a delegate to the event.
 		/// </summary>
-		/// <param name="toSubscribe"></param>
+		/// <param name="toSubscribe">The delegate to subscribe.</param>
 		public abstract void Subscribe(Delegate toSubscribe);
 
 		/// <summary>
 		/// Unsubscribes a delegate from the event.
 		/// </summary>
-		/// <param name="toUnsubscribe"></param>
+		/// <param name="toUnsubscribe">The delegate to unsubscribe.</param>
 		public abstract void Unsubscribe(Delegate toUnsubscribe);
 
 		/// <summary>
