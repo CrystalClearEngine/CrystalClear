@@ -5,15 +5,17 @@ using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Reflection;
-using System.Xml.Serialization;
 using System.IO;
-using System.Xml;
 using CrystalClear.HierarchySystem;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Threading;
 
 public static class MainClass
 {
 	private static void Main()
 	{
+		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+
 		// The files to compile.
 		string[] scriptFilesPaths =
 		{
@@ -79,16 +81,22 @@ public static class MainClass
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], attatchedTo: scriptObject);
 		scriptObject.AttatchedScripts.RemoveAt(2);
 
-		XmlSerializer xmlSerializer = new XmlSerializer(typeof(ScriptStorage));
-		XmlWriter writer = XmlWriter.Create(Environment.CurrentDirectory + @"\XMLYAAY.xml");
-		xmlSerializer.Serialize(writer, scriptStorage);
-		writer.Close();
+		BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-		scriptObject.AddScriptManually(((ScriptStorage)xmlSerializer.Deserialize(new StreamReader(Environment.CurrentDirectory + @"\XMLYAAY.xml"))).CreateScript());
+		FileStream stream = new FileStream($@"{Environment.CurrentDirectory}\binary.bin", FileMode.OpenOrCreate);
+
+		binaryFormatter.Serialize(stream, scriptStorage);
+
+		stream.Position = 0;
+
+		ScriptStorage scriptStorage1 = (ScriptStorage)binaryFormatter.Deserialize(stream);
+
+		scriptObject.AddScriptManually(scriptStorage1.CreateScript());
+
+		stream.Close();
 
 		// Raise the start event.
 		StartEventClass.Instance.RaiseEvent();
-
 
 		// Wait for user input before closing the application.
 		Console.ReadKey();

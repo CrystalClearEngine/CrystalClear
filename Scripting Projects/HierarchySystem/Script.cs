@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Xml.Serialization;
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
@@ -203,25 +202,13 @@ namespace CrystalClear.HierarchySystem.Scripting
 	}
 
 	[Serializable] // For the binary formatter...
-	[XmlType("ScriptStorage")]
-	[XmlRoot("ScriptStorage")]
 	public class ScriptStorage
 	{
-		[XmlElement("TypeAssemblyQualifiedName")]
 		public readonly string assemblyQualifiedName;
 
-		[XmlArray("ConstructorParameters")]
-		[XmlArrayItem("Parameter")]
 		public readonly object[] constructorParameters;
 
-		[XmlElement("PathToAttatchedHierarchyObject")]
 		public readonly string attatchedToPath;
-
-		// For the XmlSerializer...
-		private ScriptStorage()
-		{
-
-		}
 
 		public ScriptStorage(Type scriptType, object[] constructorParameters = null, HierarchyObject attatchedTo = null)
 		{
