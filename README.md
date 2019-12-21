@@ -38,13 +38,13 @@ Since the engine is not even nearly complete at this point, there is no version 
 # The future
 The engine will be considered to have entered alpha when the following features have all been made functional:
 
-1. ScriptingEngine
+1. CompilationSystem
 
 2. EventSystem
 
 3. HierarchySystem
 
-4. UI
+4. UISystem
 
 5. RenderEngine
 
