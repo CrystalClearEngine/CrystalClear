@@ -117,7 +117,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return HierarchySystem.LoadedHierarchies.Values.Contains(this);
+				return HierarchySystem.LoadedHierarchies.Values.Contains(Root);
 			}
 		}
 
@@ -176,6 +176,22 @@ namespace CrystalClear.HierarchySystem
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
 		protected ImmutableDictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
+
+		public string Path
+		{
+			get
+			{
+				string path = Name;
+
+				if (!IsRoot)
+				{
+					string parentPath = Parent.Path;
+					path = path.Insert(0, parentPath + @"\");
+				}
+
+				return path;
+			}
+		}
 		#endregion
 
 		#region HierarchyManagement
@@ -330,8 +346,6 @@ namespace CrystalClear.HierarchySystem
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
 				this.parent = parent;
-				OnReparent(parent);
-				return;
 			}
 
 			OnReparent(Parent);

@@ -5,6 +5,10 @@ using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Reflection;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
+using CrystalClear.HierarchySystem;
 
 public static class MainClass
 {
@@ -43,6 +47,8 @@ public static class MainClass
 		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
 		// Create a ScriptObject to experiment on. Muahaha!
 		ScriptObject scriptObject = new ScriptObject();
+		// Add ScriptObject to the LoadedHierarchies list.
+		HierarchySystem.AddHierarchy("Experiment ScriptObject", scriptObject);
 		// Add the scripts to scriptObject.
 		foreach (Type scriptType in scriptTypes)
 		{
@@ -72,10 +78,17 @@ public static class MainClass
 
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], attatchedTo: scriptObject);
 		scriptObject.AttatchedScripts.RemoveAt(2);
-		scriptObject.AddScriptManually(scriptStorage.CreateScript());
+
+		XmlSerializer xmlSerializer = new XmlSerializer(typeof(ScriptStorage));
+		XmlWriter writer = XmlWriter.Create(Environment.CurrentDirectory + @"\XMLYAAY.xml");
+		xmlSerializer.Serialize(writer, scriptStorage);
+		writer.Close();
+
+		scriptObject.AddScriptManually(((ScriptStorage)xmlSerializer.Deserialize(new StreamReader(Environment.CurrentDirectory + @"\XMLYAAY.xml"))).CreateScript());
 
 		// Raise the start event.
 		StartEventClass.Instance.RaiseEvent();
+
 
 		// Wait for user input before closing the application.
 		Console.ReadKey();

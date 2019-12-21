@@ -3,13 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Xml.Serialization;
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
 	/// <summary>
 	/// Stores the type and instance of a Script.
 	/// </summary>
-	public struct Script
+	public struct Script // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
 	{
 		/// <summary>
 		/// The instance of the Script.
@@ -201,27 +202,39 @@ namespace CrystalClear.HierarchySystem.Scripting
 		#endregion
 	}
 
-	[Serializable]
+	[Serializable] // For the binary formatter...
+	[XmlType("ScriptStorage")]
+	[XmlRoot("ScriptStorage")]
 	public class ScriptStorage
 	{
-		private readonly string assemblyQualifiedName;
+		[XmlElement("TypeAssemblyQualifiedName")]
+		public readonly string assemblyQualifiedName;
 
-		private readonly object[] constructorParameters;
+		[XmlArray("ConstructorParameters")]
+		[XmlArrayItem("Parameter")]
+		public readonly object[] constructorParameters;
 
-		private readonly HierarchyObject attatchedTo;
+		[XmlElement("PathToAttatchedHierarchyObject")]
+		public readonly string attatchedToPath;
+
+		// For the XmlSerializer...
+		private ScriptStorage()
+		{
+
+		}
 
 		public ScriptStorage(Type scriptType, object[] constructorParameters = null, HierarchyObject attatchedTo = null)
 		{
 			assemblyQualifiedName = scriptType.AssemblyQualifiedName;
 			this.constructorParameters = constructorParameters;
-			this.attatchedTo = attatchedTo;
+			this.attatchedToPath = attatchedTo.Path;
 		}
 
 		public Script CreateScript()
 		{
 			try
 			{
-				Script script = new Script(Type.GetType(assemblyQualifiedName), constructorParameters, attatchedTo); //TODO look up wether or not declaring a variable like this wastes any memory or if it is optimized. This does look cleaner than just returning I think, so for now it stays here and everywhere else!
+				Script script = new Script(Type.GetType(assemblyQualifiedName), constructorParameters, HierarchySystem.FollowPath(attatchedToPath)); //TODO look up wether or not declaring a variable like this wastes any memory or if it is optimized. This does look cleaner than just returning I think, so for now it stays here and everywhere else!
 				return script;
 			}
 			catch (TypeLoadException e)
