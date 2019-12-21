@@ -79,21 +79,11 @@ public static class MainClass
 		//}
 
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
-		scriptObject.AttatchedScripts.RemoveAt(2);
+		scriptObject.AttatchedScripts.RemoveAt(2); // We need to be able to also remove the existing subscriptions for this Script, should exist a "destroy" or similar method.
 
-		BinaryFormatter binaryFormatter = new BinaryFormatter();
+		ScriptStorage.StoreToFile($@"{Environment.CurrentDirectory}\binary.bin", scriptStorage);
 
-		FileStream stream = new FileStream($@"{Environment.CurrentDirectory}\binary.bin", FileMode.OpenOrCreate);
-
-		binaryFormatter.Serialize(stream, scriptStorage);
-
-		stream.Position = 0;
-
-		ScriptStorage scriptStorage1 = (ScriptStorage)binaryFormatter.Deserialize(stream);
-
-		scriptObject.AddScriptManually(scriptStorage1.CreateScript());
-
-		stream.Close();
+		scriptObject.AddScriptManually(ScriptStorage.CreateScriptFromScriptStorageFile($@"{Environment.CurrentDirectory}\binary.bin"));
 
 		// Raise the start event.
 		StartEventClass.Instance.RaiseEvent();
