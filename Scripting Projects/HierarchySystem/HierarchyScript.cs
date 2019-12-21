@@ -2,6 +2,9 @@
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
+	/// <summary>
+	/// The base class for HierarchyScript. Not too much to see here.
+	/// </summary>
 	public abstract class HierarchyScriptBase
 	{
 
