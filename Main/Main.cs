@@ -78,7 +78,7 @@ public static class MainClass
 		//	Console.WriteLine("}");
 		//}
 
-		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], attatchedTo: scriptObject);
+		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
 		scriptObject.AttatchedScripts.RemoveAt(2);
 
 		BinaryFormatter binaryFormatter = new BinaryFormatter();
