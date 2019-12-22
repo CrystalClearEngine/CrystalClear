@@ -194,7 +194,7 @@ namespace CrystalClear.HierarchySystem
 		}
 		#endregion
 
-		#region HierarchyManagement
+		#region Hierarchy Management
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
