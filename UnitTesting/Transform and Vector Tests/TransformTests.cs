@@ -58,9 +58,9 @@ namespace UnitTests
 
 			// Inequality test.
 			Assert.IsTrue(v1 != new Vector(2f));
-			Assert.IsTrue(v1 != v2);
-			Assert.IsTrue(v2 != v3);
-			Assert.IsTrue(v4 != v1);
+			Assert.IsFalse(v1 != v2);
+			Assert.IsFalse(v2 != v3);
+			Assert.IsFalse(v4 != v1);
 		}
 	}
 }

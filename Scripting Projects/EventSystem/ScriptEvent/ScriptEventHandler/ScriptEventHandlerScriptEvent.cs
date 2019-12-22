@@ -17,7 +17,7 @@ namespace CrystalClear.EventSystem
 		/// Gets the subscribers of the event.
 		/// </summary>
 		/// <returns>The subscribed delegates.</returns>
-		public override Delegate[] GetSubscribers()
+		public override Delegate[] GetSubscribers() // TODO maybe make this into a property instead?
 		{
 			return Event?.GetInvocationList();
 		}
@@ -27,7 +27,6 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public virtual void RaiseEvent()
 		{
-			Delegate[] _ = GetSubscribers();
 			Event?.Invoke();
 		}
 
@@ -44,7 +43,7 @@ namespace CrystalClear.EventSystem
 		/// Subscribes a method to the event using a MethodInfo and instance. Utilizes CreateDelegate in MethodInfo.
 		/// </summary>
 		/// <param name="method">The method to subscribe.</param>
-		/// <param name="instance">The method's class insance to subscribe to. (Null if the method is static)</param>
+		/// <param name="instance">The method's class insance to subscribe to. (Null if the method is static.)</param>
 		public override void Subscribe(MethodInfo method, object instance)
 		{
 			Delegate @delegate = method.CreateDelegate(typeof(ScriptEventHandler), instance);

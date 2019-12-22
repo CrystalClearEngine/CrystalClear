@@ -175,7 +175,7 @@ namespace CrystalClear.ScriptUtilities
 
 		public bool Equals(Vector other)
 		{
-			return Equals(other);
+			return other is Vector vector && vector == this;
 		}
 
 		public override int GetHashCode()

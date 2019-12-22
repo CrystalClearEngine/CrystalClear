@@ -5,16 +5,16 @@ using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Reflection;
-using System.IO;
 using CrystalClear.HierarchySystem;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 
 public static class MainClass
 {
 	private static void Main()
 	{
+#if DEBUG
 		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+#endif
 
 		// The files to compile.
 		string[] scriptFilesPaths =
@@ -79,13 +79,18 @@ public static class MainClass
 		//}
 
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
-		scriptObject.AttatchedScripts.RemoveAt(2); // We need to be able to also remove the existing subscriptions for this Script, should exist a "destroy" or similar method.
 
-		ScriptStorage.StoreToFile($@"{Environment.CurrentDirectory}\binary.bin", scriptStorage);
+		string path = $@"{Environment.CurrentDirectory}\binary.bin";
 
-		scriptObject.AddScriptManually(ScriptStorage.CreateScriptFromScriptStorageFile($@"{Environment.CurrentDirectory}\binary.bin"));
+		ScriptStorage.StoreToFile(path, scriptStorage);
+
+		scriptObject.AddScriptManually(ScriptStorage.CreateScriptFromScriptStorageFile(path));
 
 		// Raise the start event.
+		foreach (Delegate del in StartEventClass.Instance.GetSubscribers())
+		{
+			Console.WriteLine(del.Method.Name);
+		}
 		StartEventClass.Instance.RaiseEvent();
 
 		// Wait for user input before closing the application.

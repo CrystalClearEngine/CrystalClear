@@ -1,4 +1,5 @@
-﻿using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.EventSystem;
+using CrystalClear.ScriptUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="attatchedTo">The HierarchyObject to attatch this Script to (provided it is a HierarchyScript!).</param>
 		public Script(Type scriptType, object[] constructorParameters = null, HierarchyObject attatchedTo = null)
 		{
-			// Is scriptType an HierarchyScript?
+			// Is scriptType a HierarchyScript?
 			if (HierarchyScript.IsHierarchyScript(scriptType))
 			{
 				// Initialize this to new Script() for HierarchyObjects.
@@ -119,7 +120,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// Return scripts.
 			return scripts;
 		}
-
 
 		/// <summary>
 		/// Calls a method in the script by method name.
