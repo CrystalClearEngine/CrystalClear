@@ -24,12 +24,12 @@ namespace CrystalClear.HierarchySystem
 		}
 #pragma warning restore IDE0051 // Remove unused private members
 
-		// The name of a HierarchyRoot is stored in the HierarchySystem in LoadedHierarchies.
+		// The name of a HierarchyRoot is stored in the HierarchyManager in LoadedHierarchies.
 		public new string Name
 		{
 			get
 			{
-				return HierarchySystem.GetHierarchyName(this);
+				return HierarchyManager.GetHierarchyName(this);
 			}
 		}
 

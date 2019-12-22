@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CrystalClear.HierarchySystem
 {
-	public static class HierarchySystem
+	public static class HierarchyManager
 	{
 		/// <summary>
 		/// Follows a path and returns the HierarchyObject at the end.
@@ -23,12 +23,12 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// The dictionary containing all currently loaded hierarchies.
+		/// The dictionary containing all currently loaded Hierarchies.
 		/// </summary>
 		public static Dictionary<string, HierarchyObject> LoadedHierarchies = new Dictionary<string, HierarchyObject>();
 
 		/// <summary>
-		/// Adds a Hierarchy to the loaded hierarchies. Use LoadHierarchy() unless the Hierarchy is constructed at runtime.
+		/// Adds a Hierarchy to the loaded Hierarchies. Use LoadHierarchy() unless the Hierarchy is constructed at runtime.
 		/// </summary>
 		/// <param name="name"></param>
 		/// <param name="hierarchyObject"></param>

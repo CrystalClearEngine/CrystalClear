@@ -105,7 +105,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				// If this HierarchyObject has no parent that means that it has to be at the root, since HierarchySystem cannot be used as parent.
+				// If this HierarchyObject has no parent that means that it has to be at the root, since HierarchyManager cannot be used as parent.
 				return (Parent == null);
 			}
 		}
@@ -117,7 +117,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return HierarchySystem.LoadedHierarchies.Values.Contains(Root);
+				return HierarchyManager.LoadedHierarchies.Values.Contains(Root);
 			}
 		}
 
@@ -142,19 +142,19 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Returns the name of the containing hierarchy, or calls the HierarchySystem's rename method if set.
+		/// Returns the name of the containing hierarchy, or calls the HierarchyManager's rename method if set.
 		/// </summary>
 		public string HierarchyName
 		{
-			get => HierarchySystem.GetHierarchyName(Root);
+			get => HierarchyManager.GetHierarchyName(Root);
 			set
 			{
-				HierarchySystem.SetHierarchyName(Root, value);
+				HierarchyManager.SetHierarchyName(Root, value);
 			}
 		}
 
 		/// <summary>
-		/// Returns the name of this HierarchyObject by looking it up via GetName() on the parent (or HierarchySystem if this HierarchyObject is the root). This property supports setting the name, which uses the SetName() method on the parent or HierarchySystem if this Hierarchy object is the root.
+		/// Returns the name of this HierarchyObject by looking it up via GetName() on the parent (or HierarchyManager if this HierarchyObject is the root). This property supports setting the name, which uses the SetName() method on the parent or HierarchyManager if this Hierarchy object is the root.
 		/// </summary>
 		public string Name
 		{
@@ -166,7 +166,7 @@ namespace CrystalClear.HierarchySystem
 				}
 				else
 				{
-					return HierarchySystem.GetHierarchyName(this);
+					return HierarchyManager.GetHierarchyName(this);
 				}
 			}
 			set => Parent.SetChildName(this, value);

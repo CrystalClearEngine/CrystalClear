@@ -35,14 +35,14 @@ namespace CrystalClear.HierarchySystem.Scripting
 		private readonly object[] constructorParameters;
 
 		/// <summary>
-		/// The path to follow from HierarchySystem to find the HierarchyObject this Script is attatched to.
+		/// The path to follow from HierarchyManager to find the HierarchyObject this Script is attatched to.
 		/// </summary>
 		private readonly string attatchedToPath; // TODO/REM Shouldn't HierarchyObjects have the job of attatching the script? Regardless this should still stay since others could get use out of it.
 		public HierarchyObject AttatchedTo
 		{
 			get
 			{
-				return HierarchySystem.FollowPath(attatchedToPath);
+				return HierarchyManager.FollowPath(attatchedToPath);
 			}
 		}
 

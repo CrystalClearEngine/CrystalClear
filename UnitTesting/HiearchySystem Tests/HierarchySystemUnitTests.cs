@@ -23,7 +23,7 @@ namespace UnitTests
 			hierarchyRoot.AddChild("ho1", ho1);
 			hierarchyRoot.AddChild("ho2", ho2);
 			hierarchyRoot.AddChild("ho3", ho3);
-			HierarchySystem.AddHierarchy("test", hierarchyRoot);
+			HierarchyManager.AddHierarchy("test", hierarchyRoot);
 		}
 
 		/// <summary>
@@ -34,35 +34,35 @@ namespace UnitTests
 		{
 			HierarchyObject hierarchyObjectToFind = new ScriptObject();
 			HierarchyObject hierarchyObjectToFind2 = new UIObject();
-			HierarchySystem.LoadedHierarchies["test"].AddChild("followPathTest", hierarchyObjectToFind);
-			HierarchySystem.LoadedHierarchies["test"].LocalHierarchy["followPathTest"].AddChild("followPathTest2", hierarchyObjectToFind2);
-			Assert.AreEqual(hierarchyObjectToFind, HierarchySystem.FollowPath("test/followPathTest"));
-			Assert.AreEqual(hierarchyObjectToFind2, HierarchySystem.FollowPath("test/followPathTest/followPathTest2"));
+			HierarchyManager.LoadedHierarchies["test"].AddChild("followPathTest", hierarchyObjectToFind);
+			HierarchyManager.LoadedHierarchies["test"].LocalHierarchy["followPathTest"].AddChild("followPathTest2", hierarchyObjectToFind2);
+			Assert.AreEqual(hierarchyObjectToFind, HierarchyManager.FollowPath("test/followPathTest"));
+			Assert.AreEqual(hierarchyObjectToFind2, HierarchyManager.FollowPath("test/followPathTest/followPathTest2"));
 		}
 
 		/// <summary>
-		/// Tests the SetHierarchyName() method in HierarchySystem.
+		/// Tests the SetHierarchyName() method in HierarchyManager.
 		/// </summary>
 		[TestMethod]
 		public void SetHierarchyName()
 		{
 			string newName = "newName";
-			HierarchyObject hierarchyObject = HierarchySystem.LoadedHierarchies["test"];
-			HierarchySystem.SetHierarchyName("test", newName);
-			Assert.IsTrue(HierarchySystem.LoadedHierarchies.ContainsKey(newName));
-			Assert.AreEqual(HierarchySystem.GetHierarchyName(hierarchyObject), newName);
+			HierarchyObject hierarchyObject = HierarchyManager.LoadedHierarchies["test"];
+			HierarchyManager.SetHierarchyName("test", newName);
+			Assert.IsTrue(HierarchyManager.LoadedHierarchies.ContainsKey(newName));
+			Assert.AreEqual(HierarchyManager.GetHierarchyName(hierarchyObject), newName);
 		}
 
 		/// <summary>
-		/// Tests the GetHierarchyName() method in HierarchySystem.
+		/// Tests the GetHierarchyName() method in HierarchyManager.
 		/// </summary>
 		[TestMethod]
 		public void GetHierarchyName()
 		{
 			HierarchyRoot hierarchyRoot = new HierarchyRoot();
 			string hierarchyName = "GetThisName";
-			HierarchySystem.AddHierarchy(hierarchyName, hierarchyRoot);
-			Assert.AreEqual(HierarchySystem.GetHierarchyName(hierarchyRoot), hierarchyName);
+			HierarchyManager.AddHierarchy(hierarchyName, hierarchyRoot);
+			Assert.AreEqual(HierarchyManager.GetHierarchyName(hierarchyRoot), hierarchyName);
 		}
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace UnitTests
 		[TestCleanup]
 		public void Cleanup()
 		{
-			HierarchySystem.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyObject>();
+			HierarchyManager.LoadedHierarchies = new System.Collections.Generic.Dictionary<string, HierarchyObject>();
 		}
 	}
 }

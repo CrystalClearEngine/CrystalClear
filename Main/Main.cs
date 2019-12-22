@@ -50,7 +50,7 @@ public static class MainClass
 		// Create a ScriptObject to experiment on. Muahaha!
 		ScriptObject scriptObject = new ScriptObject();
 		// Add ScriptObject to the LoadedHierarchies list.
-		HierarchySystem.AddHierarchy("Experiment ScriptObject", scriptObject);
+		HierarchyManager.AddHierarchy("Experiment ScriptObject", scriptObject);
 		// Add the scripts to scriptObject.
 		foreach (Type scriptType in scriptTypes)
 		{

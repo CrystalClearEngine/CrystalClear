@@ -55,14 +55,14 @@ namespace CrystalClear.HierarchySystem
 		private readonly object[] constructorParameters;
 
 		/// <summary>
-		/// The path to follow from HierarchySystem to find the position for this HierarchyObject to be added to.
+		/// The path to follow from HierarchyManager to find the position for this HierarchyObject to be added to.
 		/// </summary>
 		private readonly string path;
 		public HierarchyObject Parent
 		{
 			get
 			{
-				return HierarchySystem.FollowPath(path);
+				return HierarchyManager.FollowPath(path);
 			}
 		}
 
