@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CrystalClear.HierarchySystem.Scripting;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -10,6 +12,24 @@ namespace CrystalClear.HierarchySystem
 	[Serializable] // For the binary formatter...
 	public class HierarchyObjectStorage
 	{
+		public HierarchyObjectStorage(Type HierarchyObjectType, HierarchyObject parent, object[] constructorParameters = null)
+		{
+			this.assemblyQualifiedTypeName = HierarchyObjectType.AssemblyQualifiedName;
+			this.constructorParameters = constructorParameters;
+			this.path = parent.Path;
+		}
+
+		private readonly ScriptStorage[] attatchedScripts;
+		public Script[] CreateScripts()
+		{
+			List<Script> scripts = new List<Script>();
+			foreach (ScriptStorage scriptStorage in attatchedScripts)
+			{
+				scripts.Add(scriptStorage.CreateScript());
+			}
+			return scripts.ToArray();
+		}
+
 		/// <summary>
 		/// The assemblyQualifiedName of the type of the HierarchyObject.
 		/// </summary>
@@ -44,13 +64,6 @@ namespace CrystalClear.HierarchySystem
 			{
 				return HierarchySystem.FollowPath(path);
 			}
-		}
-
-		public HierarchyObjectStorage(Type HierarchyObjectType, HierarchyObject parent, object[] constructorParameters = null)
-		{
-			this.assemblyQualifiedTypeName = HierarchyObjectType.AssemblyQualifiedName;
-			this.constructorParameters = constructorParameters;
-			this.path = parent.Path;
 		}
 
 		/// <summary>
@@ -99,7 +112,16 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The constructed HierarchyObject.</returns>
 		public HierarchyObject CreateHierarchyObject()
 		{
-			HierarchyObject hierarchyObject = (HierarchyObject)Activator.CreateInstance(Type, constructorParameters);
+			HierarchyObject hierarchyObject;
+			if (constructorParameters != null)
+			{
+				hierarchyObject = (HierarchyObject)Activator.CreateInstance(Type, constructorParameters);
+			}
+			else
+			{
+				hierarchyObject = (HierarchyObject)Activator.CreateInstance(Type);
+			}
+			hierarchyObject.AttatchedScripts.AddRange(CreateScripts());
 			return hierarchyObject;
 		}
 	}
