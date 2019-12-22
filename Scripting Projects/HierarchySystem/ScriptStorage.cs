@@ -18,7 +18,14 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			get
 			{
-				return Type.GetType(assemblyQualifiedTypeName);
+				try
+				{
+					return Type.GetType(assemblyQualifiedTypeName);
+				}
+				catch (TypeLoadException e)
+				{
+					throw new Exception($"The specified Script type can not be found. Make sure it is loaded correctly and that the type still exists. FullTypeName = {assemblyQualifiedTypeName}. Full error message = {e}");
+				}
 			}
 		}
 
@@ -92,15 +99,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <returns>The constructed Script.</returns>
 		public Script CreateScript()
 		{
-			try
-			{
-				Script script = new Script(Type, constructorParameters, AttatchedTo); //TODO look up wether or not declaring a variable like this wastes any memory or if it is optimized. This does look cleaner than just returning I think, so for now it stays here and everywhere else!
-				return script;
-			}
-			catch (TypeLoadException e)
-			{
-				throw new Exception($"The specified Script type can not be found. Make sure it is loaded correctly and that the type still exists. FullTypeName = {assemblyQualifiedTypeName}. Full error message = {e}");
-			}
+			Script script = new Script(Type, constructorParameters, AttatchedTo); //TODO look up wether or not declaring a variable like this wastes any memory or if it is optimized. This does look cleaner than just returning I think, so for now it stays here and everywhere else!
+			return script;
 		}
 	}
 }

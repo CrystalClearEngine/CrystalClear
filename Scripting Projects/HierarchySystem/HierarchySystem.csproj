@@ -49,6 +49,7 @@
     <Compile Include="HierarchySystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script.cs" />
+    <Compile Include="HierarchyObjectStorage.cs" />
     <Compile Include="ScriptStorage.cs" />
   </ItemGroup>
   <ItemGroup>
