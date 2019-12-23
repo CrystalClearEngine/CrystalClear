@@ -34,7 +34,6 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		// Refer HierarchyObjects to LocalHierarchy instead.
-		public ImmutableDictionary<string, HierarchyObject> HierarchyObjects => LocalHierarchy;
-
+		public Hierarchy HierarchyObjects => LocalHierarchy;
 	}
 }

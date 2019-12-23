@@ -175,7 +175,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
-		protected ImmutableDictionary<string, HierarchyObject> Hierarchy => Root.LocalHierarchy;
+		protected Hierarchy Hierarchy => Root.LocalHierarchy;
 
 		public string Path
 		{
@@ -198,20 +198,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
-		private ImmutableDictionary<string, HierarchyObject> localHierarchy = ImmutableDictionary<string, HierarchyObject>.Empty; // TODO create Hierarchy class, that calls events etc automatically and can clean up this code! It would even have an indexed property...
-
-		/// <summary>
-		/// The publicly accessible LocalHierarchy.
-		/// </summary>
-		public ImmutableDictionary<string, HierarchyObject> LocalHierarchy
-		{
-			get => localHierarchy;
-			set
-			{
-				OnLocalHierarchyChange();
-				localHierarchy = value;
-			}
-		}
+		public readonly Hierarchy LocalHierarchy = new Hierarchy();
 
 		/// <summary>
 		/// Accesses the LocalHierarchy of this HierarchyObject.
@@ -220,12 +207,11 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return localHierarchy[index];
+				return LocalHierarchy[index];
 			}
 			set
 			{
-				localHierarchy = localHierarchy.SetItem(index, value);
-				OnLocalHierarchyChange();
+				LocalHierarchy[index] = value;
 			}
 		}
 
@@ -288,9 +274,8 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="child">The HierarchyObject to add.</param>
 		public void AddChild(string name, HierarchyObject child)
 		{
-			localHierarchy = localHierarchy.Add(name, child);
+			LocalHierarchy.AddChild(name, child);
 			child.SetUp(this);
-			OnLocalHierarchyChange();
 		}
 
 		/// <summary>
@@ -352,7 +337,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Removes the specified child by HierarchyObject from the LocalHierarchy.
+		/// Removes the specified child specified by HierarchyObject from the LocalHierarchy.
 		/// </summary>
 		/// <param name="child">The child HierarchyObject to remove.</param>
 		public void RemoveChild(HierarchyObject child)
@@ -363,13 +348,12 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Removes the specified child by name from the LocalHierarchy.
+		/// Removes the specified child specified by name from the LocalHierarchy.
 		/// </summary>
 		/// <param name="childName">The child's name.</param>
 		public void RemoveChild(string childName)
 		{
-			localHierarchy = localHierarchy.Remove(childName);
-			OnLocalHierarchyChange();
+			LocalHierarchy.RemoveChild(childName);
 		}
 
 		/// <summary>
