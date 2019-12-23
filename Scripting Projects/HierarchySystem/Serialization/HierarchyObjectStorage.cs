@@ -17,6 +17,14 @@ namespace CrystalClear.HierarchySystem
 			this.assemblyQualifiedTypeName = HierarchyObjectType.AssemblyQualifiedName;
 			this.constructorParameters = constructorParameters;
 			this.path = parent.Path;
+			List<ScriptStorage> scriptStorages = new List<ScriptStorage>();
+			foreach (Script script in parent.AttatchedScripts)
+			{
+				scriptStorages.Add(
+					new ScriptStorage(
+						script.GetType()));
+			}
+			attatchedScripts = scriptStorages.ToArray();
 		}
 
 		private readonly ScriptStorage[] attatchedScripts;
