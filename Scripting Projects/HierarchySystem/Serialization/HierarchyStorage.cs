@@ -10,6 +10,6 @@ namespace CrystalClear.HierarchySystem
 {
 	public class HierarchyStorage
 	{
-		
+
 	}
 }
