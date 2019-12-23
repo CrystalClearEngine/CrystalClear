@@ -22,7 +22,7 @@ namespace CrystalClear.HierarchySystem
 			{
 				scriptStorages.Add(
 					new ScriptStorage(
-						script.GetType()));
+						script.GetType(), attatchedTo: CreateHierarchyObject()));
 			}
 			this.attatchedScripts = scriptStorages.ToArray();
 		}
