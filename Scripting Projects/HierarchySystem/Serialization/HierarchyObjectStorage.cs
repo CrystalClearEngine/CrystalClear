@@ -3,13 +3,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Runtime.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// HierarchyObjectStorage is a type specifically for allowing serialization and deserialization of HierarchyObjects.
 	/// </summary>
-	[Serializable] // For the binary formatter...
+	[DataContract(Name = "HierarchyObject")] // For the DataContractSerializer...
+	[Serializable] // For the BinaryFormatter...
 	public class HierarchyObjectStorage
 	{
 		public HierarchyObjectStorage(Type HierarchyObjectType, HierarchyObject parent, object[] constructorParameters = null)
@@ -27,21 +29,30 @@ namespace CrystalClear.HierarchySystem
 			this.attatchedScripts = scriptStorages.ToArray();
 		}
 
+		#region Data
+		[DataMember(Name = "Scripts")]
 		private readonly ScriptStorage[] attatchedScripts;
-		public Script[] CreateScripts()
-		{
-			List<Script> scripts = new List<Script>();
-			foreach (ScriptStorage scriptStorage in attatchedScripts)
-			{
-				scripts.Add(scriptStorage.CreateScript());
-			}
-			return scripts.ToArray();
-		}
 
 		/// <summary>
 		/// The assemblyQualifiedName of the type of the HierarchyObject.
 		/// </summary>
+		[DataMember(Name = "HierarchyObjectTypeName")]
 		private readonly string assemblyQualifiedTypeName;
+
+		/// <summary>
+		/// The parameters to use when constructing this HierarchyObject.
+		/// </summary>
+		[DataMember(Name = "ConstructorParameters")]
+		private readonly object[] constructorParameters;
+
+		/// <summary>
+		/// The path to follow from HierarchyManager to find the position for this HierarchyObject to be added to.
+		/// </summary>
+		[DataMember(Name = "Path")]
+		private readonly string path;
+		#endregion
+
+		#region Properties
 		public Type Type
 		{
 			get
@@ -57,15 +68,6 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		/// <summary>
-		/// The parameters to use when constructing this HierarchyObject.
-		/// </summary>
-		private readonly object[] constructorParameters;
-
-		/// <summary>
-		/// The path to follow from HierarchyManager to find the position for this HierarchyObject to be added to.
-		/// </summary>
-		private readonly string path;
 		public HierarchyObject Parent
 		{
 			get
@@ -73,20 +75,17 @@ namespace CrystalClear.HierarchySystem
 				return HierarchyManager.FollowPath(path);
 			}
 		}
+		#endregion
 
-		/// <summary>
-		/// Serializes and writes the HierarchyObjectStorage to a binary file using the BinaryFormatter.
-		/// </summary>
-		/// <param name="path">The path to store the HierarchyObjectStorage to.</param>
-		/// <param name="toStore">The HierarchyObjectStorage to store.</param>
-		public static void StoreToFile(string path, HierarchyObjectStorage toStore)
+		#region Creators
+		public Script[] CreateScripts()
 		{
-			using (FileStream stream = new FileStream(path, FileMode.Create))
+			List<Script> scripts = new List<Script>();
+			foreach (ScriptStorage scriptStorage in attatchedScripts)
 			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-				binaryFormatter.Serialize(stream, toStore);
+				scripts.Add(scriptStorage.CreateScript());
 			}
+			return scripts.ToArray();
 		}
 
 		/// <summary>
@@ -132,5 +131,23 @@ namespace CrystalClear.HierarchySystem
 			hierarchyObject.AttatchedScripts.AddRange(CreateScripts());
 			return hierarchyObject;
 		}
+		#endregion
+
+		#region Storing
+		/// <summary>
+		/// Serializes and writes the HierarchyObjectStorage to a binary file using the BinaryFormatter.
+		/// </summary>
+		/// <param name="path">The path to store the HierarchyObjectStorage to.</param>
+		/// <param name="toStore">The HierarchyObjectStorage to store.</param>
+		public static void StoreToFile(string path, HierarchyObjectStorage toStore)
+		{
+			using (FileStream stream = new FileStream(path, FileMode.Create))
+			{
+				BinaryFormatter binaryFormatter = new BinaryFormatter();
+
+				binaryFormatter.Serialize(stream, toStore);
+			}
+		}
+		#endregion
 	}
 }
