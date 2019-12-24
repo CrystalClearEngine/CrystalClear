@@ -96,7 +96,7 @@ namespace CrystalClear.HierarchySystem
 		public void AddChild(string name, HierarchyObject child)
 		{
 			hierarchy.Add(name, child);
-			OnHierarchyChange();
+			OnHierarchyChange?.Invoke();
 		}
 
 		/// <summary>

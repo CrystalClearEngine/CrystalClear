@@ -44,34 +44,30 @@ public static class MainClass
 		}
 		#endregion
 
-		#region Script identification and method subscription
+		#region Script identification
 		// Cache the results.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
-		// Find and subscribe event methods in our types.
-		EventSystem.FindAndSubscribeEventMethods(typesInCode);
-
 		// Find all scripts that are present in the newly compiled assembly.
 		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
-		// Create a ScriptObject to experiment on. Muahaha!
-		ScriptObject scriptObject = new ScriptObject();
-		// Add ScriptObject to the LoadedHierarchies list.
-		HierarchyManager.AddHierarchy("Experiment ScriptObject", scriptObject);
-		// Add the scripts to scriptObject.
-		foreach (Type scriptType in scriptTypes)
-		{
-			scriptObject.AddScript(scriptType);
-		}
 		#endregion
 
 		#region Storing
-		string path = WorkingPath + "storage.bin";
+		string path = WorkingPath + "ScriptObject.bin";
 
-		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
+		HierarchyObjectStorage storage;
 
-		ScriptStorage.StoreToFile(path, scriptStorage);
+		{
+			ScriptObject scriptObject = new ScriptObject();
+			scriptObject.AddChild("Child", new FolderObject());
+			scriptObject.AddScripts(scriptTypes);
 
-		scriptObject.AddScriptManually(ScriptStorage.CreateScriptFromScriptStorageFile(path));
+			storage = new HierarchyObjectStorage(typeof(ScriptObject));
+
+			scriptObject = null;
+		}
+
+		ScriptObject scriptObjectCreated = (ScriptObject)storage.CreateHierarchyObject();
 		#endregion
 
 		#region Event raising

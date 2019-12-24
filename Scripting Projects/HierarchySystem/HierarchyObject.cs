@@ -91,6 +91,21 @@ namespace CrystalClear.HierarchySystem
 			AddScriptManually(new Script(scriptType, constructorParameters, this));
 		}
 
+		public void AddScripts(Type[] scriptTypes, object[][] constructorParameters = null)
+		{
+			if (constructorParameters != null && scriptTypes.Length != constructorParameters.Length)
+			{
+				throw new Exception(); // TODO add message here!
+			}
+			for (int i = 0; i < scriptTypes.Length; i++)
+			{
+				Type scriptType = scriptTypes[i];
+				object[] constructorParameter = null;
+				if (constructorParameters != null)  constructorParameter = constructorParameters[i];
+				AddScriptManually(new Script(scriptType, constructorParameter, this));
+			}
+		}
+
 		/// <summary>
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>
