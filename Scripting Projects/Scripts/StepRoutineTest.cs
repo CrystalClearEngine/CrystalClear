@@ -18,6 +18,22 @@ namespace Scripts
 			TestEventClass.Instance.RaiseEvent();
 		}
 
+		[OnStartEvent]
+		public void RunFrameStepRoutine()
+		{
+			StepRoutine.Start(FrameStepRoutine());
+		}
+
+		private IEnumerator FrameStepRoutine()
+		{
+			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEventClass));
+			while(true)
+			{
+				yield return waitForNewFrame;
+				Console.WriteLine("New frame drawn.");
+			}
+		}
+
 		public IEnumerator MyStepRoutine()
 		{
 			Console.WriteLine("Before frame update");
