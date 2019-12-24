@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\PhyicsTimeStep.cs" />
     <Compile Include="Events\TestEvent.cs" />
     <Compile Include="Events\FrameUpdateEvent.cs" />
     <Compile Include="Events\StartEvent.cs" />

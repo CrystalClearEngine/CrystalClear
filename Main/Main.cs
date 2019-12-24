@@ -77,15 +77,22 @@ public static class MainClass
 		#region Event raising
 		// Raise the start event.
 		StartEventClass.Instance.RaiseEvent();
-		Thread frameUpdateThread = new Thread(FrameUpdateLoop.Loop);
+
+		Thread frameUpdateThread = new Thread(FrameUpdateEventClass.FrameUpdateLoop);
 		frameUpdateThread.Start();
+
+		Thread physicsUpdateThread = new Thread(() => PhysicsTimeStepEventClass.PhysicsTimeStepLoop());
+		physicsUpdateThread.Start();
 		#endregion
 
 		#region Exit handling
-		// Wait for user input before closing the application.
-		Console.ReadKey();
-		// Exit.
-		Environment.Exit(1);
+		ExitHandling:
+		if (Console.ReadKey().Key == ConsoleKey.Escape)
+		{
+			// Exit.
+			Environment.Exit(1);
+		}
+		goto ExitHandling;
 		#endregion
 	}
 }

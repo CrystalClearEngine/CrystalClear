@@ -19,9 +19,15 @@ namespace Scripts
 		}
 
 		[OnStartEvent]
-		public void RunFrameStepRoutine()
+		public void RunFrameUpdateStepRoutine()
 		{
 			StepRoutine.Start(FrameStepRoutine());
+		}
+
+		[OnStartEvent]
+		public void RunPhysicsStepStepRoutine()
+		{
+			StepRoutine.Start(PhysicsStepRoutine());
 		}
 
 		private IEnumerator FrameStepRoutine()
@@ -31,6 +37,16 @@ namespace Scripts
 			{
 				yield return waitForNewFrame;
 				Console.WriteLine("New frame drawn.");
+			}
+		}
+
+		private IEnumerator PhysicsStepRoutine()
+		{
+			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEventClass));
+			while(true)
+			{
+				yield return waitForNewPhysicsStep;
+				Console.WriteLine("New physics step.");
 			}
 		}
 
