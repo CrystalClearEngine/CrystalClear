@@ -4,4 +4,4 @@ echo This utility cleans the debug and release folders since they can fill up wi
 echo Close this program to cancel the cleanup or press any key to clean.
 pause
 echo Deleting Main\bin\Debug\...
-del Main\bin\Debug\
+del Main\bin\Debug\ -f
