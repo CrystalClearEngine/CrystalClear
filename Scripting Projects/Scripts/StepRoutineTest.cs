@@ -18,16 +18,20 @@ namespace Scripts
 			TestEventClass.Instance.RaiseEvent();
 		}
 
+		public IEnumerator MyStepRoutine()
+		{
+			Console.WriteLine("Before frame update");
+			yield return new WaitFor(typeof(FrameUpdateEventClass)); // This and...
+			Console.WriteLine("After frame update");
+			yield return new WaitFor(TestEventClass.Instance); // ...this are both valid options for Singleton Script Events!
+			Console.WriteLine("After test event class");
+			yield break;
+		}
+
 		[OnStartEvent]
 		public void RunFrameUpdateStepRoutine()
 		{
 			StepRoutine.Start(FrameStepRoutine());
-		}
-
-		[OnStartEvent]
-		public void RunPhysicsStepStepRoutine()
-		{
-			StepRoutine.Start(PhysicsStepRoutine());
 		}
 
 		private IEnumerator FrameStepRoutine()
@@ -40,6 +44,12 @@ namespace Scripts
 			}
 		}
 
+		[OnStartEvent]
+		public void RunPhysicsStepStepRoutine()
+		{
+			StepRoutine.Start(PhysicsStepRoutine());
+		}
+
 		private IEnumerator PhysicsStepRoutine()
 		{
 			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEventClass));
@@ -48,16 +58,6 @@ namespace Scripts
 				yield return waitForNewPhysicsStep;
 				Console.WriteLine("New physics step.");
 			}
-		}
-
-		public IEnumerator MyStepRoutine()
-		{
-			Console.WriteLine("Before frame update");
-			yield return new WaitFor(typeof(FrameUpdateEventClass)); // This and...
-			Console.WriteLine("After frame update");
-			yield return new WaitFor(TestEventClass.Instance); // ...this are both valid options for Singleton Script Events!
-			Console.WriteLine("After test event class");
-			yield break;
 		}
 	}
 }
