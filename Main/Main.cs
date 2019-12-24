@@ -64,7 +64,7 @@ public static class MainClass
 		}
 		#endregion
 
-		#region Storings
+		#region Storing
 		string path = WorkingPath + "storage.bin";
 
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
