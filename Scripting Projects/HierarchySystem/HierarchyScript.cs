@@ -32,7 +32,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// <summary>
 	/// Static methods for dealing with HierarchyScripts.
 	/// </summary>
-	internal static class HierarchyScript
+	public static class HierarchyScript
 	{
 		/// <summary>
 		/// Returns wether or not the specified type is a subclass of HierarchyScript.

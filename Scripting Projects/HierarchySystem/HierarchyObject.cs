@@ -14,7 +14,7 @@ namespace CrystalClear.HierarchySystem
 		#region Virtual Event Methods
 		// Overrideable event methods.
 		// Q: Why not use events?
-		// A: They should be implementable in deriving classes without needing to set the subsriptions up.
+		// A: They should be implementable in deriving classes without needing to set up the subsriptions.
 
 		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
@@ -59,6 +59,7 @@ namespace CrystalClear.HierarchySystem
 		/// The Scripts that are currently attatched to this object.
 		/// </summary>
 		public List<Script> AttatchedScripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
+		// TODO maybe only allow attatching HierarchyScripts?
 
 		/// <summary>
 		/// Adds a HiearchyScript based on the specified type to this HierarchyObject.
@@ -228,7 +229,6 @@ namespace CrystalClear.HierarchySystem
 			set
 			{
 				ReParentThis(value);
-				OnReparent(value);
 			}
 		}
 
@@ -334,6 +334,9 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			OnReparent(Parent);
+
+			Hierarchy.ClearOnHierarchyChange();
+			Hierarchy.OnHierarchyChange += OnLocalHierarchyChange;
 		}
 
 		/// <summary>

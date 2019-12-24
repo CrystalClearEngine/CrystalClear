@@ -7,15 +7,19 @@ using System;
 using System.Reflection;
 using CrystalClear.HierarchySystem;
 using System.Threading;
+using static CrystalClear.CrystalClearInformation;
 
 public static class MainClass
 {
 	private static void Main()
 	{
+		#region Thread Culture
 #if DEBUG
-		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US"); // To ensure google-able exceptions.
 #endif
+		#endregion
 
+		#region Compilation
 		// The files to compile.
 		string[] scriptFilesPaths =
 		{
@@ -38,7 +42,9 @@ public static class MainClass
 			// Return to exit.
 			return;
 		}
+		#endregion
 
+		#region Script identification and method subscription
 		// Cache the results.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
@@ -56,44 +62,26 @@ public static class MainClass
 		{
 			scriptObject.AddScript(scriptType);
 		}
+		#endregion
 
-		// Show some temporary debug info about the compiled scripts.
-		//foreach (Type scriptType in scriptTypes)
-		//{
-		//	Console.WriteLine($"{{ {scriptType.Name} contains these constructors:");
-		//	foreach (ConstructorInfo constructor in scriptType.GetConstructors())
-		//	{
-		//		Console.Write($"    Constructor with {constructor.GetParameters().Length} parameters:");
-		//		foreach (ParameterInfo parameter in constructor.GetParameters())
-		//		{
-		//			Console.Write(" " + parameter.Name + "{");
-		//			Console.Write($"Optional: {parameter.IsOptional}, ");
-		//			Console.Write($"In: {parameter.IsIn}, ");
-		//			Console.Write($"Out: {parameter.IsOut}, ");
-		//			Console.Write($"Type: {parameter.ParameterType}");
-		//			Console.Write("},");
-		//		}
-		//		Console.WriteLine("  ;");
-		//	}
-		//	Console.WriteLine("}");
-		//}
+		#region Storings
+		string path = WorkingPath + "storage.bin";
 
 		ScriptStorage scriptStorage = new ScriptStorage(scriptTypes[2], new object[] { "Hello there, I was constructed using this type!" }, scriptObject);
-
-		string path = $@"{Environment.CurrentDirectory}\binary.bin";
 
 		ScriptStorage.StoreToFile(path, scriptStorage);
 
 		scriptObject.AddScriptManually(ScriptStorage.CreateScriptFromScriptStorageFile(path));
+		#endregion
 
+		#region Event raising
 		// Raise the start event.
-		foreach (Delegate del in StartEventClass.Instance.GetSubscribers())
-		{
-			Console.WriteLine(del.Method.Name);
-		}
 		StartEventClass.Instance.RaiseEvent();
+		#endregion
 
+		#region Exit handling
 		// Wait for user input before closing the application.
 		Console.ReadKey();
+		#endregion
 	}
 }

@@ -5,7 +5,7 @@ namespace CrystalClear.ScriptUtilities
 	/// <summary>
 	/// A Transform is an object that keeps track of, and manages numerous functions related to the transformation and position, rotation and scaling properties of an object.
 	/// </summary>
-	public sealed class Transform
+	public sealed class Transform // TODO make separate 2D and 3D version for faster performance in said categories.
 	{
 		/// <summary>
 		/// Constructs a Transform with the specified position, rotation, scale, parent and children.
