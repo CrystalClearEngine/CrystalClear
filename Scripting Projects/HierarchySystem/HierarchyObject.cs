@@ -236,11 +236,11 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		private HierarchyObject parent;
 		/// <summary>
-		/// Returns the parent, and utlizes ReParentChild() to set it.
+		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
 		public HierarchyObject Parent
 		{
-			get => parent;
+			get => parent ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.");
 			set
 			{
 				ReParentThis(value);

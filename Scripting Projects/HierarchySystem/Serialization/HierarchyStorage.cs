@@ -22,7 +22,6 @@ namespace CrystalClear.HierarchySystem
 		#endregion
 
 		#region Creators
-
 		/// <summary>
 		/// Deserializes the HierarchyStorage from the provided binary file.
 		/// </summary>
