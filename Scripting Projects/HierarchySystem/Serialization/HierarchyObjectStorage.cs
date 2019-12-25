@@ -14,19 +14,14 @@ namespace CrystalClear.HierarchySystem
 	[Serializable] // For the BinaryFormatter...
 	public class HierarchyObjectStorage
 	{
-		public HierarchyObjectStorage(Type HierarchyObjectType, HierarchyObject parent = null, object[] constructorParameters = null)
+		public HierarchyObjectStorage()
 		{
-			this.assemblyQualifiedTypeName = HierarchyObjectType.AssemblyQualifiedName;
-			this.constructorParameters = constructorParameters;
-			if(parent != null) this.path = parent.Path;
-			List<ScriptStorage> scriptStorages = new List<ScriptStorage>();
-			foreach (Script script in parent.AttatchedScripts)
-			{
-				scriptStorages.Add(
-					new ScriptStorage(
-						script.GetType(), attatchedTo: CreateHierarchyObject()));
-			}
-			this.attatchedScripts = scriptStorages.ToArray();
+
+		}
+
+		public HierarchyObjectStorage(HierarchyObjectStorage parent)
+		{
+
 		}
 
 		#region Data
