@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -13,18 +13,23 @@ namespace CrystalClear.HierarchySystem
 	[DataContract(Name = "HierarchyObject")] // For the DataContractSerializer...
 	[Serializable] // For the BinaryFormatter...
 	public class HierarchyObjectStorage
-	{
-		public HierarchyObjectStorage()
+	{	
+		/// <summary>
+		/// Used for creating an HierarchyObject when later deserialized.
+		/// </summary>
+		public HierarchyObjectStorage(HierarchyObjectStorage parent = null)
 		{
-
 		}
 
-		public HierarchyObjectStorage(HierarchyObjectStorage parent)
+		public HierarchyObjectStorage(HierarchyStorage hierarchy, ScriptStorage[] scripts, string assemblyQualifiedTypeName, object[] constructorParameters, HierarchyObjectStorage parent = null)
 		{
 
 		}
 
 		#region Data
+		[DataMember(Name = "Hierarchy")]
+		private readonly Hierarchy hierarchy;
+
 		[DataMember(Name = "Scripts")]
 		private readonly ScriptStorage[] attatchedScripts;
 
@@ -67,45 +72,38 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				return HierarchyManager.FollowPath(path);
+				return HierarchyManager.FollowPath(path); // TODO also store this in a cache
 			}
 		}
 		#endregion
 
 		#region Creators
-		public Script[] CreateScripts()
-		{
-			List<Script> scripts = new List<Script>();
-			foreach (ScriptStorage scriptStorage in attatchedScripts)
-			{
-				scripts.Add(scriptStorage.CreateScript());
-			}
-			return scripts.ToArray();
-		}
+		//public Script[] CreateScripts()
+		//{
+		//	List<Script> scripts = new List<Script>();
+		//	foreach (ScriptStorage scriptStorage in attatchedScripts)
+		//	{
+		//		scripts.Add(scriptStorage.CreateScript());
+		//	}
+		//	return scripts.ToArray();
+		//}
 
 		/// <summary>
-		/// Deserializes the HierarchyObjectStorage from the provided binary file.
+		/// Deserializes the HierarchyObjectStorage from the provided binary file using the BinaryFormatter.
 		/// </summary>
 		/// <param name="path">The path to deserialize from.</param>
-		/// <returns>The deserialized HierarchyObjectStorage.</returns>
-		public static HierarchyObjectStorage CreateFromFile(string path)
+		/// <returns>The deserialized HierarchyObject.</returns>
+		public static HierarchyObject CreateFromFile(string path)
 		{
 			using (FileStream stream = new FileStream(path, FileMode.Open))
 			{
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				return (HierarchyObjectStorage)binaryFormatter.Deserialize(stream);
+				return ((HierarchyObjectStorage)
+					binaryFormatter
+					.Deserialize(stream))
+					.CreateHierarchyObject();
 			}
-		}
-
-		/// <summary>
-		/// Creates a HierarchyObject by deserializing the HierarchyObjectStorage at the provided path.
-		/// </summary>
-		/// <param name="path">The path to deserialize from.</param>
-		/// <returns>The created HierarchyObject.</returns>
-		public static HierarchyObject CreateHierarchyObjectFromHierarchyObjectStorageFile(string path)
-		{
-			return CreateFromFile(path).CreateHierarchyObject();
 		}
 
 		/// <summary>
@@ -114,7 +112,10 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The constructed HierarchyObject.</returns>
 		public HierarchyObject CreateHierarchyObject()
 		{
+			// Declare instance.
 			HierarchyObject hierarchyObject;
+
+			// There is a performance penalty to creating an instance with parameters using Activator, so this avoids that if there are no parameters to use!
 			if (constructorParameters != null)
 			{
 				hierarchyObject = (HierarchyObject)Activator.CreateInstance(Type, constructorParameters);
@@ -123,24 +124,45 @@ namespace CrystalClear.HierarchySystem
 			{
 				hierarchyObject = (HierarchyObject)Activator.CreateInstance(Type);
 			}
-			hierarchyObject.AttatchedScripts.AddRange(CreateScripts());
+
+			foreach (ScriptStorage script in attatchedScripts)
+			{
+				hierarchyObject.AddScript(script.Type, script.constructorParameters);
+			}
+
+			// Return the fully constructed HierarchyObject.
 			return hierarchyObject;
 		}
 		#endregion
 
 		#region Storing
 		/// <summary>
-		/// Serializes and writes the HierarchyObjectStorage to a binary file using the BinaryFormatter.
+		/// Exports the HierarchyObjectStorage to a binary file using the BinaryFormatter.
 		/// </summary>
-		/// <param name="path">The path to store the HierarchyObjectStorage to.</param>
-		/// <param name="toStore">The HierarchyObjectStorage to store.</param>
-		public static void StoreToFile(string path, HierarchyObjectStorage toStore)
+		/// <param name="path">The path to export the HierarchyObjectStorage to.</param>
+		/// <param name="toExport">The HierarchyObjectStorage to export.</param>
+		public static void ExportToFile(string path, HierarchyObjectStorage toExport)
 		{
 			using (FileStream stream = new FileStream(path, FileMode.Create))
 			{
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				binaryFormatter.Serialize(stream, toStore);
+				binaryFormatter.Serialize(stream, toExport);
+			}
+		}
+
+		/// <summary>
+		/// Serializes and stores the HierarchyObjectStorage to an XML file using the DataContractSerializer.
+		/// </summary>
+		/// <param name="path">Where the HierarchyObjectStorage should be stored to.</param>
+		/// <param name="toStore">The HierarchyObjectStorage to store.</param>
+		public static void StoreToFile(string path, HierarchyObjectStorage toStore)
+		{
+			using (FileStream stream = new FileStream(path, FileMode.Create))
+			{
+				DataContractSerializer serializer = new DataContractSerializer(typeof(HierarchyObjectStorage));
+
+				serializer.WriteObject(stream, toStore);
 			}
 		}
 		#endregion

@@ -106,6 +106,14 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
+		public void AddScripts(Script[] scripts)
+		{
+			for (int i = 0; i < scripts.Length; i++)
+			{
+				AddScriptManually(scripts[i]);
+			}
+		}
+
 		/// <summary>
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>

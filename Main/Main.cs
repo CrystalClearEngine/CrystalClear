@@ -52,23 +52,23 @@ public static class MainClass
 		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
 		#endregion
 
-		#region Storing
-		string path = WorkingPath + "ScriptObject.bin";
+		//#region Storing
+		//string path = WorkingPath + "ScriptObject.bin";
 
-		HierarchyObjectStorage storage;
+		//HierarchyObjectStorage storage;
 
-		{
-			ScriptObject scriptObject = new ScriptObject();
-			scriptObject.AddChild("Child", new FolderObject());
-			scriptObject.AddScripts(scriptTypes);
+		//{
+		//	ScriptObject scriptObject = new ScriptObject();
+		//	scriptObject.AddChild("Child", new FolderObject());
+		//	scriptObject.AddScripts(scriptTypes);
 
-			storage = new HierarchyObjectStorage(typeof(ScriptObject));
+		//	storage = new HierarchyObjectStorage(typeof(ScriptObject));
 
-			scriptObject = null;
-		}
+		//	scriptObject = null;
+		//}
 
-		ScriptObject scriptObjectCreated = (ScriptObject)storage.CreateHierarchyObject();
-		#endregion
+		//ScriptObject scriptObjectCreated = (ScriptObject)storage.CreateHierarchyObject();
+		//#endregion
 
 		#region Event raising
 		// Raise the start event.
