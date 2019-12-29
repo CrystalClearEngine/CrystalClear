@@ -18,7 +18,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
-	public class FrameUpdateEventClass : SingletonScriptEventHandlerScriptEvent<FrameUpdateEventClass>
+	public class FrameUpdateEventClass /*TODO Remove "Class" suffix!*/ : SingletonScriptEventHandlerScriptEvent<FrameUpdateEventClass>
 	{
 		public static void FrameUpdateLoop()
 		{
