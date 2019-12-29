@@ -1,7 +1,12 @@
 ﻿using System;
-using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using Microsoft.CSharp;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
+using static CrystalClear.CrystalClearInformation;
+using System.Linq;
 
 namespace CrystalClear.CompilationSystem
 {
@@ -11,30 +16,26 @@ namespace CrystalClear.CompilationSystem
 	public static class Compiler
 	{
 		/// <summary>
-		/// Compiles C# code files to an assembly. Will in the future likely also support other .net languages!
+		/// Compiles C# source code files to an assembly. Will in the future likely also support other .net languages!
 		/// </summary>
 		/// <param name="fileNames">The files to compile.</param>
 		/// <returns>The compiled assembly.</returns>
 		public static Assembly CompileCode(string[] fileNames)
 		{
-			using (TempFileCollection temp = new TempFileCollection(Environment.CurrentDirectory))
-			using (CSharpCodeProvider csProvider = new CSharpCodeProvider())
+			Directory.CreateDirectory(WorkingPath + @"\Build\");
+			using (FileStream dllStream = File.Create(WorkingPath + @"\Build\Scripts.dll"))
+			using (FileStream pdbStream = File.Create(WorkingPath + @"\Build\Scripts.pdb"))
 			{
-				// Make sure our temp files get deleted by deleting them on process exit.
-				AppDomain.CurrentDomain.ProcessExit += new EventHandler((object sender, EventArgs e) => temp.Delete());
-
-				// Set the options for the compilation.
-				CompilerParameters options = new CompilerParameters
-				{
-					GenerateExecutable = false, // We don't want an executable.
-					IncludeDebugInformation = true,
-					GenerateInMemory = false,
-					TempFiles = new TempFileCollection(Environment.CurrentDirectory, true)
-				};
+				List<SyntaxTree> syntaxTrees = (from string fileName in fileNames
+												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
+											  CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest))).ToList();
 
 				// The collection of references.
 				string[] references =
 				{
+					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll",
+					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll",
+					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll",
 					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtilities dll
 					@"E:\dev\crystal clear\Scripting Projects\EventSystem\bin\Debug\EventSystem.dll", // The path to the EventSystem dll
 					@"E:\dev\crystal clear\Scripting Projects\HierarchySystem\bin\Debug\HierarchySystem.dll", // The path to the EventSystem dll
@@ -42,27 +43,33 @@ namespace CrystalClear.CompilationSystem
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem.
 				};
 
-				// Set references for the compiled code.
-				options.ReferencedAssemblies.AddRange(references);
-
-				// Compile our code.
-				CompilerResults result = csProvider.CompileAssemblyFromFile(options, fileNames);
-
-				// Iterate through all errors and report them to the user.
-				foreach (object error in result.Errors)
+				List<MetadataReference> metadataReferences = new List<MetadataReference>();
+				foreach (string item in references)
 				{
-					Console.WriteLine(error);
+					metadataReferences.Add(MetadataReference.CreateFromFile(item));
+				}
+				
+				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+
+				CSharpCompilation compilation = CSharpCompilation.Create(
+					"UserGeneratedCode",
+					syntaxTrees,
+					metadataReferences,
+					options);
+
+				EmitResult emitResult = compilation.Emit(dllStream, pdbStream);
+
+				foreach (Diagnostic diagnostic in emitResult.Diagnostics)
+				{
+					Console.WriteLine(diagnostic.ToString());
 				}
 
-				// If we have errors then return null.
-				if (result.Errors.HasErrors)
+				if (!emitResult.Success)
 				{
 					return null;
 				}
-				
-				// Return our successfully compiled assembly.
-				return result.CompiledAssembly;
 			}
+				return Assembly.LoadFrom(WorkingPath + @"\Build\Scripts.dll");
 		}
 	}
 }
