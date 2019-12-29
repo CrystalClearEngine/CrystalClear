@@ -14,16 +14,16 @@ namespace Scripts
 		public void RunMyStepRoutine()
 		{
 			StepRoutine.Start(MyStepRoutine());
-			FrameUpdateEventClass.Instance.RaiseEvent();
-			TestEventClass.Instance.RaiseEvent();
+			FrameUpdateEvent.Instance.RaiseEvent();
+			TestEvent.Instance.RaiseEvent();
 		}
 
 		public IEnumerator MyStepRoutine()
 		{
 			Console.WriteLine("Before frame update");
-			yield return new WaitFor(typeof(FrameUpdateEventClass)); // This and...
+			yield return new WaitFor(typeof(FrameUpdateEvent)); // This and...
 			Console.WriteLine("After frame update");
-			yield return new WaitFor(TestEventClass.Instance); // ...this are both valid options for Singleton Script Events!
+			yield return new WaitFor(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
 			Console.WriteLine("After test event class");
 			yield break;
 		}
@@ -36,7 +36,7 @@ namespace Scripts
 
 		private IEnumerator FrameStepRoutine()
 		{
-			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEventClass));
+			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEvent));
 			while(true)
 			{
 				yield return waitForNewFrame;

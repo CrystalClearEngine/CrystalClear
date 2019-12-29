@@ -8,7 +8,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class OnStartEventAttribute : SubscribeToAttribute
 	{
-		public OnStartEventAttribute() : base(typeof(StartEventClass))
+		public OnStartEventAttribute() : base(typeof(StartEvent))
 		{
 		}
 	}
@@ -16,7 +16,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The start event class.
 	/// </summary>
-	public class StartEventClass : SingletonScriptEventHandlerScriptEvent<StartEventClass>
+	public class StartEvent : SingletonScriptEventHandlerScriptEvent<StartEvent>
 	{
 		// Showing how methods can be overriden in deriving events.
 		public override void RaiseEvent()

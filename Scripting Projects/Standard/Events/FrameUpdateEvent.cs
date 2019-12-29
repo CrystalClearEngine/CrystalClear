@@ -10,7 +10,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class OnFrameUpdateAttribute : SubscribeToAttribute
 	{
-		public OnFrameUpdateAttribute() : base(typeof(FrameUpdateEventClass))
+		public OnFrameUpdateAttribute() : base(typeof(FrameUpdateEvent))
 		{
 		}
 	}
@@ -18,7 +18,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
-	public class FrameUpdateEventClass /*TODO Remove "Class" suffix!*/ : SingletonScriptEventHandlerScriptEvent<FrameUpdateEventClass>
+	public class FrameUpdateEvent /*TODO Remove "Class" suffix!*/ : SingletonScriptEventHandlerScriptEvent<FrameUpdateEvent>
 	{
 		public static void FrameUpdateLoop()
 		{

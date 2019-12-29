@@ -10,7 +10,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class OnInputPollAttribute : SubscribeToAttribute
 	{
-		public OnInputPollAttribute() : base(typeof(FrameUpdateEventClass))
+		public OnInputPollAttribute() : base(typeof(FrameUpdateEvent))
 		{
 		}
 	}

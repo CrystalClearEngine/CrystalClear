@@ -10,7 +10,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class OnPhysicsTimeStep : SubscribeToAttribute
 	{
-		public OnPhysicsTimeStep() : base(typeof(FrameUpdateEventClass))
+		public OnPhysicsTimeStep() : base(typeof(FrameUpdateEvent))
 		{
 		}
 	}

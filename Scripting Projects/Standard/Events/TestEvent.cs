@@ -7,7 +7,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The test event event class. This event is used for testing purposes.
 	/// </summary>
-	public class TestEventClass : SingletonScriptEventHandlerScriptEvent<TestEventClass>
+	public class TestEvent : SingletonScriptEventHandlerScriptEvent<TestEvent>
 	{
 		public override void RaiseEvent()
 		{

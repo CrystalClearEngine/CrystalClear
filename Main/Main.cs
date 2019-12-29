@@ -72,13 +72,16 @@ public static class MainClass
 
 		#region Event raising
 		// Raise the start event.
-		StartEventClass.Instance.RaiseEvent();
+		StartEvent.Instance.RaiseEvent();
 
-		Thread frameUpdateThread = new Thread(FrameUpdateEventClass.FrameUpdateLoop);
-		frameUpdateThread.Start();
+		Thread frameUpdateThread = new Thread(FrameUpdateEvent.FrameUpdateLoop); // Create a thread for updating the frame.
+		frameUpdateThread.Start(); // Start the thread.
 
-		Thread physicsUpdateThread = new Thread(() => PhysicsTimeStepEventClass.PhysicsTimeStepLoop());
-		physicsUpdateThread.Start();
+		Thread physicsUpdateThread = new Thread(() => PhysicsTimeStepEventClass.PhysicsTimeStepLoop()); // Create a thread for updating the physics' time-step.
+		physicsUpdateThread.Start(); // Start the thread.
+
+		Thread inputPollingThread = new Thread(() => InputPollEvent.InputPollLoop()); // Create a thread for polling input.
+		inputPollingThread.Start(); // Start the thread.
 		#endregion
 
 		#region Exit handling

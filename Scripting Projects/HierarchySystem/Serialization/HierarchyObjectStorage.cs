@@ -127,7 +127,7 @@ namespace CrystalClear.HierarchySystem
 
 			foreach (ScriptStorage script in attatchedScripts)
 			{
-				hierarchyObject.AddScript(script.Type, script.constructorParameters);
+				//hierarchyObject.AddScript(script.Type, script.constructorParameters);
 			}
 
 			// Return the fully constructed HierarchyObject.
