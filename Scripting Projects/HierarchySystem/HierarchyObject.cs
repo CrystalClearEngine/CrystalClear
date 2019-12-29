@@ -259,7 +259,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		public HierarchyObject Parent
 		{
-			get => parent ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.");
+			get => parent/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
 			set
 			{
 				ReParentThis(value);
