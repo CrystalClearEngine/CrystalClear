@@ -60,7 +60,7 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 				
-				// Return our successfull compiled assembly.
+				// Return our successfully compiled assembly.
 				return result.CompiledAssembly;
 			}
 		}
