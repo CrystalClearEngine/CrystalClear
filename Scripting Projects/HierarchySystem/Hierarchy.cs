@@ -10,14 +10,9 @@ namespace CrystalClear.HierarchySystem
 	[Serializable]
 	public class Hierarchy : IDictionary<string, HierarchyObject> // TODO maybe make this generic and allow different types of Hierarchies to be formed from this? Should in that case also be in ScriptUtilities...
 	{
-		public Hierarchy()
+		public Hierarchy(HierarchyObject owner)
 		{
-
-		}
-
-		public Hierarchy(Action toSubscribe)
-		{
-			OnHierarchyChange += toSubscribe;
+			OnHierarchyChange += owner.OnLocalHierarchyChange;
 		}
 
 		private Dictionary<string, HierarchyObject> hierarchy = new Dictionary<string, HierarchyObject>();
@@ -30,11 +25,6 @@ namespace CrystalClear.HierarchySystem
 				hierarchy[index] = value;
 				OnHierarchyChange();
 			}
-		}
-
-		public void ClearOnHierarchyChange()
-		{
-			OnHierarchyChange = null;
 		}
 
 		/// <summary>

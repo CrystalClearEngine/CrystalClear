@@ -19,7 +19,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
 		/// </summary>
-		protected virtual void OnLocalHierarchyChange()
+		internal protected virtual void OnLocalHierarchyChange()
 		{
 
 		}
@@ -28,7 +28,7 @@ namespace CrystalClear.HierarchySystem
 		/// OnReparent is called when the HierarchyObject's parent updates.
 		/// </summary>
 		/// <param name="newParent">The new parent.</param>
-		protected virtual void OnReparent(HierarchyObject newParent)
+		internal protected virtual void OnReparent(HierarchyObject newParent)
 		{
 
 		}
@@ -222,7 +222,18 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
 		/// </summary>
-		public readonly Hierarchy LocalHierarchy = new Hierarchy();
+		private Hierarchy localHierarchy = null;
+		public Hierarchy LocalHierarchy
+		{
+			get
+			{
+				if (localHierarchy == null)
+				{
+					localHierarchy = new Hierarchy(this);
+				}
+				return localHierarchy;
+			}
+		}
 
 		/// <summary>
 		/// Accesses the LocalHierarchy of this HierarchyObject.
@@ -254,6 +265,7 @@ namespace CrystalClear.HierarchySystem
 				ReParentThis(value);
 			}
 		}
+
 
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
@@ -357,9 +369,6 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			OnReparent(Parent);
-
-			Hierarchy.ClearOnHierarchyChange();
-			Hierarchy.OnHierarchyChange += OnLocalHierarchyChange;
 		}
 
 		/// <summary>
