@@ -199,7 +199,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The entire current hierarchy from the root, for scripts modifying pleasure.
 		/// </summary>
-		protected Hierarchy Hierarchy => Root.LocalHierarchy;
+		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
 		public string Path
 		{
