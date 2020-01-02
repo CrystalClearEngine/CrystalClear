@@ -10,32 +10,45 @@ namespace UnitTests
 	[TestClass]
 	public class SerializationTests
 	{
-		class MyClass
+		class ObjectSerializationTestClass
 		{
-			public MyClass(string somethign)
+			public ObjectSerializationTestClass(string somethign)
 			{
 				something = somethign;
 			}
 
 			string something;
 
-			// override object.Equals
 			public override bool Equals(object obj)
 			{
-				return something == ((MyClass)obj).something;
+				return something == ((ObjectSerializationTestClass)obj).something;
 			}
 		}
 
 		[TestMethod]
-		public void ObjectStorageTest()
+		public void GenericObjectStorageTest()
 		{
 			string path = WorkingPath + @"\StorageTest.bin";
 
-			var objectToStore = new MyClass("Hejs");
+			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			ObjectConstructionStorage<MyClass>.StoreToFile(path, new[] { "Hejs" });
+			ObjectConstructionStorage<ObjectSerializationTestClass>.StoreToFile(path, new[] { "Hejs" });
 
-			var resultingObjectAfterLoad = ObjectConstructionStorage<MyClass>.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromStoreFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void GenericObjectSaveTest()
+		{
+			string path = WorkingPath + @"\StorageTest.bin";
+
+			var objectToStore = new ObjectSerializationTestClass("Hejs");
+
+			ObjectConstructionStorage<ObjectSerializationTestClass>.SaveToFile(path, new[] { "Hejs" });
+
+			var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}

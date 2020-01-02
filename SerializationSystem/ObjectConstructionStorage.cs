@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,9 +14,12 @@ namespace CrystalClear.SerializationSystem
 	/// Internal type for use only to data dump.
 	/// </summary>
 	[Serializable]
+	[DataContract]
 	internal struct ObjectStorage
 	{
+		[DataMember]
 		internal string TypeName;
+		[DataMember]
 		internal object[] ConstructorParameters;
 
 		public ObjectStorage(Type objectType, object[] constructorParameters)
@@ -38,9 +42,14 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static void SaveToFile(string path, object[] constructorParameters = null) // TODO add this
+		public static void SaveToFile(string path, object[] constructorParameters = null)
 		{
+			using(FileStream fileStream = new FileStream(path, FileMode.Create))
+			{
+				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
 
+				dataContractSerializer.WriteObject(fileStream, new ObjectStorage(typeof(T), constructorParameters));
+			}
 		}
 
 		public static T CreateFromStoreFile(string path)
@@ -51,6 +60,18 @@ namespace CrystalClear.SerializationSystem
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 
 				ObjectStorage deserializedStorage = (ObjectStorage)binaryFormatter.Deserialize(decompressionStream);
+
+				return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
+			}
+		}
+
+		public static object CreateFromSaveFile(string path)
+		{
+			using (FileStream fileStream = new FileStream(path, FileMode.Open))
+			{
+				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
+
+				ObjectStorage deserializedStorage = (ObjectStorage)dataContractSerializer.ReadObject(fileStream);
 
 				return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
 			}

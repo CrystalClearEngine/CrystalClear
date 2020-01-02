@@ -1,6 +1,5 @@
 ﻿using CrystalClear.HierarchySystem.Attributes;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 
 namespace CrystalClear.HierarchySystem
 {

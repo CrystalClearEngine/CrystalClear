@@ -1,7 +1,6 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace CrystalClear.HierarchySystem
