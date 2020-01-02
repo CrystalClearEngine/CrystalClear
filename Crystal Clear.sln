@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchySystem", "Scriptin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditorMain", "Main\EditorMain.csproj", "{CA1447F1-F165-4A1E-8B3C-C985D8905F91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationSystem", "SerializationSystem\SerializationSystem.csproj", "{8A3F348D-8DBC-4B2A-84D6-927059006DA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,12 +83,15 @@ Global
 		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1447F1-F165-4A1E-8B3C-C985D8905F91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A3F348D-8DBC-4B2A-84D6-927059006DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A3F348D-8DBC-4B2A-84D6-927059006DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A3F348D-8DBC-4B2A-84D6-927059006DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A3F348D-8DBC-4B2A-84D6-927059006DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{95CE2BC4-7AF0-4F4A-8BA4-5CA02AC764B6} = {C6AA185B-2A75-4A98-B99D-8B67C97CE00B}
 		{B1D01C71-DAEC-4A94-88EC-F403F90FE824} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 		{BB670F71-784E-4548-84E9-2E023D6350FB} = {7AB0E6CC-9863-4AE8-B7EB-681067CF8C73}
 		{8ED3114A-A2D3-445C-8FCB-BD68AEDDE69B} = {C6AA185B-2A75-4A98-B99D-8B67C97CE00B}

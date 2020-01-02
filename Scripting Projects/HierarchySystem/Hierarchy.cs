@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ namespace CrystalClear.HierarchySystem
 {
 	[Serializable]
 	public class Hierarchy : IDictionary<string, HierarchyObject> // TODO maybe make this generic and allow different types of Hierarchies to be formed from this? Should in that case also be in ScriptUtilities...
-	{
+		, IEquatable<Hierarchy>
+	{ // TODO maybe implement IPropertyChanged?
 		public Hierarchy(HierarchyObject owner)
 		{
 			OnHierarchyChange += owner.OnLocalHierarchyChange;
@@ -132,5 +134,39 @@ namespace CrystalClear.HierarchySystem
 
 		IEnumerator IEnumerable.GetEnumerator() => hierarchy.GetEnumerator();
 		#endregion
+
+		public override bool Equals(object obj)
+		{
+			return (Equals(obj as Hierarchy));
+
+			//if (!(obj is Hierarchy))
+			//	return false;
+
+			//Hierarchy hierarchy = (Hierarchy)obj;
+
+			//return (this.hierarchy.Equals(hierarchy.hierarchy) &
+			//	this.OnHierarchyChange.Equals(hierarchy.OnHierarchyChange));
+		}
+
+		public bool Equals(Hierarchy other)
+		{
+			return other != null &&
+				this.hierarchy.Equals(other.hierarchy) || (this.hierarchy.Count == 0 && other.hierarchy.Count == 0);
+		}
+
+		public override int GetHashCode()
+		{
+			return 218564712 + EqualityComparer<Dictionary<string, HierarchyObject>>.Default.GetHashCode(hierarchy);
+		}
+
+		public static bool operator ==(Hierarchy left, Hierarchy right)
+		{
+			return EqualityComparer<Hierarchy>.Default.Equals(left, right);
+		}
+
+		public static bool operator !=(Hierarchy left, Hierarchy right)
+		{
+			return !(left == right);
+		}
 	}
 }
