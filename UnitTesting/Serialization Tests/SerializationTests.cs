@@ -52,5 +52,33 @@ namespace UnitTests
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
+
+		[TestMethod]
+		public void ObjectStorageTest()
+		{
+			string path = WorkingPath + @"\StorageTest.bin";
+
+			var objectToStore = new ObjectSerializationTestClass("Hejs");
+
+			ObjectConstructionStorage.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" });
+
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromStoreFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void ObjectSaveTest()
+		{
+			string path = WorkingPath + @"\StorageTest.bin";
+
+			var objectToStore = new ObjectSerializationTestClass("Hejs");
+
+			ObjectConstructionStorage.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" });
+
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromSaveFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
 	}
 }
