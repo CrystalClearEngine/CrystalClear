@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.SerializationSystem;
 using CrystalClear.Standard.HierarchyObjects;
@@ -10,7 +11,7 @@ namespace UnitTests
 	[TestClass]
 	public class SerializationTests
 	{
-		class ObjectSerializationTestClass
+		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>
 		{
 			public ObjectSerializationTestClass(string somethign)
 			{
@@ -22,6 +23,27 @@ namespace UnitTests
 			public override bool Equals(object obj)
 			{
 				return something == ((ObjectSerializationTestClass)obj).something;
+			}
+
+			public bool Equals(ObjectSerializationTestClass other)
+			{
+				return other != null &&
+					   something == other.something;
+			}
+
+			public override int GetHashCode()
+			{
+				return -1851467485 + EqualityComparer<string>.Default.GetHashCode(something);
+			}
+
+			public static bool operator ==(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
+			{
+				return EqualityComparer<ObjectSerializationTestClass>.Default.Equals(left, right);
+			}
+
+			public static bool operator !=(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
+			{
+				return !(left == right);
 			}
 		}
 
