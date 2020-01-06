@@ -68,8 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtraDataObject.cs" />
     <Compile Include="IExtraObjectData.cs" />
     <Compile Include="ObjectConstructionStorage.cs" />
+    <Compile Include="ObjectStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
