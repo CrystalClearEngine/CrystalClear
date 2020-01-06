@@ -41,6 +41,7 @@ namespace CrystalClear.SerializationSystem
 
 	public static class ObjectConstructionStorage
 	{
+		#region Creators
 		public static object CreateFromSaveFile(string path)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
@@ -75,7 +76,9 @@ namespace CrystalClear.SerializationSystem
 				return obj;
 			}
 		}
+		#endregion
 
+		#region SaveAndStores
 		public static void SaveToFile(string path, Type type, object[] constructorParameters = null, object obj = null)
 		{
 			// Gets the extra data interface if it is present on the type.
@@ -102,11 +105,6 @@ namespace CrystalClear.SerializationSystem
 				binaryFormatter.Serialize(compressionStream, new ObjectStorage(type, constructorParameters, dataInterface)); 
 			}
 		}
-	}
-
-	public interface IExtraObjectData
-	{
-		object[] GetData();
-		void SetData(object[] data);
+		#endregion
 	}
 }
