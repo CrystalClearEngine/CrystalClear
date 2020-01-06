@@ -36,17 +36,17 @@ namespace UnitTests
 				return -1851467485 + EqualityComparer<string>.Default.GetHashCode(something);
 			}
 
-			public object[] GetData()
+			ExtraDataObject IExtraObjectData.GetData()
 			{
-				return new object[]
+				return new ExtraDataObject()
 				{
-					something
+					{"SomeData", something},
 				};
 			}
 
-			public void SetData(object[] data)
+			void IExtraObjectData.SetData(ExtraDataObject data)
 			{
-				something = (string)data[0];
+				something = (string)data["SomeData"];
 			}
 
 			public static bool operator ==(ObjectSerializationTestClass left, ObjectSerializationTestClass right)

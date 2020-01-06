@@ -213,7 +213,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
-		public string Path
+		public string Path // TODO document this
 		{
 			get
 			{
@@ -444,17 +444,21 @@ namespace CrystalClear.HierarchySystem
 			return hashCode;
 		}
 
-		object[] IExtraObjectData.GetData()
+		public ExtraDataObject GetData()
 		{
-			object[] data = new object[2];
-			data[0] = AttatchedScripts;
-			data[1] = LocalHierarchy;
-			return data;
+			return new ExtraDataObject()
+			{
+				{"Scripts", AttatchedScripts},
+				{"LocalHierarchy", localHierarchy},
+				{"Path", Path},
+			};
 		}
 
-		void IExtraObjectData.SetData(object[] data)
+		public void SetData(ExtraDataObject data)
 		{
-			throw new NotImplementedException();
+			AttatchedScripts = (List<Script>)data["Scripts"];
+			localHierarchy = (Hierarchy)data["LocalHierarchy"];
+			ReParentThis(HierarchyManager.FollowPath((string)data["Path"]));
 		}
 	}
 }
