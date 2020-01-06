@@ -39,74 +39,8 @@ namespace CrystalClear.SerializationSystem
 		}
 	}
 
-	//public static class ObjectConstructionStorage<T>
- //   {
-	//	public static void StoreToFile(string path, object[] constructorParameters = null)
-	//	{
-	//		using (FileStream fileStream = new FileStream(path, FileMode.Create))
-	//		using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
-	//		{
-	//			BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-	//			binaryFormatter.Serialize(compressionStream, new ObjectStorage(typeof(T), constructorParameters));
-	//		}
-	//	}
-
-	//	public static void SaveToFile(string path, object[] constructorParameters = null)
-	//	{
-	//		using(FileStream fileStream = new FileStream(path, FileMode.Create))
-	//		{
-	//			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
-
-	//			dataContractSerializer.WriteObject(fileStream, new ObjectStorage(typeof(T), constructorParameters));
-	//		}
-	//	}
-
-	//	public static T CreateFromStoreFile(string path)
-	//	{
-	//		using (FileStream fileStream = new FileStream(path, FileMode.Open))
-	//		using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
-	//		{
-	//			BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-	//			ObjectStorage deserializedStorage = (ObjectStorage)binaryFormatter.Deserialize(decompressionStream);
-
-	//			return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
-	//		}
-	//	}
-
-	//	public static object CreateFromSaveFile(string path)
-	//	{
-	//		using (FileStream fileStream = new FileStream(path, FileMode.Open))
-	//		{
-	//			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
-
-	//			ObjectStorage deserializedStorage = (ObjectStorage)dataContractSerializer.ReadObject(fileStream);
-
-	//			return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
-	//		}
-	//	}
-	//}
-
 	public static class ObjectConstructionStorage
 	{
-		#region Generic
-		//public static void StoreToFile<T>(string path, object[] constructorParameters = null)
-		//{
-		//	ObjectConstructionStorage<T>.StoreToFile(path, constructorParameters);
-		//}
-
-		//public static void SaveToFile<T>(string path, object[] constructorParameters = null)
-		//{
-		//	ObjectConstructionStorage<T>.SaveToFile(path, constructorParameters);
-		//}
-
-		//public static T CreateFromStoreFile<T>(string path)
-		//{
-		//	return ObjectConstructionStorage<T>.CreateFromStoreFile(path);
-		//}
-		#endregion
-
 		public static object CreateFromSaveFile(string path)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
