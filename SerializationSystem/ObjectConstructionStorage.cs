@@ -11,90 +11,100 @@ using K4os.Compression.LZ4.Streams;
 namespace CrystalClear.SerializationSystem
 {
 	/// <summary>
-	/// Internal type for use only to data dump.
+	/// Internal type for use only to store data.
 	/// </summary>
 	[Serializable]
 	[DataContract]
 	internal struct ObjectStorage
 	{
 		[DataMember]
-		internal string TypeName;
+		internal string typeName;
 		[DataMember]
-		internal object[] ConstructorParameters;
+		internal object[] constructorParameters;
+		[DataMember]
+		internal object[] extraData;
 
-		public ObjectStorage(Type objectType, object[] constructorParameters)
+		public ObjectStorage(Type objectType, object[] constructorParameters, object[] extraData)
 		{
-			TypeName = objectType.AssemblyQualifiedName;
-			ConstructorParameters = constructorParameters;
+			this.typeName = objectType.AssemblyQualifiedName;
+			this.constructorParameters = constructorParameters;
+			this.extraData = extraData;
+		}
+
+		public ObjectStorage(Type objectType, object[] constructorParameters, IExtraObjectData extraData)
+		{
+			this.typeName = objectType.AssemblyQualifiedName;
+			this.constructorParameters = constructorParameters;
+			this.extraData = extraData.GetData();
 		}
 	}
 
-	public static class ObjectConstructionStorage<T>
-    {
-		public static void StoreToFile(string path, /*Type objectType,*/ object[] constructorParameters = null)
-		{
-			using (FileStream fileStream = new FileStream(path, FileMode.Create))
-			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
-			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
+	//public static class ObjectConstructionStorage<T>
+ //   {
+	//	public static void StoreToFile(string path, object[] constructorParameters = null)
+	//	{
+	//		using (FileStream fileStream = new FileStream(path, FileMode.Create))
+	//		using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
+	//		{
+	//			BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				binaryFormatter.Serialize(compressionStream, new ObjectStorage(typeof(T), constructorParameters));
-			}
-		}
+	//			binaryFormatter.Serialize(compressionStream, new ObjectStorage(typeof(T), constructorParameters));
+	//		}
+	//	}
 
-		public static void SaveToFile(string path, object[] constructorParameters = null)
-		{
-			using(FileStream fileStream = new FileStream(path, FileMode.Create))
-			{
-				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
+	//	public static void SaveToFile(string path, object[] constructorParameters = null)
+	//	{
+	//		using(FileStream fileStream = new FileStream(path, FileMode.Create))
+	//		{
+	//			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
 
-				dataContractSerializer.WriteObject(fileStream, new ObjectStorage(typeof(T), constructorParameters));
-			}
-		}
+	//			dataContractSerializer.WriteObject(fileStream, new ObjectStorage(typeof(T), constructorParameters));
+	//		}
+	//	}
 
-		public static T CreateFromStoreFile(string path)
-		{
-			using (FileStream fileStream = new FileStream(path, FileMode.Open))
-			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
-			{
-				BinaryFormatter binaryFormatter = new BinaryFormatter();
+	//	public static T CreateFromStoreFile(string path)
+	//	{
+	//		using (FileStream fileStream = new FileStream(path, FileMode.Open))
+	//		using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
+	//		{
+	//			BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				ObjectStorage deserializedStorage = (ObjectStorage)binaryFormatter.Deserialize(decompressionStream);
+	//			ObjectStorage deserializedStorage = (ObjectStorage)binaryFormatter.Deserialize(decompressionStream);
 
-				return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
-			}
-		}
+	//			return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
+	//		}
+	//	}
 
-		public static object CreateFromSaveFile(string path)
-		{
-			using (FileStream fileStream = new FileStream(path, FileMode.Open))
-			{
-				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
+	//	public static object CreateFromSaveFile(string path)
+	//	{
+	//		using (FileStream fileStream = new FileStream(path, FileMode.Open))
+	//		{
+	//			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
 
-				ObjectStorage deserializedStorage = (ObjectStorage)dataContractSerializer.ReadObject(fileStream);
+	//			ObjectStorage deserializedStorage = (ObjectStorage)dataContractSerializer.ReadObject(fileStream);
 
-				return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
-			}
-		}
-	}
+	//			return (T)Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
+	//		}
+	//	}
+	//}
 
 	public static class ObjectConstructionStorage
 	{
 		#region Generic
-		public static void StoreToFile<T>(string path, object[] constructorParameters = null)
-		{
-			ObjectConstructionStorage<T>.StoreToFile(path, constructorParameters);
-		}
+		//public static void StoreToFile<T>(string path, object[] constructorParameters = null)
+		//{
+		//	ObjectConstructionStorage<T>.StoreToFile(path, constructorParameters);
+		//}
 
-		public static void SaveToFile<T>(string path, object[] constructorParameters = null)
-		{
-			ObjectConstructionStorage<T>.SaveToFile(path, constructorParameters);
-		}
+		//public static void SaveToFile<T>(string path, object[] constructorParameters = null)
+		//{
+		//	ObjectConstructionStorage<T>.SaveToFile(path, constructorParameters);
+		//}
 
-		public static T CreateFromStoreFile<T>(string path)
-		{
-			return ObjectConstructionStorage<T>.CreateFromStoreFile(path);
-		}
+		//public static T CreateFromStoreFile<T>(string path)
+		//{
+		//	return ObjectConstructionStorage<T>.CreateFromStoreFile(path);
+		//}
 		#endregion
 
 		public static object CreateFromSaveFile(string path)
@@ -105,7 +115,12 @@ namespace CrystalClear.SerializationSystem
 
 				ObjectStorage deserializedStorage = (ObjectStorage)dataContractSerializer.ReadObject(fileStream);
 
-				return Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
+				object obj = Activator.CreateInstance(Type.GetType(deserializedStorage.typeName), deserializedStorage.constructorParameters);
+
+				// Set the data.
+				(obj as IExtraObjectData)?.SetData(deserializedStorage.extraData);
+
+				return obj;
 			}
 		}
 
@@ -118,29 +133,46 @@ namespace CrystalClear.SerializationSystem
 
 				ObjectStorage deserializedStorage = (ObjectStorage)binaryFormatter.Deserialize(decompressionStream);
 
-				return Activator.CreateInstance(Type.GetType(deserializedStorage.TypeName), deserializedStorage.ConstructorParameters);
+				object obj = Activator.CreateInstance(Type.GetType(deserializedStorage.typeName), deserializedStorage.constructorParameters);
+
+				// Set the data.
+				(obj as IExtraObjectData)?.SetData(deserializedStorage.extraData);
+
+				return obj;
 			}
 		}
 
-		public static void SaveToFile(string path, Type type, object[] constructorParameters)
+		public static void SaveToFile(string path, Type type, object[] constructorParameters = null, object obj = null)
 		{
+			// Gets the extra data interface if it is present on the type.
+			IExtraObjectData dataInterface = obj as IExtraObjectData;
+
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			{
 				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
 
-				dataContractSerializer.WriteObject(fileStream, new ObjectStorage(type, constructorParameters));
+				dataContractSerializer.WriteObject(fileStream, new ObjectStorage(type, constructorParameters, dataInterface));
 			}
 		}
 
-		public static void StoreToFile(string path, Type type, object[] constructorParameters)
+		public static void StoreToFile(string path, Type type, object[] constructorParameters = null, object obj = null)
 		{
+			// Gets the extra data interface if it is present on the type.
+			IExtraObjectData dataInterface = obj as IExtraObjectData;
+
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
 			{
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				binaryFormatter.Serialize(compressionStream, new ObjectStorage(type, constructorParameters)); 
+				binaryFormatter.Serialize(compressionStream, new ObjectStorage(type, constructorParameters, dataInterface)); 
 			}
 		}
+	}
+
+	public interface IExtraObjectData
+	{
+		object[] GetData();
+		void SetData(object[] data);
 	}
 }

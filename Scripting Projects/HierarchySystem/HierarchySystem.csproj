@@ -55,6 +55,10 @@
     <Compile Include="Serialization\ScriptStorage.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SerializationSystem\SerializationSystem.csproj">
+      <Project>{8A3F348D-8DBC-4B2A-84D6-927059006DA4}</Project>
+      <Name>SerializationSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EventSystem\EventSystem.csproj">
       <Project>{5FFF5362-4EB6-4776-8A7D-6557E41C7538}</Project>
       <Name>EventSystem</Name>

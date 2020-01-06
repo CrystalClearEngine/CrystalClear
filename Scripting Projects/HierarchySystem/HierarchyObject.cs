@@ -1,14 +1,16 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.SerializationSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
-	public abstract class HierarchyObject : IEquatable<HierarchyObject>
+	public abstract class HierarchyObject : IEquatable<HierarchyObject>, IExtraObjectData
 	// TODO make FindHierarchyObjects method like in Script
 	{
 		#region Virtual Event Methods
@@ -430,7 +432,7 @@ namespace CrystalClear.HierarchySystem
 		public bool Equals(HierarchyObject other)
 		{
 			return other != null &&
-				   this.AttatchedScripts.Equals(other.AttatchedScripts) || (this.AttatchedScripts.Count == 0 && other.AttatchedScripts.Count == 0) &&
+				   this.AttatchedScripts.SequenceEqual(other.AttatchedScripts) &&
 				   this.LocalHierarchy.Equals(other.LocalHierarchy);
 		}
 
@@ -440,6 +442,19 @@ namespace CrystalClear.HierarchySystem
 			hashCode = hashCode * -1521134295 + EqualityComparer<List<Script>>.Default.GetHashCode(AttatchedScripts);
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;
+		}
+
+		object[] IExtraObjectData.GetData()
+		{
+			object[] data = new object[2];
+			data[0] = AttatchedScripts;
+			data[1] = LocalHierarchy;
+			return data;
+		}
+
+		void IExtraObjectData.SetData(object[] data)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }
