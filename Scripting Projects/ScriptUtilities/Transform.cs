@@ -162,6 +162,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <summary>
 		/// The scale of this Transform relative to it's parent's.
 		/// </summary>
+		// TODO add setter.
 		public Vector LocalScale => Parent.GlobalScale - GlobalScale;
 	}
 }
