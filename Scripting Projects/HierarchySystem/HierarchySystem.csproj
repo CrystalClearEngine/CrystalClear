@@ -46,13 +46,10 @@
     <Compile Include="HierarchyObject.cs" />
     <Compile Include="HierarchyRoot.cs" />
     <Compile Include="HierarchyScript.cs" />
-    <Compile Include="Serialization\HierarchyStorage.cs" />
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="HierarchyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script.cs" />
-    <Compile Include="Serialization\HierarchyObjectStorage.cs" />
-    <Compile Include="Serialization\ScriptStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SerializationSystem\SerializationSystem.csproj">
