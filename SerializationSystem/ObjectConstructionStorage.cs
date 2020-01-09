@@ -48,7 +48,7 @@ namespace CrystalClear.SerializationSystem
 		}
 		#endregion
 
-		#region SaveAndStores
+		#region SavesAndStores
 		public static void SaveToFile(string path, Type type, object[] constructorParameters = null, IExtraObjectData dataInterface = null)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
