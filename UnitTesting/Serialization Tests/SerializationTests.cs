@@ -16,7 +16,7 @@ namespace UnitTests
 		[TestCleanup]
 		public void Cleanup()
 		{
-
+			System.IO.File.Delete(path);
 		}
 
 		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
