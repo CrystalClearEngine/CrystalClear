@@ -28,7 +28,7 @@ namespace CrystalClear.SerializationSystem
 		{
 			this.typeName = objectType.AssemblyQualifiedName;
 			this.constructorParameters = constructorParameters;
-			this.extraData = extraData.GetData();
+			this.extraData = extraData?.GetData() ?? new ExtraDataObject();
 		}
 	}
 }

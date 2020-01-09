@@ -9,7 +9,7 @@ using static CrystalClear.CrystalClearInformation;
 namespace UnitTests
 {
 	[TestClass]
-	public class SerializationTests
+	public class SerializationTests // TODO add cleanup method.
 	{
 		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
 		{
@@ -112,6 +112,34 @@ namespace UnitTests
 			ObjectConstructionStorage.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
 			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromSaveFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void HierarchyObjectStorageTest()
+		{
+			string path = WorkingPath + @"\StorageTest.bin";
+
+			var objectToStore = new ScriptObject();
+
+			ObjectConstructionStorage.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
+
+			var resultingObjectAfterLoad = (ScriptObject)ObjectConstructionStorage.CreateFromStoreFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void HierarchyObjectSaveTest()
+		{
+			string path = WorkingPath + @"\StorageTest.bin";
+
+			var objectToStore = new ScriptObject();
+
+			ObjectConstructionStorage.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
+
+			var resultingObjectAfterLoad = (ScriptObject)ObjectConstructionStorage.CreateFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}

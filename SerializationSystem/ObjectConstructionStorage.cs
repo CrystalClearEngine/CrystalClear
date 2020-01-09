@@ -49,11 +49,8 @@ namespace CrystalClear.SerializationSystem
 		#endregion
 
 		#region SaveAndStores
-		public static void SaveToFile(string path, Type type, object[] constructorParameters = null, object obj = null)
+		public static void SaveToFile(string path, Type type, object[] constructorParameters = null, IExtraObjectData dataInterface = null)
 		{
-			// Gets the extra data interface if it is present on the type.
-			IExtraObjectData dataInterface = obj as IExtraObjectData;
-
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			{
 				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ObjectStorage));
@@ -62,11 +59,16 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static void StoreToFile(string path, Type type, object[] constructorParameters = null, object obj = null)
+		public static void SaveToFile(string path, object obj, object[] constructorParameters = null)
 		{
 			// Gets the extra data interface if it is present on the type.
 			IExtraObjectData dataInterface = obj as IExtraObjectData;
 
+			SaveToFile(path, obj.GetType(), constructorParameters, dataInterface);
+		}
+
+		public static void StoreToFile(string path, Type type, object[] constructorParameters = null, IExtraObjectData dataInterface = null)
+		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
 			{
@@ -74,6 +76,14 @@ namespace CrystalClear.SerializationSystem
 
 				binaryFormatter.Serialize(compressionStream, new ObjectStorage(type, constructorParameters, dataInterface)); 
 			}
+		}
+
+		public static void StoreToFile(string path, object obj, object[] constructorParameters = null)
+		{
+			// Gets the extra data interface if it is present on the type.
+			IExtraObjectData dataInterface = obj as IExtraObjectData;
+
+			StoreToFile(path, obj.GetType(), constructorParameters, dataInterface);
 		}
 		#endregion
 	}
