@@ -60,34 +60,6 @@ namespace UnitTests
 			}
 		}
 
-		//[TestMethod]
-		//public void GenericObjectStorageTest()
-		//{
-		//	string path = WorkingPath + @"\StorageTest.bin";
-
-		//	var objectToStore = new ObjectSerializationTestClass("Hejs");
-
-		//	ObjectConstructionStorage<ObjectSerializationTestClass>.StoreToFile(path, new[] { "Hejs" });
-
-		//	var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromStoreFile(path);
-
-		//	Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		//}
-
-		//[TestMethod]
-		//public void GenericObjectSaveTest()
-		//{
-		//	string path = WorkingPath + @"\StorageTest.bin";
-
-		//	var objectToStore = new ObjectSerializationTestClass("Hejs");
-
-		//	ObjectConstructionStorage<ObjectSerializationTestClass>.SaveToFile(path, new[] { "Hejs" });
-
-		//	var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromSaveFile(path);
-
-		//	Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		//}
-
 		[TestMethod]
 		public void ObjectStorageTest()
 		{

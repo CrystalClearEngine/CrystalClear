@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditorObject.cs" />
     <Compile Include="ExtraDataObject.cs" />
     <Compile Include="IExtraObjectData.cs" />
     <Compile Include="ObjectConstructionStorage.cs" />
