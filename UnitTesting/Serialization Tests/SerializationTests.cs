@@ -11,6 +11,14 @@ namespace UnitTests
 	[TestClass]
 	public class SerializationTests // TODO add cleanup method.
 	{
+		readonly string path = WorkingPath + @"\StorageTest.bin";
+
+		[TestCleanup]
+		public void Cleanup()
+		{
+
+		}
+
 		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
 		{
 			public ObjectSerializationTestClass(string someParameter)
@@ -63,8 +71,6 @@ namespace UnitTests
 		[TestMethod]
 		public void ObjectStorageTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
 			ObjectConstructionStorage.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
@@ -77,8 +83,6 @@ namespace UnitTests
 		[TestMethod]
 		public void ObjectSaveTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
 			ObjectConstructionStorage.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
@@ -91,8 +95,6 @@ namespace UnitTests
 		[TestMethod]
 		public void HierarchyObjectStorageTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ScriptObject();
 
 			ObjectConstructionStorage.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
@@ -105,8 +107,6 @@ namespace UnitTests
 		[TestMethod]
 		public void HierarchyObjectSaveTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ScriptObject();
 
 			ObjectConstructionStorage.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
