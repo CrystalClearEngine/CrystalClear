@@ -1,7 +1,6 @@
-﻿using CrystalClear.HierarchySystem.Scripting.Backend;
-using System;
+﻿using System;
 
-namespace CrystalClear.HierarchySystem.Scripting.Backend
+namespace CrystalClear.HierarchySystem.Scripting.Internal
 {
 	/// <summary>
 	/// The base class for HierarchyScript. Not too much to see here.
@@ -14,6 +13,8 @@ namespace CrystalClear.HierarchySystem.Scripting.Backend
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
+	using CrystalClear.HierarchySystem.Scripting.Internal;
+
 	/// <summary>
 	/// The type that all HierarchyScripts derive from. This is like a scripting "interface" for scripts to act through.
 	/// </summary>
