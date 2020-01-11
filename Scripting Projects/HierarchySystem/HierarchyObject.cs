@@ -1,16 +1,14 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.SerializationSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
-	public abstract class HierarchyObject : IEquatable<HierarchyObject>, IExtraObjectData
+	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methods
 	// TODO make FindHierarchyObjects method like in Script
 	{
 		#region Virtual Event Methods
@@ -47,13 +45,6 @@ namespace CrystalClear.HierarchySystem
 		{
 			HierarchyObject result = hierarchyObject;
 			result.AddScriptManually(script);
-			return result;
-		}
-
-		public static HierarchyObject operator +(HierarchyObject hierarchyObject, ScriptStorage scriptStorage)
-		{
-			HierarchyObject result = hierarchyObject;
-			result.AddScriptManually(scriptStorage.CreateScript());
 			return result;
 		}
 
@@ -442,23 +433,6 @@ namespace CrystalClear.HierarchySystem
 			hashCode = hashCode * -1521134295 + EqualityComparer<List<Script>>.Default.GetHashCode(AttatchedScripts);
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;
-		}
-
-		public ExtraDataObject GetData()
-		{
-			return new ExtraDataObject()
-			{
-				{"Scripts", AttatchedScripts},
-				{"LocalHierarchy", localHierarchy},
-				{"Path", Path},
-			};
-		}
-
-		public void SetData(ExtraDataObject data)
-		{
-			AttatchedScripts = (List<Script>)data["Scripts"];
-			localHierarchy = (Hierarchy)data["LocalHierarchy"];
-			ReParentThis(HierarchyManager.FollowPath((string)data["Path"]));
 		}
 	}
 }

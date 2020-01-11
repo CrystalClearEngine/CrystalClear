@@ -1,20 +1,16 @@
 ﻿using CrystalClear.EventSystem;
 using CrystalClear.ScriptUtilities;
-using CrystalClear.SerializationSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
 	/// <summary>
 	/// Stores the type and instance of a Script.
 	/// </summary>
-	[Serializable]
-	[DataContract]
-	public struct Script : IExtraObjectData // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
+	public struct Script // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
 	{
 		/// <summary>
 		/// The instance of the Script.
@@ -29,10 +25,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 			get;
 			private set;
 		}
-
-		[DataMember]
-		private string TypeName => ScriptType.AssemblyQualifiedName;
-
 
 		/// <summary>
 		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
@@ -205,19 +197,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?
 				&& !(toCheck.IsAbstract && toCheck.IsSealed); // Static check.
-		}
-
-		ExtraDataObject IExtraObjectData.GetData()
-		{
-			return new ExtraDataObject()
-			{
-				{"TypeName", TypeName}
-			};
-		}
-
-		void IExtraObjectData.SetData(ExtraDataObject data)
-		{
-			ScriptType = Type.GetType((string)data["TypeName"]);
 		}
 
 		#region Exceptions

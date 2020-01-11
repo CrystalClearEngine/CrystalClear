@@ -78,5 +78,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
+      <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
+      <Name>HierarchySystem</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
