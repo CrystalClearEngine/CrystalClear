@@ -12,12 +12,7 @@ namespace CrystalClear.SerializationSystem
 	/// Base class for creating classes which help make editing object in-editor easier, as well as enable loading them at runtime.
 	/// </summary>
 	public abstract class EditorObject
-	{
-	}
-
-	public abstract class RuntimeInstanciateableEditorObject
-		:  EditorObject,
-		IExtraObjectData
+		: IExtraObjectData
 	{
 		public Type ConstructionType;
 		public object[] ConstructorParams;
@@ -34,10 +29,11 @@ namespace CrystalClear.SerializationSystem
 		{
 			ConstructionType = Type.GetType((string)data["TypeName"]);
 		}
+		
 	}
 
 	public class EditorHierarchyObject
-		: RuntimeInstanciateableEditorObject
+		: EditorObject
 	{
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
 		public List<EditorScript> AttatchedScripts;
@@ -63,7 +59,7 @@ namespace CrystalClear.SerializationSystem
 	}
 
 	public class EditorScript
-		: RuntimeInstanciateableEditorObject
+		: EditorObject
 	{
 		public Script CreateInstance(HierarchyObject attatchedTo)
 		{
