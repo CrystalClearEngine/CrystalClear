@@ -25,10 +25,7 @@ namespace CrystalClear.SerializationSystem
 		}
 
 		public ObjectStorage(Type objectType, object[] constructorParameters, IExtraObjectData extraData)
-		{
-			this.typeName = objectType.AssemblyQualifiedName;
-			this.constructorParameters = constructorParameters;
-			this.extraData = extraData?.GetData() ?? new ExtraDataObject();
-		}
+			: this(objectType, constructorParameters, extraData?.GetData() ?? new ExtraDataObject())
+		{ }
 	}
 }
