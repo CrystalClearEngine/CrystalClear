@@ -73,9 +73,9 @@ namespace UnitTests
 		{
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			ObjectConstructionStorage.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+			EditorObjectSerialization.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.CreateFromStoreFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -85,9 +85,9 @@ namespace UnitTests
 		{
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			ObjectConstructionStorage.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+			EditorObjectSerialization.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromSaveFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.CreateFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -97,9 +97,9 @@ namespace UnitTests
 		{
 			var objectToStore = new ScriptObject();
 
-			ObjectConstructionStorage.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
+			EditorObjectSerialization.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)ObjectConstructionStorage.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.CreateFromStoreFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -109,9 +109,9 @@ namespace UnitTests
 		{
 			var objectToStore = new ScriptObject();
 
-			ObjectConstructionStorage.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
+			EditorObjectSerialization.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)ObjectConstructionStorage.CreateFromSaveFile(path);
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.CreateFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}

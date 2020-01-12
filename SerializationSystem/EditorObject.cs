@@ -12,24 +12,11 @@ namespace CrystalClear.SerializationSystem
 	/// Base class for creating classes which help make editing object in-editor easier, as well as enable loading them at runtime.
 	/// </summary>
 	public abstract class EditorObject
-		: IExtraObjectData
 	{
 		public Type ConstructionType;
 		public object[] ConstructorParams;
 
-		public virtual ExtraDataObject GetData()
-		{
-			return new ExtraDataObject()
-			{
-				{"TypeName", ConstructionType.AssemblyQualifiedName},
-			};
-		}
-
-		public virtual void SetData(ExtraDataObject data)
-		{
-			ConstructionType = Type.GetType((string)data["TypeName"]);
-		}
-		
+		public string TypeName => ConstructionType.AssemblyQualifiedName;
 	}
 
 	public class EditorHierarchyObject
