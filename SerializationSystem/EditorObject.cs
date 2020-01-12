@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 
 namespace CrystalClear.SerializationSystem
 {
@@ -14,76 +15,75 @@ namespace CrystalClear.SerializationSystem
 	{
 	}
 
-	public abstract class MultiTypeableEditorObject
-		: EditorObject
+	public abstract class RuntimeInstanciateableEditorObject // TODO make generic. This would allow checks on ObjectType to be performed, and a generic CreateInstance be created!
+		:  EditorObject
 	{
-		public Type ObjectType;
+		public Type ConstructionType;
+		public object[] ConstructorParams;
 	}
 
 	public class EditorHierarchyObject
-		: MultiTypeableEditorObject,
+		: RuntimeInstanciateableEditorObject,
 		IExtraObjectData
 	{
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
 		public List<EditorScript> AttatchedScripts;
-		public string Path;
 
-		public ExtraDataObject GetData()
+		public HierarchyObject CreateInstance(HierarchyObject parent)
+		{
+			HierarchyObject instance = (HierarchyObject)Activator.CreateInstance(ConstructionType, args: ConstructorParams);
+
+			instance.SetUp(parent);
+
+			foreach(string editorHierarchyName in LocalHierarchy.Keys)
+			{
+				instance.LocalHierarchy.Add(editorHierarchyName, LocalHierarchy[editorHierarchyName].CreateInstance(instance));
+			}
+
+			foreach (EditorScript editorScript in AttatchedScripts)
+			{
+				instance.AddScriptManually(editorScript.CreateInstance(instance));
+			}
+
+			return instance;
+		}
+
+		ExtraDataObject IExtraObjectData.GetData() // TODO should probably implement this in the base class, just as an overrideable default.
 		{
 			return new ExtraDataObject()
 			{
-				{"TypeName", ObjectType.AssemblyQualifiedName},
-				{"Path", Path},
+				{"TypeName", ConstructionType.AssemblyQualifiedName},
 			};
 		}
 
-		public void SetData(ExtraDataObject data)
+		void IExtraObjectData.SetData(ExtraDataObject data)
 		{
-			Path = (string)data["Path"];
-			ObjectType = Type.GetType((string)data["TypeName"]);
+			ConstructionType = Type.GetType((string)data["TypeName"]);
 		}
 	}
 
 	public class EditorScript
-		: MultiTypeableEditorObject,
+		: RuntimeInstanciateableEditorObject,
 		IExtraObjectData
 	{
-		public ParameterEditorObject[] Parameters;
+		public Script CreateInstance(HierarchyObject attatchedTo)
+		{
+			Script instance = new Script(ConstructionType, ConstructorParams, attatchedTo);
+
+			return instance;
+		}
 
 		ExtraDataObject IExtraObjectData.GetData()
 		{
 			return new ExtraDataObject()
 			{
-				{"TypeName", ObjectType.AssemblyQualifiedName},
+				{"TypeName", ConstructionType.AssemblyQualifiedName},
 			};
 		}
 
 		void IExtraObjectData.SetData(ExtraDataObject data)
 		{
-			ObjectType = Type.GetType((string)data["TypeName"]);
-		}
-	}
-
-	public class ParameterEditorObject
-		: MultiTypeableEditorObject,
-		IExtraObjectData
-	{
-		// TODO Make sure that extra data is collected for this object as well etc.
-		public object Value;
-
-		ExtraDataObject IExtraObjectData.GetData()
-		{
-			return new ExtraDataObject()
-			{
-				{"TypeName", ObjectType.AssemblyQualifiedName},
-				{"Value", Value},
-			};
-		}
-
-		void IExtraObjectData.SetData(ExtraDataObject data)
-		{
-			ObjectType = Type.GetType((string)data["TypeName"]);
-			Value = (string)data["Value"];
+			ConstructionType = Type.GetType((string)data["TypeName"]);
 		}
 	}
 }

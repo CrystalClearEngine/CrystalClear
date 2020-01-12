@@ -89,6 +89,10 @@
       <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
       <Name>Standard</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj">
+      <Project>{8a3f348d-8dbc-4b2a-84d6-927059006da4}</Project>
+      <Name>SerializationSystem</Name>
+    </ProjectReference>
     <ProjectReference Include="..\User Interaction\UI\UI.csproj">
       <Project>{8ed3114a-a2d3-445c-8fcb-bd68aedde69b}</Project>
       <Name>UI</Name>

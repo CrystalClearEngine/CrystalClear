@@ -7,7 +7,9 @@ using System;
 using System.Reflection;
 using CrystalClear.HierarchySystem;
 using System.Threading;
+using CrystalClear.SerializationSystem;
 using static CrystalClear.CrystalClearInformation;
+using System.Collections.Generic;
 
 public static class MainClass
 {
@@ -52,23 +54,39 @@ public static class MainClass
 		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
 		#endregion
 
-		//#region Storing
-		//string path = WorkingPath + "ScriptObject.bin";
+		#region Editor Loop
+		// Very basic editor.
 
-		//HierarchyObjectStorage storage;
+		List<EditorHierarchyObject> editorHierarchyObjects = new List<EditorHierarchyObject>();
 
-		//{
-		//	ScriptObject scriptObject = new ScriptObject();
-		//	scriptObject.AddChild("Child", new FolderObject());
-		//	scriptObject.AddScripts(scriptTypes);
+		LoopEditor:
+		string line = Console.ReadLine();
+		string[] commands = line.Split(' ');
+		switch (commands[0])
+		{
+			#region Object Management
+			case "create":
+				Create(commands[1]);
+				break;
 
-		//	storage = new HierarchyObjectStorage(typeof(ScriptObject));
+			case "modify":
+				Modify(commands[1]);
+				break;
 
-		//	scriptObject = null;
-		//}
+			case "view":
+				View();
+				break;
+			#endregion
 
-		//ScriptObject scriptObjectCreated = (ScriptObject)storage.CreateHierarchyObject();
-		//#endregion
+			case "run":
+				goto RunProgram;
+			default:
+				Console.WriteLine("error");
+				break;
+		}
+		goto LoopEditor;
+		RunProgram:
+		#endregion
 
 		#region Event raising
 		// Raise the start event.
@@ -99,5 +117,31 @@ public static class MainClass
 		}
 		goto ExitHandling;
 		#endregion
+
+		void Modify(string v)
+		{
+			string[] path = v.Split('\\');
+			string name = path[path.Length - 1];
+			Console.Write($"Modifier for {name}");
+		}
+
+		void Create(string v)
+		{
+			editorHierarchyObjects.Add(new EditorHierarchyObject() { Name = v });
+		}
+		
+		void View()
+		{
+			foreach (EditorHierarchyObject editorHierarchyObject in editorHierarchyObjects)
+			{
+				ViewPath(editorHierarchyObject.Name);
+			}
+		}
+		
+		void ViewPath(string path)
+		{
+			Console.WriteLine(editorHierarchyObject.Path);
+			ViewPath(editorHierarchyObject.Path);
+		}
 	}
 }
