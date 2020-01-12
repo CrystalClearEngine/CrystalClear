@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.HierarchySystem.Scripting;
+﻿using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.CompilationSystem;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
@@ -10,6 +9,7 @@ using System.Threading;
 using CrystalClear.SerializationSystem;
 using static CrystalClear.CrystalClearInformation;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public static class MainClass
 {
@@ -57,29 +57,45 @@ public static class MainClass
 		#region Editor Loop
 		// Very basic editor.
 
-		List<EditorHierarchyObject> editorHierarchyObjects = new List<EditorHierarchyObject>();
+		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(typeof(HierarchyRoot), null);
+		EditorHierarchyObject currentHierarchyObject = rootEditorHierarchyObject;
 
 		LoopEditor:
 		string line = Console.ReadLine();
-		string[] commands = line.Split(' ');
-		switch (commands[0])
+
+		// Split the command at space that has not been escaped with a \.
+		string[] commandSections = Regex.Split(line, @"(?<!\\)( )");
+
+		foreach (string section in commandSections)
 		{
-			#region Object Management
-			case "create":
-				Create(commands[1]);
+			// Clean up the \'s from the earlier split operation.
+			Regex.Replace(section, @"\\ ", string.Empty);
+		}
+		switch (commandSections[0])
+		{
+			case "new":
+				New(commandSections[1], currentHierarchyObject);
 				break;
 
 			case "modify":
-				Modify(commands[1]);
+				Modify(currentHierarchyObject);
 				break;
 
-			case "view":
-				View();
+			case "save":
+				Save(commandSections[1]);
 				break;
-			#endregion
+
+			case "load":
+				Load(commandSections[1]);
+				break;
+
+			case "select":
+				Select(commandSections[1]);
+				break;
 
 			case "run":
 				goto RunProgram;
+
 			default:
 				Console.WriteLine("error");
 				break;
@@ -118,30 +134,36 @@ public static class MainClass
 		goto ExitHandling;
 		#endregion
 
-		void Modify(string v)
+		void Modify(EditorObject editorObject)
 		{
-			string[] path = v.Split('\\');
-			string name = path[path.Length - 1];
-			Console.Write($"Modifier for {name}");
+			editorObject.GetModifier();
 		}
 
-		void Create(string v)
+		void New(string name, EditorHierarchyObject parent)
 		{
-			editorHierarchyObjects.Add(new EditorHierarchyObject() { Name = v });
+			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(typeof(ScriptObject), null));
 		}
-		
-		void View()
+
+		void Save(string path)
 		{
-			foreach (EditorHierarchyObject editorHierarchyObject in editorHierarchyObjects)
-			{
-				ViewPath(editorHierarchyObject.Name);
-			}
+			if (path == string.Empty)
+				path = WorkingPath + @"\binary.bin";
+
+			EditorObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
 		}
-		
-		void ViewPath(string path)
+
+		void Load(string path)
 		{
-			Console.WriteLine(editorHierarchyObject.Path);
-			ViewPath(editorHierarchyObject.Path);
+			if (path == string.Empty)
+				path = WorkingPath + @"\binary.bin";
+
+			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path);
+			currentHierarchyObject = rootEditorHierarchyObject;
+		}
+
+		void Select(string editorHierarchyName)
+		{
+			currentHierarchyObject = currentHierarchyObject.LocalHierarchy[editorHierarchyName];
 		}
 	}
 }
