@@ -15,16 +15,29 @@ namespace CrystalClear.SerializationSystem
 	{
 	}
 
-	public abstract class RuntimeInstanciateableEditorObject // TODO make generic. This would allow checks on ObjectType to be performed, and a generic CreateInstance be created!
-		:  EditorObject
+	public abstract class RuntimeInstanciateableEditorObject
+		:  EditorObject,
+		IExtraObjectData
 	{
 		public Type ConstructionType;
 		public object[] ConstructorParams;
+
+		public virtual ExtraDataObject GetData()
+		{
+			return new ExtraDataObject()
+			{
+				{"TypeName", ConstructionType.AssemblyQualifiedName},
+			};
+		}
+
+		public virtual void SetData(ExtraDataObject data)
+		{
+			ConstructionType = Type.GetType((string)data["TypeName"]);
+		}
 	}
 
 	public class EditorHierarchyObject
-		: RuntimeInstanciateableEditorObject,
-		IExtraObjectData
+		: RuntimeInstanciateableEditorObject
 	{
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
 		public List<EditorScript> AttatchedScripts;
@@ -35,7 +48,7 @@ namespace CrystalClear.SerializationSystem
 
 			instance.SetUp(parent);
 
-			foreach(string editorHierarchyName in LocalHierarchy.Keys)
+			foreach (string editorHierarchyName in LocalHierarchy.Keys)
 			{
 				instance.LocalHierarchy.Add(editorHierarchyName, LocalHierarchy[editorHierarchyName].CreateInstance(instance));
 			}
@@ -47,43 +60,16 @@ namespace CrystalClear.SerializationSystem
 
 			return instance;
 		}
-
-		ExtraDataObject IExtraObjectData.GetData() // TODO should probably implement this in the base class, just as an overrideable default.
-		{
-			return new ExtraDataObject()
-			{
-				{"TypeName", ConstructionType.AssemblyQualifiedName},
-			};
-		}
-
-		void IExtraObjectData.SetData(ExtraDataObject data)
-		{
-			ConstructionType = Type.GetType((string)data["TypeName"]);
-		}
 	}
 
 	public class EditorScript
-		: RuntimeInstanciateableEditorObject,
-		IExtraObjectData
+		: RuntimeInstanciateableEditorObject
 	{
 		public Script CreateInstance(HierarchyObject attatchedTo)
 		{
 			Script instance = new Script(ConstructionType, ConstructorParams, attatchedTo);
 
 			return instance;
-		}
-
-		ExtraDataObject IExtraObjectData.GetData()
-		{
-			return new ExtraDataObject()
-			{
-				{"TypeName", ConstructionType.AssemblyQualifiedName},
-			};
-		}
-
-		void IExtraObjectData.SetData(ExtraDataObject data)
-		{
-			ConstructionType = Type.GetType((string)data["TypeName"]);
 		}
 	}
 }
