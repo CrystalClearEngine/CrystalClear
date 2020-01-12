@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorObject.cs" />
-    <Compile Include="ObjectConstructionStorage.cs" />
+    <Compile Include="EditorObjectSerialization.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

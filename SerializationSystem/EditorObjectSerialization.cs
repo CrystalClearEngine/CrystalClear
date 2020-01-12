@@ -11,7 +11,7 @@ namespace CrystalClear.SerializationSystem
 {
 	public static class EditorObjectSerialization
 	{
-		public static EditorObject CreateFromSaveFile(string path)
+		public static EditorObject LoadFromSaveFile(string path)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
 			{
@@ -33,7 +33,7 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static EditorObject CreateFromStoreFile(string path)
+		public static EditorObject LoadFromStoreFile(string path)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
 			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
