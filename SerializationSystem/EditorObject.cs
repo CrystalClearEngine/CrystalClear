@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CrystalClear.HierarchySystem;
+﻿using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
+using System;
+using System.Collections.Generic;
 
 namespace CrystalClear.SerializationSystem
 {
@@ -13,15 +10,36 @@ namespace CrystalClear.SerializationSystem
 	/// </summary>
 	public abstract class EditorObject
 	{
+		public EditorObject(Type constructionType, object[] constructorParams)
+		{
+			ConstructionType = constructionType;
+			ConstructorParams = constructorParams;
+		}
+
+		public EditorObject()
+		{
+
+		}
+
 		public Type ConstructionType;
 		public object[] ConstructorParams;
 
 		public string TypeName => ConstructionType.AssemblyQualifiedName;
+
+		public virtual void GetModifier()
+		{
+		}
 	}
 
 	public class EditorHierarchyObject
 		: EditorObject
 	{
+		public EditorHierarchyObject(Type constructionType, object[] constructorParams)
+		{
+			ConstructionType = constructionType;
+			ConstructorParams = constructorParams;
+		}
+
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
 		public List<EditorScript> AttatchedScripts;
 
@@ -48,6 +66,12 @@ namespace CrystalClear.SerializationSystem
 	public class EditorScript
 		: EditorObject
 	{
+		public EditorScript(Type constructionType, object[] constructorParams)
+		{
+			ConstructionType = constructionType;
+			ConstructorParams = constructorParams;
+		}
+
 		public Script CreateInstance(HierarchyObject attatchedTo)
 		{
 			Script instance = new Script(ConstructionType, ConstructorParams, attatchedTo);
