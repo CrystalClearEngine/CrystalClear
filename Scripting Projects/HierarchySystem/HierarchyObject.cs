@@ -256,7 +256,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private HierarchyObject parent;
+		private HierarchyObject parent; // TODO make this a weak reference!
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
