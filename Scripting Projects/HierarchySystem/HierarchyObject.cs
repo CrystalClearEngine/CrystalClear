@@ -10,6 +10,7 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methods
 	// TODO make FindHierarchyObjects method like in Script
+	// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
