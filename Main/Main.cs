@@ -10,6 +10,7 @@ using CrystalClear.SerializationSystem;
 using static CrystalClear.CrystalClearInformation;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 public static class MainClass
 {
@@ -58,7 +59,7 @@ public static class MainClass
 		// Very basic editor.
 
 		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(typeof(HierarchyRoot), null);
-		EditorHierarchyObject currentHierarchyObject = rootEditorHierarchyObject;
+		EditorHierarchyObject currentEditorHierarchyObject = rootEditorHierarchyObject;
 
 		LoopEditor:
 		string line = Console.ReadLine();
@@ -74,11 +75,11 @@ public static class MainClass
 		switch (commandSections[0])
 		{
 			case "new":
-				New(commandSections[1], currentHierarchyObject);
+				New(commandSections[1], currentEditorHierarchyObject);
 				break;
 
 			case "modify":
-				Modify(currentHierarchyObject);
+				Modify(currentEditorHierarchyObject);
 				break;
 
 			case "save":
@@ -158,12 +159,41 @@ public static class MainClass
 				path = WorkingPath + @"\binary.bin";
 
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path);
-			currentHierarchyObject = rootEditorHierarchyObject;
+			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
-		void Select(string editorHierarchyName)
+		void Select(string editorObjectSelectQuery)
 		{
-			currentHierarchyObject = currentHierarchyObject.LocalHierarchy[editorHierarchyName];
+			// Does this query start with a backstep?
+			if (editorObjectSelectQuery.StartsWith("<"))
+			{
+				// Get the count of backsteps.
+				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => (c == '<')).Count();
+
+				// Remove the backstep characters from the query, since they have already been counted.
+				editorObjectSelectQuery.Remove(0, backStepCount);
+
+				// Backstep.
+				for (int i = 0; i < backStepCount; i++)
+				{
+					// Perform the backstep by going back to the parent of currentEditorHierarchyObject.
+					currentEditorHierarchyObject = currentEditorHierarchyObject.Parent;
+				}
+
+				// Was the whole query a backstep?
+				if (editorObjectSelectQuery.EndsWith("<"))
+				{
+					// Then we don't need to do anything else.
+					return;
+				}
+			}
+			// Does the query contain backsteps in another location than the start of the string? That's illegal.
+			else if (editorObjectSelectQuery.Contains('<'))
+			{
+				Console.WriteLine("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
+			}
+
+			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery.Replace("<", "")];
 		}
 	}
 }
