@@ -166,7 +166,7 @@ public static class MainClass
 			if (path == string.Empty)
 				path = WorkingPath + @"\binary.bin";
 
-			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path);
+			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(EditorHierarchyObject));
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 

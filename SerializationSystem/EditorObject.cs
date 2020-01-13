@@ -29,7 +29,17 @@ namespace CrystalClear.SerializationSystem
 		public object[] ConstructorParams;
 
 		[DataMember]
-		public string TypeName => ConstructionType.AssemblyQualifiedName;
+		public string TypeName
+		{
+			get
+			{
+				return ConstructionType.AssemblyQualifiedName;
+			}
+			set
+			{
+				ConstructionType = Type.GetType(value);
+			}
+		}
 
 		public virtual void GetModifier()
 		{

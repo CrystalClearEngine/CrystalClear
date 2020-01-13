@@ -5,19 +5,22 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using K4os.Compression.LZ4.Streams;
 
 namespace CrystalClear.SerializationSystem
 {
 	public static class EditorObjectSerialization
+	// TODO maybe make multi purpose? reasoning being that a load method already has an expectedType parameter.
 	{
-		public static EditorObject LoadFromSaveFile(string path)
+		// TODO maybe add generic version, where return type is expectedType.
+		public static EditorObject LoadFromSaveFile(string path, Type expectedType)
 		{
-			using (FileStream fileStream = new FileStream(path, FileMode.Open))
+			using (XmlReader readerStream = XmlReader.Create(path))
 			{
-				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(EditorObject));
+				DataContractSerializer dataContractSerializer = new DataContractSerializer(expectedType);
 
-				EditorObject deserializedEditorObject = (EditorObject)dataContractSerializer.ReadObject(fileStream);
+				EditorObject deserializedEditorObject = (EditorObject)dataContractSerializer.ReadObject(readerStream);
 
 				return deserializedEditorObject;
 			}
@@ -25,11 +28,13 @@ namespace CrystalClear.SerializationSystem
 
 		public static void SaveToFile(string path, EditorObject toStore)
 		{
-			using (FileStream fileStream = new FileStream(path, FileMode.Create))
-			{
-				DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(EditorObject));
+			var settings = new XmlWriterSettings { Indent = true };
 
-				dataContractSerializer.WriteObject(fileStream, toStore);
+			using (XmlWriter writerStream = XmlWriter.Create(path, settings))
+			{
+				DataContractSerializer dataContractSerializer = new DataContractSerializer(toStore.GetType());
+
+				dataContractSerializer.WriteObject(writerStream, toStore);
 			}
 		}
 
