@@ -75,7 +75,7 @@ namespace UnitTests
 
 			EditorObjectSerialization.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromStoreFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -87,7 +87,7 @@ namespace UnitTests
 
 			EditorObjectSerialization.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.CreateFromSaveFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -99,7 +99,7 @@ namespace UnitTests
 
 			EditorObjectSerialization.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromStoreFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -111,7 +111,7 @@ namespace UnitTests
 
 			EditorObjectSerialization.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.CreateFromSaveFile(path);
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
