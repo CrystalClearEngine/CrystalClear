@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -416,6 +417,7 @@ namespace CrystalClear.HierarchySystem
 		}
 		#endregion
 
+		#region Equality
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as HierarchyObject);
@@ -435,5 +437,41 @@ namespace CrystalClear.HierarchySystem
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;
 		}
+		#endregion
+
+		#region Finding
+		/// <summary>
+		/// <summary>
+		/// Finds all types that derive from HierarchyObject and returns them.
+		/// </summary>
+		/// <param name="assembly">The assembly to find the HierarchyObjects in.</param>
+		/// <returns>The found HierarchyObjects.</returns>
+		public static Type[] FindHierarchyObjectTypesInAssembly(Assembly assembly) => FindHierarchyObjectTypesInTypes(assembly.GetTypes());
+
+		/// <summary>
+		/// Finds all types that derive from HierarchyObject and returns them.
+		/// </summary>
+		/// <param name="types">The types to find the HierarchyObjects in.</param>
+		/// <returns>The found HierarchyObjects.</returns>
+		public static Type[] FindHierarchyObjectTypesInTypes(params Type[] types)
+		{
+			// Find and store the found HierarchyObject types.
+			Type[] customHierarchyObjects = (from type in types // Iterator variable.
+											 where IsHierarchyObject(typeof(HierarchyObject)) // Is the type a HierarchyObject?
+											 select type).ToArray();
+			// Return the found HierarchyObjects.
+			return customHierarchyObjects;
+		}
+
+		/// <summary>
+		/// Checks wether the provided type derives from HierarchyObject.
+		/// </summary>
+		/// <param name="type">The type to check wether it derives from HierarchyObject.</param>
+		/// <returns>"ether the provided type derives from HierarchyObject.</returns>
+		public static bool IsHierarchyObject(Type type)
+		{
+			return type.IsSubclassOf(typeof(HierarchyObject));
+		}
+		#endregion
 	}
 }
