@@ -34,10 +34,11 @@ namespace CrystalClear.SerializationSystem
 	public class EditorHierarchyObject
 		: EditorObject
 	{
-		public EditorHierarchyObject(Type constructionType, object[] constructorParams)
+		public EditorHierarchyObject(EditorHierarchyObject parent, Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
 			ConstructorParams = constructorParams;
+			Parent = parent;
 		}
 
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
