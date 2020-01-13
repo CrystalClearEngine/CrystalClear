@@ -42,6 +42,7 @@ namespace CrystalClear.SerializationSystem
 
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
 		public List<EditorScript> AttatchedScripts;
+		public EditorHierarchyObject Parent;
 
 		public HierarchyObject CreateInstance(HierarchyObject parent)
 		{
