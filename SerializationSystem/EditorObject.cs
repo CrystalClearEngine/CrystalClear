@@ -13,7 +13,7 @@ namespace CrystalClear.SerializationSystem
 		public EditorObject(Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
-			ConstructorParams = constructorParams;
+			ConstructorParams = constructorParams ?? new object[] { };
 		}
 
 		public EditorObject()
@@ -37,12 +37,12 @@ namespace CrystalClear.SerializationSystem
 		public EditorHierarchyObject(EditorHierarchyObject parent, Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
-			ConstructorParams = constructorParams;
+			ConstructorParams = constructorParams ?? new object[] { };
 			Parent = parent;
 		}
 
-		public Dictionary<string, EditorHierarchyObject> LocalHierarchy;
-		public List<EditorScript> AttatchedScripts;
+		public Dictionary<string, EditorHierarchyObject> LocalHierarchy = new Dictionary<string, EditorHierarchyObject>();
+		public List<EditorScript> AttatchedScripts = new List<EditorScript>();
 		public EditorHierarchyObject Parent;
 
 		public HierarchyObject CreateInstance(HierarchyObject parent)
@@ -71,7 +71,7 @@ namespace CrystalClear.SerializationSystem
 		public EditorScript(Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
-			ConstructorParams = constructorParams;
+			ConstructorParams = constructorParams ?? new object[] { };
 		}
 
 		public Script CreateInstance(HierarchyObject attatchedTo)

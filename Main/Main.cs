@@ -51,21 +51,25 @@ public static class MainClass
 		// Cache the results.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
-		// Find all scripts that are present in the newly compiled assembly.
-		Type[] scriptTypes = Script.FindScriptTypesInTypes(typesInCode);
+		// Find all scripts that are present in the compiled assembly.
+		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
+
+		// Find all HierarchyObject types in the compiled assembly.
+		Type[] hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly);
+		hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject)));
 		#endregion
 
 		#region Editor Loop
 		// Very basic editor.
 
-		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(typeof(HierarchyRoot), null);
+		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(null, typeof(HierarchyRoot), null);
 		EditorHierarchyObject currentEditorHierarchyObject = rootEditorHierarchyObject;
 
 		LoopEditor:
 		string line = Console.ReadLine();
 
 		// Split the command at space that has not been escaped with a \.
-		string[] commandSections = Regex.Split(line, @"(?<!\\)( )");
+		string[] commandSections = Regex.Split(line, @"(?<!\\) ");
 
 		foreach (string section in commandSections)
 		{
@@ -75,13 +79,17 @@ public static class MainClass
 		switch (commandSections[0])
 		{
 			case "new":
+				foreach (Type hierarchyObjectType in hierarchyObjectTypes)
+				{
+					Console.WriteLine(hierarchyObjectType.FullName);
+				}
 				New(commandSections[1], currentEditorHierarchyObject);
 				break;
 
 			case "modify":
 				Modify(currentEditorHierarchyObject);
 				break;
-
+				
 			case "save":
 				Save(commandSections[1]);
 				break;
@@ -142,7 +150,7 @@ public static class MainClass
 
 		void New(string name, EditorHierarchyObject parent)
 		{
-			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(typeof(ScriptObject), null));
+			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(parent, typeof(ScriptObject), null));
 		}
 
 		void Save(string path)
