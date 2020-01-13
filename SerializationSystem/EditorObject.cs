@@ -2,12 +2,15 @@
 using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
 {
 	/// <summary>
 	/// Base class for creating classes which help make editing object in-editor easier, as well as enable loading them at runtime.
 	/// </summary>
+	[Serializable]
+	[DataContract]
 	public abstract class EditorObject
 	{
 		public EditorObject(Type constructionType, object[] constructorParams)
@@ -22,8 +25,10 @@ namespace CrystalClear.SerializationSystem
 		}
 
 		public Type ConstructionType;
+		[DataMember]
 		public object[] ConstructorParams;
 
+		[DataMember]
 		public string TypeName => ConstructionType.AssemblyQualifiedName;
 
 		public virtual void GetModifier()
@@ -31,6 +36,8 @@ namespace CrystalClear.SerializationSystem
 		}
 	}
 
+	[Serializable]
+	[DataContract]
 	public class EditorHierarchyObject
 		: EditorObject
 	{
@@ -41,7 +48,9 @@ namespace CrystalClear.SerializationSystem
 			Parent = parent;
 		}
 
+		[DataMember]
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy = new Dictionary<string, EditorHierarchyObject>();
+		[DataMember]
 		public List<EditorScript> AttatchedScripts = new List<EditorScript>();
 		public EditorHierarchyObject Parent;
 
@@ -65,6 +74,8 @@ namespace CrystalClear.SerializationSystem
 		}
 	}
 
+	[Serializable]
+	[DataContract]
 	public class EditorScript
 		: EditorObject
 	{
