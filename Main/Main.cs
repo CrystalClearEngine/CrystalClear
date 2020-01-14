@@ -212,9 +212,6 @@ public static class MainClass
 				// Get the count of backsteps.
 				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => (c == '<')).Count();
 
-				// Remove the backstep characters from the query, since they have already been counted.
-				editorObjectSelectQuery = editorObjectSelectQuery.Remove(0, backStepCount);
-
 				// Backstep.
 				for (int i = 0; i < backStepCount; i++)
 				{
@@ -228,6 +225,9 @@ public static class MainClass
 					// Then we don't need to do anything else.
 					return;
 				}
+
+				// Remove the backstep characters from the query, since they have already been counted.
+				editorObjectSelectQuery = editorObjectSelectQuery.Remove(0, backStepCount);
 			}
 			// Does the query contain backsteps in another location than the start of the string? That's illegal.
 			else if (editorObjectSelectQuery.Contains('<'))
