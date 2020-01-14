@@ -86,6 +86,10 @@ public static class MainClass
 				New(commandSections[1], currentEditorHierarchyObject);
 				break;
 
+			case "del":
+				Delete(commandSections[1]);
+				break;
+
 			case "modify":
 				Modify(currentEditorHierarchyObject);
 				break;
@@ -161,6 +165,11 @@ public static class MainClass
 			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(parent, typeof(ScriptObject), null));
 		}
 
+		void Delete(string nameOfEditorHierarchyObjectToDelete)
+		{
+			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
+		}
+
 		void Save(string path)
 		{
 			if (path == string.Empty)
@@ -204,7 +213,7 @@ public static class MainClass
 				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => (c == '<')).Count();
 
 				// Remove the backstep characters from the query, since they have already been counted.
-				editorObjectSelectQuery.Remove(0, backStepCount);
+				editorObjectSelectQuery = editorObjectSelectQuery.Remove(0, backStepCount);
 
 				// Backstep.
 				for (int i = 0; i < backStepCount; i++)
@@ -226,7 +235,7 @@ public static class MainClass
 				Console.WriteLine("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
 			}
 
-			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery.Replace("<", "")];
+			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
 		}
 	}
 }
