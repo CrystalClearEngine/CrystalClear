@@ -21,7 +21,20 @@ namespace CrystalClear.SerializationSystem
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy = new Dictionary<string, EditorHierarchyObject>();
 		[DataMember]
 		public List<EditorScript> AttatchedScripts = new List<EditorScript>();
-		public EditorHierarchyObject Parent;
+
+		public EditorHierarchyObject Parent
+		{
+			get
+			{
+				parent.TryGetTarget(out EditorHierarchyObject editorHierarchyObject);
+				return editorHierarchyObject;
+			}
+			set
+			{
+				parent.SetTarget(value);
+			}
+		}
+		private WeakReference<EditorHierarchyObject> parent;
 
 		public HierarchyObject CreateInstance(HierarchyObject parent)
 		{
