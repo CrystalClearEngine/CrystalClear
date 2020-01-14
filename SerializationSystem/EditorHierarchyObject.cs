@@ -34,7 +34,7 @@ namespace CrystalClear.SerializationSystem
 				parent.SetTarget(value);
 			}
 		}
-		private WeakReference<EditorHierarchyObject> parent;
+		private WeakReference<EditorHierarchyObject> parent = new WeakReference<EditorHierarchyObject>(null);
 
 		public HierarchyObject CreateInstance(HierarchyObject parent)
 		{
