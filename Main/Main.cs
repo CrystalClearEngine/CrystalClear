@@ -47,7 +47,7 @@ public static class MainClass
 		}
 		#endregion
 
-		#region Script identification
+		#region Type identification
 		// Cache the results.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
@@ -59,7 +59,7 @@ public static class MainClass
 		hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject)));
 		#endregion
 
-		#region Editor Loop
+		#region Editor loop
 		// Very basic editor.
 
 		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(null, typeof(HierarchyRoot), null);
