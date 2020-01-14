@@ -98,6 +98,14 @@ public static class MainClass
 				Load(commandSections[1]);
 				break;
 
+			case "store":
+				Store(commandSections[1]);
+				break;
+
+			case "unpack":
+				Unpack(commandSections[1]);
+				break;
+
 			case "select":
 				Select(commandSections[1]);
 				break;
@@ -167,6 +175,23 @@ public static class MainClass
 				path = WorkingPath + @"\binary.bin";
 
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(EditorHierarchyObject));
+			currentEditorHierarchyObject = rootEditorHierarchyObject;
+		}
+
+		void Store(string path)
+		{
+			if (path == string.Empty)
+				path = WorkingPath + @"\binary.bin";
+
+			EditorObjectSerialization.StoreToFile(path, rootEditorHierarchyObject);
+		}
+
+		void Unpack(string path)
+		{
+			if (path == string.Empty)
+				path = WorkingPath + @"\binary.bin";
+
+			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromStoreFile(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
