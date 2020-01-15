@@ -83,7 +83,7 @@ public static class MainClass
 				{
 					Console.WriteLine(hierarchyObjectType.FullName);
 				}
-				New(commandSections[1], currentEditorHierarchyObject);
+				New(commandSections[1]);
 				break;
 
 			case "del":
@@ -160,9 +160,9 @@ public static class MainClass
 			currentEditorHierarchyObject.GetModifier();
 		}
 
-		static void New(string name, EditorHierarchyObject parent)
+		void New(string name)
 		{
-			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(parent, typeof(ScriptObject), null));
+			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, typeof(ScriptObject), null));
 		}
 
 		void Delete(string nameOfEditorHierarchyObjectToDelete)
