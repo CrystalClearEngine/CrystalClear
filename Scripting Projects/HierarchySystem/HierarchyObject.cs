@@ -457,7 +457,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			// Find and store the found HierarchyObject types.
 			Type[] customHierarchyObjects = (from type in types // Iterator variable.
-											 where IsHierarchyObject(typeof(HierarchyObject)) // Is the type a HierarchyObject?
+											 where IsHierarchyObject(type) // Is the type a HierarchyObject?
 											 select type).ToArray();
 			// Return the found HierarchyObjects.
 			return customHierarchyObjects;
