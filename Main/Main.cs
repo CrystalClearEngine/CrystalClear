@@ -27,6 +27,7 @@ public static class MainClass
 		string[] scriptFilesPaths =
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
+			@"E:\dev\crystal clear\Scripting Projects\Scripts\CustomHierarchyObject.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\StepRoutineTest.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\ConstructableScript.cs",
@@ -56,7 +57,6 @@ public static class MainClass
 
 		// Find all HierarchyObject types in the compiled assembly.
 		Type[] hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly);
-		hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject)));
 		#endregion
 
 		#region Editor loop
@@ -79,10 +79,6 @@ public static class MainClass
 		switch (commandSections[0])
 		{
 			case "new":
-				foreach (Type hierarchyObjectType in hierarchyObjectTypes)
-				{
-					Console.WriteLine(hierarchyObjectType.FullName);
-				}
 				New(commandSections[1]);
 				break;
 
@@ -92,6 +88,10 @@ public static class MainClass
 
 			case "modify":
 				Modify();
+				break;
+
+			case "add":
+				AddScript();
 				break;
 				
 			case "save":
@@ -162,7 +162,8 @@ public static class MainClass
 
 		void New(string name)
 		{
-			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, typeof(ScriptObject), null));
+			Type typeOfHierarchyObjectToAdd = SelectItem(hierarchyObjectTypes);
+			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, typeOfHierarchyObjectToAdd, null));
 		}
 
 		void Delete(string nameOfEditorHierarchyObjectToDelete)
@@ -170,36 +171,29 @@ public static class MainClass
 			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 		}
 
+		void AddScript()
+		{
+			throw new NotImplementedException();
+		}
+
 		void Save(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				path = WorkingPath + @"\binary.bin";
-
 			EditorObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
 		}
 
 		void Load(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				path = WorkingPath + @"\binary.bin";
-
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(EditorHierarchyObject));
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
 		void Store(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				path = WorkingPath + @"\binary.bin";
-
 			EditorObjectSerialization.StoreToFile(path, rootEditorHierarchyObject);
 		}
 
 		void Unpack(string path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
-				path = WorkingPath + @"\binary.bin";
-
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromStoreFile(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
@@ -236,6 +230,36 @@ public static class MainClass
 			}
 
 			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
+		}
+
+		T SelectItem<T>(IEnumerable<T> collection)
+		{
+			selection:
+			Console.WriteLine("Select an item from this list:");
+			foreach (var item in collection)
+			{
+				Console.WriteLine($"Item: {item.ToString()}");
+				getInput:
+				Console.Write("Select? Y/N: ");
+				char readChar = Console.ReadKey().KeyChar;
+				Console.WriteLine();
+				if (readChar == 'Y' || readChar == 'y')
+				{
+					Console.WriteLine($"Selected {item.ToString()}");
+					return item;
+				}
+				else if(readChar == 'N' || readChar == 'n')
+				{
+					continue;
+				}
+				else
+				{
+					Console.WriteLine("Invalid input.");
+					goto getInput;
+				}
+			}
+			Console.WriteLine("An item needs to be selected!");
+			goto selection;
 		}
 	}
 }
