@@ -91,7 +91,7 @@ public static class MainClass
 				break;
 
 			case "modify":
-				Modify(currentEditorHierarchyObject);
+				Modify();
 				break;
 				
 			case "save":
@@ -155,12 +155,12 @@ public static class MainClass
 		goto ExitHandling;
 		#endregion
 
-		void Modify(EditorObject editorObject)
+		void Modify()
 		{
-			editorObject.GetModifier();
+			currentEditorHierarchyObject.GetModifier();
 		}
 
-		void New(string name, EditorHierarchyObject parent)
+		static void New(string name, EditorHierarchyObject parent)
 		{
 			parent.LocalHierarchy.Add(name, new EditorHierarchyObject(parent, typeof(ScriptObject), null));
 		}
@@ -172,7 +172,7 @@ public static class MainClass
 
 		void Save(string path)
 		{
-			if (path == string.Empty)
+			if (string.IsNullOrWhiteSpace(path))
 				path = WorkingPath + @"\binary.bin";
 
 			EditorObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
@@ -180,7 +180,7 @@ public static class MainClass
 
 		void Load(string path)
 		{
-			if (path == string.Empty)
+			if (string.IsNullOrWhiteSpace(path))
 				path = WorkingPath + @"\binary.bin";
 
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(EditorHierarchyObject));
@@ -189,7 +189,7 @@ public static class MainClass
 
 		void Store(string path)
 		{
-			if (path == string.Empty)
+			if (string.IsNullOrWhiteSpace(path))
 				path = WorkingPath + @"\binary.bin";
 
 			EditorObjectSerialization.StoreToFile(path, rootEditorHierarchyObject);
@@ -197,7 +197,7 @@ public static class MainClass
 
 		void Unpack(string path)
 		{
-			if (path == string.Empty)
+			if (string.IsNullOrWhiteSpace(path))
 				path = WorkingPath + @"\binary.bin";
 
 			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromStoreFile(path);
