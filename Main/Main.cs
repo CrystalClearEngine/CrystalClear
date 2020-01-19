@@ -173,7 +173,9 @@ public static class MainClass
 
 		void AddScript()
 		{
-			throw new NotImplementedException();
+			Type scriptType = SelectItem(scriptTypes);
+			object[] constructorParameters = GetConstructorParameters(scriptType);
+			currentEditorHierarchyObject.AttatchedScripts.Add(new EditorScript(scriptType, constructorParameters));
 		}
 
 		void Save(string path)
@@ -235,7 +237,7 @@ public static class MainClass
 		T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
-			Console.WriteLine("Select an item from this list:");
+			Console.WriteLine($"Select an item of type {typeof(T).FullName} from this list:");
 			foreach (var item in collection)
 			{
 				Console.WriteLine($"Item: {item.ToString()}");
@@ -260,6 +262,44 @@ public static class MainClass
 			}
 			Console.WriteLine("An item needs to be selected!");
 			goto selection;
+		}
+
+		object[] GetConstructorParameters(Type scriptType)
+		{
+			Console.WriteLine($"Constructor parameter wizard for {scriptType.FullName}.");
+
+			Console.WriteLine("Please select a constructor.");
+			ConstructorInfo constructorInfo = SelectItem(scriptType.GetConstructors());
+			ParameterInfo[] parameterInfoArray = constructorInfo.GetParameters();
+
+			object[] parameters = new object[parameterInfoArray.Length];
+
+			Console.WriteLine("Now provide values for the different parameters.");
+			for (int i = 0; i < parameterInfoArray.Length; i++)
+			{
+				ParameterInfo parameter = parameterInfoArray[i];
+				
+				Console.WriteLine($"{parameter.Name}:");
+				parameters[i] = CreateObject(parameter.ParameterType);
+			}
+
+			Console.WriteLine("Done! This is how it's looking:");
+			Console.Write($"new {scriptType.Name} (");
+			parameters.ToList().ForEach((object o) => { Console.Write(o.ToString() + ", "); });
+			Console.WriteLine("\b\b)");
+
+			return parameters;
+		}
+
+		object CreateObject(Type type)
+		{
+			if (type.IsPrimitive || type == typeof(string) /*|| type.IsAssignableFrom(IEditorSerializeable)*/ )
+			{
+				return Convert.ChangeType(Console.ReadLine(), type);
+			}
+			else
+				// TODO use ImaginaryObject (pretty much EditorObject, probs gonna rename it) instead of wasting cycles creating an object which is going to be removed only to be created again soon. Will also prevent security vulnerabilities and I am already rambling way too much.
+				return Activator.CreateInstance(type, GetConstructorParameters(type));
 		}
 	}
 }
