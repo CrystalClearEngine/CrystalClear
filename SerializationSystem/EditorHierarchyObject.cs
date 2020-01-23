@@ -13,14 +13,14 @@ namespace CrystalClear.SerializationSystem
 		public EditorHierarchyObject(EditorHierarchyObject parent, Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
-			ConstructorParams = constructorParams ?? new object[] { };
+			ConstructorParams = constructorParams ?? Array.Empty<object>();
 			Parent = parent;
 		}
 
 		[DataMember]
 		public Dictionary<string, EditorHierarchyObject> LocalHierarchy = new Dictionary<string, EditorHierarchyObject>();
 		[DataMember]
-		public List<EditorScript> AttatchedScripts = new List<EditorScript>();
+		public Dictionary<string, EditorScript> AttatchedScripts = new Dictionary<string, EditorScript>();
 
 		public EditorHierarchyObject Parent
 		{
