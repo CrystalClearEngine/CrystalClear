@@ -27,10 +27,17 @@ namespace CrystalClear.HierarchySystem.Scripting
 			HierarchyObject = hierarchyObject;
 		}
 
+		private WeakReference<T> hierarchyObject;
 		public T HierarchyObject
 		{
-			get;
-			private set;
+			get
+			{
+				T _ = null;
+				hierarchyObject.TryGetTarget(out _);
+				return _;
+			}
+
+			private set => hierarchyObject.SetTarget(value);
 		}
 
 		public Hierarchy Hierarchy => HierarchyObject.Hierarchy;
