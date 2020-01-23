@@ -9,8 +9,7 @@ namespace CrystalClear.HierarchySystem
 	/// <summary>
 	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
-	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methods
-	// TODO make FindHierarchyObjects method like in Script
+	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methodst
 	// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
@@ -63,7 +62,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The Scripts that are currently attatched to this object.
 		/// </summary>
-		public List<Script> AttatchedScripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
+		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
 		// TODO maybe only allow attatching HierarchyScripts?
 
 		/// <summary>
@@ -111,11 +110,16 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		public void AddScripts(Script[] scripts)
+		public void AddScripts(string[] names, Script[] scripts)
 		{
+			if (names.Length != scripts.Length)
+			{
+				throw new ArgumentException("Parameter 'names' and 'scripts are not equal lengths.'");
+			}
+
 			for (int i = 0; i < scripts.Length; i++)
 			{
-				AddScriptManually(scripts[i]);
+				AddScriptManually(names[i], scripts[i]);
 			}
 		}
 
@@ -123,7 +127,7 @@ namespace CrystalClear.HierarchySystem
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>
 		/// <param name="script">The Script to add.</param>
-		public void AddScriptManually(Script script) => AttatchedScripts.Add(script);
+		public void AddScriptManually(string name, Script script) => AttatchedScripts.Add(name, script);
 		#endregion
 
 		#region Helper Properties
@@ -258,13 +262,19 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private HierarchyObject parent; // TODO make this a weak reference!
+		private WeakReference<HierarchyObject> parent; // TODO make this a weak reference!
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
 		public HierarchyObject Parent
 		{
-			get => parent/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+			get
+			{
+				HierarchyObject hierarchyObject;
+				parent.TryGetTarget(out hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+				return hierarchyObject;
+			}
+
 			set
 			{
 				ReParentThis(value);
