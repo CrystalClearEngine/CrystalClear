@@ -37,11 +37,12 @@ namespace CrystalClear.HierarchySystem
 
 		#region Script Handling
 		/// <summary>
-		/// Adds a Script to the HierarchyObject.
+		/// Adds a Script to the HierarchyObject using the type as name.
 		/// </summary>
 		/// <param name="hierarchyObject">The HierarchyObject to add the Script to.</param>
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
+		// TODO add version of this where only Type is provided and the script is created based on that.
 		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
 			HierarchyObject result = hierarchyObject;
@@ -119,7 +120,7 @@ namespace CrystalClear.HierarchySystem
 
 			for (int i = 0; i < scripts.Length; i++)
 			{
-				AddScriptManually(names[i], scripts[i]);
+				AddScriptManually(scripts[i], names[i]);
 			}
 		}
 
@@ -127,7 +128,35 @@ namespace CrystalClear.HierarchySystem
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>
 		/// <param name="script">The Script to add.</param>
-		public void AddScriptManually(string name, Script script) => AttatchedScripts.Add(name, script);
+		public void AddScriptManually(Script script, string name = null)
+		{
+			// Replace name with default name if not provided.
+			if (name == null)
+			{
+				name = script.ScriptType.Name;
+			}
+
+			// Create iterator.
+			int i = 1;
+			
+			// Repeat while name is already taken in AttatchedScripts.
+			while (AttatchedScripts.ContainsKey(name)) // TODO improve efficency here.
+			{
+				string DuplicateDecorator = $" ({i})";
+
+				// Does the name already contain the DuplicateDecorator from a previous attempt?
+				if (name.EndsWith(DuplicateDecorator))
+				{
+					name.Remove(name.Length - DuplicateDecorator.Length, name.Length);
+				}
+
+				name += DuplicateDecorator;
+
+				// Increment iterator.
+				i++;
+			}
+			AttatchedScripts.Add(name, script);
+		}
 		#endregion
 
 		#region Helper Properties
@@ -270,8 +299,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				HierarchyObject hierarchyObject;
-				parent.TryGetTarget(out hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+				parent.TryGetTarget(out HierarchyObject hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
 				return hierarchyObject;
 			}
 
@@ -380,7 +408,7 @@ namespace CrystalClear.HierarchySystem
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
-				this.parent = parent;
+				this.parent.SetTarget(parent);
 			}
 
 			OnReparent(Parent);
@@ -443,7 +471,7 @@ namespace CrystalClear.HierarchySystem
 		public override int GetHashCode()
 		{
 			var hashCode = -255096016;
-			hashCode = hashCode * -1521134295 + EqualityComparer<List<Script>>.Default.GetHashCode(AttatchedScripts);
+			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, Script>>.Default.GetHashCode(AttatchedScripts);
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;
 		}

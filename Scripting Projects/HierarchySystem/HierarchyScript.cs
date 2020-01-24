@@ -32,6 +32,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			get
 			{
+				// TODO decide wether to use discards for names like these or use the other naming style in other scenarios where WeakReferences are used.
 				T _ = null;
 				hierarchyObject.TryGetTarget(out _);
 				return _;

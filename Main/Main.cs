@@ -91,9 +91,13 @@ public static class MainClass
 				break;
 
 			case "add":
-				AddScript();
+				AddScript(commandSections[1]);
 				break;
-				
+
+			case "remove":
+				RemoveScript(commandSections[1]);
+				break;
+
 			case "save":
 				Save(commandSections[1]);
 				break;
@@ -171,11 +175,16 @@ public static class MainClass
 			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 		}
 
-		void AddScript()
+		void AddScript(string name)
 		{
 			Type scriptType = SelectItem(scriptTypes);
 			object[] constructorParameters = GetConstructorParameters(scriptType);
-			currentEditorHierarchyObject.AttatchedScripts.Add(new EditorScript(scriptType, constructorParameters));
+			currentEditorHierarchyObject.AttatchedScripts.Add(name, new EditorScript(scriptType, constructorParameters));
+		}
+
+		void RemoveScript(string name)
+		{
+			currentEditorHierarchyObject.AttatchedScripts.Remove(name);
 		}
 
 		void Save(string path)

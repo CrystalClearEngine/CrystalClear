@@ -47,7 +47,7 @@ namespace CrystalClear.SerializationSystem
 				instance.LocalHierarchy.Add(editorHierarchyName, LocalHierarchy[editorHierarchyName].CreateInstance(instance));
 			}
 
-			foreach (EditorScript editorScript in AttatchedScripts)
+			foreach (EditorScript editorScript in AttatchedScripts.Values)
 			{
 				instance.AddScriptManually(editorScript.CreateInstance(instance));
 			}
