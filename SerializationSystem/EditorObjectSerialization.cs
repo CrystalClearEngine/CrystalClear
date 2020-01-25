@@ -38,7 +38,7 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static EditorObject LoadFromStoreFile(string path)
+		public static EditorObject LoadFromStoreFile(string path) // Use custom binaryWriter powered serializer.
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
 			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
