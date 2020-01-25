@@ -1,17 +1,16 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.SerializationSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
+using System.Reflection;
 
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
 	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
-	public abstract class HierarchyObject : IEquatable<HierarchyObject>, IExtraObjectData
-	// TODO make FindHierarchyObjects method like in Script
+	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methodst
+	// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
@@ -38,22 +37,16 @@ namespace CrystalClear.HierarchySystem
 
 		#region Script Handling
 		/// <summary>
-		/// Adds a Script to the HierarchyObject.
+		/// Adds a Script to the HierarchyObject using the type as name.
 		/// </summary>
 		/// <param name="hierarchyObject">The HierarchyObject to add the Script to.</param>
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
+		// TODO add version of this where only Type is provided and the script is created based on that.
 		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
 			HierarchyObject result = hierarchyObject;
 			result.AddScriptManually(script);
-			return result;
-		}
-
-		public static HierarchyObject operator +(HierarchyObject hierarchyObject, ScriptStorage scriptStorage)
-		{
-			HierarchyObject result = hierarchyObject;
-			result.AddScriptManually(scriptStorage.CreateScript());
 			return result;
 		}
 
@@ -70,7 +63,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The Scripts that are currently attatched to this object.
 		/// </summary>
-		public List<Script> AttatchedScripts = new List<Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
+		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
 		// TODO maybe only allow attatching HierarchyScripts?
 
 		/// <summary>
@@ -118,11 +111,16 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-		public void AddScripts(Script[] scripts)
+		public void AddScripts(string[] names, Script[] scripts)
 		{
+			if (names.Length != scripts.Length)
+			{
+				throw new ArgumentException("Parameter 'names' and 'scripts are not equal lengths.'");
+			}
+
 			for (int i = 0; i < scripts.Length; i++)
 			{
-				AddScriptManually(scripts[i]);
+				AddScriptManually(scripts[i], names[i]);
 			}
 		}
 
@@ -130,7 +128,35 @@ namespace CrystalClear.HierarchySystem
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>
 		/// <param name="script">The Script to add.</param>
-		public void AddScriptManually(Script script) => AttatchedScripts.Add(script);
+		public void AddScriptManually(Script script, string name = null)
+		{
+			// Replace name with default name if not provided.
+			if (name == null)
+			{
+				name = script.ScriptType.Name;
+			}
+
+			// Create iterator.
+			int i = 1;
+			
+			// Repeat while name is already taken in AttatchedScripts.
+			while (AttatchedScripts.ContainsKey(name)) // TODO improve efficency here.
+			{
+				string DuplicateDecorator = $" ({i})";
+
+				// Does the name already contain the DuplicateDecorator from a previous attempt?
+				if (name.EndsWith(DuplicateDecorator))
+				{
+					name.Remove(name.Length - DuplicateDecorator.Length, name.Length);
+				}
+
+				name += DuplicateDecorator;
+
+				// Increment iterator.
+				i++;
+			}
+			AttatchedScripts.Add(name, script);
+		}
 		#endregion
 
 		#region Helper Properties
@@ -265,13 +291,18 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private HierarchyObject parent;
+		private WeakReference<HierarchyObject> parent; // TODO make this a weak reference!
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
 		public HierarchyObject Parent
 		{
-			get => parent/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+			get
+			{
+				parent.TryGetTarget(out HierarchyObject hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+				return hierarchyObject;
+			}
+
 			set
 			{
 				ReParentThis(value);
@@ -377,7 +408,7 @@ namespace CrystalClear.HierarchySystem
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
-				this.parent = parent;
+				this.parent.SetTarget(parent);
 			}
 
 			OnReparent(Parent);
@@ -424,6 +455,7 @@ namespace CrystalClear.HierarchySystem
 		}
 		#endregion
 
+		#region Equality
 		public override bool Equals(object obj)
 		{
 			return Equals(obj as HierarchyObject);
@@ -439,26 +471,45 @@ namespace CrystalClear.HierarchySystem
 		public override int GetHashCode()
 		{
 			var hashCode = -255096016;
-			hashCode = hashCode * -1521134295 + EqualityComparer<List<Script>>.Default.GetHashCode(AttatchedScripts);
+			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, Script>>.Default.GetHashCode(AttatchedScripts);
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;
 		}
+		#endregion
 
-		public ExtraDataObject GetData()
+		#region Finding
+		/// <summary>
+		/// <summary>
+		/// Finds all types that derive from HierarchyObject and returns them.
+		/// </summary>
+		/// <param name="assembly">The assembly to find the HierarchyObjects in.</param>
+		/// <returns>The found HierarchyObjects.</returns>
+		public static Type[] FindHierarchyObjectTypesInAssembly(Assembly assembly) => FindHierarchyObjectTypesInTypes(assembly.GetTypes());
+
+		/// <summary>
+		/// Finds all types that derive from HierarchyObject and returns them.
+		/// </summary>
+		/// <param name="types">The types to find the HierarchyObjects in.</param>
+		/// <returns>The found HierarchyObjects.</returns>
+		public static Type[] FindHierarchyObjectTypesInTypes(params Type[] types)
 		{
-			return new ExtraDataObject()
-			{
-				{"Scripts", AttatchedScripts},
-				{"LocalHierarchy", localHierarchy},
-				{"Path", Path},
-			};
+			// Find and store the found HierarchyObject types.
+			Type[] customHierarchyObjects = (from type in types // Iterator variable.
+											 where IsHierarchyObject(type) // Is the type a HierarchyObject?
+											 select type).ToArray();
+			// Return the found HierarchyObjects.
+			return customHierarchyObjects;
 		}
 
-		public void SetData(ExtraDataObject data)
+		/// <summary>
+		/// Checks wether the provided type derives from HierarchyObject.
+		/// </summary>
+		/// <param name="type">The type to check wether it derives from HierarchyObject.</param>
+		/// <returns>"ether the provided type derives from HierarchyObject.</returns>
+		public static bool IsHierarchyObject(Type type)
 		{
-			AttatchedScripts = (List<Script>)data["Scripts"];
-			localHierarchy = (Hierarchy)data["LocalHierarchy"];
-			ReParentThis(HierarchyManager.FollowPath((string)data["Path"]));
+			return type.IsSubclassOf(typeof(HierarchyObject));
 		}
+		#endregion
 	}
 }

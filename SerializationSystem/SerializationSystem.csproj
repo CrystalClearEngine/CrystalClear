@@ -68,14 +68,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtraDataObject.cs" />
-    <Compile Include="IExtraObjectData.cs" />
-    <Compile Include="ObjectConstructionStorage.cs" />
-    <Compile Include="ObjectStorage.cs" />
+    <Compile Include="EditorHierarchyObject.cs" />
+    <Compile Include="EditorObject.cs" />
+    <Compile Include="EditorObjectSerialization.cs" />
+    <Compile Include="EditorScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="Properties\packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
+      <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
+      <Name>HierarchySystem</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

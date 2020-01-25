@@ -9,8 +9,16 @@ using static CrystalClear.CrystalClearInformation;
 namespace UnitTests
 {
 	[TestClass]
-	public class SerializationTests
+	public class SerializationTests // TODO add cleanup method.
 	{
+		readonly string path = WorkingPath + @"\StorageTest.bin";
+
+		[TestCleanup]
+		public void Cleanup()
+		{
+			System.IO.File.Delete(path);
+		}
+
 		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
 		{
 			public ObjectSerializationTestClass(string someParameter)
@@ -60,44 +68,14 @@ namespace UnitTests
 			}
 		}
 
-		//[TestMethod]
-		//public void GenericObjectStorageTest()
-		//{
-		//	string path = WorkingPath + @"\StorageTest.bin";
-
-		//	var objectToStore = new ObjectSerializationTestClass("Hejs");
-
-		//	ObjectConstructionStorage<ObjectSerializationTestClass>.StoreToFile(path, new[] { "Hejs" });
-
-		//	var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromStoreFile(path);
-
-		//	Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		//}
-
-		//[TestMethod]
-		//public void GenericObjectSaveTest()
-		//{
-		//	string path = WorkingPath + @"\StorageTest.bin";
-
-		//	var objectToStore = new ObjectSerializationTestClass("Hejs");
-
-		//	ObjectConstructionStorage<ObjectSerializationTestClass>.SaveToFile(path, new[] { "Hejs" });
-
-		//	var resultingObjectAfterLoad = ObjectConstructionStorage<ObjectSerializationTestClass>.CreateFromSaveFile(path);
-
-		//	Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		//}
-
 		[TestMethod]
 		public void ObjectStorageTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			ObjectConstructionStorage.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+			EditorObjectSerialization.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromStoreFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromStoreFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}
@@ -105,13 +83,35 @@ namespace UnitTests
 		[TestMethod]
 		public void ObjectSaveTest()
 		{
-			string path = WorkingPath + @"\StorageTest.bin";
-
 			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			ObjectConstructionStorage.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+			EditorObjectSerialization.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)ObjectConstructionStorage.CreateFromSaveFile(path);
+			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromSaveFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void HierarchyObjectStorageTest()
+		{
+			var objectToStore = new ScriptObject();
+
+			EditorObjectSerialization.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
+
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromStoreFile(path);
+
+			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+		}
+
+		[TestMethod]
+		public void HierarchyObjectSaveTest()
+		{
+			var objectToStore = new ScriptObject();
+
+			EditorObjectSerialization.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
+
+			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromSaveFile(path);
 
 			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
 		}

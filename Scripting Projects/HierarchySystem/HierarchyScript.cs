@@ -1,7 +1,6 @@
-﻿using CrystalClear.HierarchySystem.Scripting.Backend;
-using System;
+﻿using System;
 
-namespace CrystalClear.HierarchySystem.Scripting.Backend
+namespace CrystalClear.HierarchySystem.Scripting.Internal
 {
 	/// <summary>
 	/// The base class for HierarchyScript. Not too much to see here.
@@ -14,6 +13,8 @@ namespace CrystalClear.HierarchySystem.Scripting.Backend
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
+	using CrystalClear.HierarchySystem.Scripting.Internal;
+
 	/// <summary>
 	/// The type that all HierarchyScripts derive from. This is like a scripting "interface" for scripts to act through.
 	/// </summary>
@@ -26,10 +27,18 @@ namespace CrystalClear.HierarchySystem.Scripting
 			HierarchyObject = hierarchyObject;
 		}
 
+		private WeakReference<T> hierarchyObject;
 		public T HierarchyObject
 		{
-			get;
-			private set;
+			get
+			{
+				// TODO decide wether to use discards for names like these or use the other naming style in other scenarios where WeakReferences are used.
+				T _ = null;
+				hierarchyObject.TryGetTarget(out _);
+				return _;
+			}
+
+			private set => hierarchyObject.SetTarget(value);
 		}
 
 		public Hierarchy Hierarchy => HierarchyObject.Hierarchy;

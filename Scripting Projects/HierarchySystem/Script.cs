@@ -20,7 +20,11 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <summary>
 		/// The type of the Script.
 		/// </summary>
-		public readonly Type ScriptType;
+		public Type ScriptType
+		{
+			get;
+			private set;
+		}
 
 		/// <summary>
 		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
@@ -72,7 +76,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			}
 
 			// Subscribe the events.
-			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
+			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
 
 		/// <summary>
@@ -96,7 +100,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			ScriptInstance = HierarchyScript.CreateHierarchyScript(attatchedTo, scriptType, constructorParameters);
 
 			// Subscribe events.
-			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
+			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
 
 		/// <summary>
