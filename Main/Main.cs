@@ -56,7 +56,8 @@ public static class MainClass
 		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
 
 		// Find all HierarchyObject types in the compiled assembly.
-		Type[] hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly);
+		List<Type> hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
+		hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject))));
 		#endregion
 
 		#region Editor loop
@@ -76,54 +77,65 @@ public static class MainClass
 			// Clean up the \'s from the earlier split operation.
 			Regex.Replace(section, @"\\ ", string.Empty);
 		}
-		switch (commandSections[0])
+		try
 		{
-			case "new":
-				New(commandSections[1]);
-				break;
+			switch (commandSections[0])
+			{
+				case "new":
+					New(commandSections[1]);
+					break;
 
-			case "del":
-				Delete(commandSections[1]);
-				break;
+				case "del":
+					Delete(commandSections[1]);
+					break;
 
-			case "modify":
-				Modify();
-				break;
+				case "modify":
+					Modify();
+					break;
 
-			case "add":
-				AddScript(commandSections[1]);
-				break;
+				case "add":
+					AddScript(commandSections[1]);
+					break;
 
-			case "remove":
-				RemoveScript(commandSections[1]);
-				break;
+				case "remove":
+					RemoveScript(commandSections[1]);
+					break;
 
-			case "save":
-				Save(commandSections[1]);
-				break;
+				case "save":
+					Save(commandSections[1]);
+					break;
 
-			case "load":
-				Load(commandSections[1]);
-				break;
+				case "load":
+					Load(commandSections[1]);
+					break;
 
-			case "store":
-				Store(commandSections[1]);
-				break;
+				case "store":
+					Store(commandSections[1]);
+					break;
 
-			case "unpack":
-				Unpack(commandSections[1]);
-				break;
+				case "unpack":
+					Unpack(commandSections[1]);
+					break;
 
-			case "select":
-				Select(commandSections[1]);
-				break;
+				case "select":
+					Select(commandSections[1]);
+					break;
 
-			case "run":
-				goto RunProgram;
+				case "run":
+					goto RunProgram;
 
-			default:
-				Console.WriteLine("error");
-				break;
+				default:
+					Console.WriteLine("command error");
+					break;
+			}
+		}
+		catch (ArgumentNullException)
+		{
+			Console.WriteLine("command error");
+		}
+		catch (IndexOutOfRangeException)
+		{
+			Console.WriteLine("command error");
 		}
 		goto LoopEditor;
 		RunProgram:
