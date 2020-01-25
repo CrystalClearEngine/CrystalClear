@@ -129,6 +129,7 @@ public static class MainClass
 					break;
 			}
 		}
+#pragma warning disable CA1031 // Do not catch general exception types
 		catch (ArgumentNullException)
 		{
 			Console.WriteLine("command error");
@@ -137,6 +138,7 @@ public static class MainClass
 		{
 			Console.WriteLine("command error");
 		}
+#pragma warning restore CA1031 // Do not catch general exception types
 		goto LoopEditor;
 		RunProgram:
 		#endregion
