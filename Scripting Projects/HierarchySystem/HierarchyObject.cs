@@ -142,13 +142,15 @@ namespace CrystalClear.HierarchySystem
 			// Repeat while name is already taken in AttatchedScripts.
 			while (AttatchedScripts.ContainsKey(name)) // TODO improve efficency here.
 			{
-				string DuplicateDecorator = $" ({i})";
+				string OldDuplicateDecorator = $" ({i - 1})";
 
-				// Does the name already contain the DuplicateDecorator from a previous attempt?
-				if (name.EndsWith(DuplicateDecorator))
+				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
+				if (name.EndsWith(OldDuplicateDecorator))
 				{
-					name.Remove(name.Length - DuplicateDecorator.Length, name.Length);
+					name.Remove(name.Length - OldDuplicateDecorator.Length, name.Length - OldDuplicateDecorator.Length);
 				}
+
+				string DuplicateDecorator = $" ({i})";
 
 				name += DuplicateDecorator;
 
@@ -291,7 +293,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private WeakReference<HierarchyObject> parent; // TODO make this a weak reference!
+		private WeakReference<HierarchyObject> parent = new WeakReference<HierarchyObject>(null); // TODO make this a weak reference!
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
