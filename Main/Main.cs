@@ -57,6 +57,7 @@ public static class MainClass
 
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
+		// Add the HierarchyObjects defined in standard HierarchyObjects.
 		hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject))));
 		#endregion
 
@@ -82,7 +83,15 @@ public static class MainClass
 			switch (commandSections[0])
 			{
 				case "new":
-					New(commandSections[1]);
+					if (commandSections.Length > 1)
+					{
+						New(commandSections[1]);
+					}
+					else
+					{
+						// Use default HierarchyObject name if no name is provided.
+						New();
+					}
 					break;
 
 				case "del":
@@ -94,7 +103,15 @@ public static class MainClass
 					break;
 
 				case "add":
-					AddScript(commandSections[1]);
+					if (commandSections.Length > 1)
+					{
+						AddScript(commandSections[1]);
+					}
+					else
+					{
+						// Use default script name if no name is provided.
+						AddScript();
+					}
 					break;
 
 				case "remove":
@@ -125,22 +142,27 @@ public static class MainClass
 					goto RunProgram;
 
 				default:
-					Console.WriteLine("command error");
+					Console.WriteLine("command error: unknown command");
 					break;
 			}
 		}
 #pragma warning disable CA1031 // Do not catch general exception types
 		catch (ArgumentNullException)
 		{
-			Console.WriteLine("command error");
+			Console.WriteLine("command error: incorrect arg");
 		}
 		catch (IndexOutOfRangeException)
 		{
-			Console.WriteLine("command error");
+			Console.WriteLine("command error: missing arg");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
 		goto LoopEditor;
 		RunProgram:
+		#endregion
+
+		#region Creating and running
+		Console.Write("Choose a name for the hierarchy: ");
+		HierarchyManager.AddHierarchy(Console.ReadLine(), rootEditorHierarchyObject.CreateInstance(null));
 		#endregion
 
 		#region Event raising
@@ -173,15 +195,51 @@ public static class MainClass
 		goto ExitHandling;
 		#endregion
 
+		#region Editor Methods
 		void Modify()
 		{
 			currentEditorHierarchyObject.GetModifier();
 		}
 
-		void New(string name)
+		void New(string name = null)
 		{
-			Type typeOfHierarchyObjectToAdd = SelectItem(hierarchyObjectTypes);
-			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, typeOfHierarchyObjectToAdd, null));
+			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
+
+			// BEGIN CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
+			// TODO debug why it wont work in all instances... there should really be some kind of snippet management software, where if you update the snippet in one place it happens everywhere else too. It should also support overriding certain things where you don't want all copies to be identical. It would really make sense for places where code is reused but classes or methods don't make sense!
+
+			// Replace name with default name if not provided.
+			if (name == null)
+			{
+				name = hierarchyObjectType.Name;
+			}
+
+			// Create iterator.
+			int i = 1;
+
+			// Repeat while name is already taken in AttatchedScripts.
+			while (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
+			{
+				string OldDuplicateDecorator = $" ({i - 1})";
+
+				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
+				if (name.EndsWith(OldDuplicateDecorator))
+				{
+					name.Remove(name.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
+				}
+
+				string DuplicateDecorator = $" ({i})";
+
+				name += DuplicateDecorator;
+
+				// Increment iterator.
+				i++;
+			}
+
+			// END CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
+
+			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
+			Console.WriteLine($"HierarchyObject {name} has been added!");
 		}
 
 		void Delete(string nameOfEditorHierarchyObjectToDelete)
@@ -189,16 +247,52 @@ public static class MainClass
 			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 		}
 
-		void AddScript(string name)
+		void AddScript(string name = null)
 		{
 			Type scriptType = SelectItem(scriptTypes);
 			object[] constructorParameters = GetConstructorParameters(scriptType);
+
+			// BEGIN CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
+
+			// Replace name with default name if not provided.
+			if (name == null)
+			{
+				name = scriptType.Name;
+			}
+
+			// Create iterator.
+			int i = 1;
+
+			// Repeat while name is already taken in AttatchedScripts.
+			while (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
+			{
+				string OldDuplicateDecorator = $" ({i - 1})";
+
+				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
+				if (name.EndsWith(OldDuplicateDecorator))
+				{
+					name.Remove(name.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
+				}
+
+				string DuplicateDecorator = $" ({i})";
+
+				name += DuplicateDecorator;
+
+				// Increment iterator.
+				i++;
+			}
+
+			// END CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
+
 			currentEditorHierarchyObject.AttatchedScripts.Add(name, new EditorScript(scriptType, constructorParameters));
+
+			Console.WriteLine($"Script {name} has been added!");
 		}
 
 		void RemoveScript(string name)
 		{
 			currentEditorHierarchyObject.AttatchedScripts.Remove(name);
+			Console.WriteLine($"{name} has been removed.");
 		}
 
 		void Save(string path)
@@ -260,10 +354,24 @@ public static class MainClass
 		T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
+			// The number of items in the collection.
+			int count = collection.Count();
+
+			if (count == 0)
+			{
+				throw new ArgumentException("Selection collection was empty.");
+			}
+			else if (count == 1)
+			{
+				Console.WriteLine($"Defaulted to {collection.First()}.");
+				return collection.First();
+			}
+
 			Console.WriteLine($"Select an item of type {typeof(T).FullName} from this list:");
+			int i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 			foreach (var item in collection)
 			{
-				Console.WriteLine($"Item: {item.ToString()}");
+				Console.WriteLine($"Item ({i}/{count - 1}): {item.ToString()}");
 				getInput:
 				Console.Write("Select? Y/N: ");
 				char readChar = Console.ReadKey().KeyChar;
@@ -275,6 +383,7 @@ public static class MainClass
 				}
 				else if(readChar == 'N' || readChar == 'n')
 				{
+					i++;
 					continue;
 				}
 				else
@@ -324,5 +433,6 @@ public static class MainClass
 				// TODO use ImaginaryObject (pretty much EditorObject, probs gonna rename it) instead of wasting cycles creating an object which is going to be removed only to be created again soon. Will also prevent security vulnerabilities and I am already rambling way too much.
 				return Activator.CreateInstance(type, GetConstructorParameters(type));
 		}
+		#endregion
 	}
 }

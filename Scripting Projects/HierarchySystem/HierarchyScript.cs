@@ -27,7 +27,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			HierarchyObject = hierarchyObject;
 		}
 
-		private WeakReference<T> hierarchyObject;
+		private WeakReference<T> hierarchyObject = new WeakReference<T>(null);
 		public T HierarchyObject
 		{
 			get
@@ -89,6 +89,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 				instance = Activator.CreateInstance(scriptType);
 			}
 
+			// TODO add error handling for types incompatible with this specific HierarchyScript.
 			// Invoke SetUp to set the HierarchyObject up.
 			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo });
 

@@ -40,7 +40,10 @@ namespace CrystalClear.SerializationSystem
 		{
 			HierarchyObject instance = (HierarchyObject)Activator.CreateInstance(ConstructionType, args: ConstructorParams);
 
-			instance.SetUp(parent);
+			if (parent != null)
+			{
+				instance.SetUp(parent);
+			}
 
 			foreach (string editorHierarchyName in LocalHierarchy.Keys)
 			{
