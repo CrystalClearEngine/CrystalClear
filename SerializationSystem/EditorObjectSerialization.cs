@@ -13,7 +13,7 @@ namespace CrystalClear.SerializationSystem
 	public static class EditorObjectSerialization
 	// TODO maybe make multi purpose? reasoning being that a load method already has an expectedType parameter.
 	{
-		// TODO maybe add generic version, where return type is expectedType.
+		// TODO maybe add generic version, param type is expectedType.
 		public static EditorObject LoadFromSaveFile(string path, Type expectedType)
 		{
 			using (XmlReader readerStream = XmlReader.Create(path))
