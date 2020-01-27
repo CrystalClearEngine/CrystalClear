@@ -31,6 +31,8 @@ namespace CrystalClear
 				// Increment iterator.
 				i++;
 			}
+
+			return currentName;
 		}
 	}
 }
