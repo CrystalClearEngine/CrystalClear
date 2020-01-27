@@ -133,30 +133,9 @@ namespace CrystalClear.HierarchySystem
 			// Replace name with default name if not provided.
 			if (name == null)
 			{
-				name = script.ScriptType.Name;
+				name = Utilities.EnsureUniqueName(script.ScriptType.Name, AttatchedScripts.Keys);
 			}
 
-			// Create iterator.
-			int i = 1;
-			
-			// Repeat while name is already taken in AttatchedScripts.
-			while (AttatchedScripts.ContainsKey(name)) // TODO improve efficency here.
-			{
-				string OldDuplicateDecorator = $" ({i - 1})";
-
-				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
-				if (name.EndsWith(OldDuplicateDecorator))
-				{
-					name.Remove(name.Length - OldDuplicateDecorator.Length, name.Length - OldDuplicateDecorator.Length);
-				}
-
-				string DuplicateDecorator = $" ({i})";
-
-				name += DuplicateDecorator;
-
-				// Increment iterator.
-				i++;
-			}
 			AttatchedScripts.Add(name, script);
 		}
 		#endregion

@@ -11,6 +11,7 @@ using static CrystalClear.CrystalClearInformation;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
+using System.Diagnostics;
 
 public static class MainClass
 {
@@ -161,8 +162,12 @@ public static class MainClass
 		#endregion
 
 		#region Creating and running
-		Console.Write("Choose a name for the hierarchy: ");
-		HierarchyManager.AddHierarchy(Console.ReadLine(), rootEditorHierarchyObject.CreateInstance(null));
+		Console.Write("Choose a name for the hierarchy: "); string hierarchyName = Console.ReadLine();
+		Stopwatch performanceStopwatchForCreate = new Stopwatch();
+		performanceStopwatchForCreate.Start();
+		HierarchyManager.AddHierarchy(hierarchyName, rootEditorHierarchyObject.CreateInstance(null));
+		performanceStopwatchForCreate.Stop();
+		Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
 		#endregion
 
 		#region Event raising
@@ -189,7 +194,7 @@ public static class MainClass
 		ExitHandling:
 		if (Console.ReadKey().Key == ConsoleKey.Escape)
 		{
-			// Exit.
+			// Exit on escape key.
 			Environment.Exit(1);
 		}
 		goto ExitHandling;
@@ -205,38 +210,10 @@ public static class MainClass
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
 
-			// BEGIN CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
-			// TODO debug why it wont work in all instances... there should really be some kind of snippet management software, where if you update the snippet in one place it happens everywhere else too. It should also support overriding certain things where you don't want all copies to be identical. It would really make sense for places where code is reused but classes or methods don't make sense!
-
-			// Replace name with default name if not provided.
 			if (name == null)
 			{
-				name = hierarchyObjectType.Name;
+				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentEditorHierarchyObject.LocalHierarchy.Keys);
 			}
-
-			// Create iterator.
-			int i = 1;
-
-			// Repeat while name is already taken in AttatchedScripts.
-			while (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
-			{
-				string OldDuplicateDecorator = $" ({i - 1})";
-
-				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
-				if (name.EndsWith(OldDuplicateDecorator))
-				{
-					name.Remove(name.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
-				}
-
-				string DuplicateDecorator = $" ({i})";
-
-				name += DuplicateDecorator;
-
-				// Increment iterator.
-				i++;
-			}
-
-			// END CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
 
 			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
 			Console.WriteLine($"HierarchyObject {name} has been added!");
@@ -252,37 +229,10 @@ public static class MainClass
 			Type scriptType = SelectItem(scriptTypes);
 			object[] constructorParameters = GetConstructorParameters(scriptType);
 
-			// BEGIN CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
-
-			// Replace name with default name if not provided.
 			if (name == null)
 			{
-				name = scriptType.Name;
+				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentEditorHierarchyObject.AttatchedScripts.Keys);
 			}
-
-			// Create iterator.
-			int i = 1;
-
-			// Repeat while name is already taken in AttatchedScripts.
-			while (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
-			{
-				string OldDuplicateDecorator = $" ({i - 1})";
-
-				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
-				if (name.EndsWith(OldDuplicateDecorator))
-				{
-					name.Remove(name.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
-				}
-
-				string DuplicateDecorator = $" ({i})";
-
-				name += DuplicateDecorator;
-
-				// Increment iterator.
-				i++;
-			}
-
-			// END CODE FROM HIERARCHYOBJECT'S ADDSCRIPTMANUALLY...
 
 			currentEditorHierarchyObject.AttatchedScripts.Add(name, new EditorScript(scriptType, constructorParameters));
 

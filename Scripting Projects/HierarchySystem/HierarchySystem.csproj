@@ -52,6 +52,10 @@
     <Compile Include="Script.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EventSystem\EventSystem.csproj">
       <Project>{5FFF5362-4EB6-4776-8A7D-6557E41C7538}</Project>
       <Name>EventSystem</Name>
