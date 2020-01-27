@@ -8,7 +8,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event attribute.
 	/// </summary>
-	public class OnInputPollAttribute : SubscribeToAttribute
+	public sealed class OnInputPollAttribute : SubscribeToAttribute
 	{
 		public OnInputPollAttribute() : base(typeof(FrameUpdateEvent))
 		{
