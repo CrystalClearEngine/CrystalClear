@@ -115,7 +115,7 @@ public static class MainClass
 					}
 					break;
 
-				case "remove":
+				case "rem":
 					RemoveScript(commandSections[1]);
 					break;
 
@@ -127,8 +127,8 @@ public static class MainClass
 					Load(commandSections[1]);
 					break;
 
-				case "store":
-					Store(commandSections[1]);
+				case "pack":
+					Pack(commandSections[1]);
 					break;
 
 				case "unpack":
@@ -256,14 +256,14 @@ public static class MainClass
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
-		void Store(string path)
+		void Pack(string path)
 		{
-			EditorObjectSerialization.StoreToFile(path, rootEditorHierarchyObject);
+			EditorObjectSerialization.PackToFile(path, rootEditorHierarchyObject);
 		}
 
 		void Unpack(string path)
 		{
-			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromStoreFile(path);
+			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.UnpackFromFile(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 

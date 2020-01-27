@@ -38,7 +38,7 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static EditorObject LoadFromStoreFile(string path) // Use custom binaryWriter powered serializer.
+		public static EditorObject UnpackFromFile(string path) // Use custom binaryWriter powered serializer.
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
 			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
@@ -51,7 +51,7 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static void StoreToFile(string path, EditorObject toStore)
+		public static void PackToFile(string path, EditorObject toStore)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
