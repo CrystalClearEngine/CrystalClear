@@ -1,119 +1,119 @@
-﻿using System;
-using System.Collections.Generic;
-using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.SerializationSystem;
-using CrystalClear.Standard.HierarchyObjects;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static CrystalClear.CrystalClearInformation;
+﻿//using System;
+//using System.Collections.Generic;
+//using CrystalClear.HierarchySystem.Scripting;
+//using CrystalClear.SerializationSystem;
+//using CrystalClear.Standard.HierarchyObjects;
+//using Microsoft.VisualStudio.TestTools.UnitTesting;
+//using static CrystalClear.CrystalClearInformation;
 
-namespace UnitTests
-{
-	[TestClass]
-	public class SerializationTests // TODO add cleanup method.
-	{
-		readonly string path = WorkingPath + @"\StorageTest.bin";
+//namespace UnitTests
+//{
+//	[TestClass]
+//	public class SerializationTests // TODO add cleanup method.
+//	{
+//		readonly string path = WorkingPath + @"\StorageTest.bin";
 
-		[TestCleanup]
-		public void Cleanup()
-		{
-			System.IO.File.Delete(path);
-		}
+//		[TestCleanup]
+//		public void Cleanup()
+//		{
+//			System.IO.File.Delete(path);
+//		}
 
-		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
-		{
-			public ObjectSerializationTestClass(string someParameter)
-			{
-				something = someParameter;
-			}
+//		private class ObjectSerializationTestClass : IEquatable<ObjectSerializationTestClass>, IExtraObjectData
+//		{
+//			public ObjectSerializationTestClass(string someParameter)
+//			{
+//				something = someParameter;
+//			}
 
-			string something;
+//			string something;
 
-			public override bool Equals(object obj)
-			{
-				return something == ((ObjectSerializationTestClass)obj).something;
-			}
+//			public override bool Equals(object obj)
+//			{
+//				return something == ((ObjectSerializationTestClass)obj).something;
+//			}
 
-			public bool Equals(ObjectSerializationTestClass other)
-			{
-				return other != null &&
-					   something == other.something;
-			}
+//			public bool Equals(ObjectSerializationTestClass other)
+//			{
+//				return other != null &&
+//					   something == other.something;
+//			}
 
-			public override int GetHashCode()
-			{
-				return -1851467485 + EqualityComparer<string>.Default.GetHashCode(something);
-			}
+//			public override int GetHashCode()
+//			{
+//				return -1851467485 + EqualityComparer<string>.Default.GetHashCode(something);
+//			}
 
-			ExtraDataObject IExtraObjectData.GetData()
-			{
-				return new ExtraDataObject()
-				{
-					{"SomeData", something},
-				};
-			}
+//			ExtraDataObject IExtraObjectData.GetData()
+//			{
+//				return new ExtraDataObject()
+//				{
+//					{"SomeData", something},
+//				};
+//			}
 
-			void IExtraObjectData.SetData(ExtraDataObject data)
-			{
-				something = (string)data["SomeData"];
-			}
+//			void IExtraObjectData.SetData(ExtraDataObject data)
+//			{
+//				something = (string)data["SomeData"];
+//			}
 
-			public static bool operator ==(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
-			{
-				return EqualityComparer<ObjectSerializationTestClass>.Default.Equals(left, right);
-			}
+//			public static bool operator ==(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
+//			{
+//				return EqualityComparer<ObjectSerializationTestClass>.Default.Equals(left, right);
+//			}
 
-			public static bool operator !=(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
-			{
-				return !(left == right);
-			}
-		}
+//			public static bool operator !=(ObjectSerializationTestClass left, ObjectSerializationTestClass right)
+//			{
+//				return !(left == right);
+//			}
+//		}
 
-		[TestMethod]
-		public void ObjectStorageTest()
-		{
-			var objectToStore = new ObjectSerializationTestClass("Hejs");
+//		[TestMethod]
+//		public void ObjectStorageTest()
+//		{
+//			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			EditorObjectSerialization.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+//			EditorObjectSerialization.StoreToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.UnpackFromFile(path);
+//			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.UnpackFromFile(path);
 
-			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		}
+//			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+//		}
 
-		[TestMethod]
-		public void ObjectSaveTest()
-		{
-			var objectToStore = new ObjectSerializationTestClass("Hejs");
+//		[TestMethod]
+//		public void ObjectSaveTest()
+//		{
+//			var objectToStore = new ObjectSerializationTestClass("Hejs");
 
-			EditorObjectSerialization.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
+//			EditorObjectSerialization.SaveToFile(path, typeof(ObjectSerializationTestClass), new[] { "Hejs" }, objectToStore);
 
-			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromSaveFile(path);
+//			var resultingObjectAfterLoad = (ObjectSerializationTestClass)EditorObjectSerialization.LoadFromSaveFile(path);
 
-			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		}
+//			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+//		}
 
-		[TestMethod]
-		public void HierarchyObjectStorageTest()
-		{
-			var objectToStore = new ScriptObject();
+//		[TestMethod]
+//		public void HierarchyObjectStorageTest()
+//		{
+//			var objectToStore = new ScriptObject();
 
-			EditorObjectSerialization.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
+//			EditorObjectSerialization.StoreToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.UnpackFromFile(path);
+//			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.UnpackFromFile(path);
 
-			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		}
+//			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+//		}
 
-		[TestMethod]
-		public void HierarchyObjectSaveTest()
-		{
-			var objectToStore = new ScriptObject();
+//		[TestMethod]
+//		public void HierarchyObjectSaveTest()
+//		{
+//			var objectToStore = new ScriptObject();
 
-			EditorObjectSerialization.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
+//			EditorObjectSerialization.SaveToFile(path, typeof(ScriptObject), null, objectToStore);
 
-			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromSaveFile(path);
+//			var resultingObjectAfterLoad = (ScriptObject)EditorObjectSerialization.LoadFromSaveFile(path);
 
-			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
-		}
-	}
-}
+//			Assert.IsTrue(objectToStore.Equals(resultingObjectAfterLoad));
+//		}
+//	}
+//}
