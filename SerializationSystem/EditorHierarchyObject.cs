@@ -8,7 +8,7 @@ namespace CrystalClear.SerializationSystem
 	[Serializable]
 	[DataContract]
 	public class EditorHierarchyObject
-		: EditorObject
+		: ImaginaryObject
 	{
 		public EditorHierarchyObject(EditorHierarchyObject parent, Type constructionType, object[] constructorParams)
 		{

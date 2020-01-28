@@ -14,19 +14,19 @@ namespace CrystalClear.SerializationSystem
 	// TODO maybe make multi purpose? reasoning being that a load method already has an expectedType parameter.
 	{
 		// TODO maybe add generic version, param type is expectedType.
-		public static EditorObject LoadFromSaveFile(string path, Type expectedType)
+		public static ImaginaryObject LoadFromSaveFile(string path, Type expectedType)
 		{
 			using (XmlReader readerStream = XmlReader.Create(path))
 			{
 				DataContractSerializer dataContractSerializer = new DataContractSerializer(expectedType);
 
-				EditorObject deserializedEditorObject = (EditorObject)dataContractSerializer.ReadObject(readerStream);
+				ImaginaryObject deserializedEditorObject = (ImaginaryObject)dataContractSerializer.ReadObject(readerStream);
 
 				return deserializedEditorObject;
 			}
 		}
 
-		public static void SaveToFile(string path, EditorObject toStore)
+		public static void SaveToFile(string path, ImaginaryObject toStore)
 		{
 			var settings = new XmlWriterSettings { Indent = true };
 
@@ -38,20 +38,20 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static EditorObject UnpackFromFile(string path) // Use custom binaryWriter powered serializer.
+		public static ImaginaryObject UnpackFromFile(string path) // Use custom binaryWriter powered serializer.
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Open))
 			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
 			{
 				BinaryFormatter binaryFormatter = new BinaryFormatter();
 
-				EditorObject deserializedEditorObject = (EditorObject)binaryFormatter.Deserialize(decompressionStream);
+				ImaginaryObject deserializedEditorObject = (ImaginaryObject)binaryFormatter.Deserialize(decompressionStream);
 
 				return deserializedEditorObject;
 			}
 		}
 
-		public static void PackToFile(string path, EditorObject toStore)
+		public static void PackToFile(string path, ImaginaryObject toStore)
 		{
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))

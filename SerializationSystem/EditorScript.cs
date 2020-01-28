@@ -8,7 +8,7 @@ namespace CrystalClear.SerializationSystem
 	[Serializable]
 	[DataContract]
 	public class EditorScript
-		: EditorObject
+		: ImaginaryObject
 	{
 		public EditorScript(Type constructionType, object[] constructorParams)
 		{

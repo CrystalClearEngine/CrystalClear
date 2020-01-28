@@ -9,15 +9,15 @@ namespace CrystalClear.SerializationSystem
 	/// </summary>
 	[Serializable]
 	[DataContract]
-	public abstract class EditorObject
+	public abstract class ImaginaryObject
 	{
-		protected EditorObject(Type constructionType, object[] constructorParams)
+		protected ImaginaryObject(Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
 			ConstructorParams = constructorParams ?? Array.Empty<object>();
 		}
 
-		protected EditorObject()
+		protected ImaginaryObject()
 		{
 
 		}
