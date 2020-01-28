@@ -68,10 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorHierarchyObject.cs" />
+    <Compile Include="ImaginaryHierarchyObject.cs" />
     <Compile Include="ImaginaryObject.cs" />
     <Compile Include="EditorObjectSerialization.cs" />
-    <Compile Include="EditorScript.cs" />
+    <Compile Include="ImaginaryScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

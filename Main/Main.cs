@@ -65,8 +65,8 @@ public static class MainClass
 		#region Editor loop
 		// Very basic editor.
 
-		EditorHierarchyObject rootEditorHierarchyObject = new EditorHierarchyObject(null, typeof(HierarchyRoot), null);
-		EditorHierarchyObject currentEditorHierarchyObject = rootEditorHierarchyObject;
+		ImaginaryHierarchyObject rootEditorHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot), null);
+		ImaginaryHierarchyObject currentEditorHierarchyObject = rootEditorHierarchyObject;
 
 		LoopEditor:
 		string line = Console.ReadLine();
@@ -215,7 +215,7 @@ public static class MainClass
 				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentEditorHierarchyObject.LocalHierarchy.Keys);
 			}
 
-			currentEditorHierarchyObject.LocalHierarchy.Add(name, new EditorHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
+			currentEditorHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
 			Console.WriteLine($"HierarchyObject {name} has been added!");
 		}
 
@@ -235,7 +235,7 @@ public static class MainClass
 				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentEditorHierarchyObject.AttatchedScripts.Keys);
 			}
 
-			currentEditorHierarchyObject.AttatchedScripts.Add(name, new EditorScript(scriptType, constructorParameters));
+			currentEditorHierarchyObject.AttatchedScripts.Add(name, new ImaginaryScript(scriptType, constructorParameters));
 
 			Console.WriteLine($"Script {name} has been added!");
 		}
@@ -253,7 +253,7 @@ public static class MainClass
 
 		void Load(string path)
 		{
-			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(EditorHierarchyObject));
+			rootEditorHierarchyObject = (ImaginaryHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(ImaginaryHierarchyObject));
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
@@ -264,7 +264,7 @@ public static class MainClass
 
 		void Unpack(string path)
 		{
-			rootEditorHierarchyObject = (EditorHierarchyObject)EditorObjectSerialization.UnpackFromFile(path);
+			rootEditorHierarchyObject = (ImaginaryHierarchyObject)EditorObjectSerialization.UnpackFromFile(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 

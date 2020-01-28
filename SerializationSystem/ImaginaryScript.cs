@@ -7,18 +7,17 @@ namespace CrystalClear.SerializationSystem
 {
 	[Serializable]
 	[DataContract]
-	public class EditorScript
+	public class ImaginaryScript
 		: ImaginaryObject
 	{
-		public EditorScript(Type constructionType, object[] constructorParams)
+		public ImaginaryScript(Type constructionType, ImaginaryObject[] constructorParams) : base(constructionType, constructorParams)
 		{
-			ConstructionType = constructionType;
-			ConstructorParams = constructorParams ?? new object[] { };
+
 		}
 
 		public Script CreateInstance(HierarchyObject attatchedTo)
 		{
-			Script instance = new Script(ConstructionType, ConstructorParams, attatchedTo);
+			Script instance = new Script(GetConstructionType(), ConstructorParams, attatchedTo);
 
 			return instance;
 		}
