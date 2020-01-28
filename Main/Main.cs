@@ -222,6 +222,7 @@ public static class MainClass
 		void Delete(string nameOfEditorHierarchyObjectToDelete)
 		{
 			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
+			Console.WriteLine($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
 		}
 
 		void AddScript(string name = null)
@@ -242,7 +243,7 @@ public static class MainClass
 		void RemoveScript(string name)
 		{
 			currentEditorHierarchyObject.AttatchedScripts.Remove(name);
-			Console.WriteLine($"{name} has been removed.");
+			Console.WriteLine($"Script {name} has been removed.");
 		}
 
 		void Save(string path)
@@ -296,6 +297,12 @@ public static class MainClass
 			else if (editorObjectSelectQuery.Contains('<'))
 			{
 				Console.WriteLine("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
+			}
+
+			if (!currentEditorHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
+			{
+				Console.WriteLine("The requested HierarchyObject doesn't exist.");
+				return;
 			}
 
 			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
