@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
@@ -10,33 +11,60 @@ namespace CrystalClear.SerializationSystem
 	[DataContract]
 	public abstract class EditorObject
 	{
-		public EditorObject(Type constructionType, object[] constructorParams)
+		protected EditorObject(Type constructionType, object[] constructorParams)
 		{
 			ConstructionType = constructionType;
-			ConstructorParams = constructorParams ?? new object[] { };
+			ConstructorParams = constructorParams ?? Array.Empty<object>();
 		}
 
-		public EditorObject()
+		protected EditorObject()
 		{
 
 		}
 
-		public Type ConstructionType;
+		private Type constructionType;
+		public Type ConstructionType
+		{
+			get
+			{
+				if (constructionType == null)
+				{ // The object was probably deserialized, hence why it's null.
+					constructionType = Type.GetType(typeName, true);
+				}
+				return constructionType;
+			}
+			set
+			{
+				typeName = value.AssemblyQualifiedName;
+				constructionType = value;
+			}
+		}
+
 		[DataMember]
 		public object[] ConstructorParams;
 
 		[DataMember]
+		private string typeName;
+
 		public string TypeName
 		{
 			get
 			{
+				if (ConstructionType == null)
+				{
+					ConstructionType = Type.GetType(typeName);
+				}
+
 				return ConstructionType.AssemblyQualifiedName;
 			}
 			set
 			{
-				ConstructionType = Type.GetType(value);
+				Type type = Type.GetType(value);
+				typeName = type.AssemblyQualifiedName;
+				ConstructionType = type;
 			}
 		}
+
 
 		public virtual void GetModifier()
 		{
