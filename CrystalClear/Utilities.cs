@@ -8,31 +8,31 @@ namespace CrystalClear
 {
 	public static class Utilities
 	{
-		public static string EnsureUniqueName(string currentName, IEnumerable<string> enumerable)
+		public static string EnsureUniqueName(string baseName, IEnumerable<string> enumerable)
 		{
 			// Create iterator.
 			int i = 1;
 
 			// Repeat while name is already taken in AttatchedScripts.
-			while (enumerable.Contains(currentName))
+			while (enumerable.Contains(baseName))
 			{
 				string OldDuplicateDecorator = $" ({i - 1})";
 
 				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
-				if (currentName.EndsWith(OldDuplicateDecorator))
+				if (baseName.EndsWith(OldDuplicateDecorator))
 				{
-					currentName =  currentName.Remove(currentName.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
+					baseName =  baseName.Remove(baseName.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
 				}
 
 				string DuplicateDecorator = $" ({i})";
 
-				currentName += DuplicateDecorator;
+				baseName += DuplicateDecorator;
 
 				// Increment iterator.
 				i++;
 			}
 
-			return currentName;
+			return baseName;
 		}
 	}
 }

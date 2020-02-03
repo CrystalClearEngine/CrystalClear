@@ -70,7 +70,8 @@
   <ItemGroup>
     <Compile Include="ImaginaryHierarchyObject.cs" />
     <Compile Include="ImaginaryObject.cs" />
-    <Compile Include="EditorObjectSerialization.cs" />
+    <Compile Include="ImaginaryObjectSerialization.cs" />
+    <Compile Include="ImaginaryPrimitive.cs" />
     <Compile Include="ImaginaryScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,9 +79,17 @@
     <None Include="Properties\packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
+      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
+      <Name>CrystalClear</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
       <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
       <Name>HierarchySystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
+      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
+      <Name>Standard</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

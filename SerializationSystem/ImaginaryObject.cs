@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace CrystalClear.SerializationSystem
 {
@@ -11,7 +13,7 @@ namespace CrystalClear.SerializationSystem
 		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParams)
 		{
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
-			ConstructorParams = constructorParams ?? Array.Empty<ImaginaryObject>();
+			ConstructionParameters = constructorParams ?? Array.Empty<ImaginaryObject>();
 		}
 
 		protected ImaginaryObject()
@@ -21,12 +23,28 @@ namespace CrystalClear.SerializationSystem
 
 		[DataMember]
 		public string ConstructionTypeName { get; set; }
+
 		[DataMember]
-		public ImaginaryObject[] ConstructorParams;
+		public ImaginaryObject[] ConstructionParameters;
 
 		public Type GetConstructionType()
 		{
 			return Type.GetType(ConstructionTypeName, true);
+		}
+
+		internal void WriteConstructionInfo(BinaryWriter binaryWriter, Encoding encoding)
+		{
+			binaryWriter.Write(ConstructionTypeName);
+			binaryWriter.Write(ConstructionParameters.Length);
+			foreach (ImaginaryObject imaginary in ConstructionParameters)
+			{
+				binaryWriter.Write(imaginary.ConstructionTypeName);
+
+				if (imaginary.GetConstructionType().IsPrimitive)
+					binaryWriter.Write((imaginary as ImaginaryPrimitive).StringValue);
+				else
+					imaginary.WriteConstructionInfo(binaryWriter, encoding);
+			}
 		}
 	}
 }
