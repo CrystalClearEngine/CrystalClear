@@ -17,7 +17,7 @@ namespace CrystalClear.SerializationSystem
 
 		public Script CreateInstance(HierarchyObject attatchedTo)
 		{
-			Script instance = new Script(GetConstructionType(), ConstructorParams, attatchedTo);
+			Script instance = new Script(GetConstructionType(), ConstructionParameters, attatchedTo);
 
 			return instance;
 		}

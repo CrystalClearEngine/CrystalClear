@@ -163,10 +163,12 @@ public static class MainClass
 
 		#region Creating and running
 		Console.Write("Choose a name for the hierarchy: "); string hierarchyName = Console.ReadLine();
+
 		Stopwatch performanceStopwatchForCreate = new Stopwatch();
 		performanceStopwatchForCreate.Start();
 		HierarchyManager.AddHierarchy(hierarchyName, rootEditorHierarchyObject.CreateInstance(null));
 		performanceStopwatchForCreate.Stop();
+
 		Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
 		#endregion
 
@@ -203,7 +205,7 @@ public static class MainClass
 		#region Editor Methods
 		void Modify()
 		{
-			currentEditorHierarchyObject.GetModifier();
+			throw new NotImplementedException();
 		}
 
 		void New(string name = null)
@@ -213,6 +215,10 @@ public static class MainClass
 			if (name == null)
 			{
 				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentEditorHierarchyObject.LocalHierarchy.Keys);
+			}
+			else if (currentEditorHierarchyObject.LocalHierarchy.ContainsKey(name))
+			{
+				name = CrystalClear.Utilities.EnsureUniqueName(name, currentEditorHierarchyObject.LocalHierarchy.Keys);
 			}
 
 			currentEditorHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
@@ -228,11 +234,15 @@ public static class MainClass
 		void AddScript(string name = null)
 		{
 			Type scriptType = SelectItem(scriptTypes);
-			object[] constructorParameters = GetConstructorParameters(scriptType);
+			ImaginaryObject[] constructorParameters = GetConstructorParameters(scriptType);
 
 			if (name == null)
 			{
 				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentEditorHierarchyObject.AttatchedScripts.Keys);
+			}
+			else if (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
+			{
+				name = CrystalClear.Utilities.EnsureUniqueName(name, currentEditorHierarchyObject.AttatchedScripts.Keys);
 			}
 
 			currentEditorHierarchyObject.AttatchedScripts.Add(name, new ImaginaryScript(scriptType, constructorParameters));
@@ -248,28 +258,31 @@ public static class MainClass
 
 		void Save(string path)
 		{
-			EditorObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
+			ImaginaryObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
 		}
 
 		void Load(string path)
 		{
-			rootEditorHierarchyObject = (ImaginaryHierarchyObject)EditorObjectSerialization.LoadFromSaveFile(path, typeof(ImaginaryHierarchyObject));
+			rootEditorHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
 		void Pack(string path)
 		{
-			EditorObjectSerialization.PackToFile(path, rootEditorHierarchyObject);
+			ImaginaryObjectSerialization.PackHierarchyToFile(path, rootEditorHierarchyObject);
 		}
 
 		void Unpack(string path)
 		{
-			rootEditorHierarchyObject = (ImaginaryHierarchyObject)EditorObjectSerialization.UnpackFromFile(path);
+			rootEditorHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
 			currentEditorHierarchyObject = rootEditorHierarchyObject;
 		}
 
 		void Select(string editorObjectSelectQuery)
 		{
+			// Store the status of the currently selected HierarchyObject so we can revert back here.
+			var initiallySelected = currentEditorHierarchyObject;
+
 			// Does this query start with a backstep?
 			if (editorObjectSelectQuery.StartsWith("<"))
 			{
@@ -279,6 +292,13 @@ public static class MainClass
 				// Backstep.
 				for (int i = 0; i < backStepCount; i++)
 				{
+					// Check if the HierarchyObject actually has a parent.
+					if (currentEditorHierarchyObject.Parent == null)
+					{
+						Console.WriteLine($"error: {currentEditorHierarchyObject} does not have a parent. Reverting the select.");
+						currentEditorHierarchyObject = initiallySelected;
+						return;
+					}
 					// Perform the backstep by going back to the parent of currentEditorHierarchyObject.
 					currentEditorHierarchyObject = currentEditorHierarchyObject.Parent;
 				}
@@ -301,7 +321,8 @@ public static class MainClass
 
 			if (!currentEditorHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
 			{
-				Console.WriteLine("The requested HierarchyObject doesn't exist.");
+				Console.WriteLine($"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
+				currentEditorHierarchyObject = initiallySelected;
 				return;
 			}
 
@@ -353,7 +374,7 @@ public static class MainClass
 			goto selection;
 		}
 
-		object[] GetConstructorParameters(Type scriptType)
+		ImaginaryObject[] GetConstructorParameters(Type scriptType)
 		{
 			Console.WriteLine($"Constructor parameter wizard for {scriptType.FullName}.");
 
@@ -361,7 +382,7 @@ public static class MainClass
 			ConstructorInfo constructorInfo = SelectItem(scriptType.GetConstructors());
 			ParameterInfo[] parameterInfoArray = constructorInfo.GetParameters();
 
-			object[] parameters = new object[parameterInfoArray.Length];
+			ImaginaryObject[] parameters = new ImaginaryObject[parameterInfoArray.Length];
 
 			Console.WriteLine("Now provide values for the different parameters.");
 			for (int i = 0; i < parameterInfoArray.Length; i++)
@@ -369,26 +390,26 @@ public static class MainClass
 				ParameterInfo parameter = parameterInfoArray[i];
 				
 				Console.WriteLine($"{parameter.Name}:");
-				parameters[i] = CreateObject(parameter.ParameterType);
+				parameters[i] = CreateImaginaryObject(parameter.ParameterType);
 			}
 
+			// TODO fix this for when no parameters are provided.
 			Console.WriteLine("Done! This is how it's looking:");
 			Console.Write($"new {scriptType.Name} (");
-			parameters.ToList().ForEach((object o) => { Console.Write(o.ToString() + ", "); });
+			parameters.ToList().ForEach((ImaginaryObject iO) => { Console.Write(iO.ToString() + ", "); });
 			Console.WriteLine("\b\b)");
 
 			return parameters;
 		}
 
-		object CreateObject(Type type)
+		ImaginaryObject CreateImaginaryObject(Type ofType)
 		{
-			if (type.IsPrimitive || type == typeof(string) /*|| type.IsAssignableFrom(IEditorSerializeable)*/ )
+			if (ImaginaryPrimitive.QualifiesAsPrimitive(ofType))
 			{
-				return Convert.ChangeType(Console.ReadLine(), type);
+				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), ofType));
 			}
 			else
-				// TODO use ImaginaryObject (pretty much EditorObject, probs gonna rename it) instead of wasting cycles creating an object which is going to be removed only to be created again soon. Will also prevent security vulnerabilities and I am already rambling way too much.
-				return Activator.CreateInstance(type, GetConstructorParameters(type));
+				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
 		}
 		#endregion
 	}

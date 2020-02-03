@@ -36,7 +36,7 @@ namespace CrystalClear.SerializationSystem
 
 		public HierarchyObject CreateInstance(HierarchyObject parent)
 		{
-			HierarchyObject instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: ConstructorParams);
+			HierarchyObject instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: ConstructionParameters);
 
 			if (parent != null)
 			{

@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\.editorconfig">
-      <Link>.editorconfig</Link>
+      <Link>Properties\.editorconfig</Link>
     </None>
     <None Include="Properties\packages.config" />
     <None Include="Properties\App.config" />
