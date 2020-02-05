@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using static CrystalClear.CrystalClearInformation;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using static CrystalClear.CrystalClearInformation;
 
 namespace CrystalClear.CompilationSystem
 {
@@ -48,7 +48,7 @@ namespace CrystalClear.CompilationSystem
 				{
 					metadataReferences.Add(MetadataReference.CreateFromFile(item));
 				}
-				
+
 				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
 				CSharpCompilation compilation = CSharpCompilation.Create(
@@ -69,7 +69,7 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 			}
-				return Assembly.LoadFrom(WorkingPath + @"\Build\Scripts.dll");
+			return Assembly.LoadFrom(WorkingPath + @"\Build\Scripts.dll");
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using CrystalClear.HierarchySystem;
-using System.Collections.Generic;
 using CrystalClear.ScriptUtilities;
+using System.Collections.Generic;
 
 namespace CrystalClear.Standard.HierarchyObjects
 {

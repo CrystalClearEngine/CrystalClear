@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CrystalClear.EventSystem
+﻿namespace CrystalClear.EventSystem
 {
 	/// <summary>
 	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.

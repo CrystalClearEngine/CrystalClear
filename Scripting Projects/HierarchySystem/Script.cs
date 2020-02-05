@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.ScriptUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

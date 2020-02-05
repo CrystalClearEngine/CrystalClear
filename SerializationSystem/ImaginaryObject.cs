@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -41,9 +40,13 @@ namespace CrystalClear.SerializationSystem
 				binaryWriter.Write(imaginary.ConstructionTypeName);
 
 				if (imaginary.GetConstructionType().IsPrimitive)
+				{
 					binaryWriter.Write((imaginary as ImaginaryPrimitive).StringValue);
+				}
 				else
+				{
 					imaginary.WriteConstructionInfo(binaryWriter, encoding);
+				}
 			}
 		}
 	}

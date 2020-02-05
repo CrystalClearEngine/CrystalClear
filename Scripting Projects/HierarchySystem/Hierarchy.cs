@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -151,7 +148,7 @@ namespace CrystalClear.HierarchySystem
 		public bool Equals(Hierarchy other)
 		{
 			return other != null &&
-				this.hierarchy.Equals(other.hierarchy) || (this.hierarchy.Count == 0 && other.hierarchy.Count == 0);
+				hierarchy.Equals(other.hierarchy) || (hierarchy.Count == 0 && other.hierarchy.Count == 0);
 		}
 
 		public override int GetHashCode()

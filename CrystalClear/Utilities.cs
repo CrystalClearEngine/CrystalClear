@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CrystalClear
 {
@@ -21,7 +18,7 @@ namespace CrystalClear
 				// Does the name already contain the OldDuplicateDecorator from a previous attempt?
 				if (baseName.EndsWith(OldDuplicateDecorator))
 				{
-					baseName =  baseName.Remove(baseName.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
+					baseName = baseName.Remove(baseName.Length - OldDuplicateDecorator.Length, OldDuplicateDecorator.Length);
 				}
 
 				string DuplicateDecorator = $" ({i})";

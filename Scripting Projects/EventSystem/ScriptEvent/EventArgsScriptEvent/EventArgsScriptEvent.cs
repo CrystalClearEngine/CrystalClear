@@ -31,7 +31,9 @@ namespace CrystalClear.EventSystem
 		public virtual void RaiseEvent(EventArgs args = null, object sender = null)
 		{
 			if (args == null)
+			{
 				args = EventArgs.Empty;
+			}
 
 			Event?.Invoke(sender, (TEventArgs)args);
 		}

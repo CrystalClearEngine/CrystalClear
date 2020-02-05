@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
-using K4os.Compression.LZ4.Streams;
 
 namespace CrystalClear.SerializationSystem
 {
@@ -28,7 +24,7 @@ namespace CrystalClear.SerializationSystem
 
 		public static void SaveToFile(string path, ImaginaryObject toStore)
 		{
-			var settings = new XmlWriterSettings { Indent = true };
+			XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
 
 			using (XmlWriter writerStream = XmlWriter.Create(path, settings))
 			{
@@ -78,8 +74,8 @@ namespace CrystalClear.SerializationSystem
 
 					for (int i = 0; i < childCount; i++)
 					{
-						var childName = reader.ReadString();
-						var imaginaryHierarchyObject = new ImaginaryHierarchyObject(parent, Type.GetType(reader.ReadString(), true), ReadParameters());
+						string childName = reader.ReadString();
+						ImaginaryHierarchyObject imaginaryHierarchyObject = new ImaginaryHierarchyObject(parent, Type.GetType(reader.ReadString(), true), ReadParameters());
 						parent.LocalHierarchy.Add(childName, imaginaryHierarchyObject);
 						ReadAndAddChildren(imaginaryHierarchyObject);
 					}
@@ -91,8 +87,8 @@ namespace CrystalClear.SerializationSystem
 
 					for (int i = 0; i < scriptCount; i++)
 					{
-						var childName = reader.ReadString();
-						var imaginaryScript = new ImaginaryScript(Type.GetType(reader.ReadString(), true), ReadParameters());
+						string childName = reader.ReadString();
+						ImaginaryScript imaginaryScript = new ImaginaryScript(Type.GetType(reader.ReadString(), true), ReadParameters());
 						toAddTo.AttatchedScripts.Add(childName, imaginaryScript);
 					}
 				}
@@ -117,7 +113,9 @@ namespace CrystalClear.SerializationSystem
 							parameters.Add(new ImaginaryPrimitive(Convert.ChangeType(reader.ReadString(), type)));
 						}
 						else
+						{
 							parameters.Add(new ImaginaryObject(type, ReadParameters()));
+						}
 					}
 
 					return parameters.ToArray();
@@ -155,7 +153,7 @@ namespace CrystalClear.SerializationSystem
 					// Write the number of children.
 					writer.Write(toWrite.LocalHierarchy.Count);
 					// Iterate all children.
-					foreach (var child in toWrite.LocalHierarchy)
+					foreach (KeyValuePair<string, ImaginaryHierarchyObject> child in toWrite.LocalHierarchy)
 					{
 						// Write the child's name.
 						writer.Write(child.Key);
@@ -171,7 +169,7 @@ namespace CrystalClear.SerializationSystem
 					// Write the number of scripts.
 					writer.Write(toWrite.AttatchedScripts.Count);
 					// Iterate all scripts.
-					foreach (var script in toWrite.AttatchedScripts)
+					foreach (KeyValuePair<string, ImaginaryScript> script in toWrite.AttatchedScripts)
 					{
 						// Write the script's name.
 						writer.Write(script.Key);

@@ -10,7 +10,7 @@ namespace CrystalClear.HierarchySystem
 	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
 	/// </summary>
 	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methodst
-	// TODO probably limit naming to alphabetic only.
+																		// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
@@ -20,7 +20,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
 		/// </summary>
-		internal protected virtual void OnLocalHierarchyChange()
+		protected internal virtual void OnLocalHierarchyChange()
 		{
 
 		}
@@ -29,7 +29,7 @@ namespace CrystalClear.HierarchySystem
 		/// OnReparent is called when the HierarchyObject's parent updates.
 		/// </summary>
 		/// <param name="newParent">The new parent.</param>
-		internal protected virtual void OnReparent(HierarchyObject newParent)
+		protected internal virtual void OnReparent(HierarchyObject newParent)
 		{
 
 		}
@@ -64,7 +64,7 @@ namespace CrystalClear.HierarchySystem
 		/// The Scripts that are currently attatched to this object.
 		/// </summary>
 		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
-		// TODO maybe only allow attatching HierarchyScripts?
+																							   // TODO maybe only allow attatching HierarchyScripts?
 
 		/// <summary>
 		/// Adds a HiearchyScript based on the specified type to this HierarchyObject.
@@ -106,7 +106,11 @@ namespace CrystalClear.HierarchySystem
 			{
 				Type scriptType = scriptTypes[i];
 				object[] constructorParameter = null;
-				if (constructorParameters != null)  constructorParameter = constructorParameters[i];
+				if (constructorParameters != null)
+				{
+					constructorParameter = constructorParameters[i];
+				}
+
 				AddScriptManually(new Script(scriptType, constructorParameter, this));
 			}
 		}
@@ -445,13 +449,13 @@ namespace CrystalClear.HierarchySystem
 		public bool Equals(HierarchyObject other)
 		{
 			return other != null &&
-				   this.AttatchedScripts.SequenceEqual(other.AttatchedScripts) &&
-				   this.LocalHierarchy.Equals(other.LocalHierarchy);
+				   AttatchedScripts.SequenceEqual(other.AttatchedScripts) &&
+				   LocalHierarchy.Equals(other.LocalHierarchy);
 		}
 
 		public override int GetHashCode()
 		{
-			var hashCode = -255096016;
+			int hashCode = -255096016;
 			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, Script>>.Default.GetHashCode(AttatchedScripts);
 			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
 			return hashCode;

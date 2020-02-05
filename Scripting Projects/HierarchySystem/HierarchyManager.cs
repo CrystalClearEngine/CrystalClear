@@ -79,7 +79,9 @@ namespace CrystalClear.HierarchySystem
 			string key;
 
 			if (!LoadedHierarchies.ContainsValue(hierarchy))
+			{
 				return "unknown"; // TODO maybe use exception (custom exception type)?
+			}
 
 			key = LoadedHierarchies // Set key.
 				.First( // Get the first occurance of...

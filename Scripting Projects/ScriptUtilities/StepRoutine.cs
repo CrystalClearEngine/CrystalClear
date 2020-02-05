@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CrystalClear.EventSystem;
+using System;
 using System.Collections;
-using CrystalClear.EventSystem;
 using System.Reflection;
-using System.Threading;
 
 namespace CrystalClear.ScriptUtilities
 {

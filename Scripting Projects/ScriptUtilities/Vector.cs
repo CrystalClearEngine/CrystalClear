@@ -48,7 +48,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The difference Vector.</returns>
-		public static Vector operator - (Vector a, Vector b)
+		public static Vector operator -(Vector a, Vector b)
 		{
 			if (a.AxisCount != b.AxisCount)
 			{
@@ -71,7 +71,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The sum Vector.</returns>
-		public static Vector operator + (Vector a, Vector b)
+		public static Vector operator +(Vector a, Vector b)
 		{
 			if (a.AxisCount != b.AxisCount)
 			{
@@ -94,7 +94,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The quotient Vector.</returns>
-		public static Vector operator / (Vector a, Vector b)
+		public static Vector operator /(Vector a, Vector b)
 		{
 			if (a.AxisCount != b.AxisCount)
 			{
@@ -117,7 +117,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The product Vector.</returns>
-		public static Vector operator * (Vector a, Vector b)
+		public static Vector operator *(Vector a, Vector b)
 		{
 			if (a.AxisCount != b.AxisCount)
 			{
@@ -140,7 +140,7 @@ namespace CrystalClear.ScriptUtilities
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The product Vector.</returns>
-		public static bool operator == (Vector a, Vector b)
+		public static bool operator ==(Vector a, Vector b)
 		{
 			if (a.AxisCount != b.AxisCount)
 			{

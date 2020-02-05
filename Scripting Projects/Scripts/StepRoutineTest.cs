@@ -1,9 +1,9 @@
-﻿using CrystalClear.ScriptUtilities;
-using System;
-using System.Collections;
+﻿using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
-using CrystalClear.HierarchySystem.Scripting;
+using System;
+using System.Collections;
 
 namespace Scripts
 {
@@ -37,7 +37,7 @@ namespace Scripts
 		private IEnumerator FrameStepRoutine()
 		{
 			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEvent));
-			while(true)
+			while (true)
 			{
 				yield return waitForNewFrame;
 				Console.WriteLine("New frame drawn.");
@@ -53,7 +53,7 @@ namespace Scripts
 		private IEnumerator PhysicsStepRoutine()
 		{
 			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEventClass));
-			while(true)
+			while (true)
 			{
 				yield return waitForNewPhysicsStep;
 				Console.WriteLine("New physics step.");

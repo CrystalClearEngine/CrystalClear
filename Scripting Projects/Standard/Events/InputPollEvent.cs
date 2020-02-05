@@ -26,7 +26,11 @@ namespace CrystalClear.Standard.Events
 			while (true)
 			{
 				stopwatch.Start();
-				if (PollFreqInMS > 0) Thread.Sleep(PollFreqInMS); // TODO replace Thread.Sleep with more reliable waiting system.
+				if (PollFreqInMS > 0)
+				{
+					Thread.Sleep(PollFreqInMS); // TODO replace Thread.Sleep with more reliable waiting system.
+				}
+
 				Instance.RaiseEvent();
 				Console.WriteLine(Math.Round(1 / stopwatch.Elapsed.TotalSeconds) + " PPS");
 				stopwatch.Stop(); stopwatch.Reset();

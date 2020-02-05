@@ -1,17 +1,16 @@
-﻿using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.CompilationSystem;
+﻿using CrystalClear.CompilationSystem;
+using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.SerializationSystem;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
-using System.Reflection;
-using CrystalClear.HierarchySystem;
-using System.Threading;
-using CrystalClear.SerializationSystem;
-using static CrystalClear.CrystalClearInformation;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 public static class MainClass
 {
@@ -281,7 +280,7 @@ public static class MainClass
 		void Select(string editorObjectSelectQuery)
 		{
 			// Store the status of the currently selected HierarchyObject so we can revert back here.
-			var initiallySelected = currentEditorHierarchyObject;
+			ImaginaryHierarchyObject initiallySelected = currentEditorHierarchyObject;
 
 			// Does this query start with a backstep?
 			if (editorObjectSelectQuery.StartsWith("<"))
@@ -347,7 +346,7 @@ public static class MainClass
 
 			Console.WriteLine($"Select an item of type {typeof(T).FullName} from this list:");
 			int i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
-			foreach (var item in collection)
+			foreach (T item in collection)
 			{
 				Console.WriteLine($"Item ({i}/{count - 1}): {item.ToString()}");
 				getInput:
@@ -359,7 +358,7 @@ public static class MainClass
 					Console.WriteLine($"Selected {item.ToString()}");
 					return item;
 				}
-				else if(readChar == 'N' || readChar == 'n')
+				else if (readChar == 'N' || readChar == 'n')
 				{
 					i++;
 					continue;
@@ -388,7 +387,7 @@ public static class MainClass
 			for (int i = 0; i < parameterInfoArray.Length; i++)
 			{
 				ParameterInfo parameter = parameterInfoArray[i];
-				
+
 				Console.WriteLine($"{parameter.Name}:");
 				parameters[i] = CreateImaginaryObject(parameter.ParameterType);
 			}
@@ -409,7 +408,9 @@ public static class MainClass
 				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), ofType));
 			}
 			else
+			{
 				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
+			}
 		}
 		#endregion
 	}
