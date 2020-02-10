@@ -5,21 +5,28 @@ using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
 {
+	/// <summary>
+	/// Stores data for constructing a Script.
+	/// </summary>
 	[Serializable]
 	[DataContract]
 	public class ImaginaryScript
 		: ImaginaryObject
-	{
-		public ImaginaryScript(Type constructionType, ImaginaryObject[] constructorParams) : base(constructionType, constructorParams)
+	{ // TODO store the AttatchedTo ImaginaryHierarchyObject for this Script if it is a HierarchyScript. It doesn't serialize directly.
+		public ImaginaryScript(Type constructionType, ImaginaryObject[] constructorParameters)
+			: base(constructionType, constructorParameters)
 		{
 
 		}
 
-		public Script CreateInstance(HierarchyObject attatchedTo)
+		/// <summary>
+		/// Creates a Script instance using the construction data stored, as well as the optional attatchedTo HierarchyObject (required if the Script type is a HierarchyScript).
+		/// </summary>
+		/// <param name="attatchedTo">The HierarchyObject that this Script is attatched to IF it is a HierarchyScript.</param>
+		/// <returns>The created Script instance.</returns>
+		public Script CreateInstance(HierarchyObject attatchedTo = null)
 		{
-			Script instance = new Script(GetConstructionType(), ConstructionParameters, attatchedTo);
-
-			return instance;
+			return new Script(GetConstructionType(), ConstructionParameters, attatchedTo);
 		}
 	}
 }

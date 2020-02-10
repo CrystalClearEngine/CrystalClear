@@ -3,14 +3,18 @@ using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
 {
+	[Serializable]
 	[DataContract]
 	public class ImaginaryPrimitive
 		: ImaginaryObject
 	{
-		public ImaginaryPrimitive(object value) : base(value.GetType(), Array.Empty<ImaginaryObject>())
+		public ImaginaryPrimitive(object value)
+			: base(value.GetType(), Array.Empty<ImaginaryObject>())
 		{
+			// Store the type for temporary use.
 			Type type = value.GetType();
 
+			// Does the type qualify as primitive?
 			if (QualifiesAsPrimitive(type))
 			{
 				throw new ArgumentException($"Value has to be primitive! (Or a specifically supported type.) Type = {type.FullName}"); // TODO create custom exception.
@@ -32,9 +36,6 @@ namespace CrystalClear.SerializationSystem
 		[DataMember]
 		public object PrimitiveObjectValue;
 
-		internal string StringValue // TODO make GetAsString method?
-		{
-			get => Convert.ToString(PrimitiveObjectValue);
-		}
+		public string StringValue => Convert.ToString(PrimitiveObjectValue); // TODO make GetAsString method?
 	}
 }
