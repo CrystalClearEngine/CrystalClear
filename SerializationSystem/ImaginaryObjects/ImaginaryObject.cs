@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
@@ -47,6 +48,18 @@ namespace CrystalClear.SerializationSystem
 		public Type GetConstructionType()
 		{
 			return Type.GetType(ConstructionTypeName, true);
+		}
+
+		public virtual object CreateInstance()
+		{
+			List<object> list = new List<object>();
+
+			foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
+			{
+				list.Add(imaginaryObject.CreateInstance());
+			}
+
+			return Activator.CreateInstance(GetConstructionType(), list.ToArray());
 		}
 
 		/// <summary>

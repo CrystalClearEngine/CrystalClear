@@ -12,25 +12,31 @@ namespace CrystalClear.SerializationSystem
 			: base(value.GetType(), Array.Empty<ImaginaryObject>())
 		{
 			// Store the type for temporary use.
-			Type type = value.GetType();
+			Type _ = value.GetType();
 
 			// Does the type qualify as primitive?
-			if (QualifiesAsPrimitive(type))
+			if (QualifiesAsPrimitive(_))
 			{
-				throw new ArgumentException($"Value has to be primitive! (Or a specifically supported type.) Type = {type.FullName}"); // TODO create custom exception.
+				throw new ArgumentException($"Value has to be primitive! (Or a specifically supported type.) Type = {_.FullName}"); // TODO create custom exception.
 			}
+
+			// HOW DID I FORGET THIS? AM I RARTED?
+			PrimitiveObjectValue = value;
 		}
 
 		// TODO make this and similar in other classes into extensions of type?
 		public static bool QualifiesAsPrimitive(object valueToCheck)
-		{
-			return QualifiesAsPrimitive(valueToCheck.GetType());
-		}
+			=> QualifiesAsPrimitive(valueToCheck.GetType());
 
 		// TODO make this and similar in other classes into extensions of type?
 		public static bool QualifiesAsPrimitive(Type type)
+			=> type.IsPrimitive
+				|| type.IsAssignableFrom(typeof(IFormattable))
+				|| type.IsAssignableFrom(typeof(IConvertible)); // TODO somehow add some kind of IEditorSerializable to the mix here!
+
+		public override object CreateInstance()
 		{
-			return type.IsPrimitive || type.IsAssignableFrom(typeof(IFormattable)) || type.IsAssignableFrom(typeof(IConvertible)); // TODO somehow add some kind of IEditorSerializable to the mix here!
+			return PrimitiveObjectValue;
 		}
 
 		[DataMember]

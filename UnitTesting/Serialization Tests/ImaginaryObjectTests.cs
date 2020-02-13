@@ -5,7 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
 {
-	class TestObject : IEquatable<TestObject>
+	class TestObject
+		: IEquatable<TestObject>
 	{
 		public TestObject(string stringData)
 		{
@@ -29,16 +30,6 @@ namespace UnitTests
 		{
 			return 1045584480 + EqualityComparer<string>.Default.GetHashCode(StringData);
 		}
-
-		public static bool operator ==(TestObject left, TestObject right)
-		{
-			return left.Equals(right);
-		}
-
-		public static bool operator !=(TestObject left, TestObject right)
-		{
-			return !(left == right);
-		}
 	}
 
 	[TestCategory("ImaginaryObjects")]
@@ -53,9 +44,11 @@ namespace UnitTests
 			ImaginaryObject imaginaryObject = new ImaginaryObject(typeof(TestObject),
 														 new ImaginaryObject[] { new ImaginaryPrimitive("Hello!") });
 
-			Assert.IsTrue(testObject == (TestObject)imaginaryObject.CreateInstance());
+			TestObject createdTestObject = (TestObject)imaginaryObject.CreateInstance();
 
-			Assert.AreEqual(testObject, (TestObject)imaginaryObject.CreateInstance());
+			Assert.IsTrue(testObject.Equals(createdTestObject));
+
+			Assert.AreEqual(testObject, createdTestObject);
 		}
 	}
 }
