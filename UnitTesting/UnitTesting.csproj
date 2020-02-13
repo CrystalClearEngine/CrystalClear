@@ -39,10 +39,10 @@
     <Compile Include="HierarchyObject Tests\HierarchyObjectUnitTests.cs" />
     <Compile Include="HiearchySystem Tests\HierarchySystemUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Serialization Tests\ImaginaryObjectTests.cs" />
     <Compile Include="Transform and Vector Tests\TransformTests.cs" />
     <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
     <Compile Include="HierarchyObject Tests\WorldObjectUnitTest.cs" />
-    <Compile Include="Serialization Tests\SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
