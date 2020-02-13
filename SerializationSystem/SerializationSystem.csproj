@@ -68,11 +68,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ImaginaryHierarchyObject.cs" />
-    <Compile Include="ImaginaryObject.cs" />
-    <Compile Include="ImaginaryObjectSerialization.cs" />
-    <Compile Include="ImaginaryPrimitive.cs" />
-    <Compile Include="ImaginaryScript.cs" />
+    <Compile Include="ImaginaryObjects\ImaginaryHierarchyObject.cs" />
+    <Compile Include="ImaginaryObjects\ImaginaryObject.cs" />
+    <Compile Include="ImaginaryObjects\ImaginaryObjectSerialization.cs" />
+    <Compile Include="ImaginaryObjects\ImaginaryPrimitive.cs" />
+    <Compile Include="ImaginaryObjects\ImaginaryScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
