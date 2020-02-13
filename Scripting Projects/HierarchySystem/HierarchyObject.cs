@@ -7,10 +7,11 @@ using System.Reflection;
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
-	/// A HierarchyObject lives in a Hierarchy, it can have HierarchyScripts attatched
+	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
 	/// </summary>
-	public abstract class HierarchyObject : IEquatable<HierarchyObject> // TODO fix or remove equals methodst
-																		// TODO probably limit naming to alphabetic only.
+	public abstract class HierarchyObject
+		: IEquatable<HierarchyObject> // TODO fix or remove equals methods
+									// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
