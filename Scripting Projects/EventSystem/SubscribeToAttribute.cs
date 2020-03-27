@@ -4,7 +4,7 @@ using System.Reflection;
 namespace CrystalClear.EventSystem
 {
 	[AttributeUsage(AttributeTargets.Method)]
-	public sealed class SubscribeToAttribute : Attribute
+	public class SubscribeToAttribute : Attribute
 	{
 		public ScriptEvent ScriptEvent;
 		public Type EventType;
