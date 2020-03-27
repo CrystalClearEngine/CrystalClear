@@ -19,7 +19,10 @@ namespace CrystalClear.EventSystem
 		/// Gets the subscribers of the event.
 		/// </summary>
 		/// <returns>The subscribed delegates.</returns>
-		public override Delegate[] Subscribers => Event.GetInvocationList();
+		public override Delegate[] GetSubscribers()
+		{
+			return Event.GetInvocationList();
+		}
 
 		/// <summary>
 		/// Raises the event.

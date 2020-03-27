@@ -43,11 +43,18 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="hierarchyObject">The HierarchyObject to add the Script to.</param>
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
-		// TODO add version of this where only Type is provided and the script is created based on that.
+		
 		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
 			HierarchyObject result = hierarchyObject;
 			result.AddScriptManually(script);
+			return result;
+		}
+
+		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Type scriptType)
+		{
+			HierarchyObject result = hierarchyObject;
+			result.AddScript(scriptType);
 			return result;
 		}
 
@@ -100,7 +107,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			if (constructorParameters != null && scriptTypes.Length != constructorParameters.Length)
 			{
-				throw new Exception(); // TODO add message here!
+				throw new ArgumentException("Incorrect scriptType/ConstructorParameter count!");
 			}
 			for (int i = 0; i < scriptTypes.Length; i++)
 			{
@@ -276,7 +283,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private WeakReference<HierarchyObject> parent = new WeakReference<HierarchyObject>(null); // TODO make this a weak reference!
+		private WeakReference<HierarchyObject> parent = new WeakReference<HierarchyObject>(null);
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>

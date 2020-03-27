@@ -44,6 +44,7 @@
     <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
     <Compile Include="HierarchyObject Tests\WorldObjectUnitTest.cs" />
     <Compile Include="CrystalClear Utilities Tests\CrystalClearUtilitiesTests.cs" />
+    <Compile Include="Vector Unit Tests\VectorUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">

@@ -31,6 +31,6 @@ namespace CrystalClear.EventSystem
 		/// Returns all delegates that are subscribed to this event.
 		/// </summary>
 		/// <returns>The subscribed delegates.</returns>
-		public abstract Delegate[] Subscribers { get; }
+		public abstract Delegate[] GetSubscribers();
 	}
 }
