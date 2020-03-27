@@ -8,8 +8,6 @@ namespace CrystalClear.EventSystem
 	/// </summary>
 	public abstract class ScriptEvent // TODO look into making *all* ScriptEvents into singletons, as that would simplify code!
 	{
-		// Methods.
-
 		/// <summary>
 		/// Subscribes a method to the event.
 		/// </summary>
@@ -33,6 +31,6 @@ namespace CrystalClear.EventSystem
 		/// Returns all delegates that are subscribed to this event.
 		/// </summary>
 		/// <returns>The subscribed delegates.</returns>
-		public abstract Delegate[] GetSubscribers();
+		public abstract Delegate[] Subscribers { get; }
 	}
 }

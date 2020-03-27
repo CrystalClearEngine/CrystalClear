@@ -32,8 +32,6 @@ namespace UnitTests
 			// Initialize the parent WorldObject.
 			WorldObject worldObject = new WorldObject();
 
-			worldObject.RunOnLocalHierarchyChange();
-
 			// Add the zeroth child to the parent WorldObject.
 			worldObject.AddChild(Child0Name, new WorldObject());
 
