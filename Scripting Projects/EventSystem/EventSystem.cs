@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
-	public static class EventSystem // TODO Add FindEventMethod like in Script
+	public static class EventSystem // TODO: Add FindEventMethod like in Script
 	{
 		/// <summary>
 		/// Subscribes all events in the type.
