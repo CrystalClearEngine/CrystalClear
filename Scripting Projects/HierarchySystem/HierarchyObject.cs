@@ -64,8 +64,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The Scripts that are currently attatched to this object.
 		/// </summary>
-		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>(); // TODO use directory, allow naming of attatched scripts. Also maybe rename to componnents, or maybe that should be it's own separate thing (they can be like data containers etc, or maybe don't need to exist at all or under a different name).
-																							   // TODO maybe only allow attatching HierarchyScripts?
+		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>();
 
 		/// <summary>
 		/// Adds a HiearchyScript based on the specified type to this HierarchyObject.

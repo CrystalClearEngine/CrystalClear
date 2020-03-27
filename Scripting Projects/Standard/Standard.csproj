@@ -49,6 +49,7 @@
     <Compile Include="Events\TestEvent.cs" />
     <Compile Include="Events\FrameUpdateEvent.cs" />
     <Compile Include="Events\StartEvent.cs" />
+    <Compile Include="HierarchyObjects\GroupObject.cs" />
     <Compile Include="HierarchyObjects\FolderObject.cs" />
     <Compile Include="HierarchyObjects\UIObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
