@@ -1,4 +1,5 @@
-﻿using CrystalClear.Standard.HierarchyObjects;
+﻿using CrystalClear.HierarchySystem;
+using CrystalClear.Standard.HierarchyObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -41,11 +42,32 @@ namespace UnitTests
 		}
 
 		[TestMethod]
-		public void GetParent() // TODO: Make generic versions of this and similar test classes testing all HierarchyObject types. Maybe run these tests when custom HierarchyObject types are created to make sure they are compatible.
+		public void GetParent()
 		{
 			// Instantiation.
 			ScriptObject parent = new ScriptObject();
 			ScriptObject child = new ScriptObject();
+
+			// Make sure that the child does not have a parent by default.
+			Assert.IsNull(child.Parent);
+
+			// Add child.
+			parent.AddChild("child", child);
+
+			// Assert.
+			Assert.IsTrue(ReferenceEquals(parent, child.Parent));
+		}
+
+		/// <summary>
+		/// Generic version of GetParent.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		public static void GetParent<T>()
+			where T : HierarchyObject, new()
+		{
+			// Instantiation.
+			T parent = new T();
+			T child = new T();
 
 			// Make sure that the child does not have a parent by default.
 			Assert.IsNull(child.Parent);
