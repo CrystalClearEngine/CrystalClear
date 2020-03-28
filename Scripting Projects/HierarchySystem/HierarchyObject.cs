@@ -10,7 +10,6 @@ namespace CrystalClear.HierarchySystem
 	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
 	/// </summary>
 	public abstract class HierarchyObject
-		: IEquatable<HierarchyObject> // TODO fix or remove equals methods
 									// TODO probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
@@ -56,16 +55,6 @@ namespace CrystalClear.HierarchySystem
 			HierarchyObject result = hierarchyObject;
 			result.AddScript(scriptType);
 			return result;
-		}
-
-		public static bool operator ==(HierarchyObject left, HierarchyObject right)
-		{
-			return EqualityComparer<HierarchyObject>.Default.Equals(left, right);
-		}
-
-		public static bool operator !=(HierarchyObject left, HierarchyObject right)
-		{
-			return !(left == right);
 		}
 
 		/// <summary>
@@ -444,28 +433,6 @@ namespace CrystalClear.HierarchySystem
 			string nextObject = pathSegments[1]; // The next HierarchyObject's name.
 
 			return LocalHierarchy[nextObject].FollowPath(pathToFollow); // We are going to do some of that sweet bitter sweet recursion magic by returning the result of a follow call to the HierarchyObject that is next in the path.
-		}
-		#endregion
-
-		#region Equality
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as HierarchyObject);
-		}
-
-		public bool Equals(HierarchyObject other)
-		{
-			return other != null &&
-				   AttatchedScripts.SequenceEqual(other.AttatchedScripts) &&
-				   LocalHierarchy.Equals(other.LocalHierarchy);
-		}
-
-		public override int GetHashCode()
-		{
-			int hashCode = -255096016;
-			hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<string, Script>>.Default.GetHashCode(AttatchedScripts);
-			hashCode = hashCode * -1521134295 + EqualityComparer<Hierarchy>.Default.GetHashCode(LocalHierarchy);
-			return hashCode;
 		}
 		#endregion
 

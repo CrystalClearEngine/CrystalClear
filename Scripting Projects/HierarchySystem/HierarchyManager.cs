@@ -75,13 +75,13 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>The name of the HierarchyObject.</returns>
 		public static string GetHierarchyName(HierarchyObject hierarchy)
 		{
-			// Define a string named key, to be used for storing the key.
-			string key;
-
 			if (!LoadedHierarchies.ContainsValue(hierarchy))
 			{
-				return "unknown"; // TODO maybe use exception (custom exception type)?
+				throw new KeyNotFoundException("Hierarchy not found!");
 			}
+
+			// Define a string named key, to be used for storing the key.
+			string key;
 
 			key = LoadedHierarchies // Set key.
 				.First( // Get the first occurance of...
