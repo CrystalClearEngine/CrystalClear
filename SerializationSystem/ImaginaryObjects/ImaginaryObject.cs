@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -17,11 +18,11 @@ namespace CrystalClear.SerializationSystem
 		/// Creates an ImaginaryObject with the specified type and constructor parameters.
 		/// </summary>
 		/// <param name="constructionType">The type of object to represent.</param>
-		/// <param name="constructorParameterss">The constructor parameters to use initially.</param>
-		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameterss)
+		/// <param name="constructorParameters">The constructor parameters to use initially.</param>
+		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters)
 		{
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
-			ConstructionParameters = constructorParameterss ?? Array.Empty<ImaginaryObject>();
+			ConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
 		}
 
 		protected ImaginaryObject()
