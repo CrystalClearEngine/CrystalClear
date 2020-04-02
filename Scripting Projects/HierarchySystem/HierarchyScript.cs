@@ -96,7 +96,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 				instance = Activator.CreateInstance(scriptType);
 			}
 
-			// TODO add error handling for types incompatible with this specific HierarchyScript.
+			// TODO: add error handling for types incompatible with this specific HierarchyScript.
 			// Invoke SetUp to set the HierarchyObject up.
 			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo });
 
