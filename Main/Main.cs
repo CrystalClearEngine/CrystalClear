@@ -87,17 +87,17 @@ public static class MainClass
 				case "new":
 					if (commandSections.Length > 1)
 					{
-						New(commandSections[1]);
+						NewHierarchyObject(commandSections[1]);	
 					}
 					else
 					{
 						// Use default HierarchyObject name if no name is provided.
-						New();
+						NewHierarchyObject();
 					}
 					break;
 
 				case "del":
-					Delete(commandSections[1]);
+					DeleteHierarchyObject(commandSections[1]);
 					break;
 
 				case "modify":
@@ -213,9 +213,12 @@ public static class MainClass
 			throw new NotImplementedException();
 		}
 
-		void New(string name = null)
+		// TODO: Make this support generics! (Script equivalents too!)
+		void NewHierarchyObject(string name = null)
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
+
+			ImaginaryObject[] constructorParameters = GetConstructorParameters(hierarchyObjectType);
 
 			if (name == null)
 			{
@@ -226,11 +229,11 @@ public static class MainClass
 				name = CrystalClear.Utilities.EnsureUniqueName(name, currentEditorHierarchyObject.LocalHierarchy.Keys);
 			}
 
-			currentEditorHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, null));
+			currentEditorHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, constructorParameters));
 			Console.WriteLine($"HierarchyObject {name} has been added!");
 		}
 
-		void Delete(string nameOfEditorHierarchyObjectToDelete)
+		void DeleteHierarchyObject(string nameOfEditorHierarchyObjectToDelete)
 		{
 			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 			Console.WriteLine($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
@@ -337,7 +340,7 @@ public static class MainClass
 		T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
-			// The number of items in the collection.
+			// Get number of items in the provided collection.
 			int count = collection.Count();
 
 			if (count == 0)
