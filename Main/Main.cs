@@ -46,6 +46,8 @@ public static class MainClass
 			// Return to exit.
 			return;
 		}
+
+		Console.WriteLine($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.");
 		#endregion
 
 		#region Type identification
@@ -161,14 +163,18 @@ public static class MainClass
 		#endregion
 
 		#region Creating and running
-		Console.Write("Choose a name for the hierarchy: "); string hierarchyName = Console.ReadLine();
+		Console.Write("Choose a name for the hierarchy: ");
+		string hierarchyName = Console.ReadLine();
 
+		#region Profiling
 		Stopwatch performanceStopwatchForCreate = new Stopwatch();
 		performanceStopwatchForCreate.Start();
+		#endregion
 		HierarchyManager.AddHierarchy(hierarchyName, rootEditorHierarchyObject.CreateInstance(null));
+		#region Profiling
 		performanceStopwatchForCreate.Stop();
-
 		Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
+		#endregion Profiling
 		#endregion
 
 		#region Event raising

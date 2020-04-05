@@ -21,6 +21,7 @@ namespace CrystalClear.SerializationSystem
 		/// <param name="constructorParameters">The constructor parameters to use initially.</param>
 		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters)
 		{
+			//Assembly.Load(constructionType.Assembly.GetName());
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
 			ConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
 		}

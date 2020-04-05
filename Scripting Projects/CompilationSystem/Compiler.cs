@@ -22,9 +22,9 @@ namespace CrystalClear.CompilationSystem
 		/// <returns>The compiled assembly.</returns>
 		public static Assembly CompileCode(string[] fileNames)
 		{
-			Directory.CreateDirectory(WorkingPath + @"\Build\");
-			using (FileStream dllStream = File.Create(WorkingPath + @"\Build\Scripts.dll"))
-			using (FileStream pdbStream = File.Create(WorkingPath + @"\Build\Scripts.pdb"))
+			// TODO: Maybe it should be called UserGenerated only?
+			using (FileStream dllStream = File.Create(WorkingPath + @"\UserGeneratedCode.dll"))
+			using (FileStream pdbStream = File.Create(WorkingPath + @"\UserGeneratedCode.pdb"))
 			{
 				List<SyntaxTree> syntaxTrees = (from string fileName in fileNames
 												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
@@ -36,10 +36,10 @@ namespace CrystalClear.CompilationSystem
 					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll",
 					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll",
 					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll",
-					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtilities dll
-					@"E:\dev\crystal clear\Scripting Projects\EventSystem\bin\Debug\EventSystem.dll", // The path to the EventSystem dll
-					@"E:\dev\crystal clear\Scripting Projects\HierarchySystem\bin\Debug\HierarchySystem.dll", // The path to the EventSystem dll
-					@"E:\dev\crystal clear\Scripting Projects\Standard\bin\Debug\Standard.dll", // The path to the Standard dll
+					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+					@"E:\dev\crystal clear\Scripting Projects\EventSystem\bin\Debug\EventSystem.dll", // The path to the EventSystem dll.
+					@"E:\dev\crystal clear\Scripting Projects\HierarchySystem\bin\Debug\HierarchySystem.dll", // The path to the EventSystem dll.
+					@"E:\dev\crystal clear\Scripting Projects\Standard\bin\Debug\Standard.dll", // The path to the Standard dll.
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem.
 				};
 
@@ -69,7 +69,7 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 			}
-			return Assembly.LoadFrom(WorkingPath + @"\Build\Scripts.dll");
+			return Assembly.LoadFrom(WorkingPath + @"\UserGeneratedCode.dll");
 		}
 	}
 }

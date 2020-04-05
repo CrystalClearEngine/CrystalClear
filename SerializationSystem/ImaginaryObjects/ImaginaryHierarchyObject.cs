@@ -70,9 +70,9 @@ namespace CrystalClear.SerializationSystem
 				instance.SetUp(parent);
 			}
 
-			foreach (string editorHierarchyName in LocalHierarchy.Keys)
+			foreach (string imaginaryHierarchyName in LocalHierarchy.Keys)
 			{
-				instance.LocalHierarchy.Add(editorHierarchyName, LocalHierarchy[editorHierarchyName].CreateInstance(instance));
+				instance.LocalHierarchy.Add(imaginaryHierarchyName, LocalHierarchy[imaginaryHierarchyName].CreateInstance(instance));
 			}
 
 			foreach (ImaginaryScript editorScript in AttatchedScripts.Values)
