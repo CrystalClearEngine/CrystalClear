@@ -12,25 +12,26 @@ namespace CrystalClear.SerializationSystem
 			: base(value.GetType(), Array.Empty<ImaginaryObject>())
 		{
 			// Store the type for temporary use.
-			Type _ = value.GetType();
+			Type valueType = value.GetType();
 
 			// Does the type qualify as primitive?
-			if (QualifiesAsPrimitive(_))
+			if (!QualifiesAsImaginaryPrimitive(valueType))
 			{
-				throw new ArgumentException($"Value has to be primitive! (Or a specifically supported type.) Type = {_.FullName}"); // TODO create custom exception.
+				throw new ArgumentException($"The provided type does not qualify as an ImaginaryPrimitive. Type = {valueType.FullName}"); // TODO: use custom exception.
 			}
 
-			// HOW DID I FORGET THIS? AM I RARTED?
 			PrimitiveObjectValue = value;
 		}
 
 		// TODO make this and similar in other classes into extensions of type?
 		public static bool QualifiesAsPrimitive(object valueToCheck)
-			=> QualifiesAsPrimitive(valueToCheck.GetType());
+			=> QualifiesAsImaginaryPrimitive(valueToCheck.GetType());
 
 		// TODO make this and similar in other classes into extensions of type?
-		public static bool QualifiesAsPrimitive(Type type)
+		public static bool QualifiesAsImaginaryPrimitive(Type type)
 			=> type.IsPrimitive
+				|| type == typeof(string)
+				|| type.IsAssignableFrom(typeof(string))
 				|| type.IsAssignableFrom(typeof(IFormattable))
 				|| type.IsAssignableFrom(typeof(IConvertible)); // TODO somehow add some kind of IEditorSerializable to the mix here!
 
@@ -43,5 +44,10 @@ namespace CrystalClear.SerializationSystem
 		public object PrimitiveObjectValue;
 
 		public string StringValue => Convert.ToString(PrimitiveObjectValue); // TODO make GetAsString method?
+
+		public override string ToString()
+		{
+			return StringValue;
+		}
 	}
 }

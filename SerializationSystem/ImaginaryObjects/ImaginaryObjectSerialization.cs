@@ -142,7 +142,7 @@ namespace CrystalClear.SerializationSystem
 					{
 						Type type = Type.GetType(reader.ReadString(), true);
 
-						if (ImaginaryPrimitive.QualifiesAsPrimitive(type))
+						if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(type))
 						{
 							parameters.Add(new ImaginaryPrimitive(Convert.ChangeType(reader.ReadString(), type)));
 						}
