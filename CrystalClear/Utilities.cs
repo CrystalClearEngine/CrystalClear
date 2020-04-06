@@ -34,22 +34,26 @@ namespace CrystalClear
 			return baseName;
 		}
 
-		public static bool ReflectionEquals(this object a, object b)
+		public static bool ReflectionEquals(this object a, object b, bool ignorePrivate = false, bool ignoreProperties = false)
 		{
-			// A and b cannot be compared if their types are not compatible.
-			if (b.GetType().IsAssignableFrom(a.GetType()))
+			Type aType = a.GetType();
+			Type bType = b.GetType();
+
+			// A and B cannot be compared if their types are not compatible.
+			if (!aType.IsAssignableFrom(bType) || aType.AssemblyQualifiedName != bType.AssemblyQualifiedName) // TODO: maybe add xType.IsSubclassOf?
 			{
-				//b = Convert.ChangeType(b, a.GetType()); // WORKING ON ACTUALLY ALLOWING ASSIGNABLES TO BE COMPREAD
+				//b = Convert.ChangeType(b, aType); // TODO: WORKING ON ACTUALLY ALLOWING ASSIGNABLES TO BE COMPREAD.
 				return false;
 			}
+
 			// We know for sure that we don't need to do any other checking if a and b are the same instances.
 			else if (ReferenceEquals(a, b))
 			{
 				return true;
 			}
 
-			FieldInfo[] fields = a.GetType().GetFields();
-			PropertyInfo[] properties = a.GetType().GetProperties();
+			FieldInfo[] fields = aType.GetFields();
+			PropertyInfo[] properties = aType.GetProperties();
 
 			// Iterate through all fields to compare them.
 			for (int i = 0; i < fields.Length; i++)
@@ -58,8 +62,10 @@ namespace CrystalClear
 				object fieldA = fields[i].GetValue(a);
 				object fieldB = fields[i].GetValue(b);
 
+				Type fieldAType = fieldA.GetType();
+
 				// Is fieldA (and fieldB as well, since they are of the same type) primitive or Equatable? If so, we can compare them!
-				if (fieldA.GetType().IsPrimitive || fieldA.GetType().GetInterfaces().Any(x =>
+				if (fieldAType.IsPrimitive || fieldAType.GetInterfaces().Any(x =>
 						x.IsGenericType &&
 						x.GetGenericTypeDefinition() == typeof(IEquatable<>)))
 				{
@@ -90,8 +96,10 @@ namespace CrystalClear
 				object propertyA = properties[i].GetValue(a);
 				object propertyB = properties[i].GetValue(b);
 
+				Type propertyAType = propertyA.GetType();
+
 				// Is propertyA (and propertyB as well, since they are of the same type) primitive or Equatable? If so, we can compare them!
-				if (propertyA.GetType().IsPrimitive || propertyA.GetType().GetInterfaces().Any(x =>
+				if (propertyAType.IsPrimitive || propertyAType.GetInterfaces().Any(x =>
 						x.IsGenericType &&
 						x.GetGenericTypeDefinition() == typeof(IEquatable<>)))
 				{
