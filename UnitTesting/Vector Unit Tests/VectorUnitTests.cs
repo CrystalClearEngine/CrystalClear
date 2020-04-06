@@ -2,7 +2,7 @@
 using CrystalClear.ScriptUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.VectorUnitTests
+namespace UnitTests
 {
 	[TestClass]
 	public class VectorUnitTests
