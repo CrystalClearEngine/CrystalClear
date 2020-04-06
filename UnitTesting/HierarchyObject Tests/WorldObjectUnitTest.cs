@@ -27,7 +27,8 @@ namespace UnitTests
 			// Constants.
 			const string Child0Name = "child";
 			const string Child1Name = "secondChild";
-			const string Child2Name = "nonWorldObjectChild";
+			const string Child2Name = "thirdChild";
+			const string Child3Name = "nonWorldObjectChild";
 
 			// Initialize the parent WorldObject.
 			WorldObject worldObject = new WorldObject();
@@ -51,13 +52,13 @@ namespace UnitTests
 			Assert.IsTrue(worldObject.Transform.Children.Contains(child1Transform));
 
 			// Add the second child to the parent WorldObject.
-			worldObject.AddChild(Child1Name, new WorldObject());
+			worldObject.AddChild(Child2Name, new WorldObject());
 
 			// Get child 2's Transform.
 			Transform child2Transform = (worldObject.LocalHierarchy[Child1Name] as WorldObject).Transform;
 
 			// Add another child, one that however is a ScriptObject. This cannot be added to the Children's lists, so make sure it works correctly with this scenario.
-			worldObject.AddChild(Child2Name, new ScriptObject());
+			worldObject.AddChild(Child3Name, new ScriptObject());
 
 			// Make sure that child 2's transform is added to the children's list (automatically! :D).
 			Assert.IsTrue(worldObject.Transform.Children.Contains(child2Transform));
