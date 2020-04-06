@@ -42,7 +42,7 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="hierarchyObject">The HierarchyObject to add the Script to.</param>
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
-		
+
 		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
 			HierarchyObject result = hierarchyObject;
@@ -203,24 +203,25 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				if (IsRoot == false)
+				if (IsRoot)
 				{
-					return Parent.GetChildName(this);
+					return HierarchyManager.GetHierarchyName(this);
 				}
 				else
 				{
-					return HierarchyManager.GetHierarchyName(this);
+					return Parent.GetChildName(this);
 				}
 			}
 			set => Parent.SetChildName(this, value);
 		}
 
 		/// <summary>
-		/// The entire current hierarchy from the root, for scripts modifying pleasure.
+		/// The entire current hierarchy from the root, for scripts' modifying pleasure.
 		/// </summary>
 		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
-		public string Path // TODO document this
+		public string Path // TODO: document this.
+							// TODO: use < and > insead of /?
 		{
 			get
 			{
