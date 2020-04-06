@@ -66,10 +66,13 @@ public static class MainClass
 		#region Editor loop
 		// Very basic editor.
 
-		ImaginaryHierarchyObject rootEditorHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot), null);
-		ImaginaryHierarchyObject currentEditorHierarchyObject = rootEditorHierarchyObject;
+		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot), null);
+		ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 		LoopEditor:
+		Console.WriteLine();
+
+		// Gather input.
 		string line = Console.ReadLine();
 
 		// Split the command at space that has not been escaped with a \.
@@ -101,7 +104,11 @@ public static class MainClass
 					break;
 
 				case "modify":
-					Modify();
+					Modify(commandSections.Length >= 2 ? commandSections[1] : null);
+					break;
+
+				case "details":
+					Details(commandSections.Length >= 2 ? commandSections[1] : null);
 					break;
 
 				case "add":
@@ -136,8 +143,12 @@ public static class MainClass
 					Unpack(commandSections[1]);
 					break;
 
+				case "list":
+					List(commandSections.Length >= 2 ? commandSections[1] : null);
+					break;
+
 				case "select":
-					Select(commandSections[1]);
+					Select(commandSections.Length >= 2 ? commandSections[1] : null);
 					break;
 
 				case "run":
@@ -166,11 +177,13 @@ public static class MainClass
 		Console.Write("Choose a name for the hierarchy: ");
 		string hierarchyName = Console.ReadLine();
 
+		Console.WriteLine();
+
 		#region Profiling
 		Stopwatch performanceStopwatchForCreate = new Stopwatch();
 		performanceStopwatchForCreate.Start();
 		#endregion
-		HierarchyManager.AddHierarchy(hierarchyName, rootEditorHierarchyObject.CreateInstance(null));
+		HierarchyManager.AddHierarchy(hierarchyName, rootHierarchyObject.CreateInstance(null));
 		#region Profiling
 		performanceStopwatchForCreate.Stop();
 		Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
@@ -208,12 +221,58 @@ public static class MainClass
 		#endregion
 
 		#region Editor Methods
-		void Modify()
+		void Modify(string toModify = null)
 		{
+			ImaginaryHierarchyObject imaginaryHierarchyObject;
+			if (string.IsNullOrEmpty(toModify))
+			{
+				imaginaryHierarchyObject = currentSelectedHierarchyObject;
+			}
+			else
+			{
+				imaginaryHierarchyObject = currentSelectedHierarchyObject.LocalHierarchy[toModify];
+			}
 			throw new NotImplementedException();
 		}
 
-		// TODO: Make this support generics! (Script equivalents too!)
+		void Details(string toDetail = null)
+		{
+			ImaginaryHierarchyObject hierarchyObjectToViewDetailsOf;
+			if (string.IsNullOrEmpty(toDetail))
+			{
+				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject;
+				if (hierarchyObjectToViewDetailsOf.Parent != null)
+					toDetail = hierarchyObjectToViewDetailsOf.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, hierarchyObjectToViewDetailsOf)).Key;
+			}
+			else
+			{
+				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject.LocalHierarchy[toDetail];
+			}
+
+			Console.WriteLine($"Details for {hierarchyObjectToViewDetailsOf}:");
+
+			Console.WriteLine($"Name: {toDetail}");
+
+			Console.WriteLine($"Type: {hierarchyObjectToViewDetailsOf.GetConstructionType().FullName}");
+
+			Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ConstructionParameters.Length}");
+
+			Console.Write("Parameters: (");
+			bool first = true;
+			foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ConstructionParameters)
+			{
+				// Put commas after every parameter if unless it's the first parameter.
+				if (!first)
+					Console.Write(", ");
+
+				Console.Write(parameter.ToString());
+
+				first = false;
+			}
+			Console.Write(")\n");
+		}
+
+		// TODO: Make this support generics (generic HierarchyObjects) will also probably require a change to ImaginaryHierarchyObject. (Script equivalents too!)
 		void NewHierarchyObject(string name = null)
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
@@ -222,20 +281,20 @@ public static class MainClass
 
 			if (name == null)
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentEditorHierarchyObject.LocalHierarchy.Keys);
+				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
-			else if (currentEditorHierarchyObject.LocalHierarchy.ContainsKey(name))
+			else if (currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(name))
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(name, currentEditorHierarchyObject.LocalHierarchy.Keys);
+				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 
-			currentEditorHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentEditorHierarchyObject, hierarchyObjectType, constructorParameters));
+			currentSelectedHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentSelectedHierarchyObject, hierarchyObjectType, constructorParameters));
 			Console.WriteLine($"HierarchyObject {name} has been added!");
 		}
 
 		void DeleteHierarchyObject(string nameOfEditorHierarchyObjectToDelete)
 		{
-			currentEditorHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
+			currentSelectedHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 			Console.WriteLine($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
 		}
 
@@ -246,50 +305,77 @@ public static class MainClass
 
 			if (name == null)
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentEditorHierarchyObject.AttatchedScripts.Keys);
+				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
-			else if (currentEditorHierarchyObject.AttatchedScripts.ContainsKey(name))
+			else if (currentSelectedHierarchyObject.AttatchedScripts.ContainsKey(name))
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(name, currentEditorHierarchyObject.AttatchedScripts.Keys);
+				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
 
-			currentEditorHierarchyObject.AttatchedScripts.Add(name, new ImaginaryScript(scriptType, constructorParameters));
+			currentSelectedHierarchyObject.AttatchedScripts.Add(name, new ImaginaryScript(scriptType, constructorParameters));
 
 			Console.WriteLine($"Script {name} has been added!");
 		}
 
 		void RemoveScript(string name)
 		{
-			currentEditorHierarchyObject.AttatchedScripts.Remove(name);
+			currentSelectedHierarchyObject.AttatchedScripts.Remove(name);
 			Console.WriteLine($"Script {name} has been removed.");
 		}
 
 		void Save(string path)
 		{
-			ImaginaryObjectSerialization.SaveToFile(path, rootEditorHierarchyObject);
+			ImaginaryObjectSerialization.SaveToFile(path, rootHierarchyObject);
 		}
 
 		void Load(string path)
 		{
-			rootEditorHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
-			currentEditorHierarchyObject = rootEditorHierarchyObject;
+			rootHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
+			currentSelectedHierarchyObject = rootHierarchyObject;
 		}
 
 		void Pack(string path)
 		{
-			ImaginaryObjectSerialization.PackHierarchyToFile(path, rootEditorHierarchyObject);
+			ImaginaryObjectSerialization.PackHierarchyToFile(path, rootHierarchyObject);
 		}
 
 		void Unpack(string path)
 		{
-			rootEditorHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
-			currentEditorHierarchyObject = rootEditorHierarchyObject;
+			rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
+			currentSelectedHierarchyObject = rootHierarchyObject;
 		}
 
-		void Select(string editorObjectSelectQuery)
+		// Lists all HierarchyObjects in the current HierarchyObject's local Hierarchy.
+		void List(string toList = null)
+		{
+			ImaginaryHierarchyObject hierarchyObjectToList;
+			if (string.IsNullOrEmpty(toList))
+			{
+				hierarchyObjectToList = currentSelectedHierarchyObject;
+			}
+			else
+			{
+				hierarchyObjectToList = currentSelectedHierarchyObject.LocalHierarchy[toList];
+			}
+
+			foreach (string name in currentSelectedHierarchyObject.LocalHierarchy.Keys)
+			{
+				Console.WriteLine(name);
+			}
+		}
+
+		// TODO: add forwardsteps. A selection can be done like this to traverse multiple layers <<< MyFolder > MySubfolder > MyObject
+		void Select(string editorObjectSelectQuery = null)
 		{
 			// Store the status of the currently selected HierarchyObject so we can revert back here.
-			ImaginaryHierarchyObject initiallySelected = currentEditorHierarchyObject;
+			ImaginaryHierarchyObject initiallySelected = currentSelectedHierarchyObject;
+
+			// Add selections when the query is empty.
+			if (string.IsNullOrEmpty(editorObjectSelectQuery))
+			{
+				currentSelectedHierarchyObject = SelectItem(currentSelectedHierarchyObject.LocalHierarchy.Values);
+				return;
+			}
 
 			// Does this query start with a backstep?
 			if (editorObjectSelectQuery.StartsWith("<"))
@@ -301,14 +387,14 @@ public static class MainClass
 				for (int i = 0; i < backStepCount; i++)
 				{
 					// Check if the HierarchyObject actually has a parent.
-					if (currentEditorHierarchyObject.Parent == null)
+					if (currentSelectedHierarchyObject.Parent == null)
 					{
-						Console.WriteLine($"error: {currentEditorHierarchyObject} does not have a parent. Reverting the select.");
-						currentEditorHierarchyObject = initiallySelected;
+						Console.WriteLine($"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
+						currentSelectedHierarchyObject = initiallySelected;
 						return;
 					}
 					// Perform the backstep by going back to the parent of currentEditorHierarchyObject.
-					currentEditorHierarchyObject = currentEditorHierarchyObject.Parent;
+					currentSelectedHierarchyObject = currentSelectedHierarchyObject.Parent;
 				}
 
 				// Was the whole query a backstep?
@@ -327,14 +413,14 @@ public static class MainClass
 				Console.WriteLine("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
 			}
 
-			if (!currentEditorHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
+			if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
 			{
 				Console.WriteLine($"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
-				currentEditorHierarchyObject = initiallySelected;
+				currentSelectedHierarchyObject = initiallySelected;
 				return;
 			}
 
-			currentEditorHierarchyObject = currentEditorHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
+			currentSelectedHierarchyObject = currentSelectedHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
 		}
 
 		T SelectItem<T>(IEnumerable<T> collection)
@@ -412,13 +498,22 @@ public static class MainClass
 
 		ImaginaryObject CreateImaginaryObject(Type ofType)
 		{
-			if (ImaginaryPrimitive.QualifiesAsPrimitive(ofType))
+			if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(ofType) || ofType.GetInterface("IConvertible") != null || ofType.GetInterface("IFormattable") != null)
 			{
 				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), ofType));
 			}
+			//else if (ofType.GetInterface("IEditable") != null)
+			//{
+			//	IEditable editable = Activator.CreateInstance(ofType);
+			//	return editable.OpenEditor();
+			//}
+			else if (ofType.GetConstructors().Length > 0)
+			{ 
+				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
+			}
 			else
 			{
-				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
+				return new ImaginaryObject(ofType, null);
 			}
 		}
 		#endregion
