@@ -112,15 +112,7 @@ public static class MainClass
 					break;
 
 				case "add":
-					if (commandSections.Length > 1)
-					{
-						AddScript(commandSections[1]);
-					}
-					else
-					{
-						// Use default script name if no name is provided.
-						AddScript();
-					}
+					AddScript(commandSections.Length >= 2 ? commandSections[1] : null);
 					break;
 
 				case "rem":
