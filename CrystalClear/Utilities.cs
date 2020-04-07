@@ -33,8 +33,15 @@ namespace CrystalClear
 
 			return baseName;
 		}
-
-		public static bool ReflectionEquals(this object a, object b, bool ignorePrivate = false, bool ignoreProperties = false)
+		/// <summary>
+		/// Compares two objects using reflection to find fields and properties.
+		/// </summary>
+		/// <param name="a"></param>
+		/// <param name="b"></param>
+		/// <param name="includePrivate">Wether to include private properties and fields when comparing the two objects.</param>
+		/// <param name="ignoreProperties">Wether to include properties when comparing the two objects.</param>
+		/// <returns></returns>
+		public static bool ReflectionEquals(this object a, object b, bool includePrivate = false, bool ignoreProperties = false)
 		{
 			Type aType = a.GetType();
 			Type bType = b.GetType();
@@ -52,8 +59,21 @@ namespace CrystalClear
 				return true;
 			}
 
-			FieldInfo[] fields = aType.GetFields();
-			PropertyInfo[] properties = aType.GetProperties();
+			FieldInfo[] fields;
+			PropertyInfo[] properties = Array.Empty<PropertyInfo>();
+
+			if (includePrivate)
+			{
+				fields = aType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+				if (!ignoreProperties)
+					properties = aType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+			}
+			else
+			{
+				fields = aType.GetFields();
+				if (!ignoreProperties)
+					properties = aType.GetProperties();
+			}
 
 			// Iterate through all fields to compare them.
 			for (int i = 0; i < fields.Length; i++)
