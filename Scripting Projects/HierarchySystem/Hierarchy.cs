@@ -109,6 +109,7 @@ namespace CrystalClear.HierarchySystem
 			return okBooler;
 		}
 
+		#region Dictionary Implementation
 		public bool ContainsKey(string key) => hierarchy.ContainsKey(key);
 
 		public void Add(string key, HierarchyObject value) => AddChild(key, value);
@@ -130,6 +131,7 @@ namespace CrystalClear.HierarchySystem
 		public IEnumerator<KeyValuePair<string, HierarchyObject>> GetEnumerator() => hierarchy.GetEnumerator();
 
 		IEnumerator IEnumerable.GetEnumerator() => hierarchy.GetEnumerator();
+		#endregion
 		#endregion
 
 		public override bool Equals(object obj)
