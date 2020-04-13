@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\CrystalClear\CrystalClear.csproj" />
+    <ProjectReference Include="..\..\Main\EditorMain.csproj" />
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
     <ProjectReference Include="..\..\User Interaction\UI\UI.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />

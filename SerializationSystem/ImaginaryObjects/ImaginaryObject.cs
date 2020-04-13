@@ -8,7 +8,7 @@ using System.Text;
 namespace CrystalClear.SerializationSystem
 {
 	/// <summary>
-	/// An ImaginaryObject is an object that stores the construction data for the object so that they can be created in the editor, then editen, serialized and finally deserialized and an instance can be created.
+	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that they can be created in the editor, then editen, serialized and finally deserialized and an instance can be created.
 	/// </summary>
 	[Serializable]
 	[DataContract]
@@ -21,9 +21,19 @@ namespace CrystalClear.SerializationSystem
 		/// <param name="constructorParameters">The constructor parameters to use initially.</param>
 		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters)
 		{
-			//Assembly.Load(constructionType.Assembly.GetName());
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
 			ConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
+		}
+
+		public ImaginaryObject(Type constructionType, EditorData editorData)
+		{
+			if (!constructionType.IsEditable())
+			{
+				throw new ArgumentException($"ConstructionType is not editable! ConstructionType = {constructionType}");
+			}
+
+			ConstructionTypeName = constructionType.AssemblyQualifiedName;
+			EditorData = editorData;
 		}
 
 		protected ImaginaryObject()
@@ -35,7 +45,10 @@ namespace CrystalClear.SerializationSystem
 		/// The AssemblyQualifiedType name of the object's type.
 		/// </summary>
 		[DataMember]
-		public string ConstructionTypeName { get; set; }
+		public string ConstructionTypeName { get; }
+
+		[DataMember]
+		public EditorData? EditorData { get; } = null;
 
 		/// <summary>
 		/// The parameters to be used when constructing the object.
@@ -43,25 +56,66 @@ namespace CrystalClear.SerializationSystem
 		[DataMember]
 		public ImaginaryObject[] ConstructionParameters;
 
+		public bool UsesEditor()
+		{
+			return EditorData != null && ConstructionParameters == null;
+		}
+
+		public bool UsesConstructorParameters()
+		{
+			return !UsesEditor();
+		}
+
 		/// <summary>
 		/// Returns the type that ConstructionTypeName references.
 		/// </summary>
 		/// <returns>The type that ConstructionTypeName references.</returns>
 		public Type GetConstructionType()
 		{
-			return Type.GetType(ConstructionTypeName, true);
+			if (ConstructionTypeCache == null)
+			{
+				ConstructionTypeCache = Type.GetType(ConstructionTypeName, true);
+			}
+			return ConstructionTypeCache;
 		}
+		private Type ConstructionTypeCache = null;
 
 		public virtual object CreateInstance()
 		{
-			List<object> list = new List<object>();
-
-			foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
+			if (UsesConstructorParameters())
 			{
-				list.Add(imaginaryObject.CreateInstance());
-			}
+				List<object> constructorObjects = new List<object>();
 
-			return Activator.CreateInstance(GetConstructionType(), list.ToArray());
+				foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
+				{
+					constructorObjects.Add(imaginaryObject.CreateInstance());
+				}
+
+				return Activator.CreateInstance(GetConstructionType(), constructorObjects.ToArray());
+			}
+			else
+			{
+				throw new NotSupportedException("This ImaginaryObject uses Editable! Use the generic CreateInstance<T> instead.");
+			}
+		}
+		
+		public virtual T CreateInstance<T>()
+		{
+			if (UsesConstructorParameters())
+			{
+				List<object> constructorObjects = new List<object>();
+
+				foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
+				{
+					constructorObjects.Add(imaginaryObject.CreateInstance());
+				}
+
+				return (T)Activator.CreateInstance(GetConstructionType(), constructorObjects.ToArray());
+			}
+			else
+			{
+				return (T)EditableSystem.Create<T>(GetConstructionType(), EditorData.GetValueOrDefault());
+			}
 		}
 
 		/// <summary>

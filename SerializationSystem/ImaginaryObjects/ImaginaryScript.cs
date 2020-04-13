@@ -19,6 +19,12 @@ namespace CrystalClear.SerializationSystem
 
 		}
 
+		public ImaginaryScript(Type constructionType, EditorData editorData)
+			: base(constructionType, editorData)
+		{
+
+		}
+
 		/// <summary>
 		/// Creates a Script instance using the construction data stored, as well as the optional attatchedTo HierarchyObject (required if the Script type is a HierarchyScript).
 		/// </summary>

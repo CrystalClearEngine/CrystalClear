@@ -11,20 +11,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// </summary>
 	public struct Script // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
 	{
-		/// <summary>
-		/// The instance of the Script.
-		/// </summary>
-		public readonly object ScriptInstance;
-
-		/// <summary>
-		/// The type of the Script.
-		/// </summary>
-		public Type ScriptType
-		{
-			get;
-			private set;
-		}
-
+		#region Constructors
 		/// <summary>
 		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
 		/// </summary>
@@ -56,7 +43,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// IsScript check.
 			if (!IsScript(scriptType))
 			{
-				throw new ArgumentException("The provided type is not a script!");
+				throw new ArgumentException($"The provided type is not a script! Type = {scriptType}");
 			}
 
 			// Assign ScriptType.
@@ -101,7 +88,21 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// Subscribe events.
 			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
+		#endregion
 
+		#region Script Data
+		/// <summary>
+		/// The instance of the Script.
+		/// </summary>
+		public readonly object ScriptInstance;
+
+		/// <summary>
+		/// The type of the Script.
+		/// </summary>
+		public Type ScriptType { get; }
+		#endregion
+
+		#region Script Management
 		/// <summary>
 		/// Finds all types with the script attribute and returns them.
 		/// </summary>
@@ -124,6 +125,19 @@ namespace CrystalClear.HierarchySystem.Scripting
 			return scripts;
 		}
 
+		/// <summary>
+		/// Checks wether or not a type is a Script (Non-static and has the IsScriptAttribute).
+		/// </summary>
+		/// <param name="toCheck">The type to check wether it is a Script.</param>
+		/// <returns>Wether or not the type is a Script.</returns>
+		public static bool IsScript(Type toCheck)
+		{
+			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?
+				&& !(toCheck.IsAbstract && toCheck.IsSealed); // Static check.
+		}
+		#endregion
+
+		#region Handling Script
 		/// <summary>
 		/// Calls a method in the script by method name.
 		/// </summary>
@@ -186,17 +200,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// Return returnObjects as an array because it is neater that way.
 			return returnObjects.ToArray();
 		}
-
-		/// <summary>
-		/// Checks wether or not a type is a Script (Non-static and has the IsScriptAttribute).
-		/// </summary>
-		/// <param name="toCheck">The type to check wether it is a Script.</param>
-		/// <returns>Wether or not the type is a Script.</returns>
-		public static bool IsScript(Type toCheck)
-		{
-			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?
-				&& !(toCheck.IsAbstract && toCheck.IsSealed); // Static check.
-		}
+		#endregion
 
 		#region Exceptions
 		public class ScriptException : Exception

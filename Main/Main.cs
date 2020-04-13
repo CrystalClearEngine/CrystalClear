@@ -24,7 +24,7 @@ public static class MainClass
 
 		#region Compilation
 		// The files to compile.
-		string[] scriptFilesPaths =
+		string[] codeFilePaths =
 		{
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\CustomHierarchyObject.cs",
@@ -34,7 +34,7 @@ public static class MainClass
 		};
 
 		// Compile our code.
-		Assembly compiledAssembly = Compiler.CompileCode(scriptFilesPaths);
+		Assembly compiledAssembly = Compiler.CompileCode(codeFilePaths);
 
 		// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 		if (compiledAssembly == null)
@@ -160,6 +160,14 @@ public static class MainClass
 		{
 			Console.WriteLine("command error: missing arg");
 		}
+		catch(NotImplementedException)
+		{
+			Console.WriteLine("command error: command not implemented");
+		}
+		catch(NotSupportedException)
+		{
+			Console.WriteLine("command error: not supported");
+		}
 #pragma warning restore CA1031 // Do not catch general exception types
 		goto LoopEditor;
 		RunProgram:
@@ -247,29 +255,52 @@ public static class MainClass
 
 			Console.WriteLine($"Type: {hierarchyObjectToViewDetailsOf.GetConstructionType().FullName}");
 
-			Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ConstructionParameters.Length}");
-
-			Console.Write("Parameters: (");
-			bool first = true;
-			foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ConstructionParameters)
+			if (hierarchyObjectToViewDetailsOf.UsesConstructorParameters())
 			{
-				// Put commas after every parameter if unless it's the first parameter.
-				if (!first)
-					Console.Write(", ");
+				Console.WriteLine("This HierarchyObject uses constructor parameters to be created.");
 
-				Console.Write(parameter.ToString());
+				Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ConstructionParameters.Length}");
 
-				first = false;
+				Console.Write("Parameters: (");
+				bool first = true;
+				foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ConstructionParameters)
+				{
+					// Put commas after every parameter if unless it's the first parameter.
+					if (!first)
+						Console.Write(", ");
+
+					Console.Write(parameter.ToString());
+
+					first = false;
+				}
+				Console.Write(")\n");
 			}
-			Console.Write(")\n");
+			else
+			{
+				Console.WriteLine("This HierarchyObject uses an Editor to be created and modified.");
+
+				Console.WriteLine($"EditorData count: {hierarchyObjectToViewDetailsOf.EditorData.Value.Count}");
+
+				Console.Write("EditorData: (");
+				bool first = true;
+				foreach (KeyValuePair<string, string> data in hierarchyObjectToViewDetailsOf.EditorData)
+				{
+					// Put commas after every parameter if unless it's the first parameter.
+					if (!first)
+						Console.Write(", ");
+
+					Console.Write($"{data.Key}: {data.Value}");
+
+					first = false;
+				}
+				Console.Write(")\n");
+			}
 		}
 
-		// TODO: Make this support generics (generic HierarchyObjects) will also probably require a change to ImaginaryHierarchyObject. (Script equivalents too!)
+		// TODO: Make this support generics (generic HierarchyObjects) will also probably require a change to ImaginaryHierarchyObject. (Script equivalents too so they can support generic Scripts!)
 		void NewHierarchyObject(string name = null)
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
-
-			ImaginaryObject[] constructorParameters = GetConstructorParameters(hierarchyObjectType);
 
 			if (name == null)
 			{
@@ -280,8 +311,26 @@ public static class MainClass
 				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 
-			currentSelectedHierarchyObject.LocalHierarchy.Add(name, new ImaginaryHierarchyObject(currentSelectedHierarchyObject, hierarchyObjectType, constructorParameters));
+			currentSelectedHierarchyObject.LocalHierarchy.Add(name, CreateImaginaryHierarchyObject(hierarchyObjectType));
 			Console.WriteLine($"HierarchyObject {name} has been added!");
+
+			ImaginaryHierarchyObject CreateImaginaryHierarchyObject(Type ofType)
+			{
+				if (ofType.IsEditable(out _))
+				{
+					EditorData editorData = EditorData.GetEmpty();
+					EditableSystem.OpenEditor(ofType, ref editorData);
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, editorData);
+				}
+				else if (ofType.GetConstructors().Length > 0)
+				{
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, GetConstructorParameters(ofType));
+				}
+				else
+				{
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, null);
+				}
+			}
 		}
 
 		void DeleteHierarchyObject(string nameOfEditorHierarchyObjectToDelete)
@@ -293,7 +342,6 @@ public static class MainClass
 		void AddScript(string name = null)
 		{
 			Type scriptType = SelectItem(scriptTypes);
-			ImaginaryObject[] constructorParameters = GetConstructorParameters(scriptType);
 
 			if (name == null)
 			{
@@ -304,9 +352,27 @@ public static class MainClass
 				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
 
-			currentSelectedHierarchyObject.AttatchedScripts.Add(name, new ImaginaryScript(scriptType, constructorParameters));
+			currentSelectedHierarchyObject.AttatchedScripts.Add(name, CreateImaginaryScript(scriptType));
 
 			Console.WriteLine($"Script {name} has been added!");
+
+			ImaginaryScript CreateImaginaryScript(Type ofType)
+			{
+				if (ofType.IsEditable(out _))
+				{
+					EditorData editorData = EditorData.GetEmpty();
+					EditableSystem.OpenEditor(ofType, ref editorData);
+					return new ImaginaryScript(ofType, editorData);
+				}
+				else if (ofType.GetConstructors().Length > 0)
+				{
+					return new ImaginaryScript(ofType, GetConstructorParameters(ofType));
+				}
+				else
+				{
+					return new ImaginaryScript(ofType, null);
+				}
+			}
 		}
 
 		void RemoveScript(string name)
@@ -479,7 +545,7 @@ public static class MainClass
 				parameters[i] = CreateImaginaryObject(parameter.ParameterType);
 			}
 
-			// TODO fix this for when no parameters are provided.
+			// TODO: fix this for when no parameters are provided.
 			Console.WriteLine("Done! This is how it's looking:");
 			Console.Write($"new {scriptType.Name} (");
 			parameters.ToList().ForEach((ImaginaryObject iO) => { Console.Write(iO.ToString() + ", "); });
@@ -490,17 +556,18 @@ public static class MainClass
 
 		ImaginaryObject CreateImaginaryObject(Type ofType)
 		{
-			if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(ofType) || ofType.GetInterface("IConvertible") != null || ofType.GetInterface("IFormattable") != null)
+			if (ofType.IsEditable(out _))
+			{
+				EditorData editorData = EditorData.GetEmpty();
+				EditableSystem.OpenEditor(ofType, ref editorData);
+				return new ImaginaryObject(ofType, editorData);
+			}
+			else if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(ofType) || ofType.GetInterface(nameof(IConvertible)) != null || ofType.GetInterface(nameof(IFormattable)) != null)
 			{
 				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), ofType));
 			}
-			//else if (ofType.GetInterface("IEditable") != null)
-			//{
-			//	IEditable editable = Activator.CreateInstance(ofType);
-			//	return editable.OpenEditor();
-			//}
 			else if (ofType.GetConstructors().Length > 0)
-			{ 
+			{
 				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
 			}
 			else

@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EditableAttribute.cs" />
     <Compile Include="ImaginaryObjects\ImaginaryHierarchyObject.cs" />
     <Compile Include="ImaginaryObjects\ImaginaryObject.cs" />
     <Compile Include="ImaginaryObjects\ImaginaryObjectSerialization.cs" />

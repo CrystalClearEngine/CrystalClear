@@ -19,7 +19,14 @@ namespace CrystalClear.SerializationSystem
 		/// <param name="parent">Defines the ImaginaryHierarchyObject's position in the Hierarchy.</param>
 		/// <param name="constructionType">The HierarchyObject type.</param>
 		/// <param name="constructorParameters">The construction parameters.</param>
-		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, Type constructionType, ImaginaryObject[] constructorParameters) : base(constructionType, constructorParameters)
+		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, Type constructionType, ImaginaryObject[] constructorParameters)
+			: base(constructionType, constructorParameters)
+		{
+			Parent = parent;
+		}
+
+		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, Type constructionType, EditorData editorData)
+			: base(constructionType, editorData)
 		{
 			Parent = parent;
 		}
