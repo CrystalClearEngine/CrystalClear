@@ -402,6 +402,7 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			// TODO: will this result in a bunch of copies of this HierarchyObject's events?
+			// TODO: do this in a constructor instead so it is only done once?
 
 			// Subscribe all events this HierarchyObject has.
 			EventSystem.EventSystem.SubscribeEvents(GetType(), this);
