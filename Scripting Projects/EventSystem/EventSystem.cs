@@ -8,9 +8,9 @@ namespace CrystalClear.EventSystem
 		/// <summary>
 		/// Subscribes all events in the type.
 		/// </summary>
-		public static void SubscribeEvents(Type classToSubscribe, object instance)
+		public static void SubscribeEvents(Type typeToSubscribe, object instance)
 		{
-			foreach (MethodInfo method in classToSubscribe.GetMethods())
+			foreach (MethodInfo method in typeToSubscribe.GetMethods())
 			{
 				foreach (Attribute attribute in method.GetCustomAttributes())
 				{
@@ -23,7 +23,7 @@ namespace CrystalClear.EventSystem
 		}
 
 		/// <summary>
-		/// Subscribes all events in the method.
+		/// Subscribes all events a method has.
 		/// </summary>
 		public static void SubscribeMethod(MethodInfo method, object instance)
 		{
