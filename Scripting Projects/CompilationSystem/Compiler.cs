@@ -37,9 +37,11 @@ namespace CrystalClear.CompilationSystem
 					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll",
 					@"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll",
 					@"E:\dev\crystal clear\Scripting Projects\ScriptUtilities\bin\Debug\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+					@"E:\dev\crystal clear\SerializationSystem\bin\Debug\SerializationSystem.dll", // The path to the SerializationSystem dll.
 					@"E:\dev\crystal clear\Scripting Projects\EventSystem\bin\Debug\EventSystem.dll", // The path to the EventSystem dll.
 					@"E:\dev\crystal clear\Scripting Projects\HierarchySystem\bin\Debug\HierarchySystem.dll", // The path to the EventSystem dll.
 					@"E:\dev\crystal clear\Scripting Projects\Standard\bin\Debug\Standard.dll", // The path to the Standard dll.
+					@"E:\dev\crystal clear\Main\bin\Debug\Main.exe", // The path to the Main exe.
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem.
 				};
 
