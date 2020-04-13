@@ -7,6 +7,7 @@ namespace CrystalClear
 {
 	public static class Utilities
 	{
+		// TODO: document this with examples.
 		public static string EnsureUniqueName(string baseName, IEnumerable<string> enumerable)
 		{
 			// Create iterator.
