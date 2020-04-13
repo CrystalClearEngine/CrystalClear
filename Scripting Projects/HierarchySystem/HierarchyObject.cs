@@ -10,7 +10,7 @@ namespace CrystalClear.HierarchySystem
 	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
 	/// </summary>
 	public abstract class HierarchyObject
-									// TODO probably limit naming to alphabetic only.
+									// TODO: probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
@@ -30,6 +30,14 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="newParent">The new parent.</param>
 		protected internal virtual void OnReparent(HierarchyObject newParent)
+		{
+
+		}
+		
+		/// <summary>
+		/// OnSetUp is called when the HierarchyObject's SetUp method is called.
+		/// </summary>
+		protected internal virtual void OnSetUp()
 		{
 
 		}
@@ -221,7 +229,7 @@ namespace CrystalClear.HierarchySystem
 		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
 		public string Path // TODO: document this.
-							// TODO: use < and > insead of /?
+							// TODO: use > insead of /?
 		{
 			get
 			{
@@ -393,6 +401,12 @@ namespace CrystalClear.HierarchySystem
 				this.parent.SetTarget(parent);
 			}
 
+			// TODO: will this result in a bunch of copies of this HierarchyObject's events?
+
+			// Subscribe all events this HierarchyObject has.
+			EventSystem.EventSystem.SubscribeEvents(GetType(), this);
+
+			OnSetUp();
 			OnReparent(Parent);
 		}
 
