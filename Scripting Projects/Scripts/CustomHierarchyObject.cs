@@ -50,6 +50,7 @@ public class CustomHierarchyObject : HierarchyObject
 				case "n":
 				case "no":
 				case "false":
+				case "f":
 				case "incorrect":
 					return false;
 
