@@ -58,7 +58,10 @@ namespace CrystalClear.SerializationSystem
 
 		public bool UsesEditor()
 		{
-			return EditorData != null && ConstructionParameters == null;
+			if (EditorData == null)
+				return false;
+			else
+				return true;
 		}
 
 		public bool UsesConstructorParameters()
@@ -125,25 +128,44 @@ namespace CrystalClear.SerializationSystem
 		/// <param name="encoding">The encoding to use for writing data.</param>
 		internal void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
 		{
-			// Write the construction type name so that it can be retrieved in the deserialization process.
-			writer.Write(ConstructionTypeName);
-			// Write the number of ConstructionParameters so that the deserializer knows how many ConstructorParameters it has to read.
-			writer.Write(ConstructionParameters.Length);
-			// Iterate through all constructor parameters.
-			foreach (ImaginaryObject parameter in ConstructionParameters)
+			lock (this)
 			{
-				// Write the parameter's construction type name so that it can be retrieved when deserializing.
-				writer.Write(parameter.ConstructionTypeName);
+				// Write the construction type name so that it can be retrieved in the deserialization process.
+				writer.Write(ConstructionTypeName);
 
-				// Does the parameter qualify as an ImaginaryPrimitive?
-				if (ImaginaryPrimitive.QualifiesAsPrimitive(parameter))
+				writer.Write(UsesConstructorParameters());
+
+				if (UsesConstructorParameters())
 				{
-					writer.Write((parameter as ImaginaryPrimitive).StringValue);
+					// Write the number of ConstructionParameters so that the deserializer knows how many ConstructorParameters it has to read.
+					writer.Write(ConstructionParameters.Length);
+					// Iterate through all constructor parameters.
+					foreach (ImaginaryObject parameter in ConstructionParameters)
+					{
+						// Write the parameter's construction type name so that it can be retrieved when deserializing.
+						writer.Write(parameter.ConstructionTypeName);
+
+						// Does the parameter qualify as an ImaginaryPrimitive?
+						if (ImaginaryPrimitive.QualifiesAsPrimitive(parameter))
+						{
+							writer.Write((parameter as ImaginaryPrimitive).StringValue);
+						}
+						// Otherwise recursively write the parameters construction info.
+						else
+						{
+							parameter.WriteConstructionInfo(writer, encoding);
+						}
+					}
 				}
-				// Otherwise recursively write the parameters construction info.
 				else
 				{
-					parameter.WriteConstructionInfo(writer, encoding);
+					writer.Write(EditorData.Value.Count);
+
+					foreach (KeyValuePair<string, string> editorData in EditorData.Value)
+					{
+						writer.Write(editorData.Key);
+						writer.Write(editorData.Value);
+					}
 				}
 			}
 		}

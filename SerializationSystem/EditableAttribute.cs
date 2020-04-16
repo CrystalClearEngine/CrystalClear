@@ -94,9 +94,9 @@ namespace CrystalClear.SerializationSystem
 
 		public bool ContainsKey(string key) => DataDictionary.ContainsKey(key);
 
-		public void Add(string key, string value) => Add(key, value);
+		public void Add(string key, string value) => DataDictionary.Add(key, value);
 
-		public bool Remove(string key) => Remove(key);
+		public bool Remove(string key) => DataDictionary.Remove(key);
 
 		public bool TryGetValue(string key, out string value) => DataDictionary.TryGetValue(key, out value);
 
@@ -204,7 +204,7 @@ namespace CrystalClear.SerializationSystem
 			return null;
 		}
 
-		public static object Create<TCreatorType>(Type type, EditorData data)
+		public static TCreatorType Create<TCreatorType>(Type type, EditorData data)
 		{
 			return FindCreator<TCreatorType>(type)(data);
 		}

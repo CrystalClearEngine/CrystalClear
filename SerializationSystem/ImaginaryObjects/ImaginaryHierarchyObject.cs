@@ -70,13 +70,67 @@ namespace CrystalClear.SerializationSystem
 		/// <returns>The instanciated HierarchyObject.</returns>
 		public HierarchyObject CreateInstance(HierarchyObject parent)
 		{
-			object[] constructionParmaters = new object[ConstructionParameters.Length];
-			for (int i = 0; i < ConstructionParameters.Length; i++)
+			HierarchyObject instance;
+
+			if (UsesConstructorParameters())
 			{
-				constructionParmaters[i] = ConstructionParameters[i].CreateInstance();
+				object[] constructionParmaters = new object[ConstructionParameters.Length];
+				for (int i = 0; i < ConstructionParameters.Length; i++)
+				{
+					constructionParmaters[i] = ConstructionParameters[i].CreateInstance();
+				}
+
+				instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: constructionParmaters);
+			}
+			else
+			{
+				throw new NotSupportedException("The HierarchyObject uses the Editable system, and an instance must be created using the generic version of this method.");
 			}
 
-			HierarchyObject instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: constructionParmaters);
+
+			if (parent != null)
+			{
+				instance.SetUp(parent);
+			}
+
+			foreach (string imaginaryHierarchyName in LocalHierarchy.Keys)
+			{
+				instance.LocalHierarchy.Add(imaginaryHierarchyName, LocalHierarchy[imaginaryHierarchyName].CreateInstance(instance));
+			}
+
+			foreach (ImaginaryScript editorScript in AttatchedScripts.Values)
+			{
+				instance.AddScriptManually(editorScript.CreateInstance(instance));
+			}
+
+			return instance;
+		}
+
+		/// <summary>
+		/// Creates an HierarchyObject from this ImaginaryHierarchyObject.
+		/// </summary>
+		/// <param name="parent">The parent to use for this HierarchyObject.</param>
+		/// <returns>The instanciated HierarchyObject.</returns>
+		public HierarchyObject CreateInstance<T>(HierarchyObject parent)
+			where T : HierarchyObject
+		{
+			HierarchyObject instance;
+
+			if (UsesConstructorParameters())
+			{
+				object[] constructionParmaters = new object[ConstructionParameters.Length];
+				for (int i = 0; i < ConstructionParameters.Length; i++)
+				{
+					constructionParmaters[i] = ConstructionParameters[i].CreateInstance();
+				}
+
+				instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: constructionParmaters);
+			}
+			else
+			{
+				instance = EditableSystem.Create<T>(GetConstructionType(), EditorData.Value);
+			}
+
 
 			if (parent != null)
 			{

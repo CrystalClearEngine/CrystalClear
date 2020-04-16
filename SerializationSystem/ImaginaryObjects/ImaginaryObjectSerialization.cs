@@ -51,7 +51,7 @@ namespace CrystalClear.SerializationSystem
 			using (BinaryReader reader = new BinaryReader(decompressionStream))
 #endif
 			{ // TODO Create ReadImaginaryHierarchyObject and ReadImaginaryScript methods.
-			  // Read the version of CrystalClear that this pack file was created in.
+				// Read the version of CrystalClear that this pack file was created in.
 				Version fileCreatedInVersion = new Version(reader.ReadString());
 
 				// Is the pack file from an older version of CrystalClear?
@@ -68,10 +68,23 @@ namespace CrystalClear.SerializationSystem
 					Console.WriteLine($"This file was created in a newer version of the CrystalClear Engine. {fileCreatedInVersion} (file) < {CrystalClearInformation.CrystalClearVersion} (current)");
 				}
 
-				// Create a variable for storing the unpacked Hierarchy.
-				ImaginaryHierarchyObject unpacked = new ImaginaryHierarchyObject(null,
-																	 Type.GetType(reader.ReadString(), true),
-																	 ReadParameters());
+				ImaginaryHierarchyObject unpacked;
+
+				string typeName = reader.ReadString();
+
+				if (reader.ReadBoolean())
+				{
+					// Create a variable for storing the unpacked Hierarchy.
+					 unpacked = new ImaginaryHierarchyObject(null,
+													 Type.GetType(typeName, true),
+													 ReadParameters());
+				}
+				else
+				{
+					unpacked = new ImaginaryHierarchyObject(null,
+													Type.GetType(reader.ReadString(), true),
+													ReadEditableData());
+				}
 
 				// Read and add the children to the unpacked Hierarchy.
 				ReadAndAddChildren(unpacked);
@@ -94,10 +107,23 @@ namespace CrystalClear.SerializationSystem
 						// Read and store the child's name.
 						string childName = reader.ReadString();
 
-						// Create, read and store a child.
-						ImaginaryHierarchyObject imaginaryHierarchyObject = new ImaginaryHierarchyObject(parent,
-																					   Type.GetType(reader.ReadString(), true),
-																					   ReadParameters());
+						ImaginaryHierarchyObject imaginaryHierarchyObject;
+
+						string childTypeName = reader.ReadString();
+						// Check if the HierarchyObject is using constructor parameters or is editable.
+						if (reader.ReadBoolean())
+						{ // This HierarchyObject is using constructor parameters.
+							// Create, read and store a child.
+							imaginaryHierarchyObject = new ImaginaryHierarchyObject(parent,
+																						   Type.GetType(childTypeName, true),
+																						   ReadParameters());
+						}
+						else
+						{ // This HierarchyObject is editable.
+							imaginaryHierarchyObject = new ImaginaryHierarchyObject(parent,
+																						   Type.GetType(childTypeName, true),
+																						   ReadEditableData());
+						}
 
 						// Add children to the ImahinaryHierarchyObject.
 						ReadAndAddChildren(imaginaryHierarchyObject);
@@ -119,9 +145,10 @@ namespace CrystalClear.SerializationSystem
 						// Read and store the script's name.
 						string scriptName = reader.ReadString();
 
-
 						// Create, read and store an ImaginaryScript.
-						ImaginaryScript imaginaryScript = new ImaginaryScript(Type.GetType(reader.ReadString(), true), ReadParameters());
+						ImaginaryScript imaginaryScript = new ImaginaryScript(
+							Type.GetType(reader.ReadString(), true),
+							ReadParameters());
 
 						toAddTo.AttatchedScripts.Add(scriptName, imaginaryScript);
 					}
@@ -153,6 +180,25 @@ namespace CrystalClear.SerializationSystem
 					}
 
 					return parameters.ToArray();
+				}
+
+				EditorData ReadEditableData()
+				{
+					EditorData editorData = EditorData.GetEmpty();
+
+					int editableDataLength = reader.ReadInt32();
+
+					if (editableDataLength == 0)
+					{
+						return editorData;
+					}
+
+					for (int i = 0; i < editableDataLength; i++)
+					{
+						editorData.Add(reader.ReadString(), reader.ReadString());
+					}
+
+					return editorData;
 				}
 			}
 		}
