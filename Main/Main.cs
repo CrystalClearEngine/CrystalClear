@@ -7,6 +7,7 @@ using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -383,25 +384,55 @@ public static class MainClass
 
 		void Save(string path)
 		{
-			ImaginaryObjectSerialization.SaveToFile(path, rootHierarchyObject);
+			try
+			{
+				ImaginaryObjectSerialization.SaveToFile(path, rootHierarchyObject);
+			}
+#pragma warning disable CA1031 // Do not catch general exception types
+			catch (FileNotFoundException)
+			{
+				Console.WriteLine("command error: the file cannot be found");
+			}
 		}
 
 		void Load(string path)
 		{
-			rootHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
-			currentSelectedHierarchyObject = rootHierarchyObject;
+			try
+			{
+				rootHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
+				currentSelectedHierarchyObject = rootHierarchyObject;
+			}
+			catch (FileNotFoundException)
+			{
+				Console.WriteLine("command error: the file cannot be found");
+			}
 		}
 
 		void Pack(string path)
 		{
-			ImaginaryObjectSerialization.PackHierarchyToFile(path, rootHierarchyObject);
+			try
+			{
+				ImaginaryObjectSerialization.PackHierarchyToFile(path, rootHierarchyObject);
+			}
+			catch (FileNotFoundException)
+			{
+				Console.WriteLine("command error: the file cannot be found");
+			}
 		}
 
 		void Unpack(string path)
 		{
-			rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
-			currentSelectedHierarchyObject = rootHierarchyObject;
+			try
+			{
+				rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
+				currentSelectedHierarchyObject = rootHierarchyObject;
+			}
+			catch (FileNotFoundException)
+			{
+				Console.WriteLine("command error: the file cannot be found");
+			}
 		}
+#pragma warning restore CA1031 // Do not catch general exception types
 
 		// Lists all HierarchyObjects in the current HierarchyObject's local Hierarchy.
 		void List(string toList = null)
