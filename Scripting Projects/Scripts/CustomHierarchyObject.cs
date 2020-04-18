@@ -14,7 +14,7 @@ public class CustomHierarchyObject : HierarchyObject
 		if (currentEditorData["Text"] != null)
 		{
 			Console.WriteLine("Do you want to set a new value for Text?");
-			if (GetBool())
+			if (!GetBool())
 			{
 				goto SetPointlessBool;
 			}
@@ -25,7 +25,7 @@ public class CustomHierarchyObject : HierarchyObject
 		if (currentEditorData["PointlessBool"] != null)
 		{
 			Console.WriteLine("Do you want to set a new value for PointlessBool?");
-			if (GetBool())
+			if (!GetBool())
 			{
 				goto Exit;
 			}
@@ -62,7 +62,7 @@ public class CustomHierarchyObject : HierarchyObject
 	}
 
 	//[Creator]
-	static CustomHierarchyObject Creator(EditorData editorData)
+	static object Creator(EditorData editorData)
 	{
 		CustomHierarchyObject createdCustomHierarchyObject = new CustomHierarchyObject
 		{
@@ -73,7 +73,7 @@ public class CustomHierarchyObject : HierarchyObject
 
 		bool GetBool(string input)
 		{
-			switch (input)
+			switch (input.ToLower())
 			{
 				case "y":
 				case "yes":
@@ -85,6 +85,7 @@ public class CustomHierarchyObject : HierarchyObject
 				case "n":
 				case "no":
 				case "false":
+				case "f":
 				case "incorrect":
 					return false;
 
