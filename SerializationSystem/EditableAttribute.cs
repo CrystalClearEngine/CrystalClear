@@ -53,16 +53,23 @@ namespace CrystalClear.SerializationSystem
 			get
 			{
 				if (!DataDictionary.ContainsKey(dataName))
+				{
 					return null;
+				}
+
 				return DataDictionary[dataName];
 			}
 
 			set
 			{
 				if (!DataDictionary.ContainsKey(dataName))
+				{
 					DataDictionary.Add(dataName, value);
+				}
 				else
+				{
 					DataDictionary[dataName] = value;
+				}
 			}
 		}
 		private Dictionary<string, string> DataDictionary = new Dictionary<string, string>();
@@ -103,9 +110,13 @@ namespace CrystalClear.SerializationSystem
 		public override bool Equals(object obj)
 		{
 			if (obj.GetType() != typeof(EditorData))
+			{
 				return false;
+			}
 			else
+			{
 				return Equals((EditorData)obj);
+			}
 		}
 
 		public bool Equals(EditorData other)
@@ -126,17 +137,25 @@ namespace CrystalClear.SerializationSystem
 		public static bool operator ==(EditorData left, EditorData right)
 		{
 			if (!(left is null || right is null))
+			{
 				return left.Equals(right);
+			}
 			else
+			{
 				return false;
+			}
 		}
 
 		public static bool operator !=(EditorData left, EditorData right)
 		{
 			if (!(left is null || right is null))
+			{
 				return !(left == right);
+			}
 			else
+			{
 				return false;
+			}
 		}
 		#endregion
 	}
@@ -146,11 +165,13 @@ namespace CrystalClear.SerializationSystem
 		public static bool IsEditable(this Type type, out EditableAttribute editableAttribute)
 		{
 			foreach (object attribute in type.GetCustomAttributes(true))
+			{
 				if (attribute.GetType() == typeof(EditableAttribute))
 				{
 					editableAttribute = (EditableAttribute)attribute;
 					return true;
 				}
+			}
 
 			editableAttribute = null;
 			return false;
@@ -162,7 +183,9 @@ namespace CrystalClear.SerializationSystem
 		public static void OpenEditor(Type type, ref EditorData current)
 		{
 			if (!type.IsEditable())
+			{
 				throw new ArgumentException("This type is not editable.");
+			}
 
 			FindEditor(type)(ref current);
 		}
@@ -199,7 +222,7 @@ namespace CrystalClear.SerializationSystem
 
 		public static object Create(Type type, EditorData data)
 		{
-			if(type.IsEditable() == false)
+			if (type.IsEditable() == false)
 			{
 				throw new ArgumentException("Type is not Editable!");
 			}

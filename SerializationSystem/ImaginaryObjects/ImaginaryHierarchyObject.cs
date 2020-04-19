@@ -36,7 +36,7 @@ namespace CrystalClear.SerializationSystem
 		/// </summary>
 		[DataMember]
 		public Dictionary<string, ImaginaryHierarchyObject> LocalHierarchy = new Dictionary<string, ImaginaryHierarchyObject>();
-		
+
 		/// <summary>
 		/// Contains the scripts which will be added to the HierarchyObject when an instance is created.
 		/// </summary>

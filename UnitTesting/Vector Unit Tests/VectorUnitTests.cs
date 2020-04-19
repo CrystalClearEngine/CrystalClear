@@ -1,5 +1,4 @@
-﻿using System;
-using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.ScriptUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

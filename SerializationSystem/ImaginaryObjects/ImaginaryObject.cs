@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -59,9 +58,13 @@ namespace CrystalClear.SerializationSystem
 		public bool UsesEditor()
 		{
 			if (EditorData is null)
+			{
 				return false;
+			}
 			else
+			{
 				return true;
+			}
 		}
 
 		public bool UsesConstructorParameters()

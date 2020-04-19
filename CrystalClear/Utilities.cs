@@ -67,13 +67,17 @@ namespace CrystalClear
 			{
 				fields = aType.GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 				if (!ignoreProperties)
+				{
 					properties = aType.GetProperties(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
+				}
 			}
 			else
 			{
 				fields = aType.GetFields();
 				if (!ignoreProperties)
+				{
 					properties = aType.GetProperties();
+				}
 			}
 
 			// Iterate through all fields to compare them.
@@ -97,7 +101,9 @@ namespace CrystalClear
 						return false;
 					}
 					else
+					{
 						continue;
+					}
 				}
 
 				// Are the A and B fields at this index non-(reflectively)equal?
@@ -131,7 +137,9 @@ namespace CrystalClear
 						return false;
 					}
 					else
+					{
 						continue;
+					}
 				}
 
 				// Are the A and B properties at this index non-(reflectively)equal?

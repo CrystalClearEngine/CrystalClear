@@ -10,7 +10,7 @@ namespace CrystalClear.HierarchySystem
 	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
 	/// </summary>
 	public abstract class HierarchyObject
-									// TODO: probably limit naming to alphabetic only.
+	// TODO: probably limit naming to alphabetic only.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
@@ -33,7 +33,7 @@ namespace CrystalClear.HierarchySystem
 		{
 
 		}
-		
+
 		/// <summary>
 		/// OnSetUp is called when the HierarchyObject's SetUp method is called.
 		/// </summary>
@@ -229,7 +229,7 @@ namespace CrystalClear.HierarchySystem
 		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
 		public string Path // TODO: document this.
-							// TODO: use > insead of /?
+						   // TODO: use > insead of /?
 		{
 			get
 			{

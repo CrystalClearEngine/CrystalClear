@@ -91,7 +91,7 @@ public static class MainClass
 				case "new":
 					if (commandSections.Length > 1)
 					{
-						NewHierarchyObject(commandSections[1]);	
+						NewHierarchyObject(commandSections[1]);
 					}
 					else
 					{
@@ -165,11 +165,11 @@ public static class MainClass
 		{
 			Console.WriteLine($"command error: missing arg ({ex.Message})");
 		}
-		catch(NotImplementedException ex)
+		catch (NotImplementedException ex)
 		{
 			Console.WriteLine($"command error: command not implemented ({ex.Message})");
 		}
-		catch(NotSupportedException ex)
+		catch (NotSupportedException ex)
 		{
 			Console.WriteLine($"command error: not supported ({ex.Message})");
 		}
@@ -265,7 +265,9 @@ public static class MainClass
 			{
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject;
 				if (hierarchyObjectToViewDetailsOf.Parent != null)
+				{
 					toDetail = GetName(hierarchyObjectToViewDetailsOf);
+				}
 			}
 			else
 			{
@@ -295,7 +297,9 @@ public static class MainClass
 				{
 					// Put commas after every parameter if unless it's the first parameter.
 					if (!first)
+					{
 						Console.Write(", ");
+					}
 
 					Console.Write(parameter.ToString());
 
@@ -315,7 +319,9 @@ public static class MainClass
 				{
 					// Put commas after every parameter if unless it's the first parameter.
 					if (!first)
+					{
 						Console.Write(", ");
+					}
 
 					Console.Write($"{data.Key}: {data.Value}");
 
