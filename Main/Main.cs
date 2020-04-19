@@ -195,6 +195,8 @@ public static class MainClass
 		#endregion Profiling
 		#endregion
 
+		Console.ReadLine();
+
 		#region Event raising
 		// Raise the start event.
 		StartEvent.Instance.RaiseEvent();
