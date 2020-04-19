@@ -40,12 +40,7 @@ namespace CrystalClear.SerializationSystem
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
 				string methodName = attribute.EditorMethodName;
-				if (methodName != null)
-				{
-					// TODO: try... catch etc
-					return (EditorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(EditorDelegate));
-				}
-				else
+				if (methodName is null)
 				{
 					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
@@ -57,6 +52,11 @@ namespace CrystalClear.SerializationSystem
 							return (EditorDelegate)method.CreateDelegate(typeof(EditorDelegate));
 						}
 					}
+				}
+				else
+				{
+					// TODO: try... catch etc
+					return (EditorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(EditorDelegate));
 				}
 			}
 
@@ -100,12 +100,7 @@ namespace CrystalClear.SerializationSystem
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
 				string methodName = attribute.CreatorMethodName;
-				if (methodName != null)
-				{
-					// TODO: try... catch etc
-					return (CreatorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(CreatorDelegate));
-				}
-				else
+				if (methodName is null)
 				{
 					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
@@ -117,6 +112,11 @@ namespace CrystalClear.SerializationSystem
 							return (CreatorDelegate)method.CreateDelegate(typeof(CreatorDelegate));
 						}
 					}
+				}
+				else
+				{
+					// TODO: try... catch etc
+					return (CreatorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(CreatorDelegate));
 				}
 			}
 
