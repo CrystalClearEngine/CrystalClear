@@ -75,7 +75,7 @@ namespace CrystalClear.SerializationSystem
 		/// <returns>The type that ConstructionTypeName references.</returns>
 		public Type GetConstructionType()
 		{
-			if (ConstructionTypeCache == null)
+			if (ConstructionTypeCache is null)
 			{
 				ConstructionTypeCache = Type.GetType(ConstructionTypeName, true);
 			}

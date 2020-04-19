@@ -38,7 +38,7 @@ public static class MainClass
 		Assembly compiledAssembly = Compiler.CompileCode(codeFilePaths);
 
 		// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-		if (compiledAssembly == null)
+		if (compiledAssembly is null)
 		{
 			// Explain to user that the compilation failed.
 			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
@@ -330,7 +330,7 @@ public static class MainClass
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
 
-			if (name == null)
+			if (name is null)
 			{
 				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
@@ -369,7 +369,7 @@ public static class MainClass
 
 		void Rename(string newName)
 		{
-			if (currentSelectedHierarchyObject.Parent == null)
+			if (currentSelectedHierarchyObject.Parent is null)
 			{
 				Console.WriteLine("command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
 				return;
@@ -383,7 +383,7 @@ public static class MainClass
 		{
 			Type scriptType = SelectItem(scriptTypes);
 
-			if (name == null)
+			if (name is null)
 			{
 				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
@@ -515,7 +515,7 @@ public static class MainClass
 				for (int i = 0; i < backStepCount; i++)
 				{
 					// Check if the HierarchyObject actually has a parent.
-					if (currentSelectedHierarchyObject.Parent == null)
+					if (currentSelectedHierarchyObject.Parent is null)
 					{
 						Console.WriteLine($"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
 						currentSelectedHierarchyObject = initiallySelected;
@@ -553,7 +553,7 @@ public static class MainClass
 
 		string GetName(ImaginaryHierarchyObject toName)
 		{
-			if (toName.Parent == null)
+			if (toName.Parent is null)
 			{
 				return string.Empty;
 			}

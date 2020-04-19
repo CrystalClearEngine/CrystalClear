@@ -27,7 +27,7 @@ namespace ProjectManagement
 
 		private static void GetInput(string input = null)
 		{
-			if (input == null)
+			if (input is null)
 			{
 				input = Console.ReadLine();
 			}

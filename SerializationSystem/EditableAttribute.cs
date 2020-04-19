@@ -110,7 +110,7 @@ namespace CrystalClear.SerializationSystem
 
 		public bool Equals(EditorData other)
 		{
-			if (other == null)
+			if (other is null)
 			{
 				return false;
 			}

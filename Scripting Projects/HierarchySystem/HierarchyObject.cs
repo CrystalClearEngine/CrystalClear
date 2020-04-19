@@ -139,7 +139,7 @@ namespace CrystalClear.HierarchySystem
 		public void AddScriptManually(Script script, string name = null)
 		{
 			// Replace name with default name if not provided.
-			if (name == null)
+			if (name is null)
 			{
 				name = Utilities.EnsureUniqueName(script.ScriptType.Name, AttatchedScripts.Keys);
 			}
@@ -157,7 +157,7 @@ namespace CrystalClear.HierarchySystem
 			get
 			{
 				// If this HierarchyObject has no parent that means that it has to be at the root, since HierarchyManager cannot be used as parent.
-				return (Parent == null);
+				return Parent is null;
 			}
 		}
 
@@ -255,7 +255,7 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				if (localHierarchy == null)
+				if (localHierarchy is null)
 				{
 					localHierarchy = new Hierarchy(this);
 				}
@@ -391,7 +391,7 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="parent">Optional parent override.</param>
 		public void SetUp(HierarchyObject parent = null)
 		{
-			if (Parent == null && parent == null) // Parent null check.
+			if (Parent is null && parent is null) // Parent null check.
 			{
 				throw new ArgumentException("No parent specified! Please set the parent before calling or include it as a parameter.");
 			}

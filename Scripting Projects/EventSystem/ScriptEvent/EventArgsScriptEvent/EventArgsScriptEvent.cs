@@ -7,8 +7,9 @@ namespace CrystalClear.EventSystem
 	/// A class that contains methods and implementation details for events that use EventHandler.
 	/// </summary>
 	/// <typeparam name="TEventArgs">The EventArgs to use in the EventHandler.</typeparam>
-	public abstract class EventArgsScriptEvent<TEventArgs> : ScriptEvent
-	where TEventArgs : EventArgs
+	public abstract class EventArgsScriptEvent<TEventArgs>
+		: ScriptEvent
+		where TEventArgs : EventArgs
 	{
 		/// <summary>
 		/// The event.
@@ -30,7 +31,7 @@ namespace CrystalClear.EventSystem
 		/// <param name="args">The arguments for this event.</param>
 		public virtual void RaiseEvent(EventArgs args = null, object sender = null)
 		{
-			if (args == null)
+			if (args is null)
 			{
 				args = EventArgs.Empty;
 			}
