@@ -67,7 +67,7 @@ public static class MainClass
 		#region Editor loop
 		// Very basic editor.
 
-		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot), null);
+		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot));
 		ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 		LoopEditor:
@@ -102,6 +102,10 @@ public static class MainClass
 
 				case "del":
 					DeleteHierarchyObject(commandSections[1]);
+					break;
+
+				case "rename":
+					Rename(commandSections[1]);
 					break;
 
 				case "modify":
@@ -153,21 +157,21 @@ public static class MainClass
 			}
 		}
 #pragma warning disable CA1031 // Do not catch general exception types
-		catch (ArgumentNullException)
+		catch (ArgumentNullException ex)
 		{
-			Console.WriteLine("command error: incorrect arg");
+			Console.WriteLine($"command error: incorrect arg ({ex.Message})");
 		}
-		catch (IndexOutOfRangeException)
+		catch (IndexOutOfRangeException ex)
 		{
-			Console.WriteLine("command error: missing arg");
+			Console.WriteLine($"command error: missing arg ({ex.Message})");
 		}
-		catch(NotImplementedException)
+		catch(NotImplementedException ex)
 		{
-			Console.WriteLine("command error: command not implemented");
+			Console.WriteLine($"command error: command not implemented ({ex.Message})");
 		}
-		catch(NotSupportedException)
+		catch(NotSupportedException ex)
 		{
-			Console.WriteLine("command error: not supported");
+			Console.WriteLine($"command error: not supported ({ex.Message})");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
 		goto LoopEditor;
@@ -224,16 +228,34 @@ public static class MainClass
 		#region Editor Methods
 		void Modify(string toModify = null)
 		{
-			ImaginaryHierarchyObject imaginaryHierarchyObject;
+			ImaginaryHierarchyObject hierarchyObjectToModify;
 			if (string.IsNullOrEmpty(toModify))
 			{
-				imaginaryHierarchyObject = currentSelectedHierarchyObject;
+				hierarchyObjectToModify = currentSelectedHierarchyObject;
 			}
 			else
 			{
-				imaginaryHierarchyObject = currentSelectedHierarchyObject.LocalHierarchy[toModify];
+				if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(toModify))
+				{
+					Console.WriteLine($"command error: no HierarchyObject named {toModify} can be found!");
+					return;
+				}
+				hierarchyObjectToModify = currentSelectedHierarchyObject.LocalHierarchy[toModify];
 			}
-			throw new NotImplementedException();
+
+			if (AskYOrNQuestion($"Do you want to change the name of the HierarchyObject? Name = {GetName(hierarchyObjectToModify)}"))
+			{
+				SetName(hierarchyObjectToModify, AskQuestion("Write the new name"));
+			}
+
+			if (hierarchyObjectToModify.UsesEditor())
+			{
+				EditableSystem.OpenEditor(hierarchyObjectToModify.GetConstructionType(), ref hierarchyObjectToModify.EditorData);
+			}
+			else
+			{
+				hierarchyObjectToModify.ConstructionParameters = GetConstructorParameters(hierarchyObjectToModify.GetConstructionType());
+			}
 		}
 
 		void Details(string toDetail = null)
@@ -243,10 +265,15 @@ public static class MainClass
 			{
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject;
 				if (hierarchyObjectToViewDetailsOf.Parent != null)
-					toDetail = hierarchyObjectToViewDetailsOf.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, hierarchyObjectToViewDetailsOf)).Key;
+					toDetail = GetName(hierarchyObjectToViewDetailsOf);
 			}
 			else
 			{
+				if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(toDetail))
+				{
+					Console.WriteLine($"command error: no HierarchyObject named {toDetail} can be found!");
+					return;
+				}
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject.LocalHierarchy[toDetail];
 			}
 
@@ -280,7 +307,7 @@ public static class MainClass
 			{
 				Console.WriteLine("This HierarchyObject uses an Editor to be created and modified.");
 
-				Console.WriteLine($"EditorData count: {hierarchyObjectToViewDetailsOf.EditorData.Value.Count}");
+				Console.WriteLine($"EditorData count: {hierarchyObjectToViewDetailsOf.EditorData.Count}");
 
 				Console.Write("EditorData: (");
 				bool first = true;
@@ -329,7 +356,7 @@ public static class MainClass
 				}
 				else
 				{
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, null);
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType);
 				}
 			}
 		}
@@ -338,6 +365,18 @@ public static class MainClass
 		{
 			currentSelectedHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
 			Console.WriteLine($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
+		}
+
+		void Rename(string newName)
+		{
+			if (currentSelectedHierarchyObject.Parent == null)
+			{
+				Console.WriteLine("command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
+				return;
+			}
+			string oldName = GetName(currentSelectedHierarchyObject);
+			SetName(currentSelectedHierarchyObject, newName);
+			Console.WriteLine($"Renamed {oldName} to {newName}.");
 		}
 
 		void AddScript(string name = null)
@@ -371,7 +410,7 @@ public static class MainClass
 				}
 				else
 				{
-					return new ImaginaryScript(ofType, null);
+					return new ImaginaryScript(ofType);
 				}
 			}
 		}
@@ -512,6 +551,52 @@ public static class MainClass
 			currentSelectedHierarchyObject = currentSelectedHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
 		}
 
+		string GetName(ImaginaryHierarchyObject toName)
+		{
+			if (toName.Parent == null)
+			{
+				return string.Empty;
+			}
+			return toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key;
+		}
+
+		void SetName(ImaginaryHierarchyObject toName, string newName)
+		{
+			toName.Parent.LocalHierarchy.Remove(toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key);
+			toName.Parent.LocalHierarchy.Add(newName, toName);
+		}
+
+		bool AskYOrNQuestion(string question)
+		{
+			retry:
+			Console.Write(question + ": ");
+
+			switch (Console.ReadKey().KeyChar)
+			{
+				case 't':
+				case 'y':
+					Console.WriteLine();
+					return true;
+
+				case 'f':
+				case 'n':
+					Console.WriteLine();
+					return false;
+
+				default:
+					Console.WriteLine("Invalid!");
+					goto retry;
+			}
+		}
+
+		string AskQuestion(string question)
+		{
+			Console.Write(question + ": ");
+			string response = Console.ReadLine();
+			Console.WriteLine();
+			return response;
+		}
+
 		T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
@@ -557,12 +642,12 @@ public static class MainClass
 			goto selection;
 		}
 
-		ImaginaryObject[] GetConstructorParameters(Type scriptType)
+		ImaginaryObject[] GetConstructorParameters(Type type)
 		{
-			Console.WriteLine($"Constructor parameter wizard for {scriptType.FullName}.");
+			Console.WriteLine($"Constructor parameter wizard for {type.FullName}.");
 
 			Console.WriteLine("Please select a constructor.");
-			ConstructorInfo constructorInfo = SelectItem(scriptType.GetConstructors());
+			ConstructorInfo constructorInfo = SelectItem(type.GetConstructors());
 			ParameterInfo[] parameterInfoArray = constructorInfo.GetParameters();
 
 			ImaginaryObject[] parameters = new ImaginaryObject[parameterInfoArray.Length];
@@ -578,7 +663,7 @@ public static class MainClass
 
 			// TODO: fix this for when no parameters are provided.
 			Console.WriteLine("Done! This is how it's looking:");
-			Console.Write($"new {scriptType.Name} (");
+			Console.Write($"new {type.Name} (");
 			parameters.ToList().ForEach((ImaginaryObject iO) => { Console.Write(iO.ToString() + ", "); });
 			Console.WriteLine("\b\b)");
 
@@ -603,7 +688,7 @@ public static class MainClass
 			}
 			else
 			{
-				return new ImaginaryObject(ofType, null);
+				return new ImaginaryObject(ofType);
 			}
 		}
 		#endregion

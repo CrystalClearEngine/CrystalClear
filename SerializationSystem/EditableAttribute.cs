@@ -41,7 +41,7 @@ namespace CrystalClear.SerializationSystem
 	[Serializable]
 	[DataContract]
 	// TODO: Maybe EditorData should store ImaginaryObjects instead? (Should create them when accessed aswell etc.)
-	public struct EditorData : IDictionary<string, string>, IEquatable<EditorData>
+	public class EditorData : IDictionary<string, string>, IEquatable<EditorData>
 	{
 		public static EditorData GetEmpty()
 		{
@@ -65,23 +65,7 @@ namespace CrystalClear.SerializationSystem
 					DataDictionary[dataName] = value;
 			}
 		}
-
-		private Dictionary<string, string> dataDictionary;
-		private Dictionary<string, string> DataDictionary
-		{
-			get
-			{
-				if (dataDictionary == null)
-				{
-					dataDictionary = new Dictionary<string, string>();
-				}
-				return dataDictionary;
-			}
-			set
-			{
-				dataDictionary = value;
-			}
-		}
+		private Dictionary<string, string> DataDictionary = new Dictionary<string, string>();
 
 		#region Dictionary Implementation
 		public ICollection<string> Keys => ((IDictionary<string, string>)DataDictionary).Keys;
@@ -141,12 +125,18 @@ namespace CrystalClear.SerializationSystem
 
 		public static bool operator ==(EditorData left, EditorData right)
 		{
-			return left.Equals(right);
+			if (!(left is null || right is null))
+				return left.Equals(right);
+			else
+				return false;
 		}
 
 		public static bool operator !=(EditorData left, EditorData right)
 		{
-			return !(left == right);
+			if (!(left is null || right is null))
+				return !(left == right);
+			else
+				return false;
 		}
 		#endregion
 	}
@@ -168,7 +158,6 @@ namespace CrystalClear.SerializationSystem
 
 		public static bool IsEditable(this Type type) => IsEditable(type, out _);
 
-		public delegate void EditorDelegate(ref EditorData editorData);
 
 		public static void OpenEditor(Type type, ref EditorData current)
 		{
@@ -178,14 +167,18 @@ namespace CrystalClear.SerializationSystem
 			FindEditor(type)(ref current);
 		}
 
+		public delegate void EditorDelegate(ref EditorData editorData);
+
 		public static EditorDelegate FindEditor(Type type)
 		{
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
 				string methodName = attribute.EditorMethodName;
 				if (methodName != null)
+				{
 					// TODO: try... catch etc
 					return (EditorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(EditorDelegate));
+				}
 				else
 				{
 					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
@@ -204,19 +197,48 @@ namespace CrystalClear.SerializationSystem
 			return null;
 		}
 
-		public static TCreatorType Create<TCreatorType>(Type type, EditorData data)
+		public static object Create(Type type, EditorData data)
 		{
-			return FindCreator<TCreatorType>(type)(data);
+			if(type.IsEditable() == false)
+			{
+				throw new ArgumentException("Type is not Editable!");
+			}
+
+			if (data is null)
+			{
+				throw new ArgumentNullException("Data is null!");
+			}
+
+			CreatorDelegate creatorDelegate = FindCreator(type);
+
+			if (creatorDelegate is null)
+			{
+				throw new Exception("No Creator was found!");
+			}
+
+			try
+			{
+				return creatorDelegate(data);
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Exception within the creator! (It will be thrown after this Exception.)", ex);
+				throw;
+			}
 		}
 
-		public static Func<EditorData, TCreatorType> FindCreator<TCreatorType>(Type type)
+		public delegate object CreatorDelegate(EditorData data);
+
+		public static CreatorDelegate FindCreator(Type type)
 		{
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
-				string methodName = attribute.EditorMethodName;
+				string methodName = attribute.CreatorMethodName;
 				if (methodName != null)
+				{
 					// TODO: try... catch etc
-					return (Func<EditorData, TCreatorType>)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(Func<EditorData, TCreatorType>));
+					return (CreatorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(CreatorDelegate));
+				}
 				else
 				{
 					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
@@ -226,7 +248,7 @@ namespace CrystalClear.SerializationSystem
 							// Cache the result.
 							attribute.CreatorMethodName = method.Name;
 							// TODO: try... catch etc
-							return (Func<EditorData, TCreatorType>)method.CreateDelegate(typeof(Func<EditorData, TCreatorType>));
+							return (CreatorDelegate)method.CreateDelegate(typeof(CreatorDelegate));
 						}
 					}
 				}

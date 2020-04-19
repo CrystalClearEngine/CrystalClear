@@ -13,7 +13,7 @@ namespace CrystalClear.SerializationSystem
 	public class ImaginaryScript
 		: ImaginaryObject
 	{ // TODO store the AttatchedTo ImaginaryHierarchyObject for this Script if it is a HierarchyScript. It doesn't serialize directly.
-		public ImaginaryScript(Type constructionType, ImaginaryObject[] constructorParameters)
+		public ImaginaryScript(Type constructionType, ImaginaryObject[] constructorParameters = null)
 			: base(constructionType, constructorParameters)
 		{
 

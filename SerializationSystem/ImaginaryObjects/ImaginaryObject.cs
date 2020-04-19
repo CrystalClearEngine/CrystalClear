@@ -19,7 +19,7 @@ namespace CrystalClear.SerializationSystem
 		/// </summary>
 		/// <param name="constructionType">The type of object to represent.</param>
 		/// <param name="constructorParameters">The constructor parameters to use initially.</param>
-		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters)
+		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters = null)
 		{
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
 			ConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
@@ -48,7 +48,7 @@ namespace CrystalClear.SerializationSystem
 		public string ConstructionTypeName { get; }
 
 		[DataMember]
-		public EditorData? EditorData { get; } = null;
+		public EditorData EditorData = null;
 
 		/// <summary>
 		/// The parameters to be used when constructing the object.
@@ -58,7 +58,7 @@ namespace CrystalClear.SerializationSystem
 
 		public bool UsesEditor()
 		{
-			if (EditorData == null)
+			if (EditorData is null)
 				return false;
 			else
 				return true;
@@ -98,26 +98,7 @@ namespace CrystalClear.SerializationSystem
 			}
 			else
 			{
-				throw new NotSupportedException("This ImaginaryObject uses Editable! Use the generic CreateInstance<T> instead.");
-			}
-		}
-		
-		public virtual T CreateInstance<T>()
-		{
-			if (UsesConstructorParameters())
-			{
-				List<object> constructorObjects = new List<object>();
-
-				foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
-				{
-					constructorObjects.Add(imaginaryObject.CreateInstance());
-				}
-
-				return (T)Activator.CreateInstance(GetConstructionType(), constructorObjects.ToArray());
-			}
-			else
-			{
-				return (T)EditableSystem.Create<T>(GetConstructionType(), EditorData.GetValueOrDefault());
+				return EditableSystem.Create(GetConstructionType(), EditorData);
 			}
 		}
 
@@ -159,9 +140,9 @@ namespace CrystalClear.SerializationSystem
 				}
 				else
 				{
-					writer.Write(EditorData.Value.Count);
+					writer.Write(EditorData.Count);
 
-					foreach (KeyValuePair<string, string> editorData in EditorData.Value)
+					foreach (KeyValuePair<string, string> editorData in EditorData)
 					{
 						writer.Write(editorData.Key);
 						writer.Write(editorData.Value);
