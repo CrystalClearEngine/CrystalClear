@@ -44,12 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\EventStarter.cs" />
-    <Compile Include="Events\InputPollEvent.cs" />
-    <Compile Include="Events\PhyicsTimeStepEvent.cs" />
+    <Compile Include="Events\Repeating events\EventStarter.cs" />
+    <Compile Include="Events\Repeating events\InputPollEvent.cs" />
+    <Compile Include="Events\Repeating events\PhyicsTimeStepEvent.cs" />
     <Compile Include="Events\TestEvent.cs" />
-    <Compile Include="Events\FrameUpdateEvent.cs" />
-    <Compile Include="Events\StartEvent.cs" />
+    <Compile Include="Events\Repeating events\FrameUpdateEvent.cs" />
     <Compile Include="HierarchyObjects\GroupObject.cs" />
     <Compile Include="HierarchyObjects\FolderObject.cs" />
     <Compile Include="HierarchyObjects\UIObject.cs" />
@@ -78,6 +77,8 @@
       <Name>ScriptUtilities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Events\Single fire events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
