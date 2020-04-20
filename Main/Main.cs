@@ -1,6 +1,7 @@
 ﻿using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
@@ -175,46 +176,20 @@ public static class MainClass
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
 		goto LoopEditor;
-		RunProgram:
 		#endregion
 
-		#region Creating and running
+		#region Running
+		RunProgram:
+
 		Console.Write("Choose a name for the hierarchy: ");
 		string hierarchyName = Console.ReadLine();
 
 		Console.WriteLine();
 
-		#region Profiling
-		Stopwatch performanceStopwatchForCreate = new Stopwatch();
-		performanceStopwatchForCreate.Start();
-		#endregion
-		HierarchyManager.AddHierarchy(hierarchyName, rootHierarchyObject.CreateInstance(null));
-		#region Profiling
-		performanceStopwatchForCreate.Stop();
-		Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
-		#endregion Profiling
-		#endregion
+		RuntimeMain.SubscribeAll(compiledAssembly);
+		RuntimeMain.Run(hierarchyName, rootHierarchyObject);
 
 		Console.ReadLine();
-
-		#region Event raising
-		// Raise the start event.
-		StartEvent.Instance.RaiseEvent();
-
-		// Create a thread for updating the frame.
-		Thread frameUpdateThread = new Thread(FrameUpdateEvent.FrameUpdateLoop);
-		// Start the thread.
-		frameUpdateThread.Start();
-
-		// Create a thread for updating the physics' time-step.
-		Thread physicsUpdateThread = new Thread(() => PhysicsTimeStepEventClass.PhysicsTimeStepLoop());
-		// Start the thread.
-		physicsUpdateThread.Start();
-
-		// Create a thread for polling input.
-		Thread inputPollingThread = new Thread(() => InputPollEvent.InputPollLoop());
-		// Start the thread.
-		inputPollingThread.Start();
 		#endregion
 
 		#region Exit handling

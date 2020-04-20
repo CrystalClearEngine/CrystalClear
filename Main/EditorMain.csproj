@@ -70,6 +70,10 @@
       <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
       <Name>CrystalClear</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RuntimeMain\RuntimeMain.csproj">
+      <Project>{6B950CA7-5AC4-4621-9E80-99E6BFA0720F}</Project>
+      <Name>RuntimeMain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\EventSystem\EventSystem.csproj">
       <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
       <Name>EventSystem</Name>
