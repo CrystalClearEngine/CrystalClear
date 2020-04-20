@@ -54,7 +54,7 @@
       <Name>HierarchySystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
-      <Project>{F01C3295-9E47-48F3-8EDB-81042B4F261C}</Project>
+      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
       <Name>Standard</Name>
     </ProjectReference>
     <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj">
