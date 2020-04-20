@@ -1,7 +1,7 @@
 ﻿using CrystalClear.EventSystem;
 using System;
 
-namespace CrystalClear.Standard.Events
+namespace CrystalClear.EventSystem.StandardEvents // TODO: should this be Standard.Events or just something else?
 {
 	/// <summary>
 	/// The start event attribute.

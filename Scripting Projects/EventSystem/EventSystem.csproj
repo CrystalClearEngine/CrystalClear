@@ -48,6 +48,7 @@
     <Compile Include="ScriptEvent\ScriptEventHandler\ScriptEventHandlerScriptEvent.cs" />
     <Compile Include="ScriptEvent\ScriptEventHandler\SingletonScriptEventHandlerScriptEvent.cs" />
     <Compile Include="ScriptEvent\EventArgsScriptEvent\SingletonEventArgsScriptEvent.cs" />
+    <Compile Include="StartEvent.cs" />
     <Compile Include="SubscribeToAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
