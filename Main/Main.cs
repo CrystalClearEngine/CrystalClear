@@ -53,7 +53,7 @@ public static class MainClass
 		#endregion
 
 		#region Type identification
-		// Cache the results.
+		// Store the Types.
 		Type[] typesInCode = compiledAssembly.GetTypes();
 
 		// Find all scripts that are present in the compiled assembly.
