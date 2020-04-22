@@ -1,6 +1,6 @@
-﻿using CrystalClear.HierarchySystem;
+﻿using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
-using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Diagnostics;
@@ -10,6 +10,25 @@ namespace CrystalClear.RuntimeMain
 {
 	public static class RuntimeMain
 	{
+		public static void Main()
+		{
+			Assembly compiledAssembly = Assembly.LoadFile(@"E:\dev\crystal clear\Main\bin\Debug\UserGeneratedCode.dll");
+
+			SubscribeAll(compiledAssembly);
+
+			Run();
+
+			// TODO: make the Main thread do something instead of wasting it.
+
+			ExitHandling:
+			if (Console.ReadKey().Key == ConsoleKey.Escape)
+			{
+				// Exit on escape key.
+				Environment.Exit(1);
+			}
+			goto ExitHandling;
+		}
+
 		public static bool IsRunning = false;
 
 		public static void SubscribeAll(params Assembly[] userAssemblies)
