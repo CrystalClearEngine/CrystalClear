@@ -1,6 +1,6 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
-using CrystalClear.Standard.Events;
+using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.Standard.HierarchyObjects;
 
 [IsScript]
