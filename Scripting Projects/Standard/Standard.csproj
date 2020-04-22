@@ -44,11 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\Repeating events\EventStarter.cs" />
-    <Compile Include="Events\Repeating events\InputPollEvent.cs" />
-    <Compile Include="Events\Repeating events\PhyicsTimeStepEvent.cs" />
-    <Compile Include="Events\TestEvent.cs" />
-    <Compile Include="Events\Repeating events\FrameUpdateEvent.cs" />
+    <Compile Include="Events\Update events\EventStarter.cs" />
+    <Compile Include="Events\Update events\InputPollEvent.cs" />
+    <Compile Include="Events\Update events\PhyicsTimeStepEvent.cs" />
+    <Compile Include="Events\Misc\TestEvent.cs" />
+    <Compile Include="Events\Update events\FrameUpdateEvent.cs" />
     <Compile Include="HierarchyObjects\GroupObject.cs" />
     <Compile Include="HierarchyObjects\FolderObject.cs" />
     <Compile Include="HierarchyObjects\UIObject.cs" />

@@ -13,7 +13,7 @@ namespace CrystalClear.Standard.Events
 		{
 		}
 	}
-
+	// TODO: Timer.Elapsed for better precicion calling etc.
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
