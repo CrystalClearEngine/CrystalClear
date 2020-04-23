@@ -24,6 +24,7 @@ namespace CrystalClear.RuntimeMain
 			if (Console.ReadKey().Key == ConsoleKey.Escape)
 			{
 				// Exit on escape key.
+				Stop();
 				Environment.Exit(1);
 			}
 			goto ExitHandling;
@@ -86,6 +87,7 @@ namespace CrystalClear.RuntimeMain
 			StartEvent.Instance.RaiseEvent();
 		}
 
+		// TODO: make this return a bool, so you can see if it was cancelled?
 		public static void Stop()
 		{
 			if (!IsRunning)
@@ -94,6 +96,8 @@ namespace CrystalClear.RuntimeMain
 			}
 
 			IsRunning = false;
+
+			StopEvent.Instance.RaiseEvent();
 		}
 	}
 }
