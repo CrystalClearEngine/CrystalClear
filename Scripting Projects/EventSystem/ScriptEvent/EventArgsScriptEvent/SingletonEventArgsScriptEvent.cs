@@ -9,7 +9,7 @@ namespace CrystalClear.EventSystem
 	/// <typeparam name="TEventArgs">The event args type.</typeparam>
 	public abstract class SingletonEventArgsScriptEvent<InstanceType, TEventArgs> : EventArgsScriptEvent<TEventArgs>
 		where InstanceType : SingletonEventArgsScriptEvent<InstanceType, TEventArgs>, new()
-		where TEventArgs : EventArgs
+		where TEventArgs : EventArgs // TODO: make this or similar levels into interfaces?
 	{
 		// Singleton stuff.
 
