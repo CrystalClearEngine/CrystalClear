@@ -44,6 +44,7 @@ namespace CrystalClear.EventSystem
 		// TODO: add check so it can't Raise the event if it is already being raised from last time? Maybe an IsStillBeingRaised field in Instance?
 		public static void Start(TimeSpan interval = new TimeSpan())
 		{
+			// TODO: attempt to raise the Event on the Main thread, to prevent multi threading issues (or atleast as an option, or maybe variants of the events etc... they could easily be determined using the same attribute as now, only with constructors)
 			if (interval != TimeSpan.Zero)
 			{
 				// TODO: determine if a timer is suitable for this at all.
