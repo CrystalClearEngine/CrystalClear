@@ -8,7 +8,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public sealed class OnPhysicsTimeStep : SubscribeToAttribute
 	{
-		public OnPhysicsTimeStep() : base(typeof(FrameUpdateEvent))
+		public OnPhysicsTimeStep() : base(typeof(PhysicsTimeStepEvent))
 		{
 		}
 	}
@@ -16,15 +16,8 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The physics time step event class.
 	/// </summary>
-	public class PhysicsTimeStepEventClass : SingletonScriptEventHandlerScriptEvent<PhysicsTimeStepEventClass>
+	public class PhysicsTimeStepEvent : UpdateScriptEvent<PhysicsTimeStepEvent>
 	{
-		public static void PhysicsTimeStepLoop(int TimeStepLengthMS = 20)
-		{
-			while (true)
-			{
-				Thread.Sleep(TimeStepLengthMS);
-				Instance.RaiseEvent();
-			}
-		}
+
 	}
 }

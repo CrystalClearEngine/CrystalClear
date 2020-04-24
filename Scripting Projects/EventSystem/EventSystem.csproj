@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\StopEvent.cs" />
     <Compile Include="ScriptEvent\EventArgsScriptEvent\EventArgsScriptEvent.cs" />
     <Compile Include="ScriptEvent\ScriptEvent.cs" />
     <Compile Include="EventSystem.cs" />
     <Compile Include="ScriptEvent\ScriptEventHandler\ScriptEventHandler.cs" />
     <Compile Include="ScriptEvent\ScriptEventHandler\ScriptEventHandlerScriptEvent.cs" />
+    <Compile Include="ScriptEvent\ScriptEventHandler\UpdateScriptEvent.cs" />
     <Compile Include="ScriptEvent\ScriptEventHandler\SingletonScriptEventHandlerScriptEvent.cs" />
     <Compile Include="ScriptEvent\EventArgsScriptEvent\SingletonEventArgsScriptEvent.cs" />
     <Compile Include="Events\StartEvent.cs" />

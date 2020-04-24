@@ -10,7 +10,7 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public sealed class OnInputPollAttribute : SubscribeToAttribute
 	{
-		public OnInputPollAttribute() : base(typeof(FrameUpdateEvent))
+		public OnInputPollAttribute() : base(typeof(InputPollEvent))
 		{
 		}
 	}
@@ -18,23 +18,8 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
-	public class InputPollEvent : SingletonScriptEventHandlerScriptEvent<InputPollEvent>
+	public class InputPollEvent : UpdateScriptEvent<InputPollEvent>
 	{
-		public static void InputPollLoop(int PollFreqInMS = 0)
-		{
-			Stopwatch stopwatch = new Stopwatch(); // TODO remember to remove these or disable when not necessary or requested!
-			while (true)
-			{
-				stopwatch.Start();
-				if (PollFreqInMS > 0)
-				{
-					Thread.Sleep(PollFreqInMS); // TODO replace Thread.Sleep with more reliable waiting system.
-				}
 
-				Instance.RaiseEvent();
-				Console.WriteLine(Math.Round(1 / stopwatch.Elapsed.TotalSeconds) + " PPS");
-				stopwatch.Stop(); stopwatch.Reset();
-			}
-		}
 	}
 }

@@ -53,7 +53,7 @@ namespace Scripts
 
 		private IEnumerator PhysicsStepRoutine()
 		{
-			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEventClass));
+			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEvent));
 			while (true)
 			{
 				yield return waitForNewPhysicsStep;
