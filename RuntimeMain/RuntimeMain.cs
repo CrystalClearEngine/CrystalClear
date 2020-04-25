@@ -20,6 +20,7 @@ namespace CrystalClear.RuntimeMain
 
 			// TODO: make the Main thread do something instead of wasting it.
 
+			#region Exit handling
 			ExitHandling:
 			if (Console.ReadKey().Key == ConsoleKey.Escape)
 			{
@@ -28,6 +29,7 @@ namespace CrystalClear.RuntimeMain
 				Environment.Exit(1);
 			}
 			goto ExitHandling;
+			#endregion
 		}
 
 		public static bool IsRunning = false;

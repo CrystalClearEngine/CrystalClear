@@ -25,6 +25,15 @@ public static class MainClass
 		#endregion
 
 		#region Compilation
+		// Store the Types.
+		Type[] typesInCode = null;
+
+		// Find all scripts that are present in the compiled assembly.
+		Type[] scriptTypes = null;
+
+		// Find all HierarchyObject types in the compiled assembly.
+		List<Type> hierarchyObjectTypes = null;
+
 		// The files to compile.
 		string[] codeFilePaths =
 		{
@@ -36,34 +45,10 @@ public static class MainClass
 			@"E:\dev\crystal clear\Scripting Projects\Scripts\PrintFPS.cs",
 		};
 
+		Assembly compiledAssembly;
+
 		// Compile our code.
-		Assembly compiledAssembly = Compiler.CompileCode(codeFilePaths);
-
-		// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-		if (compiledAssembly is null)
-		{
-			// Explain to user that the compilation failed.
-			Console.WriteLine("Compilation failed :( (compiled assembly is null)");
-			// Wait for user input.
-			Console.ReadKey();
-			// Return to exit.
-			return;
-		}
-
-		Console.WriteLine($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.");
-		#endregion
-
-		#region Type identification
-		// Store the Types.
-		Type[] typesInCode = compiledAssembly.GetTypes();
-
-		// Find all scripts that are present in the compiled assembly.
-		Type[] scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
-
-		// Find all HierarchyObject types in the compiled assembly.
-		List<Type> hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
-		// Add the HierarchyObjects defined in standard HierarchyObjects.
-		hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject))));
+		Compile();
 		#endregion
 
 		#region Editor loop
@@ -90,6 +75,10 @@ public static class MainClass
 		{
 			switch (commandSections[0])
 			{
+				case "compile":
+					Compile();
+					break;
+
 				case "new":
 					if (commandSections.Length > 1)
 					{
@@ -187,10 +176,8 @@ public static class MainClass
 
 		Console.WriteLine();
 
-		RuntimeMain.SubscribeAll(compiledAssembly);
+		RuntimeMain.SubscribeAll(compiledAssembly);										
 		RuntimeMain.Run(hierarchyName, rootHierarchyObject);
-
-		Console.ReadLine();
 		#endregion
 
 		#region Exit handling
@@ -198,12 +185,44 @@ public static class MainClass
 		if (Console.ReadKey().Key == ConsoleKey.Escape)
 		{
 			// Exit on escape key.
-			Environment.Exit(1);
+			RuntimeMain.Stop();
+			goto LoopEditor;
 		}
 		goto ExitHandling;
 		#endregion
 
 		#region Editor Methods
+		bool Compile()
+		{
+			compiledAssembly = Compiler.CompileCode(codeFilePaths);
+
+			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
+			if (compiledAssembly is null)
+			{
+				// Explain to user that the compilation failed.
+				Console.WriteLine("compilation error: compilation failed :( (compiled assembly is null)");
+				// TODO: do type identification for Standard regardless.
+				return false;
+			}
+
+			Console.WriteLine($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.");
+
+			#region Type identification
+			// Store the Types.
+			typesInCode = compiledAssembly.GetTypes();
+
+			// Find all scripts that are present in the compiled assembly.
+			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
+
+			// Find all HierarchyObject types in the compiled assembly.
+			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
+			// Add the HierarchyObjects defined in standard HierarchyObjects.
+			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject))));
+			#endregion
+
+			return true;
+		}
+
 		void Modify(string toModify = null)
 		{
 			ImaginaryHierarchyObject hierarchyObjectToModify;
