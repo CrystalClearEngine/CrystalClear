@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using static CrystalClear.CrystalClearInformation;
 
 namespace CrystalClear.CompilationSystem
@@ -28,7 +29,8 @@ namespace CrystalClear.CompilationSystem
 			{
 				List<SyntaxTree> syntaxTrees = (from string fileName in fileNames
 												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
-											  CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest))).ToList();
+												CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
+												, fileName, Encoding.UTF8)).ToList();
 
 				// The collection of references.
 				string[] references =
