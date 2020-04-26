@@ -34,21 +34,16 @@ public static class MainClass
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
 
-		// The files to compile.
-		string[] codeFilePaths =
-		{
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\HelloWorldExample.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\CustomHierarchyObject.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\StaticProgramTest.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\StepRoutineTest.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\ConstructableScript.cs",
-			@"E:\dev\crystal clear\Scripting Projects\Scripts\PrintFPS.cs",
-		};
+		string[] codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");
 
 		Assembly compiledAssembly;
 
 		// Compile our code.
 		Compile();
+
+		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");
+		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) => { codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");  Compile(); };
+		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
 
 		#region Editor loop
@@ -63,14 +58,15 @@ public static class MainClass
 		// Gather input.
 		string line = Console.ReadLine();
 
-		// Split the command at space that has not been escaped with a \.
+		// Split the command at any space that has not been escaped with a \.
 		string[] commandSections = Regex.Split(line, @"(?<!\\) ");
 
-		foreach (string section in commandSections)
+		for (int i = 0; i < commandSections.Length; i++)
 		{
 			// Clean up the \'s from the earlier split operation.
-			Regex.Replace(section, @"\\ ", string.Empty);
+			commandSections[i] = commandSections[i].Replace("\\", string.Empty);
 		}
+
 		try
 		{
 			switch (commandSections[0])
