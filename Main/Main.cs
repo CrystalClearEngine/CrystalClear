@@ -58,14 +58,8 @@ public static class MainClass
 		// Gather input.
 		string line = Console.ReadLine();
 
-		// Split the command at any space that has not been escaped with a \.
-		string[] commandSections = Regex.Split(line, @"(?<!\\) ");
-
-		for (int i = 0; i < commandSections.Length; i++)
-		{
-			// Clean up the \'s from the earlier split operation.
-			commandSections[i] = commandSections[i].Replace("\\", string.Empty);
-		}
+		// Split the command at any space.
+		string[] commandSections = line.Split(' ');
 
 		try
 		{
@@ -137,6 +131,10 @@ public static class MainClass
 
 				case "run":
 					goto RunProgram;
+
+				case "exit":
+					Environment.Exit(0);
+					break;
 
 				default:
 					Console.WriteLine("command error: unknown command");
