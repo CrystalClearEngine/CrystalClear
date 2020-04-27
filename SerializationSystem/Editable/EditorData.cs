@@ -5,7 +5,6 @@ using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
 {
-	[Serializable]
 	[DataContract]
 	// TODO: Maybe EditorData should store ImaginaryObjects instead? (Should create them when accessed aswell etc.)
 	public class EditorData : IDictionary<string, string>, IEquatable<EditorData>
@@ -39,6 +38,7 @@ namespace CrystalClear.SerializationSystem
 				}
 			}
 		}
+		[DataMember]
 		private Dictionary<string, string> DataDictionary = new Dictionary<string, string>();
 
 		#region Dictionary Implementation

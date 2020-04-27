@@ -41,10 +41,24 @@ namespace CrystalClear.SerializationSystem
 		}
 
 		/// <summary>
-		/// The AssemblyQualifiedType name of the object's type.
+		/// The AssemblyQualifiedType name of the object's type. Do not set.
 		/// </summary>
 		[DataMember]
-		public string ConstructionTypeName { get; }
+		public string ConstructionTypeName { get; private set; }
+
+		/// <summary>
+		/// Returns the type that ConstructionTypeName references.
+		/// </summary>
+		/// <returns>The type that ConstructionTypeName references.</returns>
+		public Type GetConstructionType()
+		{
+			if (ConstructionTypeCache is null)
+			{
+				ConstructionTypeCache = Type.GetType(ConstructionTypeName, true);
+			}
+			return ConstructionTypeCache;
+		}
+		private Type ConstructionTypeCache = null;
 
 		[DataMember]
 		public EditorData EditorData = null;
@@ -71,20 +85,6 @@ namespace CrystalClear.SerializationSystem
 		{
 			return !UsesEditor();
 		}
-
-		/// <summary>
-		/// Returns the type that ConstructionTypeName references.
-		/// </summary>
-		/// <returns>The type that ConstructionTypeName references.</returns>
-		public Type GetConstructionType()
-		{
-			if (ConstructionTypeCache is null)
-			{
-				ConstructionTypeCache = Type.GetType(ConstructionTypeName, true);
-			}
-			return ConstructionTypeCache;
-		}
-		private Type ConstructionTypeCache = null;
 
 		public virtual object CreateInstance()
 		{
