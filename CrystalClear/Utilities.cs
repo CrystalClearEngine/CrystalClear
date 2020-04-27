@@ -34,6 +34,7 @@ namespace CrystalClear
 
 			return baseName;
 		}
+
 		/// <summary>
 		/// Compares two objects using reflection to find fields and properties.
 		/// </summary>
