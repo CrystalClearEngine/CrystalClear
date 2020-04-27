@@ -327,7 +327,7 @@ public static class MainClass
 		{
 			Type hierarchyObjectType = SelectItem(hierarchyObjectTypes);
 
-			if (name is null)
+			if (string.IsNullOrEmpty(name))
 			{
 				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
@@ -559,6 +559,7 @@ public static class MainClass
 
 		void SetName(ImaginaryHierarchyObject toName, string newName)
 		{
+			newName = CrystalClear.Utilities.EnsureUniqueName(newName, toName.LocalHierarchy.Keys);
 			toName.Parent.LocalHierarchy.Remove(toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key);
 			toName.Parent.LocalHierarchy.Add(newName, toName);
 		}

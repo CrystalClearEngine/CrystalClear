@@ -7,14 +7,23 @@ namespace CrystalClear
 {
 	public static class Utilities
 	{
-		// TODO: document this with examples.
-		public static string EnsureUniqueName(string baseName, IEnumerable<string> enumerable)
+		/// <summary>
+		/// Returns a name that is ensured to be unique among the provided names and based on a base name.
+		/// Example:
+		/// The name "QWERTY" was attemped to be added into a group of names already containing the name "QWERTY".
+		/// "QWERTY" is passed as the baseName and the group of other names as otherNames.
+		/// "QWERTY" is renamed to "QWERTY (1)", and if another "QUERTY" is attempted to be added it is changed to "QUERTY (2)" etc.
+		/// </summary>
+		/// <param name="baseName">The name to use as a base for the new name.</param>
+		/// <param name="otherNames">An enumerable of all other names </param>
+		/// <returns>A unique name, based on the baseName and unique among otherNames.</returns>
+		public static string EnsureUniqueName(string baseName, IEnumerable<string> otherNames)
 		{
 			// Create iterator.
 			int i = 1;
 
 			// Repeat while name is already taken in AttatchedScripts.
-			while (enumerable.Contains(baseName))
+			while (otherNames.Contains(baseName))
 			{
 				string OldDuplicateDecorator = $" ({i - 1})";
 
