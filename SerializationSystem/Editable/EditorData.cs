@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem
 {
+	[Serializable]
 	[DataContract]
 	// TODO: Maybe EditorData should store ImaginaryObjects instead? (Should create them when accessed aswell etc.)
 	public class EditorData : IDictionary<string, string>, IEquatable<EditorData>
