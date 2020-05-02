@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using static CrystalClear.EditorInformation;
 
 public static class MainClass
 {
@@ -19,6 +20,32 @@ public static class MainClass
 #if DEBUG
 		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US"); // To ensure google-able exceptions.
 #endif
+		#endregion
+
+		#region Project Selection
+		Console.WriteLine("Please open or create a new project:");
+		ProjectSelection:
+		switch (Console.ReadLine())
+		{
+			case "new":
+				NewProject();
+				break;
+
+			case "open":
+				try
+				{
+					OpenProject();
+				}
+				catch (ArgumentException)
+				{
+					goto ProjectSelection;
+				}
+				break;
+
+			default:
+				Console.WriteLine("command error: unknown command");
+				goto ProjectSelection;
+		}
 		#endregion
 
 		#region Compilation
@@ -126,6 +153,26 @@ public static class MainClass
 					Select(commandSections.Length >= 2 ? commandSections[1] : null);
 					break;
 
+				case "project":
+					switch (commandSections[1])
+					{
+						case "new":
+							NewProject();
+							break;
+
+						case "open":
+							OpenProject();
+							break;
+
+						default:
+							break;
+					}
+					break;
+
+				case "build":
+					Builder.Build(commandSections[1]);
+					break;
+
 				case "run":
 					goto RunProgram;
 
@@ -138,6 +185,7 @@ public static class MainClass
 					break;
 			}
 		}
+		#region Error Handling
 #pragma warning disable CA1031 // Do not catch general exception types
 		catch (ArgumentNullException ex)
 		{
@@ -156,6 +204,7 @@ public static class MainClass
 			Console.WriteLine($"command error: not supported ({ex.Message})");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
+		#endregion
 		goto LoopEditor;
 		#endregion
 
@@ -685,6 +734,57 @@ public static class MainClass
 			{
 				return new ImaginaryObject(ofType);
 			}
+		}
+
+		void NewProject()
+		{
+			DirectoryInfo projectDirectory = Directory.CreateDirectory(AskQuestion("Choose a path for your new project"));
+			projectDirectory.Create();
+
+			projectDirectory.CreateSubdirectory(@"Scripts");
+			projectDirectory.CreateSubdirectory(@"Assets");
+			projectDirectory.CreateSubdirectory(@"Hierarchies");
+
+			string projectName = AskQuestion("Name the project");
+			File.WriteAllText(projectDirectory.FullName + $@"\{projectName}.crcl", projectName);
+
+			OpenProject(projectDirectory.FullName);
+		}
+
+		void OpenProject(string projectPath = null)
+		{
+			if (projectPath == null)
+			{
+				projectPath = AskQuestion("Enter the path of the project to open");
+			}
+
+			DirectoryInfo projectDirectory = Directory.CreateDirectory(projectPath);
+
+			if (!IsProject(projectDirectory.FullName))
+			{
+				Console.WriteLine("command error: no project exists at that location");
+				throw new ArgumentException();
+			}
+
+			Console.Title = File.ReadAllText(projectDirectory.GetFiles("*.crcl")[0].FullName);
+
+			ProjectPath = projectPath;
+		}
+
+		bool IsProject(string path)
+		{
+			DirectoryInfo projectDirectory = Directory.CreateDirectory(path);
+			if (!projectDirectory.Exists)
+			{
+				return false;
+			}
+
+			if (projectDirectory.GetFiles("*.crcl").Length == 0)
+			{
+				return false;
+			}
+
+			return true;
 		}
 		#endregion
 	}

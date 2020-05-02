@@ -16,4 +16,9 @@ namespace CrystalClear
 			Close = 1,
 		}
 	}
+
+	public static class EditorInformation
+	{
+		public static string ProjectPath;
+	}
 }
