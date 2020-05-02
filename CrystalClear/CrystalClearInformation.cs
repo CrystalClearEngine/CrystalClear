@@ -19,6 +19,6 @@ namespace CrystalClear
 
 	public static class EditorInformation
 	{
-		public static string ProjectPath;
+		public static string ProjectPath { get; set; }
 	}
 }
