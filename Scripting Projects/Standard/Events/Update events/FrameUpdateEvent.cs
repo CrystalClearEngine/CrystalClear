@@ -1,4 +1,5 @@
 ﻿using CrystalClear.EventSystem;
+using CrystalClear.EventSystem.StandardEvents;
 using System;
 using System.Diagnostics;
 
@@ -19,6 +20,11 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class FrameUpdateEvent : UpdateScriptEvent<FrameUpdateEvent>
 	{
+		[OnStartEvent]
+		private static void start() => Start(new TimeSpan());
 
+		[OnStopEvent]
+		private static void stop() => Stop();
 	}
+
 }

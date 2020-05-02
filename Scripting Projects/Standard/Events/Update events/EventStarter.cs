@@ -1,30 +1,24 @@
-﻿using CrystalClear.ScriptUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using CrystalClear.EventSystem.StandardEvents;
+﻿using System;
 
 namespace CrystalClear.Standard.Events
 {
 	public static class EventStarter
 	{
-		[OnStartEvent]
-		public static void StartEvents()
+		public static void StartEvents(
+			TimeSpan frameUpdateEventInterval = new TimeSpan(),
+			TimeSpan inputPollEventInterval = new TimeSpan(),
+			TimeSpan physicsTimeStepEventInterval = new TimeSpan())
 		{
 			// Start the FrameUpdateEvent.
-			FrameUpdateEvent.Start();
+			FrameUpdateEvent.Start(frameUpdateEventInterval);
 
 			// Start the InputPollEvent.
-			InputPollEvent.Start();
+			InputPollEvent.Start(inputPollEventInterval);
 
 			// Start the FrameUpdateEvent.
-			PhysicsTimeStepEvent.Start(TimeSpan.FromSeconds(0.0166));
+			PhysicsTimeStepEvent.Start(physicsTimeStepEventInterval);
 		}
 
-		[OnStopEvent]
 		public static void StopEvents()
 		{
 			FrameUpdateEvent.Stop();

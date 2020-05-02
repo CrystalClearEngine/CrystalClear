@@ -1,4 +1,6 @@
 ﻿using CrystalClear.EventSystem;
+using CrystalClear.EventSystem.StandardEvents;
+using System;
 using System.Threading;
 
 namespace CrystalClear.Standard.Events
@@ -18,6 +20,10 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class PhysicsTimeStepEvent : UpdateScriptEvent<PhysicsTimeStepEvent>
 	{
+		[OnStartEvent]
+		private static void start() => Start(TimeSpan.FromMilliseconds(33.33));
 
+		[OnStopEvent]
+		private static void stop() => Stop();
 	}
 }

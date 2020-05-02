@@ -1,4 +1,5 @@
 ﻿using CrystalClear.EventSystem;
+using CrystalClear.EventSystem.StandardEvents;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -20,6 +21,10 @@ namespace CrystalClear.Standard.Events
 	/// </summary>
 	public class InputPollEvent : UpdateScriptEvent<InputPollEvent>
 	{
+		[OnStartEvent]
+		private static void start() => Start(new TimeSpan());
 
+		[OnStopEvent]
+		private static void stop() => Stop();
 	}
 }
