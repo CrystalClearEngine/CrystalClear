@@ -76,15 +76,11 @@ namespace CrystalClear.EventSystem
 			// Iterate through all provided types.
 			foreach (Type type in types)
 			{
-				// Iterate through all methods in the type.
-				foreach (MethodInfo method in type.GetMethods())
+				// Iterate through all static methods in the type.
+				foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
 				{
-					// Is the method static?
-					if (method.IsStatic)
-					{
-						// Let the event system handle the rest.
-						SubscribeMethod(method, null);
-					}
+					// Subscribe it.
+					SubscribeMethod(method, null);
 				}
 			}
 		}
