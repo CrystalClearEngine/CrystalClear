@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using System;
+﻿using System;
 
 namespace CrystalClear.EventSystem.StandardEvents // TODO: should this be Standard.Events or just something else?
 {

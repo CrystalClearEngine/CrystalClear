@@ -1,6 +1,6 @@
-﻿using CrystalClear.HierarchySystem;
+﻿using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
-using CrystalClear.EventSystem.StandardEvents;
 using System;
 
 [Editable(nameof(Editor), nameof(Creator))]

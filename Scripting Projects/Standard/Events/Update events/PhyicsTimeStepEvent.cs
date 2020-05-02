@@ -1,7 +1,6 @@
 ﻿using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
 using System;
-using System.Threading;
 
 namespace CrystalClear.Standard.Events
 {

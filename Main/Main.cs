@@ -3,15 +3,12 @@ using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
-using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 public static class MainClass
@@ -42,7 +39,7 @@ public static class MainClass
 		Compile();
 
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");
-		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) => { codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");  Compile(); };
+		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) => { codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs"); Compile(); };
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
 
@@ -170,7 +167,7 @@ public static class MainClass
 
 		Console.WriteLine();
 
-		RuntimeMain.SubscribeAll(compiledAssembly);										
+		RuntimeMain.SubscribeAll(compiledAssembly);
 		RuntimeMain.Run(hierarchyName, rootHierarchyObject);
 		#endregion
 
