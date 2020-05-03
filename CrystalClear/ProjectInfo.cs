@@ -18,14 +18,15 @@ namespace CrystalClear
 
 		public string Path { get => ProjectDirectory.FullName; }
 
-		[DataMember]
-		public string ScriptsPath { get; set; }
 
 		[DataMember]
-		public string AssetsPath { get; set; }
+		public DirectoryInfo ScriptsDirectory;
+		
+		[DataMember]
+		public DirectoryInfo AssetsDirectory;
 
 		[DataMember]
-		public string HierarchiesPath { get; set; }
+		public DirectoryInfo HierarchiesDirectory;
 
 		#region Management
 		public static void SaveProject()
@@ -42,18 +43,15 @@ namespace CrystalClear
 
 			projectDirectory.Create();
 
-			projectDirectory.CreateSubdirectory(@"Scripts");
-			projectDirectory.CreateSubdirectory(@"Assets");
-			projectDirectory.CreateSubdirectory(@"Hierarchies");
-
 			ProjectInfo project = new ProjectInfo()
 			{
 				ProjectDirectory = projectDirectory,
 				ProjectName = projectName,
 			};
-			project.ScriptsPath = projectPath + @"\Scripts";
-			project.AssetsPath = projectPath + @"\Assets";
-			project.HierarchiesPath = projectPath + @"\Hierarchies";
+
+			project.ScriptsDirectory = projectDirectory.CreateSubdirectory(@"Scripts");
+			project.AssetsDirectory = projectDirectory.CreateSubdirectory(@"Assets");
+			project.HierarchiesDirectory = projectDirectory.CreateSubdirectory(@"Hierarchies");
 
 			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ProjectInfo));
 
