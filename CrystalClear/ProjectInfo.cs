@@ -18,7 +18,6 @@ namespace CrystalClear
 
 		public string Path { get => ProjectDirectory.FullName; }
 
-
 		[DataMember]
 		public DirectoryInfo ScriptsDirectory;
 		
