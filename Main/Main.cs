@@ -1,4 +1,5 @@
-﻿using CrystalClear.CompilationSystem;
+﻿using CrystalClear;
+using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.RuntimeMain;
@@ -10,7 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using CrystalClear;
+using static CrystalClear.EditorInformation;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
 public static class MainClass
@@ -50,7 +51,7 @@ public static class MainClass
 		#endregion
 
 		#region Compilation
-		// Store the Types.
+		// Somewhere to store the Types.
 		Type[] typesInCode = null;
 
 		// Find all scripts that are present in the compiled assembly.
@@ -59,14 +60,25 @@ public static class MainClass
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
 
-		string[] codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");
+		// TODO: update this when a new ProjectInfo is used.
+		string[] codeFilePaths;
+
+		{
+			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+			codeFilePaths = new string[files.Length];
+			for (int i = 0; i < files.Length; i++)
+			{
+				codeFilePaths[i] = files[i].FullName;
+			}
+		}
 
 		Assembly compiledAssembly;
 
 		// Compile our code.
 		Compile();
 
-		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs");
+		// TODO: update this when a new ProjectInfo is used.
+		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) => { codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs"); Compile(); };
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
@@ -610,7 +622,7 @@ public static class MainClass
 
 		void SetName(ImaginaryHierarchyObject toName, string newName)
 		{
-			newName = CrystalClear.Utilities.EnsureUniqueName(newName, toName.LocalHierarchy.Keys);
+			newName = Utilities.EnsureUniqueName(newName, toName.LocalHierarchy.Keys);
 			toName.Parent.LocalHierarchy.Remove(toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key);
 			toName.Parent.LocalHierarchy.Add(newName, toName);
 		}
