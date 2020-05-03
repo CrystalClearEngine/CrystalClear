@@ -10,7 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using static CrystalClear.EditorInformation;
+using CrystalClear;
+using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
 public static class MainClass
 {
@@ -28,13 +29,13 @@ public static class MainClass
 		switch (Console.ReadLine())
 		{
 			case "new":
-				NewProject();
+				ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
 				break;
 
 			case "open":
 				try
 				{
-					OpenProject();
+					ProjectInfo.OpenProject(AskQuestion("Enter the path of the project"));
 				}
 				catch (ArgumentException)
 				{
@@ -157,14 +158,18 @@ public static class MainClass
 					switch (commandSections[1])
 					{
 						case "new":
-							NewProject();
+							ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
 							break;
 
 						case "open":
-							OpenProject();
+							ProjectInfo.OpenProject(AskQuestion("Enter the path of the project"));
 							break;
 
+						case "modify":
+							throw new NotSupportedException();
+
 						default:
+							Console.WriteLine("command error: unknown subcommand");
 							break;
 					}
 					break;
@@ -610,37 +615,6 @@ public static class MainClass
 			toName.Parent.LocalHierarchy.Add(newName, toName);
 		}
 
-		bool AskYOrNQuestion(string question)
-		{
-			retry:
-			Console.Write(question + ": ");
-
-			switch (Console.ReadKey().KeyChar)
-			{
-				case 't':
-				case 'y':
-					Console.WriteLine();
-					return true;
-
-				case 'f':
-				case 'n':
-					Console.WriteLine();
-					return false;
-
-				default:
-					Console.WriteLine("Invalid!");
-					goto retry;
-			}
-		}
-
-		string AskQuestion(string question)
-		{
-			Console.Write(question + ": ");
-			string response = Console.ReadLine();
-			Console.WriteLine();
-			return response;
-		}
-
 		T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
@@ -734,57 +708,6 @@ public static class MainClass
 			{
 				return new ImaginaryObject(ofType);
 			}
-		}
-
-		void NewProject()
-		{
-			DirectoryInfo projectDirectory = Directory.CreateDirectory(AskQuestion("Choose a path for your new project"));
-			projectDirectory.Create();
-
-			projectDirectory.CreateSubdirectory(@"Scripts");
-			projectDirectory.CreateSubdirectory(@"Assets");
-			projectDirectory.CreateSubdirectory(@"Hierarchies");
-
-			string projectName = AskQuestion("Name the project");
-			File.WriteAllText(projectDirectory.FullName + $@"\{projectName}.crcl", projectName);
-
-			OpenProject(projectDirectory.FullName);
-		}
-
-		void OpenProject(string projectPath = null)
-		{
-			if (projectPath == null)
-			{
-				projectPath = AskQuestion("Enter the path of the project to open");
-			}
-
-			DirectoryInfo projectDirectory = Directory.CreateDirectory(projectPath);
-
-			if (!IsProject(projectDirectory.FullName))
-			{
-				Console.WriteLine("command error: no project exists at that location");
-				throw new ArgumentException();
-			}
-
-			Console.Title = File.ReadAllText(projectDirectory.GetFiles("*.crcl")[0].FullName);
-
-			ProjectPath = projectPath;
-		}
-
-		bool IsProject(string path)
-		{
-			DirectoryInfo projectDirectory = Directory.CreateDirectory(path);
-			if (!projectDirectory.Exists)
-			{
-				return false;
-			}
-
-			if (projectDirectory.GetFiles("*.crcl").Length == 0)
-			{
-				return false;
-			}
-
-			return true;
 		}
 		#endregion
 	}
