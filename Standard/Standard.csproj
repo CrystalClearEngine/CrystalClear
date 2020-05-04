@@ -16,4 +16,9 @@
     <Folder Include="Events\single fire events\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
+    <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
+  </ItemGroup>
+
 </Project>

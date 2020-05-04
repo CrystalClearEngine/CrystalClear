@@ -12,29 +12,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EditorMain", "EditorMain\EditorMain.csproj", "{0F7EE664-BAE3-4846-9407-F76EA10520E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationSystem", "SerializationSystem\SerializationSystem.csproj", "{AC98B59C-35AD-497D-8CCE-7BBF0F10F97A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SerializationSystem", "SerializationSystem\SerializationSystem.csproj", "{AC98B59C-35AD-497D-8CCE-7BBF0F10F97A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{D2BAAA5F-73C4-4887-97E5-0F909520A131}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTesting", "UnitTesting\UnitTesting.csproj", "{D2BAAA5F-73C4-4887-97E5-0F909520A131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RuntimeMain", "RuntimeMain\RuntimeMain.csproj", "{E37A743E-66E2-4491-95E8-1C3C7E2FC67F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuntimeMain", "RuntimeMain\RuntimeMain.csproj", "{E37A743E-66E2-4491-95E8-1C3C7E2FC67F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripting Projects", "Scripting Projects", "{DD1D25EF-662B-40ED-BCC0-628371E6BA4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilationSystem", "CompilationSystem\CompilationSystem.csproj", "{9E52AC0B-DC1E-463B-A4FF-21CD41D59A31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompilationSystem", "CompilationSystem\CompilationSystem.csproj", "{9E52AC0B-DC1E-463B-A4FF-21CD41D59A31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventSystem", "EventSystem\EventSystem.csproj", "{7A3BB277-F89B-41E9-B849-23B04C697907}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventSystem", "EventSystem\EventSystem.csproj", "{7A3BB277-F89B-41E9-B849-23B04C697907}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HierarchySystem", "HierarchySystem\HierarchySystem.csproj", "{E0D57AC6-0CF7-45EE-AD30-550A3B6B1964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HierarchySystem", "HierarchySystem\HierarchySystem.csproj", "{E0D57AC6-0CF7-45EE-AD30-550A3B6B1964}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Scripts\Scripts.csproj", "{19690EB3-1A23-4AC8-A4E2-07F497329EAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Scripts\Scripts.csproj", "{19690EB3-1A23-4AC8-A4E2-07F497329EAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptUtilities", "ScriptUtilities\ScriptUtilities.csproj", "{E4583415-85D6-4D8C-9CB3-9FF6169ADD04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptUtilities", "ScriptUtilities\ScriptUtilities.csproj", "{E4583415-85D6-4D8C-9CB3-9FF6169ADD04}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Standard", "Standard\Standard.csproj", "{F12A840A-B510-4A1C-9F57-2157233956BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Interaction", "User Interaction", "{10BFCFED-F1C5-4274-BE31-36085BE7DADE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrototypeUserInterface", "PrototypeUserInterface\PrototypeUserInterface.csproj", "{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Standard", "Standard\Standard.csproj", "{F12A840A-B510-4A1C-9F57-2157233956BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -86,10 +82,6 @@ Global
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,8 +93,6 @@ Global
 		{19690EB3-1A23-4AC8-A4E2-07F497329EAE} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 		{E4583415-85D6-4D8C-9CB3-9FF6169ADD04} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 		{F12A840A-B510-4A1C-9F57-2157233956BB} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
-		{10BFCFED-F1C5-4274-BE31-36085BE7DADE} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
-		{D6C3BA55-AC62-4574-ABA9-CE7A0D4F5C01} = {10BFCFED-F1C5-4274-BE31-36085BE7DADE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7387A616-2E87-478B-8CD1-337574F927AC}

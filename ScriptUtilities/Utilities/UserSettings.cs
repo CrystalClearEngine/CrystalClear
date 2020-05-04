@@ -7,6 +7,7 @@ namespace CrystalClear.ScriptUtilities
 {
 	public static class UserSettings
 	{
+		// TODO: make parameter that is passed to methods instead of stored here.
 		/*volatile (maybe?)*/
 		private static string SettingsFilePath = Environment.CurrentDirectory + @"\settings";
 

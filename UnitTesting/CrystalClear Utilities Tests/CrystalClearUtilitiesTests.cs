@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using CrystalClear;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static CrystalClear.Utilities;
 
 namespace UnitTests
