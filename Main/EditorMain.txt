@@ -1,1 +1,0 @@
-﻿EditorMain is the entry point of the editor. Many features originate from here, and are later moved out to other places. If you want to learn how the engine's editor, and by extension, the entire engine works then this is an excellent place to start.

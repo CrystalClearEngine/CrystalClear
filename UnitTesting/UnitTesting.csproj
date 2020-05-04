@@ -1,104 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{43CEE79B-ED44-4CF9-850B-CA9EAA3143BB}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTesting</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
-    <TestProjectType>UnitTest</TestProjectType>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputPath>bin\Debug\</OutputPath>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="HierarchyObject Tests\HierarchyObjectUnitTests.cs" />
-    <Compile Include="HiearchySystem Tests\HierarchySystemUnitTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Serialization Tests\ImaginaryObjectTests.cs" />
-    <Compile Include="TestObject.cs" />
-    <Compile Include="Transform and Vector Tests\TransformTests.cs" />
-    <Compile Include="ScriptingUtilities Tests\UserSettingsTests.cs" />
-    <Compile Include="HierarchyObject Tests\WorldObjectUnitTest.cs" />
-    <Compile Include="CrystalClear Utilities Tests\CrystalClearUtilitiesTests.cs" />
-    <Compile Include="Vector Unit Tests\VectorUnitTests.cs" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
-      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
-      <Name>CrystalClear</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Main\EditorMain.csproj">
-      <Project>{ca1447f1-f165-4a1e-8b3c-c985d8905f91}</Project>
-      <Name>EditorMain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\CompilationSystem\CompilationSystem.csproj">
-      <Project>{b1d01c71-daec-4a94-88ec-f403f90fe824}</Project>
-      <Name>CompilationSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\EventSystem\EventSystem.csproj">
-      <Project>{5fff5362-4eb6-4776-8a7d-6557e41c7538}</Project>
-      <Name>EventSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
-      <Project>{582c8329-b9b7-4b8d-91f0-b929b4a6d2d8}</Project>
-      <Name>HierarchySystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\Scripts\Scripts.csproj">
-      <Project>{bb670f71-784e-4548-84e9-2e023d6350fb}</Project>
-      <Name>Scripts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\ScriptUtilities\ScriptUtilities.csproj">
-      <Project>{87fff9e3-3922-4098-92eb-f53237b11353}</Project>
-      <Name>ScriptUtilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
-      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
-      <Name>Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj">
-      <Project>{8A3F348D-8DBC-4B2A-84D6-927059006DA4}</Project>
-      <Name>SerializationSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\User Interaction\UI\UI.csproj">
-      <Project>{8ed3114a-a2d3-445c-8fcb-bd68aedde69b}</Project>
-      <Name>UI</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="Properties\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.2.1.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\MSTest.TestFramework.2.1.1\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.targets'))" />
-  </Target>
-  <Import Project="..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.2.0.0\build\net45\MSTest.TestAdapter.targets')" />
+
 </Project>

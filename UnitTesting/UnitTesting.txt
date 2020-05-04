@@ -1,1 +1,0 @@
-﻿This is the testing lab where newly born code is tested for defects. If a piece of code fails the test we change the code, or the test itself if we are feeling lazy. They are features not bugs!

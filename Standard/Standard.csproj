@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Standard.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Standard.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Events\single fire events\" />
+  </ItemGroup>
+
+</Project>

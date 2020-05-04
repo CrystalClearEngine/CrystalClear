@@ -1,0 +1,1 @@
+﻿This is the UI part of the Crystal Clear Engine. This is where the editor is made and updated for example, and where exciting things like serialization is managed!

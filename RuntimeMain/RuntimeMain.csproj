@@ -1,73 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6B950CA7-5AC4-4621-9E80-99E6BFA0720F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RuntimeMain</RootNamespace>
-    <AssemblyName>RuntimeMain</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="RuntimeMain.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CrystalClear\CrystalClear.csproj">
-      <Project>{95ce2bc4-7af0-4f4a-8ba4-5ca02ac764b6}</Project>
-      <Name>CrystalClear</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\EventSystem\EventSystem.csproj">
-      <Project>{5FFF5362-4EB6-4776-8A7D-6557E41C7538}</Project>
-      <Name>EventSystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\HierarchySystem\HierarchySystem.csproj">
-      <Project>{582C8329-B9B7-4B8D-91F0-B929B4A6D2D8}</Project>
-      <Name>HierarchySystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Scripting Projects\Standard\Standard.csproj">
-      <Project>{f01c3295-9e47-48f3-8edb-81042b4f261c}</Project>
-      <Name>Standard</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj">
-      <Project>{8A3F348D-8DBC-4B2A-84D6-927059006DA4}</Project>
-      <Name>SerializationSystem</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
