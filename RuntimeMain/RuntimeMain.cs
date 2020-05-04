@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.EventSystem.StandardEvents;
+﻿using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
 using CrystalClear.Standard.HierarchyObjects;
