@@ -18,7 +18,7 @@ namespace CrystalClear
 
 		[XmlIgnore]
 		public DirectoryInfo ScriptsDirectory;
-		// TODO: make relative.
+		// TODO: make paths relative.
 		public string ScriptsPath
 		{
 			get
