@@ -5,6 +5,7 @@ using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Diagnostics;
 using System.Reflection;
+using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
 namespace CrystalClear.RuntimeMain
 {
@@ -12,7 +13,7 @@ namespace CrystalClear.RuntimeMain
 	{
 		public static void Main()
 		{
-			Assembly compiledAssembly = Assembly.LoadFile(@"E:\dev\crystal clear\Main\bin\Debug\UserGeneratedCode.dll");
+			Assembly compiledAssembly = Assembly.LoadFile(AskQuestion("Enter the path to the UserGeneratedCode for the runtime to use"));
 
 			SubscribeAll(compiledAssembly);
 

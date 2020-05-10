@@ -1,39 +1,71 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Xml;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.CrystalClearInformation;
+using System.Xml.Serialization;
 
 namespace CrystalClear
 {
-	[DataContract]
 	public class ProjectInfo
 	{
-		[DataMember]
 		public string ProjectName;
 
-		[DataMember]
+		[XmlIgnore]
 		public DirectoryInfo ProjectDirectory;
 
 		public string Path { get => ProjectDirectory.FullName; }
 
-		[DataMember]
+		[XmlIgnore]
 		public DirectoryInfo ScriptsDirectory;
-		
-		[DataMember]
-		public DirectoryInfo AssetsDirectory;
+		// TODO: make paths relative.
+		public string ScriptsPath
+		{
+			get
+			{
+				return ScriptsDirectory.FullName;
+			}
+			set
+			{
+				ScriptsDirectory = new DirectoryInfo(value);
+			}
+		}
 
-		[DataMember]
+		[XmlIgnore]
+		public DirectoryInfo AssetsDirectory;
+		public string AssetsPath
+		{
+			get
+			{
+				return AssetsDirectory.FullName;
+			}
+			set
+			{
+				AssetsDirectory = new DirectoryInfo(value);
+			}
+		}
+
+		[XmlIgnore]
 		public DirectoryInfo HierarchiesDirectory;
+		public string HierarchyPath
+		{
+			get
+			{
+				return HierarchiesDirectory.FullName;
+			}
+			set
+			{
+				HierarchiesDirectory = new DirectoryInfo(value);
+			}
+		}
 
 		#region Management
 		public static void SaveProject()
 		{
-			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ProjectInfo));
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 			XmlWriter projectWriter = XmlWriter.Create(File.OpenWrite($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl"));
 
-			dataContractSerializer.WriteObject(projectWriter, CurrentProject);
+			xmlSerializer.Serialize(projectWriter, CurrentProject);
 		}
 
 		public static void NewProject(string projectPath, string projectName)
@@ -52,12 +84,12 @@ namespace CrystalClear
 			project.AssetsDirectory = projectDirectory.CreateSubdirectory(@"Assets");
 			project.HierarchiesDirectory = projectDirectory.CreateSubdirectory(@"Hierarchies");
 
-			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ProjectInfo));
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
 			using (FileStream fileStream = File.OpenWrite($@"{project.Path}\{project.ProjectName}.crcl"))
 			using (XmlWriter projectWriter = XmlWriter.Create(fileStream, new XmlWriterSettings() { Indent = true }))
 			{
-				dataContractSerializer.WriteObject(projectWriter, project);
+				xmlSerializer.Serialize(projectWriter, project);
 			}
 
 			OpenProject(projectDirectory.FullName);
@@ -72,12 +104,12 @@ namespace CrystalClear
 				throw new Exception("No project exists at this location.");
 			}
 
-			DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(ProjectInfo));
+			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
 			using (FileStream fileStream = File.OpenRead(projectDirectory.GetFiles("*.crcl")[0].FullName))
 			using (XmlReader reader = XmlReader.Create(fileStream))
 			{
-				CurrentProject = (ProjectInfo)dataContractSerializer.ReadObject(reader);
+				CurrentProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
 			}
 
 			Console.Title = $"{CurrentProject.ProjectName} | Crystal Clear Engine {CrystalClearVersion}";
