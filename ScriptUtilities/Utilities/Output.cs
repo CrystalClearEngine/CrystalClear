@@ -68,5 +68,13 @@ namespace CrystalClear.ScriptUtilities
 			Console.BackgroundColor = prevBgColor; // Restore previous colors.
 			Console.ForegroundColor = prevFgColor;
 		}
+
+		public static void ErrorLog(string str, bool minorError = true)
+		{
+			ConsoleColor prevFgColor = Console.ForegroundColor; // Store previous foreground and background color so that we can restore them after writing.
+			Console.ForegroundColor = minorError ? ConsoleColor.DarkYellow : ConsoleColor.Red; // Set new colors.
+			Console.WriteLine(str); // Write string.
+			Console.ForegroundColor = prevFgColor; // Restore previous colors.
+		}
 	}
 }

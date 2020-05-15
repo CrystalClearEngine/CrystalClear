@@ -1,1 +1,4 @@
 ﻿TODO: decide on naming, either CrystalClear or Crystal Clear. Usage is currently split between the two.
+TODO: maybe use XMLSerializer instead of DataContractSerializer for extensibility reasons when serializing ImaginaryHierarchyObjects?
+TODO: a TODOs file for each project.
+TODO: add system to track at which verison breaking changes occur so users can be warned and updates can be performed.

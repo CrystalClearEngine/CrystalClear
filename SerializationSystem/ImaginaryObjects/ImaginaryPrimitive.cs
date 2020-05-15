@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace CrystalClear.SerializationSystem
+namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	[Serializable]
 	[DataContract]

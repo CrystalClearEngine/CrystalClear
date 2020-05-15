@@ -3,7 +3,9 @@ using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.RuntimeMain;
+using CrystalClear.ScriptUtilities;
 using CrystalClear.SerializationSystem;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Collections.Generic;
@@ -45,7 +47,7 @@ public static class MainClass
 				break;
 
 			default:
-				Console.WriteLine("command error: unknown command");
+				Output.ErrorLog("command error: unknown command");
 				goto ProjectSelection;
 		}
 		#endregion
@@ -166,6 +168,40 @@ public static class MainClass
 					Select(commandSections.Length >= 2 ? commandSections[1] : null);
 					break;
 
+				case "export":
+					switch (commandSections[1])
+					{
+						case "prefab":
+							ExportPrefab(commandSections[2], commandSections.Length !< 3 ? commandSections[3] : null);
+							break;
+
+						case "copy":
+							ExportHierarchy(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
+							break;
+
+						default:
+							Output.ErrorLog("command error: unknown subcommand", true);
+							break;
+					}
+					break;
+
+				case "import":
+					switch (commandSections[1])
+					{
+						case "prefab":
+							ImportPrefab(commandSections[2]);
+							break;
+
+						case "copy":
+							ImportHierarchy(commandSections[2]);
+							break;
+
+						default:
+							Output.ErrorLog("command error: unknown subcommand");
+							break;
+					}
+					break;
+
 				case "project":
 					switch (commandSections[1])
 					{
@@ -181,7 +217,7 @@ public static class MainClass
 							throw new NotSupportedException();
 
 						default:
-							Console.WriteLine("command error: unknown subcommand");
+							Output.ErrorLog("command error: unknown subcommand");
 							break;
 					}
 					break;
@@ -198,27 +234,27 @@ public static class MainClass
 					break;
 
 				default:
-					Console.WriteLine("command error: unknown command");
+					Output.ErrorLog("command error: unknown command");
 					break;
 			}
 		}
 		#region Error Handling
 #pragma warning disable CA1031 // Do not catch general exception types
-		catch (ArgumentNullException ex)
-		{
-			Console.WriteLine($"command error: incorrect arg ({ex.Message})");
-		}
-		catch (IndexOutOfRangeException ex)
-		{
-			Console.WriteLine($"command error: missing arg ({ex.Message})");
-		}
+		//catch (ArgumentNullException ex)
+		//{
+		//	Output.ErrorLog($"command error: incorrect arg ({ex.Message})");
+		//}
+		//catch (IndexOutOfRangeException ex)
+		//{
+		//	Output.ErrorLog($"command error: missing arg ({ex.Message})");
+		//}
 		catch (NotImplementedException ex)
 		{
-			Console.WriteLine($"command error: command not implemented ({ex.Message})");
+			Output.ErrorLog($"command error: command not implemented ({ex.Message})");
 		}
 		catch (NotSupportedException ex)
 		{
-			Console.WriteLine($"command error: not supported ({ex.Message})");
+			Output.ErrorLog($"command error: not supported ({ex.Message})");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
 		#endregion
@@ -257,12 +293,12 @@ public static class MainClass
 			if (compiledAssembly is null)
 			{
 				// Explain to user that the compilation failed.
-				Console.WriteLine("compilation error: compilation failed :( (compiled assembly is null)");
+				Output.ErrorLog("compilation error: compilation failed :( (compiled assembly is null)", true);
 				// TODO: do type identification for Standard regardless.
 				return false;
 			}
 
-			Console.WriteLine($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.");
+			Output.Log($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
 			#region Type identification
 			// Store the Types.
@@ -291,7 +327,7 @@ public static class MainClass
 			{
 				if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(toModify))
 				{
-					Console.WriteLine($"command error: no HierarchyObject named {toModify} can be found!");
+					Output.ErrorLog($"command error: no HierarchyObject named {toModify} can be found!");
 					return;
 				}
 				hierarchyObjectToModify = currentSelectedHierarchyObject.LocalHierarchy[toModify];
@@ -327,7 +363,7 @@ public static class MainClass
 			{
 				if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(toDetail))
 				{
-					Console.WriteLine($"command error: no HierarchyObject named {toDetail} can be found!");
+					Output.ErrorLog($"command error: no HierarchyObject named {toDetail} can be found!");
 					return;
 				}
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject.LocalHierarchy[toDetail];
@@ -392,11 +428,11 @@ public static class MainClass
 
 			if (string.IsNullOrEmpty(name))
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
+				name = Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 			else if (currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(name))
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
+				name = Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 
 			currentSelectedHierarchyObject.LocalHierarchy.Add(name, CreateImaginaryHierarchyObject(hierarchyObjectType));
@@ -431,7 +467,7 @@ public static class MainClass
 		{
 			if (currentSelectedHierarchyObject.Parent is null)
 			{
-				Console.WriteLine("command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
+				Output.ErrorLog("command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
 				return;
 			}
 			string oldName = GetName(currentSelectedHierarchyObject);
@@ -445,11 +481,11 @@ public static class MainClass
 
 			if (name is null)
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
+				name = Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
 			else if (currentSelectedHierarchyObject.AttatchedScripts.ContainsKey(name))
 			{
-				name = CrystalClear.Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
+				name = Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
 			}
 
 			currentSelectedHierarchyObject.AttatchedScripts.Add(name, CreateImaginaryScript(scriptType));
@@ -490,7 +526,7 @@ public static class MainClass
 #pragma warning disable CA1031 // Do not catch general exception types
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("command error: the file cannot be found");
+				Output.ErrorLog("command error: the file cannot be found");
 			}
 		}
 
@@ -503,7 +539,7 @@ public static class MainClass
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("command error: the file cannot be found");
+				Output.ErrorLog("command error: the file cannot be found");
 			}
 		}
 
@@ -515,7 +551,7 @@ public static class MainClass
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("command error: the file cannot be found");
+				Output.ErrorLog("command error: the file cannot be found");
 			}
 		}
 
@@ -528,7 +564,7 @@ public static class MainClass
 			}
 			catch (FileNotFoundException)
 			{
-				Console.WriteLine("command error: the file cannot be found");
+				Output.ErrorLog("command error: the file cannot be found");
 			}
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
@@ -577,7 +613,7 @@ public static class MainClass
 					// Check if the HierarchyObject actually has a parent.
 					if (currentSelectedHierarchyObject.Parent is null)
 					{
-						Console.WriteLine($"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
+						Output.ErrorLog($"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
 						currentSelectedHierarchyObject = initiallySelected;
 						return;
 					}
@@ -598,17 +634,51 @@ public static class MainClass
 			// Does the query contain backsteps in another location than the start of the string? That's illegal.
 			else if (editorObjectSelectQuery.Contains('<'))
 			{
-				Console.WriteLine("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
+				Output.ErrorLog("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
 			}
 
 			if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
 			{
-				Console.WriteLine($"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
+				Output.ErrorLog($"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
 				currentSelectedHierarchyObject = initiallySelected;
 				return;
 			}
 
 			currentSelectedHierarchyObject = currentSelectedHierarchyObject.LocalHierarchy[editorObjectSelectQuery];
+		}
+
+		void ImportPrefab(string prefabPath)
+		{
+			var imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyPrefab>(prefabPath);
+
+			imaginaryHierarchyPrefab.Parent = currentSelectedHierarchyObject;
+
+			currentSelectedHierarchyObject.LocalHierarchy.Add(
+				imaginaryHierarchyPrefab.PrefabName,
+				imaginaryHierarchyPrefab.GetNonPrefab());
+		}
+
+		void ExportPrefab(string exportPath, string name = null)
+		{
+			ImaginaryHierarchyPrefab imaginaryHierarchyPrefab = new ImaginaryHierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
+			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchyPrefab);
+		}
+
+		void ImportHierarchy(string hierarchyPath)
+		{
+			var imaginaryHierarchy = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchy>(hierarchyPath);
+
+			imaginaryHierarchy.Parent = currentSelectedHierarchyObject;
+
+			currentSelectedHierarchyObject.LocalHierarchy.Add(
+				imaginaryHierarchy.HierarchyName,
+				imaginaryHierarchy.GetHierarcyObject());
+		}
+
+		void ExportHierarchy(string exportPath, string name = null)
+		{
+			ImaginaryHierarchy imaginaryHierarchy = new ImaginaryHierarchy(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
+			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchy);
 		}
 
 		string GetName(ImaginaryHierarchyObject toName)

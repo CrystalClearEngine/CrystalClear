@@ -4,7 +4,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace CrystalClear.SerializationSystem
+namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	/// <summary>
 	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that they can be created in the editor, then editen, serialized and finally deserialized and an instance can be created.
@@ -44,7 +44,7 @@ namespace CrystalClear.SerializationSystem
 		/// The AssemblyQualifiedType name of the object's type. Do not set.
 		/// </summary>
 		[DataMember]
-		public string ConstructionTypeName { get; private set; }
+		public string ConstructionTypeName { get; protected set; }
 
 		/// <summary>
 		/// Returns the type that ConstructionTypeName references.

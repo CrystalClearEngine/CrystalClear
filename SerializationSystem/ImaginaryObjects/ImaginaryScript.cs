@@ -3,7 +3,7 @@ using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Runtime.Serialization;
 
-namespace CrystalClear.SerializationSystem
+namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	/// <summary>
 	/// Stores data for constructing a Script.

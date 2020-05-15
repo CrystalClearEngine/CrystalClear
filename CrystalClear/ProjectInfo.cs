@@ -9,11 +9,15 @@ namespace CrystalClear
 {
 	public class ProjectInfo
 	{
+		[XmlElement]
+		public Version ProjectCrystalClearVersion { get; set; } = new Version(0,0,0,3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
+
 		public string ProjectName;
 
 		[XmlIgnore]
 		public DirectoryInfo ProjectDirectory;
 
+		// TODO: why is this even serialized? Can't this just be determied automatically?
 		public string Path { get => ProjectDirectory.FullName; }
 
 		[XmlIgnore]
@@ -28,6 +32,20 @@ namespace CrystalClear
 			set
 			{
 				ScriptsDirectory = new DirectoryInfo(value);
+			}
+		}
+
+		[XmlIgnore]
+		public DirectoryInfo BuildDirectory;
+		public string BuildPath
+		{
+			get
+			{
+				return BuildDirectory.FullName;
+			}
+			set
+			{
+				BuildDirectory = new DirectoryInfo(value);
 			}
 		}
 
@@ -78,9 +96,11 @@ namespace CrystalClear
 			{
 				ProjectDirectory = projectDirectory,
 				ProjectName = projectName,
+				ProjectCrystalClearVersion = CrystalClearVersion,
 			};
 
 			project.ScriptsDirectory = projectDirectory.CreateSubdirectory(@"Scripts");
+			project.BuildDirectory = projectDirectory.CreateSubdirectory(@"Build");
 			project.AssetsDirectory = projectDirectory.CreateSubdirectory(@"Assets");
 			project.HierarchiesDirectory = projectDirectory.CreateSubdirectory(@"Hierarchies");
 
@@ -109,7 +129,22 @@ namespace CrystalClear
 			using (FileStream fileStream = File.OpenRead(projectDirectory.GetFiles("*.crcl")[0].FullName))
 			using (XmlReader reader = XmlReader.Create(fileStream))
 			{
-				CurrentProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
+				ProjectInfo loadedProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
+
+				ConsoleColor beforeColor = Console.ForegroundColor;
+				Console.ForegroundColor = ConsoleColor.Yellow;
+				if (loadedProject.ProjectCrystalClearVersion < CrystalClearVersion)
+				{
+					Console.WriteLine($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
+				}
+
+				else if (loadedProject.ProjectCrystalClearVersion > CrystalClearVersion)
+				{
+					Console.WriteLine($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
+				}
+				Console.ForegroundColor = beforeColor;
+
+				CurrentProject = loadedProject;
 			}
 
 			Console.Title = $"{CurrentProject.ProjectName} | Crystal Clear Engine {CrystalClearVersion}";

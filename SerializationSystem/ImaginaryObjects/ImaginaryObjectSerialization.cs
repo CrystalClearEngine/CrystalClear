@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using K4os.Compression.LZ4.Streams;
 
-namespace CrystalClear.SerializationSystem
+namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	public static class ImaginaryObjectSerialization
 	{

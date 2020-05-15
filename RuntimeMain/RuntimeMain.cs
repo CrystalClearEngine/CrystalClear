@@ -1,6 +1,7 @@
 ﻿using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Diagnostics;

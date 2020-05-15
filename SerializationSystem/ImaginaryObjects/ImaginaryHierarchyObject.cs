@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace CrystalClear.SerializationSystem
+namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	/// <summary>
 	/// ImaginaryHierarchyObject is an derivative of ImaginaryObject that is designed specifically for storing HierarchyObjects and the extra data that goes along with it.
@@ -31,31 +31,38 @@ namespace CrystalClear.SerializationSystem
 			Parent = parent;
 		}
 
+		protected ImaginaryHierarchyObject()
+		{ }
+
 		/// <summary>
 		/// Contains the children of this ImaginaryHierarchyObject.
 		/// </summary>
 		[DataMember]
-		public Dictionary<string, ImaginaryHierarchyObject> LocalHierarchy = new Dictionary<string, ImaginaryHierarchyObject>();
+		public virtual Dictionary<string, ImaginaryHierarchyObject> LocalHierarchy { get; set; } = new Dictionary<string, ImaginaryHierarchyObject>();
 
 		/// <summary>
 		/// Contains the scripts which will be added to the HierarchyObject when an instance is created.
 		/// </summary>
 		[DataMember]
-		public Dictionary<string, ImaginaryScript> AttatchedScripts = new Dictionary<string, ImaginaryScript>();
+		public virtual Dictionary<string, ImaginaryScript> AttatchedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
 
 		/// <summary>
 		/// A weak reference to the parent of this ImaginaryHierarchyObject. Not serialized.
 		/// </summary>
-		public ImaginaryHierarchyObject Parent
+		public virtual ImaginaryHierarchyObject Parent
 		{
 			get
 			{
 				parent.TryGetTarget(out ImaginaryHierarchyObject editorHierarchyObject);
 				return editorHierarchyObject;
 			}
+			// TODO: make this actually perform a parent change (like how HierarchyObject does)?
 			set
 			{
-				parent.SetTarget(value);
+				if (parent != null)
+					parent.SetTarget(value);
+				else
+					parent = new WeakReference<ImaginaryHierarchyObject>(value);
 			}
 		}
 		/// <summary>
