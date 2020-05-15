@@ -651,6 +651,8 @@ public static class MainClass
 		{
 			var imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyPrefab>(prefabPath);
 
+			imaginaryHierarchyPrefab.PrefabPath = prefabPath;
+
 			imaginaryHierarchyPrefab.Parent = currentSelectedHierarchyObject;
 
 			currentSelectedHierarchyObject.LocalHierarchy.Add(
