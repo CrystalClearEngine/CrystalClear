@@ -23,7 +23,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			this.PrefabName = name;
 		}
 
-		public string PrefabPath { get; }
+		public string PrefabPath { get; set; }
 
 		[DataMember]
 		public string PrefabName { get; private set; }
