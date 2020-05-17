@@ -63,6 +63,7 @@ public static class MainClass
 		List<Type> hierarchyObjectTypes = null;
 
 		// TODO: update this when a new ProjectInfo is used.
+		// TODO: make getting this into a property in ProjectInfo.
 		string[] codeFilePaths;
 
 		{
@@ -74,6 +75,7 @@ public static class MainClass
 			}
 		}
 
+		// TODO: rename to UserGeneratedCode?
 		Assembly compiledAssembly;
 
 		// Compile our code.
@@ -223,7 +225,7 @@ public static class MainClass
 					break;
 
 				case "build":
-					Builder.Build(commandSections[1]);
+					Builder.Build(commandSections[1], commandSections[2], new[] { compiledAssembly });
 					break;
 
 				case "run":
@@ -240,14 +242,14 @@ public static class MainClass
 		}
 		#region Error Handling
 #pragma warning disable CA1031 // Do not catch general exception types
-		//catch (ArgumentNullException ex)
-		//{
-		//	Output.ErrorLog($"command error: incorrect arg ({ex.Message})");
-		//}
-		//catch (IndexOutOfRangeException ex)
-		//{
-		//	Output.ErrorLog($"command error: missing arg ({ex.Message})");
-		//}
+		catch (ArgumentNullException ex)
+		{
+			Output.ErrorLog($"command error: incorrect arg ({ex.Message})");
+		}
+		catch (IndexOutOfRangeException ex)
+		{
+			Output.ErrorLog($"command error: missing arg ({ex.Message})");
+		}
 		catch (NotImplementedException ex)
 		{
 			Output.ErrorLog($"command error: command not implemented ({ex.Message})");

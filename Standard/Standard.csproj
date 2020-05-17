@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Events\single fire events\" />
+    <Folder Include="Events\Single fire events\" />
   </ItemGroup>
 
   <ItemGroup>

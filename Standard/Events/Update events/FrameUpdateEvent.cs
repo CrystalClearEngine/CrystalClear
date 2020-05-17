@@ -2,6 +2,7 @@
 using CrystalClear.EventSystem.StandardEvents;
 using System;
 
+// TODO: should these be in RuntimeMain instead?
 namespace CrystalClear.Standard.Events
 {
 	/// <summary>
