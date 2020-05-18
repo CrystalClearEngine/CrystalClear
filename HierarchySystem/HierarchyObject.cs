@@ -163,7 +163,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Checks wether or not this Hierarchy is in the LoadedHierarchies' list.
+		/// Checks whether or not this Hierarchy is in the LoadedHierarchies' list.
 		/// </summary>
 		public bool IsLoadedHierarchy
 		{
@@ -478,9 +478,9 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Checks wether the provided type derives from HierarchyObject.
+		/// Checks whether the provided type derives from HierarchyObject.
 		/// </summary>
-		/// <param name="type">The type to check wether it derives from HierarchyObject.</param>
+		/// <param name="type">The type to check whether it derives from HierarchyObject.</param>
 		/// <returns>"ether the provided type derives from HierarchyObject.</returns>
 		public static bool IsHierarchyObject(Type type)
 		{

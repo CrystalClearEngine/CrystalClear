@@ -46,17 +46,18 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void Run(string hierarchyPath, string hierarchyName)
+		public static void Run(string hierarchyPath, string hierarchyName, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
 				throw new Exception("Already running!");
 			}
 
-			Run(hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyFromFile(hierarchyPath));
+			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
+			Run(hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
 		}
 
-		public static void Run(string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject)
+		public static void Run(string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
@@ -75,10 +76,10 @@ namespace CrystalClear.RuntimeMain
 			#endregion Profiling
 			#endregion
 
-			Run();
+			Run(raiseStartEvent);
 		}
 
-		public static void Run()
+		public static void Run(bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
@@ -87,11 +88,14 @@ namespace CrystalClear.RuntimeMain
 
 			IsRunning = true;
 
-			// Raise the start event.
-			StartEvent.Instance.RaiseEvent();
+			if (raiseStartEvent)
+			{
+				// Raise the start event.
+				StartEvent.Instance.RaiseEvent();
+			}
 		}
 
-		// TODO: make this return a bool, so you can see if it was cancelled?
+		// TODO: make this return a bool, so you can see if it was cancelled? (or maybe out a bool?)
 		public static void Stop()
 		{
 			if (!IsRunning)

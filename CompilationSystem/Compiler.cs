@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using CrystalClear.ScriptUtilities;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using System;
@@ -27,12 +28,13 @@ namespace CrystalClear.CompilationSystem
 			using (FileStream dllStream = File.Create(WorkingPath + @"\UserGeneratedCode.dll"))
 			using (FileStream pdbStream = File.Create(WorkingPath + @"\UserGeneratedCode.pdb"))
 			{
+				// Store a list of all syntax trees generated from the provided code files.
 				List<SyntaxTree> syntaxTrees = (from string fileName in codeFileNames
 												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
 												CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
 												, fileName, Encoding.UTF8)).ToList();
 
-				// The collection of references.
+				// The collection of references for the compiled code to use.
 				string[] references =
 				{
 					@"C:\Program Files\dotnet\packs\NETStandard.Library.Ref\2.1.0\ref\netstandard2.1\netstandard.dll",
@@ -44,49 +46,55 @@ namespace CrystalClear.CompilationSystem
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem dll.
 				};
 
+				// Store these references as metadataReferences to be useful.
 				List<MetadataReference> metadataReferences = new List<MetadataReference>();
 				foreach (string reference in references)
 				{
 					metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 				}
 
+				// The compilation options to use.
 				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
+				// The CSharpCompilation instance that will compile all of the code.
 				CSharpCompilation compilation = CSharpCompilation.Create(
-					"UserGeneratedCode",
-					syntaxTrees,
-					metadataReferences,
-					options);
+					"UserGeneratedCode", // Create an assembly called UserGeneratedCode...
+					syntaxTrees, // That is using the generated syntax trees...
+					metadataReferences, // And the set references...
+					options); // With the set options.
 
+				// Emit ("compile") using the CSharpCompilation instance to the streams and store the result.
 				EmitResult emitResult = compilation.Emit(dllStream, pdbStream);
 
-				foreach (Diagnostic diagnostic in emitResult.Diagnostics)
-				{
-					Console.WriteLine(diagnostic.ToString());
-				}
+				// Report the diagnostics to the user using this handy-dany method.
+				ReportDiagnostics(emitResult.Diagnostics.ToArray());
 
+				// If the emit was unsuccessful...
 				if (!emitResult.Success)
 				{
+					// Return null as there can't be any assembly generated to return.
 					return null;
 				}
 			}
+			// Load the assembly from it's location and then return it. I admit this could've been done inside the previous using statements and using the stream there, but this is clearer and will not be such a hot-path anyways.
 			return Assembly.LoadFrom(WorkingPath + @"\UserGeneratedCode.dll");
 		}
 
 		/// <summary>
-		/// Compiles C# code to an exectuable.
+		/// Compiles C# code to a windows exectuable.
 		/// </summary>
 		/// <param name="code">The code to compile.</param>
-		public static bool CompileExecutable(string code, Assembly[] userGeneratedAssemblies, string outputPath, string executableName)
+		public static bool CompileWindowsExecutable(string code, Assembly[] userGeneratedAssemblies, string outputPath, string executableName)
 		{
 			using (FileStream exeStream = File.Create($@"{outputPath}\{executableName}.exe"))
 			using (FileStream pdbStream = File.Create($@"{outputPath}\{executableName}.pdb"))
 			{
+				// Store a list of all syntax trees generated from the provided code files.
 				SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code
 												, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
 												, encoding: Encoding.UTF8);
 
-				// The collection of references.
+				// The collection of references for the compiled code to use.
 				string[] references =
 				{
 					@"C:\Program Files\dotnet\packs\NETStandard.Library.Ref\2.1.0\ref\netstandard2.1\netstandard.dll", // The path to the netstandard dll. This may be unique for each system.
@@ -99,33 +107,59 @@ namespace CrystalClear.CompilationSystem
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem dll.
 				};
 
+				// Store these references as metadataReferences to be useful.
 				List<MetadataReference> metadataReferences = new List<MetadataReference>();
 				foreach (string reference in references)
 				{
 					metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 				}
 
-				foreach (var userGeneratedAssembly in userGeneratedAssemblies)
+				// Add the user generated assemblies as references in the metadataReferences list.
+				foreach (Assembly userGeneratedAssembly in userGeneratedAssemblies)
 				{
 					metadataReferences.Add(MetadataReference.CreateFromFile(userGeneratedAssembly.Location));
 				}
 
+				// The compilation options to use.
 				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.ConsoleApplication, optimizationLevel: OptimizationLevel.Release);
 
+				// The CSharpCompilation instance that will compile all of the code.
 				CSharpCompilation compilation = CSharpCompilation.Create(
-					executableName,
-					new[] { syntaxTree },
-					metadataReferences,
-					options);
+					executableName, // Create an assembly named (for now) the same as the executable.
+					new[] { syntaxTree }, // That is using the generated syntax trees...
+					metadataReferences, // And the set references...
+					options); // With the set options.
 
+				// Emit ("compile") using the CSharpCompilation instance to the streams and store the result.
 				EmitResult emitResult = compilation.Emit(exeStream, pdbStream);
 
-				foreach (Diagnostic diagnostic in emitResult.Diagnostics)
-				{
-					Console.WriteLine(diagnostic.ToString());
-				}
+				// Report the diagnostics to the user using this handy-dany method!
+				ReportDiagnostics(emitResult.Diagnostics.ToArray());
 
+				// Return whether or not the emit was successful. 
 				return emitResult.Success;
+			}
+		}
+
+		private static void ReportDiagnostics(Diagnostic[] diagnostics)
+		{
+			// Iterate ovet the diagnostics
+			foreach (Diagnostic diagnostic in diagnostics)
+			{
+				switch (diagnostic.Severity)
+				{
+					case DiagnosticSeverity.Error: // If the severity is that of an error...
+					case DiagnosticSeverity.Warning: //  Or that of an error...
+													 // Then output log it as an error. The severity depends on whether  it is an error or just a warning.
+						Output.ErrorLog(diagnostic.ToString(), diagnostic.Severity == DiagnosticSeverity.Warning);
+						break;
+					case DiagnosticSeverity.Info: // if the severity is just info...
+												  // Simply output log info.
+						Output.Log(diagnostic.ToString());
+						break;
+					case DiagnosticSeverity.Hidden: // If this type of diagnostic is hidden...
+						break; // We want to ignore hidden diagnostics.
+				}
 			}
 		}
 	}

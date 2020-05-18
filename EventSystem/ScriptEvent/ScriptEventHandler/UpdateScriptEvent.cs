@@ -58,7 +58,7 @@ namespace CrystalClear.EventSystem
 			}
 			else
 			{
-				// TODO: determine wether to use ThreadPool for this. (Maybe only for select events, these ones probably need precicion more...)
+				// TODO: determine whether to use ThreadPool for this. (Maybe only for select events, these ones probably need precicion more...)
 				Instance.thread = new Thread(UpdateLoop);
 				Instance.thread.Start();
 			}

@@ -49,8 +49,8 @@ namespace CrystalClear
 		/// </summary>
 		/// <param name="a"></param>
 		/// <param name="b"></param>
-		/// <param name="includePrivate">Wether to include private properties and fields when comparing the two objects.</param>
-		/// <param name="ignoreProperties">Wether to include properties when comparing the two objects.</param>
+		/// <param name="includePrivate">whether to include private properties and fields when comparing the two objects.</param>
+		/// <param name="ignoreProperties">whether to include properties when comparing the two objects.</param>
 		/// <returns></returns>
 		public static bool ReflectionEquals(this object a, object b, bool includePrivate = false, bool ignoreProperties = false)
 		{

@@ -300,7 +300,7 @@ public static class MainClass
 				return false;
 			}
 
-			Output.Log($"Successfully built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
+			Output.Log($"successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
 			#region Type identification
 			// Store the Types.
@@ -549,7 +549,7 @@ public static class MainClass
 		{
 			try
 			{
-				ImaginaryObjectSerialization.PackHierarchyToFile(path, rootHierarchyObject);
+				ImaginaryObjectSerialization.PackHierarchyObjectToFile(path, rootHierarchyObject);
 			}
 			catch (FileNotFoundException)
 			{
@@ -561,7 +561,7 @@ public static class MainClass
 		{
 			try
 			{
-				rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyFromFile(path);
+				rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(path);
 				currentSelectedHierarchyObject = rootHierarchyObject;
 			}
 			catch (FileNotFoundException)

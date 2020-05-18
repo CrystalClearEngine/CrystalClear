@@ -126,10 +126,10 @@ namespace CrystalClear.HierarchySystem.Scripting
 		}
 
 		/// <summary>
-		/// Checks wether or not a type is a Script (Non-static and has the IsScriptAttribute).
+		/// Checks whether or not a type is a Script (Non-static and has the IsScriptAttribute).
 		/// </summary>
-		/// <param name="toCheck">The type to check wether it is a Script.</param>
-		/// <returns>Wether or not the type is a Script.</returns>
+		/// <param name="toCheck">The type to check whether it is a Script.</param>
+		/// <returns>whether or not the type is a Script.</returns>
 		public static bool IsScript(Type toCheck)
 		{
 			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?

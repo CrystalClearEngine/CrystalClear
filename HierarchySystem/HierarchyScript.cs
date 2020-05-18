@@ -57,10 +57,10 @@ namespace CrystalClear.HierarchySystem.Scripting
 	public static class HierarchyScript
 	{
 		/// <summary>
-		/// Returns wether or not the specified type is a subclass of HierarchyScript.
+		/// Returns whether or not the specified type is a subclass of HierarchyScript.
 		/// </summary>
 		/// <param name="toCheck">The type to check.</param>
-		/// <returns>Wether or not the specified type is a subclass of HierarchyScript.</returns>
+		/// <returns>whether or not the specified type is a subclass of HierarchyScript.</returns>
 		public static bool IsHierarchyScript(Type toCheck)
 		{
 			return toCheck.IsSubclassOf(typeof(HierarchyScriptBase));

@@ -21,7 +21,7 @@ namespace CrystalClear.EventSystem.StandardEvents // TODO: should this be Standa
 		public override void RaiseEvent()
 		{
 			base.RaiseEvent();
-			Console.WriteLine("The start event was raised successfully.");
+			Console.WriteLine("The start event was raised successfuly.");
 		}
 	}
 }

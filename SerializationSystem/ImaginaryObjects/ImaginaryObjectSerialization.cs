@@ -34,7 +34,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			}
 		}
 
-		public static ImaginaryHierarchyObject UnpackHierarchyFromFile(string path)
+		public static ImaginaryHierarchyObject UnpackHierarchyObjectFromFile(string path)
 		{
 			// Store the encoding to use for serialization.
 			Encoding encoding = Encoding.UTF8;
@@ -203,7 +203,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			}
 		}
 
-		public static void PackHierarchyToFile(string path, ImaginaryHierarchyObject toStore)
+		public static void PackHierarchyObjectToFile(string path, ImaginaryHierarchyObject toStore)
 		{
 			Encoding encoding = Encoding.UTF8;
 

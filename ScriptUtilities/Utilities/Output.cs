@@ -3,6 +3,7 @@ using System.Collections;
 
 namespace CrystalClear.ScriptUtilities
 {
+	// TODO: maybe rename to DeveloperConsole?
 	public static class Output
 	{
 		public static void Log()
