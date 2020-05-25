@@ -29,13 +29,13 @@ namespace CrystalClear.CompilationSystem
 			if (!success)
 			{ // If the build failed...
 				// Output that an error has occured in the compilation.
-				Output.ErrorLog("Compilation of executable failed :(, returning.");
+				Output.ErrorLog("Compilation of executable failed :(, returning.", false);
 				// Return from  the method.
 				return;
 			}
 
 			// Output that the compilation was successful.
-			Output.Log($@"successfuly built {exectutableName} at location {buildPath}\{exectutableName}.exe.", System.ConsoleColor.Black, System.ConsoleColor.Green);
+			Output.Log($@"Successfuly built {exectutableName} at location {buildPath}\{exectutableName}.exe.", System.ConsoleColor.Black, System.ConsoleColor.Green);
 		}
 
 		/// <summary>
@@ -45,16 +45,16 @@ namespace CrystalClear.CompilationSystem
 		/// <param name="hierarchyToLoadInitially">Optional path to an Hierarchy that should be loaded when the application is run.</param>
 		/// <param name="mainClassName">Allows you to set a custom and hopefully more imaginative name than "Program" for your application's main class.</param>
 		/// <returns>The generated code.</returns>
-		private static string GenerateMainMethodCode(bool raiseStartEvent/*TODO: implement, both here and in RuntimeMain*/, string hierarchyToLoadInitially = null, string mainClassName = "Program")
+		private static string GenerateMainMethodCode(bool raiseStartEvent = true, string hierarchyToLoadInitially = null, string mainClassName = "Program")
 		{
 			string mainMethodCode =
 			"using CrystalClear.RuntimeMain;" +
 			$"public static class {mainClassName}" +
 			"{" +
-			"	public static void Main(string[] args)" +
-			"	{" +
-			$"		RuntimeMain.Run({(hierarchyToLoadInitially is null ? string.Empty : hierarchyToLoadInitially)}, \"Hierarchy\", {raiseStartEvent.ToString()});" +
-			"	}" +
+				"public static void Main(string[] args)" +
+				"{" +
+					$"RuntimeMain.Run({(hierarchyToLoadInitially is null ? $"{raiseStartEvent.ToString().ToLower()}" : $"\"{hierarchyToLoadInitially}\", \"Hierarchy\", {raiseStartEvent.ToString().ToLower()}")});" +
+				"}" +
 			"}";
 
 			return mainMethodCode;

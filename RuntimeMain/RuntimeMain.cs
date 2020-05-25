@@ -52,7 +52,7 @@ namespace CrystalClear.RuntimeMain
 			{
 				throw new Exception("Already running!");
 			}
-
+			
 			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
 			Run(hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
 		}

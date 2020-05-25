@@ -83,7 +83,12 @@ public static class MainClass
 
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
-		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) => { codeFilePaths = Directory.GetFiles(@"E:\dev\crystal clear\Scripting Projects\Scripts", "*.cs"); Compile(); };
+		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
+		{
+			Console.WriteLine("Code change detected, recompiling.");
+			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
+			Compile();
+		};
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
 
@@ -300,7 +305,7 @@ public static class MainClass
 				return false;
 			}
 
-			Output.Log($"successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
+			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
 			#region Type identification
 			// Store the Types.
