@@ -1,5 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.HierarchySystem.Scripting;
+﻿using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace CrystalClear.HierarchySystem
 	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
 	/// </summary>
 	public abstract class HierarchyObject
-	// TODO: probably limit naming to alphabetic only.
+	// TODO: probably limit certain chars on names, such as \ / < > etc.
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
@@ -147,6 +146,12 @@ namespace CrystalClear.HierarchySystem
 
 			AttatchedScripts.Add(name, script);
 		}
+		#endregion
+
+		#region Mixed/Hybrid ECS Handling
+		public readonly int EntityId;
+		// TODO: probably add ability to get HierarchyEntity here when project structure has been fixed.
+		public int ParentEntityId { get => Parent.EntityId; }
 		#endregion
 
 		#region Helper Properties

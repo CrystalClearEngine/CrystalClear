@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>CrystalClear.ECSSystem</RootNamespace>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
+  </ItemGroup>
+
+</Project>

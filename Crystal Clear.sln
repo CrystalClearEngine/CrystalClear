@@ -32,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ScriptUtilities", "ScriptUt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Standard", "Standard\Standard.csproj", "{F12A840A-B510-4A1C-9F57-2157233956BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECSSystem", "ECSSystem\ECSSystem.csproj", "{4133CA7C-2D3E-45A5-8D0D-35913326154A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F12A840A-B510-4A1C-9F57-2157233956BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4133CA7C-2D3E-45A5-8D0D-35913326154A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4133CA7C-2D3E-45A5-8D0D-35913326154A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4133CA7C-2D3E-45A5-8D0D-35913326154A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4133CA7C-2D3E-45A5-8D0D-35913326154A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,6 +99,7 @@ Global
 		{19690EB3-1A23-4AC8-A4E2-07F497329EAE} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 		{E4583415-85D6-4D8C-9CB3-9FF6169ADD04} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 		{F12A840A-B510-4A1C-9F57-2157233956BB} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
+		{4133CA7C-2D3E-45A5-8D0D-35913326154A} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7387A616-2E87-478B-8CD1-337574F927AC}

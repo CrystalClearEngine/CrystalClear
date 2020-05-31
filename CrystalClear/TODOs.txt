@@ -2,3 +2,5 @@
 TODO: maybe use XMLSerializer instead of DataContractSerializer for extensibility reasons when serializing ImaginaryHierarchyObjects?
 TODO: a TODOs file for each project.
 TODO: add system to track at which verison breaking changes occur so users can be warned and updates can be performed.
+TODO: possibly rethink entire solution's structure, as it easily leads to circular dependencies.
+TODO: remove unnecessary comments.

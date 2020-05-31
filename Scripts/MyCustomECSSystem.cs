@@ -1,0 +1,18 @@
+﻿using CrystalClear.ECSSystem;
+using CrystalClear.ScriptUtilities;
+using CrystalClear.Standard.Events;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+public class MyCustomECSSystem : SelectiveECSSystem
+{
+	[OnFrameUpdate]
+	public void OnFrameUpdate()
+	{
+		foreach (EntityBase entity in EnumerateEntities())
+		{
+			Output.Log(entity.EntityId);
+		}
+	}
+}

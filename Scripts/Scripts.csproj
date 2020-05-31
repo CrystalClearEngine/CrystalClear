@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
+    <ProjectReference Include="..\ECSSystem\ECSSystem.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
     <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj" />

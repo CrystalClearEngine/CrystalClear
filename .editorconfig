@@ -5,3 +5,6 @@ dotnet_style_readonly_field = false:suggestion
 
 # CA1813: Avoid unsealed attributes
 dotnet_diagnostic.CA1813.severity = suggestion
+
+# IDE0011: Add braces
+csharp_prefer_braces = false:silent
