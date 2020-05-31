@@ -221,7 +221,7 @@ public static class MainClass
 							break;
 
 						case "modify":
-							throw new NotSupportedException();
+							throw new NotImplementedException();
 
 						default:
 							Output.ErrorLog("command error: unknown subcommand");
