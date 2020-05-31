@@ -1,19 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace CrystalClear.ECSSystem
+namespace CrystalClear.ECS
 {
 	public abstract class SelectiveECSSystem : ECSSystem
 	{
 		private List<int> entitiesUnderControl = new List<int>();
 
-		protected IEnumerable<EntityBase> EnumerateEntities()
+		protected IEnumerable<IEntity> EnumerateEntities()
 		{
 			lock (entitiesUnderControl)
 				foreach (int id in entitiesUnderControl)
 					yield return ECSSystem.GetEntity(id);
 		}
 
-		protected void AddControlledEntity(EntityBase entity) => AddControlledEntity(entity.EntityId);
+		protected void AddControlledEntity(IEntity entity) => AddControlledEntity(entity.EntityId);
 
 		protected void AddControlledEntity(int entityId)
 		{
@@ -21,7 +21,7 @@ namespace CrystalClear.ECSSystem
 				entitiesUnderControl.Add(entityId);
 		}
 
-		protected void UncontrolEntity(EntityBase entity) => UncontrolEntity(entity.EntityId);
+		protected void UncontrolEntity(IEntity entity) => UncontrolEntity(entity.EntityId);
 
 		protected void UncontrolEntity(int entityId)
 		{
@@ -29,7 +29,7 @@ namespace CrystalClear.ECSSystem
 				entitiesUnderControl.Remove(entityId);
 		}
 
-		public bool Controls(EntityBase entity) => Controls(entity.EntityId);
+		public bool Controls(IEntity entity) => Controls(entity.EntityId);
 
 		public bool Controls(int entityId) => entitiesUnderControl.Contains(entityId);
 	}

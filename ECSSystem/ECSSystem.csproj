@@ -2,11 +2,8 @@
 
   <PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<RootNamespace>CrystalClear.ECSSystem</RootNamespace>
+		<RootNamespace>CrystalClear.ECS</RootNamespace>
+		<LangVersion>8.0</LangVersion>
 	</PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
-  </ItemGroup>
 
 </Project>

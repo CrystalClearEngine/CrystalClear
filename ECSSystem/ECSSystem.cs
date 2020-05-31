@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace CrystalClear.ECSSystem
+namespace CrystalClear.ECS
 {
 	public abstract class ECSSystem
 	{
 		// TODO: Use uint instead, since there is not really any reason to use negative values in ids?
-		private static Dictionary<int, EntityBase> allEntities = new Dictionary<int, EntityBase>();
+		private static Dictionary<int, IEntity> allEntities = new Dictionary<int, IEntity>();
 
 		public static List<ECSSystem> ECSSystems = new List<ECSSystem>();
 
-		public static EntityBase GetEntity(int id)
+		public static IEntity GetEntity(int id)
 		{
 			lock (allEntities)
 				return allEntities[id];
@@ -22,10 +22,10 @@ namespace CrystalClear.ECSSystem
 		/// <param name="endingId"></param>
 		/// <param name="lockNotCopy">By default the method will copy the AllEntities array before </param>
 		/// <returns></returns>
-		public static EntityBase[] GetEntities(int startingId, int endingId, bool lockNotCopy = false)
+		public static IEntity[] GetEntities(int startingId, int endingId, bool lockNotCopy = false)
 		{
 			// TODO: do performance profiling to see what is fastest (lock or copy), and if lockNotCopy even needs to be an option.
-			List<EntityBase> entityBases = new List<EntityBase>();
+			List<IEntity> entityBases = new List<IEntity>();
 
 			if (lockNotCopy)
 			{
@@ -42,10 +42,10 @@ namespace CrystalClear.ECSSystem
 			}
 			else
 			{
-				Dictionary<int, EntityBase> copyOfAllEntities;
+				Dictionary<int, IEntity> copyOfAllEntities;
 
 				lock (allEntities)
-					copyOfAllEntities = new Dictionary<int, EntityBase>(allEntities);
+					copyOfAllEntities = new Dictionary<int, IEntity>(allEntities);
 
 				foreach (int id in copyOfAllEntities.Keys)
 				{
@@ -59,7 +59,7 @@ namespace CrystalClear.ECSSystem
 			return entityBases.ToArray();
 		}
 
-		public static void AddEntity(EntityBase entity)
+		public static void AddEntity(IEntity entity)
 		{
 			lock (allEntities)
 				allEntities.Add(entity.EntityId, entity);

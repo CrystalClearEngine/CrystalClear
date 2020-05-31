@@ -1,11 +1,14 @@
-﻿namespace CrystalClear.HierarchySystem.ECS
+﻿using CrystalClear.ECS;
+
+namespace CrystalClear.HierarchySystem.ECS
 {
 	/// <summary>
 	/// ECS entities that can fit into any ordinary Hierarchy.
 	/// </summary>
 	public struct HierarchyEntity
+		: IEntity
 	{
-		public readonly int EntityId;
+		public int EntityId { get; }
 
 		public readonly int ParentEntityId;
 
