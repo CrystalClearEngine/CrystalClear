@@ -32,7 +32,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <returns>The created Script instance.</returns>
 		public Script CreateInstance(HierarchyObject attatchedTo = null)
 		{
-			return new Script(GetConstructionType(), ConstructionParameters, attatchedTo);
+			object[] constructionParameters = new object[ImaginaryConstructionParameters.Length];
+			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
+			{
+				constructionParameters[i] = ImaginaryConstructionParameters[i]?.CreateInstance();
+			}
+			return new Script(GetConstructionType(), constructionParameters, attatchedTo);
 		}
 	}
 }

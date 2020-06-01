@@ -11,7 +11,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			// Clone the imaginaryHierarchyObject's properties.
 			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				this.ConstructionParameters = imaginaryHierarchyObject.ConstructionParameters;
+				this.ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
 			else
 				this.EditorData = imaginaryHierarchyObject.EditorData;
 
@@ -38,7 +38,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ImaginaryHierarchyObject prefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(PrefabPath);
 
 			if (prefab.UsesConstructorParameters())
-				this.ConstructionParameters = prefab.ConstructionParameters;
+				this.ImaginaryConstructionParameters = prefab.ImaginaryConstructionParameters;
 			else
 				this.EditorData = prefab.EditorData;
 

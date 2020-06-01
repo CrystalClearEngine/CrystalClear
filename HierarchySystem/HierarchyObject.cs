@@ -16,8 +16,6 @@ namespace CrystalClear.HierarchySystem
 	{
 		#region Virtual Event Methods
 		// Overrideable event methods.
-		// Q: Why not use events?
-		// A: They should be implementable in deriving classes without needing to set up the subsriptions.
 
 		/// <summary>
 		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
@@ -152,7 +150,6 @@ namespace CrystalClear.HierarchySystem
 
 		#region Mixed/Hybrid ECS Handling
 		public int EntityId { get; }
-		// TODO: probably add ability to get HierarchyEntity here when project structure has been fixed.
 		public int ParentEntityId { get => Parent.EntityId; }
 		#endregion
 
@@ -307,7 +304,6 @@ namespace CrystalClear.HierarchySystem
 			}
 		}
 
-
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
 		/// </summary>
@@ -460,19 +456,18 @@ namespace CrystalClear.HierarchySystem
 		}
 		#endregion
 
-		#region Finding
+		#region Analyzing
 		/// <summary>
-		/// <summary>
-		/// Finds all types that derive from HierarchyObject and returns them.
+		/// Finds all types that derive from HierarchyObject in the assembly and returns them.
 		/// </summary>
-		/// <param name="assembly">The assembly to find the HierarchyObjects in.</param>
+		/// <param name="assembly">The assembly to search for HierarchyObject types in.</param>
 		/// <returns>The found HierarchyObjects.</returns>
 		public static Type[] FindHierarchyObjectTypesInAssembly(Assembly assembly) => FindHierarchyObjectTypesInTypes(assembly.GetTypes());
 
 		/// <summary>
-		/// Finds all types that derive from HierarchyObject and returns them.
+		/// Finds all types that derive from HierarchyObject in the type array and returns them.
 		/// </summary>
-		/// <param name="types">The types to find the HierarchyObjects in.</param>
+		/// <param name="types">The types to search for HierarchyObject types in.</param>
 		/// <returns>The found HierarchyObjects.</returns>
 		public static Type[] FindHierarchyObjectTypesInTypes(params Type[] types)
 		{

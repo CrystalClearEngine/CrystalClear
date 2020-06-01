@@ -12,7 +12,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public ImaginaryHierarchy(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
 		{
 			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				this.ConstructionParameters = imaginaryHierarchyObject.ConstructionParameters;
+				this.ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
 			else
 				this.EditorData = imaginaryHierarchyObject.EditorData;
 

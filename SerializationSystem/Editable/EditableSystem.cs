@@ -4,6 +4,7 @@ using System.Reflection;
 
 namespace CrystalClear.SerializationSystem
 {
+	// TODO: use IEditable interface instead.
 	public static class EditableSystem
 	{
 		private static Dictionary<string, CreatorDelegate> creatorCache = new Dictionary<string, CreatorDelegate>();
@@ -49,7 +50,7 @@ namespace CrystalClear.SerializationSystem
 					{
 						if (method.GetCustomAttribute<EditorAttribute>() != null)
 						{
-							// Cache the name.
+							// Store the name so it doesn't have to be searched for again.
 							attribute.EditorMethodName = method.Name;
 							// TODO: try... catch etc
 							return (EditorDelegate)method.CreateDelegate(typeof(EditorDelegate));
@@ -115,7 +116,7 @@ namespace CrystalClear.SerializationSystem
 						if (method.GetCustomAttribute<CreatorAttribute>() != null)
 						{
 							CreatorDelegate creatorDelegate = (CreatorDelegate)method.CreateDelegate(typeof(CreatorDelegate));
-							// Cache the name.
+							// Store the name so it doesn't have to be searched for again.
 							attribute.CreatorMethodName = method.Name;
 							// Cache the result.
 							creatorCache.Add(type.AssemblyQualifiedName, creatorDelegate);
@@ -127,7 +128,7 @@ namespace CrystalClear.SerializationSystem
 				else
 				{
 					CreatorDelegate creatorDelegate = (CreatorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(CreatorDelegate));
-					// Cache the result.
+					// Cache the delegate to avoid having to use reflection to retrieve it again.
 					creatorCache.Add(type.AssemblyQualifiedName, creatorDelegate);
 					// TODO: try... catch etc
 					return creatorDelegate;

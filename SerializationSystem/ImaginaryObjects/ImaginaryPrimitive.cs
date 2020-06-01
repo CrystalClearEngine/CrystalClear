@@ -31,9 +31,10 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public static bool QualifiesAsImaginaryPrimitive(Type type)
 			=> type.IsPrimitive
 				|| type == typeof(string)
+				|| !type.IsEnum
 				|| type.IsAssignableFrom(typeof(string))
 				|| type.IsAssignableFrom(typeof(IFormattable))
-				|| type.IsAssignableFrom(typeof(IConvertible)); // TODO somehow add some kind of IEditorSerializable to the mix here!
+				|| type.IsAssignableFrom(typeof(IConvertible));
 
 		public override object CreateInstance()
 		{

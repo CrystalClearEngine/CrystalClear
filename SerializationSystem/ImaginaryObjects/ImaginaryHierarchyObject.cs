@@ -81,10 +81,10 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			if (UsesConstructorParameters())
 			{
-				object[] constructionParmaters = new object[ConstructionParameters.Length];
-				for (int i = 0; i < ConstructionParameters.Length; i++)
+				object[] constructionParmaters = new object[ImaginaryConstructionParameters.Length];
+				for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
 				{
-					constructionParmaters[i] = ConstructionParameters[i].CreateInstance();
+					constructionParmaters[i] = ImaginaryConstructionParameters[i].CreateInstance();
 				}
 
 				instance = (HierarchyObject)Activator.CreateInstance(GetConstructionType(), args: constructionParmaters);
@@ -93,7 +93,6 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			{
 				instance = (HierarchyObject)EditableSystem.Create(GetConstructionType(), EditorData);
 			}
-
 
 			if (parent != null)
 			{
@@ -105,9 +104,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				instance.LocalHierarchy.Add(imaginaryHierarchyName, LocalHierarchy[imaginaryHierarchyName].CreateInstance(instance));
 			}
 
-			foreach (ImaginaryScript editorScript in AttatchedScripts.Values)
+			foreach (ImaginaryScript imaginaryScript in AttatchedScripts.Values)
 			{
-				instance.AddScriptManually(editorScript.CreateInstance(instance));
+				instance.AddScriptManually(imaginaryScript.CreateInstance(instance));
 			}
 
 			return instance;

@@ -40,28 +40,22 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
 		public Script(Type scriptType, object[] constructorParameters = null)
 		{
-			// IsScript check.
 			if (!IsScript(scriptType))
 			{
 				throw new ArgumentException($"The provided type is not a script! Type = {scriptType}");
 			}
 
-			// Assign ScriptType.
 			ScriptType = scriptType;
 
-			// Are there any constructor parameters?
-			if (constructorParameters != null)
+			if (constructorParameters is null)
 			{
-				// Assign ScriptInstance to an instance of the Script using the provided constructor parameters.
-				ScriptInstance = Activator.CreateInstance(scriptType, constructorParameters);
+				ScriptInstance = Activator.CreateInstance(scriptType);
 			}
 			else
 			{
-				// Assign ScriptInstance to an instance of the Script.
-				ScriptInstance = Activator.CreateInstance(scriptType);
+				ScriptInstance = Activator.CreateInstance(scriptType, constructorParameters);
 			}
 
-			// Subscribe the events.
 			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
 

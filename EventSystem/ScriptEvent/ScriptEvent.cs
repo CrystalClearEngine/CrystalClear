@@ -6,6 +6,7 @@ namespace CrystalClear.EventSystem
 	/// <summary>
 	/// The base class for ScriptObjects. It contains the abstract methods but no implementation details.
 	/// </summary>
+	// TODO: make generic? like ScriptEvent<MyDelegateType> etc...
 	public abstract class ScriptEvent // TODO look into making *all* ScriptEvents into singletons, as that would simplify code!
 	{
 		/// <summary>

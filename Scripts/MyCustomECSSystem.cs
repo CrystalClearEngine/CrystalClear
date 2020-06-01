@@ -10,7 +10,7 @@ public class MyCustomECSSystem : SelectiveECSSystem
 	[OnFrameUpdate]
 	public void OnFrameUpdate()
 	{
-		foreach (EntityBase entity in EnumerateEntities())
+		foreach (IEntity entity in EnumerateEntities())
 		{
 			Output.Log(entity.EntityId);
 		}

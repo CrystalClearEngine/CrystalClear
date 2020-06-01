@@ -7,7 +7,7 @@ using System.Text;
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	/// <summary>
-	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that they can be created in the editor, then editen, serialized and finally deserialized and an instance can be created.
+	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that it can be created in the editor, serialized and finally deserialized and an instance can be created.
 	/// </summary>
 	[Serializable]
 	[DataContract]
@@ -21,7 +21,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public ImaginaryObject(Type constructionType, ImaginaryObject[] constructorParameters = null)
 		{
 			ConstructionTypeName = constructionType.AssemblyQualifiedName;
-			ConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
+			ImaginaryConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
 		}
 
 		public ImaginaryObject(Type constructionType, EditorData editorData)
@@ -67,7 +67,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// The parameters to be used when constructing the object.
 		/// </summary>
 		[DataMember]
-		public ImaginaryObject[] ConstructionParameters;
+		public ImaginaryObject[] ImaginaryConstructionParameters;
 
 		public bool UsesEditor()
 		{
@@ -92,7 +92,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			{
 				List<object> constructorObjects = new List<object>();
 
-				foreach (ImaginaryObject imaginaryObject in ConstructionParameters)
+				foreach (ImaginaryObject imaginaryObject in ImaginaryConstructionParameters)
 				{
 					constructorObjects.Add(imaginaryObject.CreateInstance());
 				}
@@ -110,7 +110,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// </summary>
 		/// <param name="writer">The BinaryWriter to use to write the data to.</param>
 		/// <param name="encoding">The encoding to use for writing data.</param>
-		internal void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
+		internal virtual void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
 		{
 			lock (this)
 			{
@@ -122,9 +122,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				if (UsesConstructorParameters())
 				{
 					// Write the number of ConstructionParameters so that the deserializer knows how many ConstructorParameters it has to read.
-					writer.Write(ConstructionParameters.Length);
+					writer.Write(ImaginaryConstructionParameters.Length);
 					// Iterate through all constructor parameters.
-					foreach (ImaginaryObject parameter in ConstructionParameters)
+					foreach (ImaginaryObject parameter in ImaginaryConstructionParameters)
 					{
 						// Write the parameter's construction type name so that it can be retrieved when deserializing.
 						writer.Write(parameter.ConstructionTypeName);

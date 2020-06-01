@@ -53,11 +53,8 @@ public static class MainClass
 		#endregion
 
 		#region Compilation
-		// Somewhere to store the Types.
-		Type[] typesInCode = null;
-
-		// Find all scripts that are present in the compiled assembly.
-		Type[] scriptTypes = null;
+		// Find all scripts that are present.
+		List<Type> scriptTypes = null;
 
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
@@ -101,7 +98,7 @@ public static class MainClass
 		LoopEditor:
 		Console.WriteLine();
 
-		// Gather input.
+		// Get input.
 		string line = Console.ReadLine();
 
 		// Split the command at any space.
@@ -308,16 +305,16 @@ public static class MainClass
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
 			#region Type identification
-			// Store the Types.
-			typesInCode = compiledAssembly.GetTypes();
+			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
 			// Find all scripts that are present in the compiled assembly.
-			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly);
+			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
+			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
-			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(Assembly.GetAssembly(typeof(ScriptObject))));
+			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
 			#endregion
 
 			return true;
@@ -351,7 +348,7 @@ public static class MainClass
 			}
 			else
 			{
-				hierarchyObjectToModify.ConstructionParameters = GetConstructorParameters(hierarchyObjectToModify.GetConstructionType());
+				hierarchyObjectToModify.ImaginaryConstructionParameters = GetConstructorParameters(hierarchyObjectToModify.GetConstructionType());
 			}
 		}
 
@@ -386,11 +383,11 @@ public static class MainClass
 			{
 				Console.WriteLine("This HierarchyObject uses constructor parameters to be created.");
 
-				Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ConstructionParameters.Length}");
+				Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ImaginaryConstructionParameters.Length}");
 
 				Console.Write("Parameters: (");
 				bool first = true;
-				foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ConstructionParameters)
+				foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ImaginaryConstructionParameters)
 				{
 					// Put commas after every parameter if unless it's the first parameter.
 					if (!first)
@@ -499,21 +496,21 @@ public static class MainClass
 
 			Console.WriteLine($"Script {name} has been added!");
 
-			ImaginaryScript CreateImaginaryScript(Type ofType)
+			ImaginaryScript CreateImaginaryScript(Type type)
 			{
-				if (ofType.IsEditable(out _))
+				if (type.IsEditable(out _))
 				{
 					EditorData editorData = EditorData.GetEmpty();
-					EditableSystem.OpenEditor(ofType, ref editorData);
-					return new ImaginaryScript(ofType, editorData);
+					EditableSystem.OpenEditor(type, ref editorData);
+					return new ImaginaryScript(type, editorData);
 				}
-				else if (ofType.GetConstructors().Length > 0)
+				else if (type.GetConstructors().Length > 0)
 				{
-					return new ImaginaryScript(ofType, GetConstructorParameters(ofType));
+					return new ImaginaryScript(type, GetConstructorParameters(type));
 				}
 				else
 				{
-					return new ImaginaryScript(ofType);
+					return new ImaginaryScript(type);
 				}
 			}
 		}
@@ -766,38 +763,46 @@ public static class MainClass
 			{
 				ParameterInfo parameter = parameterInfoArray[i];
 
-				Console.WriteLine($"{parameter.Name}:");
-				parameters[i] = CreateImaginaryObject(parameter.ParameterType);
+				if (parameter.IsOptional)
+				{
+					if (AskYOrNQuestion($"{parameter.Name} is optional, and defaults to {(parameter.DefaultValue is null ? "null" : parameter.DefaultValue)}, do you want to change it?"))
+					{
+						parameters[i] = null;
+					}
+				}
+				else
+				{
+					Console.WriteLine($"{parameter.Name}:");
+					parameters[i] = CreateImaginaryObject(parameter.ParameterType);
+				}
 			}
-
-			// TODO: fix this for when no parameters are provided.
-			Console.WriteLine("Done! This is how it's looking:");
-			Console.Write($"new {type.Name} (");
-			parameters.ToList().ForEach((ImaginaryObject iO) => { Console.Write(iO.ToString() + ", "); });
-			Console.WriteLine("\b\b)");
 
 			return parameters;
 		}
 
-		ImaginaryObject CreateImaginaryObject(Type ofType)
+		ImaginaryObject CreateImaginaryObject(Type type)
 		{
-			if (ofType.IsEditable(out _))
+			if (type.IsEditable(out _))
 			{
 				EditorData editorData = EditorData.GetEmpty();
-				EditableSystem.OpenEditor(ofType, ref editorData);
-				return new ImaginaryObject(ofType, editorData);
+				EditableSystem.OpenEditor(type, ref editorData);
+				return new ImaginaryObject(type, editorData);
 			}
-			else if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(ofType) || ofType.GetInterface(nameof(IConvertible)) != null || ofType.GetInterface(nameof(IFormattable)) != null)
+			else if (type.IsEnum)
 			{
-				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), ofType));
+				return new ImaginaryEnum(type, SelectItem(Enum.GetNames(type)));
 			}
-			else if (ofType.GetConstructors().Length > 0)
+			else if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(type) || type.GetInterface(nameof(IConvertible)) != null || type.GetInterface(nameof(IFormattable)) != null)
 			{
-				return new ImaginaryObject(ofType, GetConstructorParameters(ofType));
+				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), type));
+			}
+			else if (type.GetConstructors().Length > 0)
+			{
+				return new ImaginaryObject(type, GetConstructorParameters(type));
 			}
 			else
 			{
-				return new ImaginaryObject(ofType);
+				return new ImaginaryObject(type);
 			}
 		}
 		#endregion
