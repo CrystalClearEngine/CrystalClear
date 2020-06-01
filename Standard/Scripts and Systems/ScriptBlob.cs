@@ -4,7 +4,9 @@ using CrystalClear.ScriptUtilities;
 using IronPython;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
+using NLua;
 using System;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 
 namespace CrystalClear.Standard.Scripts
 {
@@ -57,8 +59,12 @@ namespace CrystalClear.Standard.Scripts
 					engine.Execute(code);
 					break;
 				case ScriptingLanguage.Lua:
+					Lua lua = new Lua();
+					lua.DoString(code);
+					lua.Dispose(); // TODO: store this, to avoid just creating new ones all the time unless code has changed.
 					break;
 				case ScriptingLanguage.CSharpScript:
+					CSharpScript.EvaluateAsync(code);
 					break;
 			}
 		}
