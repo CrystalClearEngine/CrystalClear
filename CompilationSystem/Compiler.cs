@@ -91,17 +91,17 @@ namespace CrystalClear.CompilationSystem
 		/// <param name="code">The code to compile.</param>
 		public static bool CompileWindowsExecutable(string code, Assembly[] userGeneratedAssemblies, string outputPath, string executableName)
 		{
-			using (FileStream exeStream = File.Create($@"{outputPath}\{executableName}.exe"))
-			using (FileStream pdbStream = File.Create($@"{outputPath}\{executableName}.pdb"))
-			{
-				// Store a list of all syntax trees generated from the provided code files.
-				SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code
-												, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
-												, encoding: Encoding.UTF8);
+			using FileStream exeStream = File.Create($@"{outputPath}\{executableName}.exe");
+			using FileStream pdbStream = File.Create($@"{outputPath}\{executableName}.pdb");
 
-				// The collection of references for the compiled code to use.
-				string[] references =
-				{
+			// Store a list of all syntax trees generated from the provided code files.
+			SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code
+											, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
+											, encoding: Encoding.UTF8);
+
+			// The collection of references for the compiled code to use.
+			string[] references =
+			{
 					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
 					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
 					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
@@ -116,38 +116,37 @@ namespace CrystalClear.CompilationSystem
 					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem dll.
 				};
 
-				// Store these references as metadataReferences to be useful.
-				List<MetadataReference> metadataReferences = new List<MetadataReference>();
-				foreach (string reference in references)
-				{
-					metadataReferences.Add(MetadataReference.CreateFromFile(reference));
-				}
-
-				// Add the user generated assemblies as references in the metadataReferences list.
-				foreach (Assembly userGeneratedAssembly in userGeneratedAssemblies)
-				{
-					metadataReferences.Add(MetadataReference.CreateFromFile(userGeneratedAssembly.Location));
-				}
-
-				// The compilation options to use.
-				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.ConsoleApplication, optimizationLevel: OptimizationLevel.Release);
-
-				// The CSharpCompilation instance that will compile all of the code.
-				CSharpCompilation compilation = CSharpCompilation.Create(
-					executableName, // Create an assembly named (for now) the same as the executable.
-					new[] { syntaxTree }, // That is using the generated syntax trees...
-					metadataReferences, // And the set references...
-					options); // With the set options.
-
-				// Emit (compile) using the CSharpCompilation instance to the streams and store the result.
-				EmitResult emitResult = compilation.Emit(exeStream, pdbStream);
-
-				// Report the diagnostics to the user using this handy-dany method!
-				ReportDiagnostics(emitResult.Diagnostics.ToArray());
-
-				// Return whether or not the emit was successful. 
-				return emitResult.Success;
+			// Store these references as metadataReferences to be useful.
+			List<MetadataReference> metadataReferences = new List<MetadataReference>();
+			foreach (string reference in references)
+			{
+				metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 			}
+
+			// Add the user generated assemblies as references in the metadataReferences list.
+			foreach (Assembly userGeneratedAssembly in userGeneratedAssemblies)
+			{
+				metadataReferences.Add(MetadataReference.CreateFromFile(userGeneratedAssembly.Location));
+			}
+
+			// The compilation options to use.
+			CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.ConsoleApplication, optimizationLevel: OptimizationLevel.Release);
+
+			// The CSharpCompilation instance that will compile all of the code.
+			CSharpCompilation compilation = CSharpCompilation.Create(
+				executableName, // Create an assembly named (for now) the same as the executable.
+				new[] { syntaxTree }, // That is using the generated syntax trees...
+				metadataReferences, // And the set references...
+				options); // With the set options.
+
+			// Emit (compile) using the CSharpCompilation instance to the streams and store the result.
+			EmitResult emitResult = compilation.Emit(exeStream, pdbStream);
+
+			// Report the diagnostics to the user using this handy-dany method!
+			ReportDiagnostics(emitResult.Diagnostics.ToArray());
+
+			// Return whether or not the emit was successful. 
+			return emitResult.Success;
 		}
 
 		private static void ReportDiagnostics(Diagnostic[] diagnostics)
