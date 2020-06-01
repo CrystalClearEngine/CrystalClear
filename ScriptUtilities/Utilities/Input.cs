@@ -22,7 +22,12 @@ namespace CrystalClear.ScriptUtilities.Utilities
 		public static bool AskYOrNQuestion(string question)
 		{
 			retry:
-			Console.Write(question + ": ");
+			if (question.EndsWith(":") || question.EndsWith("?"))
+			{
+				Console.Write(question + " ");
+			}
+			else
+				Console.Write(question + ": ");
 
 			switch (Console.ReadKey().KeyChar)
 			{
@@ -37,14 +42,19 @@ namespace CrystalClear.ScriptUtilities.Utilities
 					return false;
 
 				default:
-					Console.WriteLine("Invalid!");
+					Console.WriteLine("\nInvalid, should be 't' or 'y' for true and 'f' or 'n' for false!");
 					goto retry;
 			}
 		}
 
 		public static string AskQuestion(string question)
 		{
-			Console.Write(question + ": ");
+			if (question.EndsWith(":") || question.EndsWith("?"))
+			{
+				Console.Write(question + " ");
+			}
+			else
+				Console.Write(question + ": ");
 			string response = Console.ReadLine();
 			return response;
 		}
