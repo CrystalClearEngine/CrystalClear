@@ -73,13 +73,10 @@ namespace CrystalClear.EventSystem
 		/// <param name="types">The types to search for static event methods.</param>
 		public static void FindAndSubscribeEventMethods(Type[] types)
 		{
-			// Iterate through all provided types.
 			foreach (Type type in types)
 			{
-				// Iterate through all static methods in the type.
 				foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
 				{
-					// Subscribe it.
 					SubscribeMethod(method, null);
 				}
 			}
