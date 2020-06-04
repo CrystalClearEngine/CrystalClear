@@ -3,35 +3,45 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
-	/// <summary>
-	/// The base class for ScriptObjects. It contains the abstract methods but no implementation details.
-	/// </summary>
-	// TODO: make generic? like ScriptEvent<MyDelegateType> etc...
-	public abstract class ScriptEvent // TODO look into making *all* ScriptEvents into singletons, as that would simplify code!
+	public abstract class ScriptEvent<T>
+		where T : new()
 	{
-		/// <summary>
-		/// Subscribes a method to the event.
-		/// </summary>
-		/// <param name="method">The method to subscribe.</param>
-		/// <param name="instance">The instance of the method's class to use.</param>
-		public abstract void Subscribe(MethodInfo method, object instance);
+		public event ScriptEventHandler Event;
 
-		/// <summary>
-		/// Subscribes a delegate to the event.
-		/// </summary>
-		/// <param name="toSubscribe">The delegate to subscribe.</param>
-		public abstract void Subscribe(Delegate toSubscribe);
+		public void RaiseEvent()
+		{
+			Event?.Invoke();
+		}
 
-		/// <summary>
-		/// Unsubscribes a delegate from the event.
-		/// </summary>
-		/// <param name="toUnsubscribe">The delegate to unsubscribe.</param>
-		public abstract void Unsubscribe(Delegate toUnsubscribe);
+		public Delegate[] GetSubscribers()
+		{
+			return Event?.GetInvocationList();
+		}
 
-		/// <summary>
-		/// Returns all delegates that are subscribed to this event.
-		/// </summary>
-		/// <returns>The subscribed delegates.</returns>
-		public abstract Delegate[] GetSubscribers();
+		#region Subscription Management
+		public void Subscribe(Delegate toSubscribe)
+		{
+			Event += (ScriptEventHandler)toSubscribe;
+		}
+
+		public void Subscribe(MethodInfo method, object instance)
+		{
+			Delegate @delegate = method.CreateDelegate(typeof(ScriptEventHandler), instance);
+			Event += (ScriptEventHandler)@delegate;
+		}
+
+		public void Unsubscribe(Delegate toUnsubscribe)
+		{
+			Event -= (ScriptEventHandler)toUnsubscribe;
+		}
+		#endregion
+
+		protected ScriptEvent() // For "new T()" and for deriving classes.
+		{
+		}
+
+		private static T _instance;
+
+		public static T Instance => _instance ?? (_instance = new T());
 	}
 }

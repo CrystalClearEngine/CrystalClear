@@ -18,7 +18,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
-	public class FrameUpdateEvent : UpdateScriptEvent<FrameUpdateEvent>
+	public class FrameUpdateEvent : UpdatingScriptEvent<FrameUpdateEvent>
 	{
 		[OnStartEvent]
 		private static void start() => Start(new TimeSpan());

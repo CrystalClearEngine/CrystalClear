@@ -17,7 +17,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The frame update event class.
 	/// </summary>
-	public class InputPollEvent : UpdateScriptEvent<InputPollEvent>
+	public class InputPollEvent : UpdatingScriptEvent<InputPollEvent>
 	{
 		[OnStartEvent]
 		private static void start() => Start(new TimeSpan());

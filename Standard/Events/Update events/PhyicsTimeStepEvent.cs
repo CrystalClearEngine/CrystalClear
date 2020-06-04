@@ -17,7 +17,7 @@ namespace CrystalClear.Standard.Events
 	/// <summary>
 	/// The physics time step event class.
 	/// </summary>
-	public class PhysicsTimeStepEvent : UpdateScriptEvent<PhysicsTimeStepEvent>
+	public class PhysicsTimeStepEvent : UpdatingScriptEvent<PhysicsTimeStepEvent>
 	{
 		[OnStartEvent]
 		private static void start() => Start(TimeSpan.FromMilliseconds(33.33));

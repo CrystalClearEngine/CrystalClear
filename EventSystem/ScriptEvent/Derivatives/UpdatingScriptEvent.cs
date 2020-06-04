@@ -4,27 +4,11 @@ using System.Threading;
 
 namespace CrystalClear.EventSystem
 {
-	/// <summary>
-	/// A singleton version of the EventArgsScriptEvent. Contains implementation for a singleton.
-	/// </summary>
-	/// <typeparam name="TInstance">The type of the instance. Should generally be the same as the deriving class.</typeparam>
-	public abstract class UpdateScriptEvent<TInstance>
-		: SingletonScriptEventHandlerScriptEvent<TInstance>
-		where TInstance : UpdateScriptEvent<TInstance>, new()
+	public abstract class UpdatingScriptEvent<TInstance>
+		: ScriptEvent<TInstance>
+		where TInstance : UpdatingScriptEvent<TInstance>, new()
 	{
-		// Singleton stuff.
-
-		// Static constructor to ensure that SingletonScriptEvent can't be instanciated.
-		static UpdateScriptEvent()
-		{
-		}
-
-		// Protected parameterless constructor for new T() and deriving classes.
-		protected UpdateScriptEvent()
-		{
-		}
-
-		~UpdateScriptEvent()
+		~UpdatingScriptEvent()
 		{
 			timer?.Dispose();
 		}
