@@ -15,7 +15,7 @@ namespace CrystalClear.EventSystem.StandardEvents // TODO: should this be Standa
 	/// <summary>
 	/// The start event class.
 	/// </summary>
-	public class StartEvent : SingletonScriptEventHandlerScriptEvent<StartEvent>
+	public class StartEvent : ScriptEvent<StartEvent>
 	{
 		// Showing how methods can be overriden in deriving events.
 		public override void RaiseEvent()

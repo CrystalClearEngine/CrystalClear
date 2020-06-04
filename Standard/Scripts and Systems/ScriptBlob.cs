@@ -40,7 +40,7 @@ namespace CrystalClear.Standard.Scripts
 			CSharpScript,
 		}
 
-		public ScriptBlob(ScriptingLanguage scriptingLanguage, string code, ScriptEvent executeOn = null)
+		public ScriptBlob(ScriptingLanguage scriptingLanguage, string code, ScriptEventBase executeOn = null)
 		{
 			language = scriptingLanguage;
 
@@ -51,7 +51,7 @@ namespace CrystalClear.Standard.Scripts
 			this.executeOn = executeOn;
 		}
 
-		ScriptEvent executeOn;
+		ScriptEventBase executeOn;
 
 		ScriptingLanguage language;
 
@@ -115,7 +115,7 @@ namespace CrystalClear.Standard.Scripts
 						Assembly[] assembliesToLoad = new Assembly[]
 						{
 							Assembly.GetAssembly(typeof(StartEvent)),
-							Assembly.GetAssembly(typeof(ScriptEvent)),
+							Assembly.GetAssembly(typeof(ScriptEventBase)),
 							Assembly.GetAssembly(typeof(HierarchyObject)),
 							Assembly.GetAssembly(typeof(FrameUpdateEvent)),
 						};

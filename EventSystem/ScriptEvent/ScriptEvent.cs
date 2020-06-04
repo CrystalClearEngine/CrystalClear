@@ -3,12 +3,11 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
-	public abstract class ScriptEvent<T>
-		where T : new()
+	public abstract class ScriptEventBase
 	{
 		public event ScriptEventHandler Event;
 
-		public void RaiseEvent()
+		public virtual void RaiseEvent()
 		{
 			Event?.Invoke();
 		}
@@ -35,13 +34,18 @@ namespace CrystalClear.EventSystem
 			Event -= (ScriptEventHandler)toUnsubscribe;
 		}
 		#endregion
+	}
 
+	public abstract class ScriptEvent<TInstance>
+		: ScriptEventBase
+		where TInstance : new()
+	{
 		protected ScriptEvent() // For "new T()" and for deriving classes.
 		{
 		}
 
-		private static T _instance;
+		private static TInstance _instance;
 
-		public static T Instance => _instance ?? (_instance = new T());
+		public static TInstance Instance => _instance ?? (_instance = new TInstance());
 	}
 }

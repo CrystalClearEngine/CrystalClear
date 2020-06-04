@@ -14,7 +14,7 @@
 	/// <summary>
 	/// The stop event class.
 	/// </summary>
-	public class StopEvent : SingletonScriptEventHandlerScriptEvent<StopEvent>
+	public class StopEvent : ScriptEvent<StopEvent>
 	{
 
 	}

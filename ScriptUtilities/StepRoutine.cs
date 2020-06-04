@@ -60,17 +60,17 @@ namespace CrystalClear.ScriptUtilities
 
 	public class WaitFor // TODO: create separate WaitForScriptEvent and keep this as a base.
 	{
-		public ScriptEvent ScriptEvent;
+		public ScriptEventBase ScriptEvent;
 
 		public WaitFor(Type scriptEventType)
 		{
 			ScriptEvent =
-				(ScriptEvent)scriptEventType
+				(ScriptEventBase)scriptEventType
 				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
 				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
 		}
 
-		public WaitFor(ScriptEvent scriptEvent)
+		public WaitFor(ScriptEventBase scriptEvent)
 		{
 			ScriptEvent = scriptEvent;
 		}
