@@ -26,7 +26,6 @@ namespace CrystalClear.SerializationSystem
 
 		public static bool IsEditable(this Type type) => IsEditable(type, out _);
 
-
 		public static void OpenEditor(Type type, ref EditorData current)
 		{
 			if (!type.IsEditable())
