@@ -2,13 +2,12 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using static CrystalClear.CrystalClearInformation;
+using static CrystalClear.EditorInformation;
 
 namespace CrystalClear.CompilationSystem
 {
@@ -25,8 +24,8 @@ namespace CrystalClear.CompilationSystem
 		public static Assembly CompileCode(string[] codeFileNames)
 		{
 			// TODO: Maybe it should be called UserGenerated only?
-			using (FileStream dllStream = File.Create(WorkingPath + @"\UserGeneratedCode.dll"))
-			using (FileStream pdbStream = File.Create(WorkingPath + @"\UserGeneratedCode.pdb"))
+			using (FileStream dllStream = File.Create(CurrentProject.BuildPath + @"\UserGeneratedCode.dll"))
+			using (FileStream pdbStream = File.Create(CurrentProject.BuildPath + @"\UserGeneratedCode.pdb"))
 			{
 				List<SyntaxTree> syntaxTrees = (from string fileName in codeFileNames
 												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
@@ -75,8 +74,7 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 			}
-			// Load the assembly from it's location and then return it. I admit this could've been done inside the previous using statements and using the stream there, but this is clearer and will not be such a hot-path anyways.
-			return Assembly.LoadFrom(WorkingPath + @"\UserGeneratedCode.dll");
+			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 		}
 
 		/// <summary>
