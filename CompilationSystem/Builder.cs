@@ -17,24 +17,18 @@ namespace CrystalClear.CompilationSystem
 		/// <param name="userGeneratedAssemblies">All user generated assemblies that should be included in compilation.</param>
 		public static void Build(string buildPath, string exectutableName, Assembly[] userGeneratedAssemblies)
 		{
-			// The DirectoryInfo for the buildPath.
 			DirectoryInfo buildDirectory = new DirectoryInfo(buildPath);
-			// Create the path (if it doesn't already exist).
 			buildDirectory.Create();
 
-			// Compile the (windows only so far) executable.
+			// Compile the executable.
 			bool success = Compiler.CompileWindowsExecutable(GenerateMainMethodCode(raiseStartEvent: false), userGeneratedAssemblies, buildPath, exectutableName);
 
-			// Stop if the compile was not successful.
 			if (!success)
-			{ // If the build failed...
-				// Output that an error has occured in the compilation.
+			{
 				Output.ErrorLog("Compilation of executable failed :(, returning.", false);
-				// Return from  the method.
 				return;
 			}
 
-			// Output that the compilation was successful.
 			Output.Log($@"Successfuly built {exectutableName} at location {buildPath}\{exectutableName}.exe.", System.ConsoleColor.Black, System.ConsoleColor.Green);
 		}
 
