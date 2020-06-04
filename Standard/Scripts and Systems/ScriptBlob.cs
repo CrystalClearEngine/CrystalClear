@@ -7,13 +7,21 @@ using Microsoft.Scripting.Hosting;
 using NLua;
 using System;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
+using CrystalClear.Standard.Events;
+using Microsoft.CodeAnalysis.Scripting.Hosting;
+using System.Reflection;
+using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
+using CrystalClear.HierarchySystem;
 
 namespace CrystalClear.Standard.Scripts
 {
 	[IsScript]
 	// TODO: add support for Editable scripts!
 	//[Editable(nameof(Editor), nameof(Creator))]
-	public class ScriptBlob : IDisposable
+	public class ScriptBlob
+		: IDisposable
 	{
 		//private static void Editor(ref EditorData data)
 		//{
@@ -49,22 +57,75 @@ namespace CrystalClear.Standard.Scripts
 
 		string code;
 
-		[OnStartEvent]
+		ScriptEngine pythonEngine;
+
+		Lua lua;
+
+		Script cSharpScript;
+
+		[OnFrameUpdate]
 		public void RunCode()
 		{
 			switch (language)
 			{
 				case ScriptingLanguage.Python:
-					ScriptEngine engine = Python.CreateEngine();
-					engine.Execute(code);
+
+					if (pythonEngine is null)
+					{
+						pythonEngine = Python.CreateEngine();
+					}
+
+					pythonEngine.Execute(code);
+
 					break;
+
 				case ScriptingLanguage.Lua:
-					Lua lua = new Lua();
+
+					if (lua is null)
+					{
+						lua = new Lua();
+
+						lua.LoadCLRPackage();
+					}
+
 					lua.DoString(code);
-					lua.Dispose(); // TODO: store this, to avoid just creating new ones all the time unless code has changed.
+
 					break;
+
 				case ScriptingLanguage.CSharpScript:
-					CSharpScript.EvaluateAsync(code);
+
+					if (cSharpScript is null)
+					{
+						//string[] references =
+						//{
+						//	@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netstandard2.0\SerializationSystem.dll", // The path to the SerializationSystem dll.
+						//	@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netstandard2.0\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+						//	@"E:\dev\crystal clear\EventSystem\bin\Debug\netstandard2.0\EventSystem.dll", // The path to the EventSystem dll.
+						//	@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netstandard2.0\HierarchySystem.dll", // The path to the EventSystem dll.
+						//	@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
+						//	@"E:\dev\crystal clear\Standard\bin\Debug\netstandard2.0\Standard.dll", // The path to the Standard dll.
+						//};
+
+						//List<MetadataReference> metadataReferences = new List<MetadataReference>();
+						//foreach (string reference in references)
+						//{
+						//	metadataReferences.Add(MetadataReference.CreateFromFile(reference));
+						//}
+
+						Assembly[] assembliesToLoad = new Assembly[]
+						{
+							Assembly.GetAssembly(typeof(StartEvent)),
+							Assembly.GetAssembly(typeof(ScriptEvent)),
+							Assembly.GetAssembly(typeof(HierarchyObject)),
+							Assembly.GetAssembly(typeof(FrameUpdateEvent)),
+						};
+
+						cSharpScript = CSharpScript.Create(code, ScriptOptions.Default.AddReferences(assembliesToLoad)
+							.AddImports("System"));
+					}
+
+					cSharpScript.RunAsync();
+
 					break;
 			}
 		}
@@ -79,6 +140,8 @@ namespace CrystalClear.Standard.Scripts
 				if (disposing)
 				{
 					executeOn.Unsubscribe((ScriptEventHandler)RunCode);
+
+					lua.Dispose();
 				}
 
 				disposedValue = true;
