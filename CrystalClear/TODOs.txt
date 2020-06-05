@@ -4,3 +4,4 @@ TODO: a TODOs file for each project.
 TODO: add system to track at which verison breaking changes occur so users can be warned and updates can be performed.
 TODO: possibly rethink entire solution's structure, as it easily leads to circular dependencies.
 TODO: remove unnecessary comments.
+TODO: ensure that all files follow the same layout (where fields, constructors, methods etc go).
