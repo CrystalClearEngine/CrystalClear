@@ -11,7 +11,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// </summary>
 	public struct Script // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
 	{
-		#region Constructors
 		/// <summary>
 		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
 		/// </summary>
@@ -20,15 +19,14 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="attatchedTo">The HierarchyObject to attatch this Script to (provided it is a HierarchyScript!).</param>
 		public Script(Type scriptType, object[] constructorParameters = null, HierarchyObject attatchedTo = null)
 		{
-			// Is scriptType a HierarchyScript?
 			if (HierarchyScript.IsHierarchyScript(scriptType))
 			{
-				// Initialize this to new Script() for HierarchyObjects.
+				// This constructor is used for creating HierarchyScripts.
 				this = new Script(attatchedTo, scriptType, constructorParameters);
 			}
 			else
 			{
-				// Initialize this to new Script() for any type.
+				// This constructor is used for all other types of scripts.
 				this = new Script(scriptType, constructorParameters);
 			}
 		}
@@ -67,36 +65,60 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
 		public Script(HierarchyObject attatchedTo, Type scriptType, object[] constructorParameters = null) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
 		{
-			// IsScript check.
 			if (!IsScript(scriptType))
 			{
 				throw new ArgumentException("The provided type is not a script!");
 			}
 
-			// Assign ScriptType.
 			ScriptType = scriptType;
 
-			// Assign ScriptInstance to the return of HierarchyScript.CreateHierarchyScript, which will be an instance of the script.
 			ScriptInstance = HierarchyScript.CreateHierarchyScript(attatchedTo, scriptType, constructorParameters);
 
-			// Subscribe events.
 			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
-		#endregion
 
-		#region Script Data
-		/// <summary>
-		/// The instance of the Script.
-		/// </summary>
 		public readonly object ScriptInstance;
 
-		/// <summary>
-		/// The type of the Script.
-		/// </summary>
 		public Type ScriptType { get; }
-		#endregion
 
-		#region Script Management
+		public object DynamicallyCallMethod(string methodName, params object[] parameters)
+		{
+			List<Type> parameterTypes = new List<Type>();
+			
+			foreach (object parameter in parameters)
+			{
+				parameterTypes.Add(parameter.GetType());
+			}
+
+			if (parameterTypes.Count > 0)
+			{
+				return ScriptType.GetMethod(methodName, parameterTypes.ToArray()).Invoke(ScriptInstance, parameters);
+			}
+
+			return ScriptType.GetMethod(methodName).Invoke(ScriptInstance, parameters);
+		}
+
+		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
+		{
+			if (methodNames.Length != parametersList.Length)
+			{
+				throw new ArgumentException("Unequal array sizes - array lengths of classesToSubscribe and instances are not equal.");
+			}
+
+			List<object> returnObjects = new List<object>();
+
+			for (int i = 0; i < methodNames.Length; i++)
+			{
+				string methodName = methodNames[i];
+				object[] parameters = parametersList[i];
+
+				returnObjects.Add(ScriptType.GetMethod(methodName).Invoke(ScriptInstance, parameters));
+			}
+
+			return returnObjects.ToArray();
+		}
+
+		#region Script Utilities
 		/// <summary>
 		/// Finds all types with the script attribute and returns them.
 		/// </summary>
@@ -128,71 +150,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			return toCheck.GetCustomAttribute<IsScriptAttribute>() != null // Does this type have the IsScriptAttribute attribute?
 				&& !(toCheck.IsAbstract && toCheck.IsSealed); // Static check.
-		}
-		#endregion
-
-		#region Handling Script
-		/// <summary>
-		/// Calls a method in the script by method name.
-		/// </summary>
-		/// <param name="methodName">The name of the method.</param>
-		/// <param name="parameters">The paramaters for the call.</param>
-		/// <returns>The return of the call (if any).</returns>
-		public object DynamicallyCallMethod(string methodName, params object[] parameters)
-		{
-			// Initialize list for the found parameter type.
-			List<Type> parameterTypes = new List<Type>();
-
-			// Iterate through all provided parameters and add the type of the parameter to the list of parameter types.
-			foreach (object parameter in parameters)
-			{
-				parameterTypes.Add(parameter.GetType());
-			}
-
-			// Are the parameterTypes not empty? That would mean we can use them to aid in our search.
-			if (parameterTypes.Count > 0)
-			{
-				// Return the result of the invoke.
-				return ScriptType.GetMethod(methodName, parameterTypes.ToArray()).Invoke(ScriptInstance, parameters);
-			}
-
-			// Return the result of the invoke.
-			return ScriptType.GetMethod(methodName).Invoke(ScriptInstance, parameters);
-		}
-
-		/// <summary>
-		/// Calls methods in the script by method name.
-		/// </summary>
-		/// <returns>The returns of the calls.</returns>
-		public object[] DynamicallyCallMethods(string[] methodNames, object[][] parametersList = null)
-		{
-			// Bulk check.
-			if (methodNames.Length == parametersList.Length)
-			{ // Uh oh. We have recieved differently sized arrays...
-				throw new ArgumentException("Unequal array sizes - array lengths of classesToSubscribe and instances dont match");
-			}
-
-			// Initialize list called returnObjects which is used to store all the returns of the objects.
-			List<object> returnObjects = new List<object>();
-
-			// Iterate through all names in methodNames.
-			for (int i = 0; i < methodNames.Length; i++)
-			{
-				// Set the help string methodName to methodNames at i index.
-				string methodName = methodNames[i];
-				// Set the help object parameters to parameterList at i index.
-				object[] parameters = parametersList[i];
-
-				// Add return to returnObjects.
-				returnObjects.Add(
-					// Get the method named methodName.
-					ScriptType.GetMethod(methodName)
-					// Invoke the method.
-					.Invoke(ScriptInstance, parameters));
-			}
-
-			// Return returnObjects as an array because it is neater that way.
-			return returnObjects.ToArray();
 		}
 		#endregion
 
