@@ -11,16 +11,16 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			// Clone the imaginaryHierarchyObject's properties.
 			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				this.ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
+				ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
 			else
-				this.EditorData = imaginaryHierarchyObject.EditorData;
+				EditorData = imaginaryHierarchyObject.EditorData;
 
-			this.AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
-			this.LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
-			this.ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
+			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
+			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
+			ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
 
 			// Set the name.
-			this.PrefabName = name;
+			PrefabName = name;
 		}
 
 		public string PrefabPath { get; set; }
@@ -38,13 +38,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ImaginaryHierarchyObject prefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(PrefabPath);
 
 			if (prefab.UsesConstructorParameters())
-				this.ImaginaryConstructionParameters = prefab.ImaginaryConstructionParameters;
+				ImaginaryConstructionParameters = prefab.ImaginaryConstructionParameters;
 			else
-				this.EditorData = prefab.EditorData;
+				EditorData = prefab.EditorData;
 
-			this.AttatchedScripts = prefab.AttatchedScripts;
-			this.LocalHierarchy = prefab.LocalHierarchy;
-			this.ConstructionTypeName = prefab.ConstructionTypeName;
+			AttatchedScripts = prefab.AttatchedScripts;
+			LocalHierarchy = prefab.LocalHierarchy;
+			ConstructionTypeName = prefab.ConstructionTypeName;
 		}
 
 		public ImaginaryHierarchyObject GetNonPrefab()

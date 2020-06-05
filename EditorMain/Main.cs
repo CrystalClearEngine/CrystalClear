@@ -176,7 +176,7 @@ public static class MainClass
 					switch (commandSections[1])
 					{
 						case "prefab":
-							ExportPrefab(commandSections[2], commandSections.Length !< 3 ? commandSections[3] : null);
+							ExportPrefab(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
 							break;
 
 						case "copy":
@@ -653,7 +653,7 @@ public static class MainClass
 
 		void ImportPrefab(string prefabPath)
 		{
-			var imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyPrefab>(prefabPath);
+			ImaginaryHierarchyPrefab imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyPrefab>(prefabPath);
 
 			imaginaryHierarchyPrefab.PrefabPath = prefabPath;
 
@@ -672,7 +672,7 @@ public static class MainClass
 
 		void ImportHierarchy(string hierarchyPath)
 		{
-			var imaginaryHierarchy = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchy>(hierarchyPath);
+			ImaginaryHierarchy imaginaryHierarchy = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchy>(hierarchyPath);
 
 			imaginaryHierarchy.Parent = currentSelectedHierarchyObject;
 

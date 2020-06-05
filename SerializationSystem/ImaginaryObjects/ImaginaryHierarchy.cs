@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
+﻿using System.Runtime.Serialization;
 
 // TODO: might make redundant by storing name as part of ImaginaryHierarchyObjects?
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
@@ -12,13 +9,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public ImaginaryHierarchy(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
 		{
 			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				this.ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
+				ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
 			else
-				this.EditorData = imaginaryHierarchyObject.EditorData;
+				EditorData = imaginaryHierarchyObject.EditorData;
 
-			this.AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
-			this.LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
-			this.ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
+			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
+			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
+			ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
 		}
 
 		[DataMember]

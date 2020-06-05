@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using static CrystalClear.EditorInformation;
-using static CrystalClear.CrystalClearInformation;
 using System.Xml.Serialization;
+using static CrystalClear.CrystalClearInformation;
+using static CrystalClear.EditorInformation;
 
 namespace CrystalClear
 {
@@ -12,7 +12,7 @@ namespace CrystalClear
 		// TODO: add EditorData-like ProjectData storage for project specific preferences and data.
 
 		[XmlElement]
-		public Version ProjectCrystalClearVersion { get; set; } = new Version(0,0,0,3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
+		public Version ProjectCrystalClearVersion { get; set; } = new Version(0, 0, 0, 3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
 
 		public string ProjectName;
 

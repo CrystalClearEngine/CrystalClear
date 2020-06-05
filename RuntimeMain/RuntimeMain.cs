@@ -1,6 +1,5 @@
 ﻿using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
-using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 using System;
@@ -52,7 +51,7 @@ namespace CrystalClear.RuntimeMain
 			{
 				throw new Exception("Already running!");
 			}
-			
+
 			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
 			Run(hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
 		}

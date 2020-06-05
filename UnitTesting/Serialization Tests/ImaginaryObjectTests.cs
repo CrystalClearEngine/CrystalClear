@@ -1,5 +1,4 @@
-﻿using CrystalClear.SerializationSystem;
-using CrystalClear.SerializationSystem.ImaginaryObjects;
+﻿using CrystalClear.SerializationSystem.ImaginaryObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

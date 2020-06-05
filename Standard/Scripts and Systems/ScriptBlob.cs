@@ -1,19 +1,15 @@
 ﻿using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
 using CrystalClear.ScriptUtilities;
-using IronPython;
+using CrystalClear.Standard.Events;
 using IronPython.Hosting;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
+using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Scripting.Hosting;
 using NLua;
 using System;
-using Microsoft.CodeAnalysis.CSharp.Scripting;
-using Microsoft.CodeAnalysis.Scripting;
-using CrystalClear.Standard.Events;
-using Microsoft.CodeAnalysis.Scripting.Hosting;
 using System.Reflection;
-using Microsoft.CodeAnalysis;
-using System.Collections.Generic;
-using CrystalClear.HierarchySystem;
 
 namespace CrystalClear.Standard.Scripts
 {
@@ -25,7 +21,7 @@ namespace CrystalClear.Standard.Scripts
 	{
 		//private static void Editor(ref EditorData data)
 		//{
-			
+
 		//}
 
 		//private static object Creator(EditorData data)
@@ -51,17 +47,12 @@ namespace CrystalClear.Standard.Scripts
 			this.executeOn = executeOn;
 		}
 
-		ScriptEventBase executeOn;
-
-		ScriptingLanguage language;
-
-		string code;
-
-		ScriptEngine pythonEngine;
-
-		Lua lua;
-
-		Script cSharpScript;
+		private ScriptEventBase executeOn;
+		private ScriptingLanguage language;
+		private string code;
+		private ScriptEngine pythonEngine;
+		private Lua lua;
+		private Script cSharpScript;
 
 		[OnFrameUpdate]
 		public void RunCode()

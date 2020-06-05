@@ -8,7 +8,7 @@ using System;
 public class CustomHierarchyObject : HierarchyObject
 {
 	//[Editor]
-	static void Editor(ref EditorData currentEditorData)
+	private static void Editor(ref EditorData currentEditorData)
 	{
 		Console.WriteLine("CustomHierarchyObject editor opened.");
 		if (currentEditorData["Text"] != null)
@@ -62,7 +62,7 @@ public class CustomHierarchyObject : HierarchyObject
 	}
 
 	//[Creator]
-	static object Creator(EditorData editorData)
+	private static object Creator(EditorData editorData)
 	{
 		CustomHierarchyObject createdCustomHierarchyObject = new CustomHierarchyObject
 		{

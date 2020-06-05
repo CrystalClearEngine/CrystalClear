@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UnitTests
 {
-	class TestObject
+	internal class TestObject
 		: IEquatable<TestObject>
 	{
 		public TestObject(string stringData)

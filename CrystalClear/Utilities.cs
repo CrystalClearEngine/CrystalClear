@@ -19,7 +19,6 @@ namespace CrystalClear
 		/// <returns>A unique name, based on the baseName and unique among otherNames.</returns>
 		public static string EnsureUniqueName(string baseName, IEnumerable<string> otherNames)
 		{
-			// Create iterator.
 			int i = 1;
 
 			// Repeat while name is already taken in AttatchedScripts.
@@ -37,7 +36,6 @@ namespace CrystalClear
 
 				baseName += DuplicateDecorator;
 
-				// Increment iterator.
 				i++;
 			}
 
@@ -90,10 +88,8 @@ namespace CrystalClear
 				}
 			}
 
-			// Iterate through all fields to compare them.
 			for (int i = 0; i < fields.Length; i++)
 			{
-				// Store field A and B in variables.
 				object fieldA = fields[i].GetValue(a);
 				object fieldB = fields[i].GetValue(b);
 
@@ -126,10 +122,8 @@ namespace CrystalClear
 				// If A and B are equal, we can continue.
 			}
 
-			// Iterate through all properties to compare them.
 			for (int i = 0; i < properties.Length; i++)
 			{
-				// Store property A and B in variables.
 				object propertyA = properties[i].GetValue(a);
 				object propertyB = properties[i].GetValue(b);
 

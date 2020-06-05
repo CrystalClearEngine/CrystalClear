@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
@@ -12,7 +10,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			this.enumValue = enumValue;
 		}
 
-		string enumValue;
+		private string enumValue;
 
 		public override object CreateInstance()
 		{
