@@ -17,10 +17,16 @@ namespace CrystalClear
 		public string ProjectName;
 
 		[XmlIgnore]
+		public FileInfo ProjectFile => new FileInfo($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl");
+
+		[XmlIgnore]
 		public DirectoryInfo ProjectDirectory;
 
-		// TODO: why is this even serialized? Can't this just be determied automatically?
-		public string Path { get => ProjectDirectory.FullName; }
+		public string Path
+		{
+			get => ProjectDirectory.FullName;
+			set => ProjectDirectory = new DirectoryInfo(value);
+		}
 
 		[XmlIgnore]
 		public DirectoryInfo ScriptsDirectory;
@@ -79,11 +85,11 @@ namespace CrystalClear
 			}
 		}
 
-		#region Management
-		public static void SaveProject()
+		#region Project Management
+		public static void SaveCurrentProject()
 		{
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
-			XmlWriter projectWriter = XmlWriter.Create(File.OpenWrite($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl"));
+			XmlWriter projectWriter = XmlWriter.Create(CurrentProject.ProjectFile.OpenWrite());
 
 			xmlSerializer.Serialize(projectWriter, CurrentProject);
 		}
@@ -119,7 +125,7 @@ namespace CrystalClear
 
 		public static void OpenProject(string projectPath)
 		{
-			DirectoryInfo projectDirectory = Directory.CreateDirectory(projectPath);
+			DirectoryInfo projectDirectory = new DirectoryInfo(projectPath);
 
 			if (!IsProject(projectDirectory.FullName))
 			{
@@ -128,7 +134,14 @@ namespace CrystalClear
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
-			using (FileStream fileStream = File.OpenRead(projectDirectory.GetFiles("*.crcl")[0].FullName))
+			FileInfo[] crystalClearProjectFiles = projectDirectory.GetFiles("*.crcl");
+
+			if (crystalClearProjectFiles.Length > 1)
+			{
+				Console.WriteLine($"There are multiple Crystal Clear project files in this project folder, defaulting to {crystalClearProjectFiles[0].Name}.");
+			}
+
+			using (FileStream fileStream = crystalClearProjectFiles[0].OpenRead())
 			using (XmlReader reader = XmlReader.Create(fileStream))
 			{
 				ProjectInfo loadedProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
@@ -137,12 +150,12 @@ namespace CrystalClear
 				Console.ForegroundColor = ConsoleColor.Yellow;
 				if (loadedProject.ProjectCrystalClearVersion < CrystalClearVersion)
 				{
-					Console.WriteLine($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
+					Console.WriteLine($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
 				}
 
 				else if (loadedProject.ProjectCrystalClearVersion > CrystalClearVersion)
 				{
-					Console.WriteLine($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
+					Console.WriteLine($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
 				}
 				Console.ForegroundColor = beforeColor;
 
@@ -166,6 +179,21 @@ namespace CrystalClear
 			}
 
 			return true;
+		}
+
+		public static void ModifyCurrentProject(string newName, bool changeFolderNameToMatch)
+		{
+			CurrentProject.ProjectFile.Delete();
+
+			CurrentProject.ProjectName = newName;
+
+			if (changeFolderNameToMatch)
+			{
+				// TODO: unload UserGeneratedContent before this. It won't work otherwise.
+				CurrentProject.ProjectDirectory.MoveTo(Directory.GetParent(CurrentProject.ProjectDirectory.FullName).FullName + @"\" + newName);
+			}
+
+			SaveCurrentProject();
 		}
 		#endregion
 	}

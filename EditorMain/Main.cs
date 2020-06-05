@@ -218,12 +218,16 @@ public static class MainClass
 							break;
 
 						case "modify":
-							throw new NotImplementedException();
+							ProjectInfo.ModifyCurrentProject(AskQuestion($"Pick a new name for {CurrentProject.ProjectName}"), AskYOrNQuestion("Change folder name to match new name?"));
+							break;
 
 						default:
 							Output.ErrorLog("command error: unknown subcommand");
 							break;
 					}
+					break;
+
+				case "script":
 					break;
 
 				case "build":
