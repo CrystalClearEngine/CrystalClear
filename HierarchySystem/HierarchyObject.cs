@@ -12,6 +12,7 @@ namespace CrystalClear.HierarchySystem
 	/// </summary>
 	public abstract class HierarchyObject
 		: IEntity
+	// TODO: should probably not only rewrite some of these methods, but also make HierarchyObject immutable or something.
 	// TODO: probably limit certain chars on names, such as \ / < > etc.
 	{
 		#region Virtual Event Methods
@@ -106,7 +107,6 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="script">The Script to add.</param>
 		public void AddScriptManually(Script script, string name = null)
 		{
-			// Replace name with default name if not provided.
 			if (name is null)
 			{
 				name = Utilities.EnsureUniqueName(script.ScriptType.Name, AttatchedScripts.Keys);
@@ -117,7 +117,17 @@ namespace CrystalClear.HierarchySystem
 
 		public void RemoveScript(string name)
 		{
-			EventSystem.EventSystem.UnsubscribeEvents(AttatchedScripts[name].ScriptType, AttatchedScripts[name].ScriptInstance);
+			AttatchedScripts[name].UnsubscribeAll();
+			AttatchedScripts.Remove(name);
+		}
+
+		protected void RemoveAllScripts()
+		{
+			foreach (var scriptKeyValuePair in AttatchedScripts)
+			{
+				scriptKeyValuePair.Value.UnsubscribeAll();
+				AttatchedScripts.Remove(scriptKeyValuePair.Key);
+			}
 		}
 		#endregion
 
@@ -378,7 +388,8 @@ namespace CrystalClear.HierarchySystem
 				this.parent.SetTarget(parent);
 			}
 
-			// TODO: will this result in a bunch of copies of this HierarchyObject's events?
+			EventSystem.EventSystem.UnsubscribeEvents(GetType(), this);
+
 			// TODO: do this in a constructor instead so it is only done once?
 
 			// Subscribe all events this HierarchyObject has.
@@ -405,13 +416,16 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="childName">The child's name.</param>
 		public void RemoveChild(string childName)
 		{
+			EventSystem.EventSystem.UnsubscribeEvents(LocalHierarchy[childName].GetType(), LocalHierarchy[childName].GetType());
+			RemoveAllScripts();
+
 			LocalHierarchy.RemoveChild(childName);
 		}
 
 		/// <summary>
 		/// Follows a path relatively from this point and returns the specified HierarchyObject.
 		/// </summary>
-		/// <param name="path">The path to follow. HierarchyObjects are separated by '/'.</param>
+		/// <param name="path">The path to follow. Hierarchy layers are separated by '/'.</param>
 		/// <returns>The HierarchyObject at the end of the path.</returns>
 		public HierarchyObject FollowPath(string path)
 		{
