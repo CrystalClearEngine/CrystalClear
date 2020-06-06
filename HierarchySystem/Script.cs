@@ -9,7 +9,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// <summary>
 	/// Stores the type and instance of a Script.
 	/// </summary>
-	public struct Script // TODO store a list of all events that this Script is subscribed to! We need to remove it's reference from there too to delete it... maybe make it a disposable aswell?
+	public struct Script
 	{
 		/// <summary>
 		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
