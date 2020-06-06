@@ -33,7 +33,7 @@ namespace CrystalClear.RuntimeMain
 
 		public static bool IsRunning = false;
 
-		private static void SubscribeAll(params Assembly[] userAssemblies)
+		private static void SubscribeAllStatic(params Assembly[] userAssemblies)
 		{
 			EventSystem.EventSystem.FindAndSubscribeStaticEventMethods(Assembly.GetAssembly(typeof(ScriptObject)));
 
@@ -83,7 +83,7 @@ namespace CrystalClear.RuntimeMain
 				throw new Exception("Already running!");
 			}
 
-			SubscribeAll(userAssemblies);
+			SubscribeAllStatic(userAssemblies);
 
 			IsRunning = true;
 
