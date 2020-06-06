@@ -37,11 +37,11 @@ namespace CrystalClear.RuntimeMain
 
 		public static void SubscribeAll(params Assembly[] userAssemblies)
 		{
-			EventSystem.EventSystem.FindAndSubscribeEventMethods(Assembly.GetAssembly(typeof(ScriptObject)));
+			EventSystem.EventSystem.FindAndSubscribeStaticEventMethods(Assembly.GetAssembly(typeof(ScriptObject)));
 
 			foreach (Assembly assembly in userAssemblies)
 			{
-				EventSystem.EventSystem.FindAndSubscribeEventMethods(assembly);
+				EventSystem.EventSystem.FindAndSubscribeStaticEventMethods(assembly);
 			}
 		}
 

@@ -100,38 +100,6 @@ namespace CrystalClear.HierarchySystem
 			AddScriptManually(new Script(scriptType, constructorParameters, this));
 		}
 
-		public void AddScripts(Type[] scriptTypes, object[][] constructorParameters = null)
-		{
-			if (constructorParameters != null && scriptTypes.Length != constructorParameters.Length)
-			{
-				throw new ArgumentException("Incorrect scriptType/ConstructorParameter count!");
-			}
-			for (int i = 0; i < scriptTypes.Length; i++)
-			{
-				Type scriptType = scriptTypes[i];
-				object[] constructorParameter = null;
-				if (constructorParameters != null)
-				{
-					constructorParameter = constructorParameters[i];
-				}
-
-				AddScriptManually(new Script(scriptType, constructorParameter, this));
-			}
-		}
-
-		public void AddScripts(string[] names, Script[] scripts)
-		{
-			if (names.Length != scripts.Length)
-			{
-				throw new ArgumentException("Parameter 'names' and 'scripts are not equal lengths.'");
-			}
-
-			for (int i = 0; i < scripts.Length; i++)
-			{
-				AddScriptManually(scripts[i], names[i]);
-			}
-		}
-
 		/// <summary>
 		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
 		/// </summary>
@@ -145,6 +113,11 @@ namespace CrystalClear.HierarchySystem
 			}
 
 			AttatchedScripts.Add(name, script);
+		}
+
+		public void RemoveScript(string name)
+		{
+			EventSystem.EventSystem.UnsubscribeEvents(AttatchedScripts[name].ScriptType, AttatchedScripts[name].ScriptInstance);
 		}
 		#endregion
 
