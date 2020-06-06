@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a bug report and snitch on a bug
+about: Create a bug report to snitch on a bug
 title: ''
 labels: bug
 assignees: ''
