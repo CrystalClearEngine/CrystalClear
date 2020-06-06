@@ -2,7 +2,7 @@
 
 namespace CrystalClear.HierarchySystem
 {
-	public partial class HierarchyObjectProperties
+	public partial class HierarchyObject
 		: IEntity
 	{
 		// Mixed/Hybrid ECS.

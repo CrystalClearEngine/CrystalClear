@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CrystalClear.HierarchySystem
 {
-	public partial class HierarchyObjectProperties
+	public partial class HierarchyObject
 	{
 		// Script Handling.
 		/// <summary>
@@ -14,16 +14,16 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="script">The Script to add to the HierarchyObject.</param>
 		/// <returns>The resulting HierarchyObject.</returns>
 
-		public static HierarchyObjectProperties operator +(HierarchyObjectProperties hierarchyObject, Script script)
+		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Script script)
 		{
-			HierarchyObjectProperties result = hierarchyObject;
+			HierarchyObject result = hierarchyObject;
 			result.AddScriptManually(script);
 			return result;
 		}
 
-		public static HierarchyObjectProperties operator +(HierarchyObjectProperties hierarchyObject, Type scriptType)
+		public static HierarchyObject operator +(HierarchyObject hierarchyObject, Type scriptType)
 		{
-			HierarchyObjectProperties result = hierarchyObject;
+			HierarchyObject result = hierarchyObject;
 			result.AddScript(scriptType);
 			return result;
 		}

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CrystalClear.HierarchySystem
 {
-	public partial class HierarchyObjectProperties
+	public partial class HierarchyObject
 	{
 		/// <summary>
 		/// The local hierarchy, containing all child HierarchyObjects that this HierarchyObject has.
@@ -24,7 +24,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Accesses the LocalHierarchy of this HierarchyObject.
 		/// </summary>
-		public HierarchyObjectProperties this[string index]
+		public HierarchyObject this[string index]
 		{
 			get
 			{
@@ -39,15 +39,15 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// The field referencing this HierarchyObject's parent in the Hierarchy.
 		/// </summary>
-		private WeakReference<HierarchyObjectProperties> parent = new WeakReference<HierarchyObjectProperties>(null);
+		private WeakReference<HierarchyObject> parent = new WeakReference<HierarchyObject>(null);
 		/// <summary>
 		/// Returns the parent, or utlizes ReParentChild() to set it.
 		/// </summary>
-		public HierarchyObjectProperties Parent
+		public HierarchyObject Parent
 		{
 			get
 			{
-				parent.TryGetTarget(out HierarchyObjectProperties hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
+				parent.TryGetTarget(out HierarchyObject hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
 				return hierarchyObject;
 			}
 
@@ -62,7 +62,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="child">The HierarchyObject that should recieve a name change</param>
 		/// <param name="newName">The new name for the child</param>
-		public void SetChildName(HierarchyObjectProperties child, string newName)
+		public void SetChildName(HierarchyObject child, string newName)
 		{
 			string key = GetChildName(child);
 			RemoveChild(key);
@@ -76,7 +76,7 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(string currentName, string newName)
 		{
-			HierarchyObjectProperties hierarchyObject = LocalHierarchy[currentName];
+			HierarchyObject hierarchyObject = LocalHierarchy[currentName];
 			RemoveChild(currentName);
 			AddChild(newName, hierarchyObject);
 		}
@@ -86,7 +86,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="child">The HierarchyObject to get the name of.</param>
 		/// <returns>The name of this object.</returns>
-		public string GetChildName(HierarchyObjectProperties child)
+		public string GetChildName(HierarchyObject child)
 		{
 			string key = LocalHierarchy.First(x => ReferenceEquals(x.Value, child)).Key;
 			return key;
@@ -97,7 +97,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="name">The name of the HierarchyObject to add.</param>
 		/// <param name="child">The HierarchyObject to add.</param>
-		public void AddChild(string name, HierarchyObjectProperties child)
+		public void AddChild(string name, HierarchyObject child)
 		{
 			LocalHierarchy.AddChild(name, child);
 			child.SetUp(this);
@@ -108,7 +108,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="newParent">The parent to move the child to.</param>
 		/// <param name="child">The child to move.</param>
-		public void ReParentChild(HierarchyObjectProperties newParent, HierarchyObjectProperties child)
+		public void ReParentChild(HierarchyObject newParent, HierarchyObject child)
 		{
 			string childName = child.Name;
 			RemoveChild(child);
@@ -121,7 +121,7 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="oldParent">The parent to remove the HierarchyObject from.</param>
 		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
 		/// <param name="child">The child object to re-parent.</param>
-		public static void ReParent(HierarchyObjectProperties oldParent, HierarchyObjectProperties newParent, HierarchyObjectProperties child)
+		public static void ReParent(HierarchyObject oldParent, HierarchyObject newParent, HierarchyObject child)
 		{
 			string childName = child.Name;
 			oldParent.RemoveChild(child);
@@ -132,7 +132,7 @@ namespace CrystalClear.HierarchySystem
 		/// Changes the parent of this HierarchyObject.
 		/// </summary>
 		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
-		public void ReParentThis(HierarchyObjectProperties newParent)
+		public void ReParentThis(HierarchyObject newParent)
 		{
 			string childName = Name;
 			if (!IsRoot)
@@ -146,7 +146,7 @@ namespace CrystalClear.HierarchySystem
 		/// Sets up the HierarchyObject.
 		/// </summary>
 		/// <param name="parent">Optional parent override.</param>
-		public void SetUp(HierarchyObjectProperties parent = null)
+		public void SetUp(HierarchyObject parent = null)
 		{
 			if (Parent is null && parent is null) // Parent null check.
 			{
@@ -173,7 +173,7 @@ namespace CrystalClear.HierarchySystem
 		/// Removes the specified child specified by HierarchyObject from the LocalHierarchy.
 		/// </summary>
 		/// <param name="child">The child HierarchyObject to remove.</param>
-		public void RemoveChild(HierarchyObjectProperties child)
+		public void RemoveChild(HierarchyObject child)
 		{
 			string key = LocalHierarchy.First(HierarchyObject => HierarchyObject.Value == child).Key;
 
@@ -197,7 +197,7 @@ namespace CrystalClear.HierarchySystem
 		/// </summary>
 		/// <param name="path">The path to follow. Hierarchy layers are separated by '/'.</param>
 		/// <returns>The HierarchyObject at the end of the path.</returns>
-		public HierarchyObjectProperties FollowPath(string path)
+		public HierarchyObject FollowPath(string path)
 		{
 			string[] pathSegments = path.Split('/'); // Split the path into the individual HierarchyObjects to follow.
 

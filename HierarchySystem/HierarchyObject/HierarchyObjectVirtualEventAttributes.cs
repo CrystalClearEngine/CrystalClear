@@ -1,6 +1,6 @@
 ﻿namespace CrystalClear.HierarchySystem
 {
-	public partial class HierarchyObjectProperties
+	public partial class HierarchyObject
 	{
 		// Overrideable event methods.
 
@@ -16,7 +16,7 @@
 		/// OnReparent is called when the HierarchyObject's parent updates.
 		/// </summary>
 		/// <param name="newParent">The new parent.</param>
-		protected internal virtual void OnReparent(HierarchyObjectProperties newParent)
+		protected internal virtual void OnReparent(HierarchyObject newParent)
 		{
 
 		}

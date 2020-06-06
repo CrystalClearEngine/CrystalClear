@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CrystalClear.HierarchySystem
 {
-	public partial class HierarchyObjectProperties
+	public partial class HierarchyObject
 	{
 		// Analyzing.
 		/// <summary>
@@ -36,7 +36,7 @@ namespace CrystalClear.HierarchySystem
 		/// <returns>"ether the provided type derives from HierarchyObject.</returns>
 		public static bool IsHierarchyObject(Type type)
 		{
-			return type.IsSubclassOf(typeof(HierarchyObjectProperties));
+			return type.IsSubclassOf(typeof(HierarchyObject));
 		}
 	}
 }
