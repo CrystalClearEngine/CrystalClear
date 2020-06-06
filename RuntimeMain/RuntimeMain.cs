@@ -15,9 +15,7 @@ namespace CrystalClear.RuntimeMain
 		{
 			Assembly compiledAssembly = Assembly.LoadFile(AskQuestion("Enter the path to the UserGeneratedCode for the runtime to use"));
 
-			SubscribeAll(compiledAssembly);
-
-			Run();
+			Run(new Assembly[] { compiledAssembly });
 
 			// TODO: make the Main thread do something instead of wasting it.
 
@@ -35,7 +33,7 @@ namespace CrystalClear.RuntimeMain
 
 		public static bool IsRunning = false;
 
-		public static void SubscribeAll(params Assembly[] userAssemblies)
+		private static void SubscribeAll(params Assembly[] userAssemblies)
 		{
 			EventSystem.EventSystem.FindAndSubscribeStaticEventMethods(Assembly.GetAssembly(typeof(ScriptObject)));
 
@@ -45,7 +43,7 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void Run(string hierarchyPath, string hierarchyName, bool raiseStartEvent = true)
+		public static void Run(Assembly[] userAssemblies, string hierarchyPath, string hierarchyName, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
@@ -53,10 +51,10 @@ namespace CrystalClear.RuntimeMain
 			}
 
 			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
-			Run(hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
+			Run(userAssemblies, hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
 		}
 
-		public static void Run(string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
+		public static void Run(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
@@ -75,15 +73,17 @@ namespace CrystalClear.RuntimeMain
 			#endregion Profiling
 			#endregion
 
-			Run(raiseStartEvent);
+			Run(userAssemblies, raiseStartEvent);
 		}
 
-		public static void Run(bool raiseStartEvent = true)
+		public static void Run(Assembly[] userAssemblies, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
 				throw new Exception("Already running!");
 			}
+
+			SubscribeAll(userAssemblies);
 
 			IsRunning = true;
 

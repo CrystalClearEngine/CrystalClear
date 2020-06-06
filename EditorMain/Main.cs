@@ -277,8 +277,7 @@ public static class MainClass
 
 		Console.WriteLine();
 
-		RuntimeMain.SubscribeAll(compiledAssembly);
-		RuntimeMain.Run(hierarchyName, rootHierarchyObject);
+		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
 		#endregion
 
 		#region Exit handling
