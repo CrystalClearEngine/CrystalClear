@@ -1,0 +1,60 @@
+﻿using CrystalClear.EventSystem;
+using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.ScriptUtilities;
+using CrystalClear.Standard.HierarchyObjects;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace UnitTests
+{
+	[TestClass]
+	public class ScriptEventUnsubscriptionTests
+	{
+		private sealed class OnTestEvent : SubscribeToAttribute
+		{
+			public OnTestEvent() : base(typeof(StartEvent))
+			{
+			}
+		}
+
+		private class TestEvent : ScriptEvent<StartEvent>
+		{
+		}
+
+		[IsScript]
+		private class TestScript
+		{
+			[OnTestEvent]
+			public void OnStart()
+			{
+
+			}
+		}
+
+		[TestMethod]
+		public void MyTestMethod()
+		{
+			ScriptObject scriptObject = new ScriptObject()
+			{
+				LocalHierarchy =
+				{
+					new KeyValuePair<string, HierarchyObject>("Child", new ScriptObject()
+						{
+							AttatchedScripts =
+							{
+								{ "Script", new Script(typeof(TestScript), attatchedTo: null) }
+							}
+						}
+					)
+				}
+			};
+			Assert.IsNotNull(TestEvent.Instance.GetSubscribers(), "The Script wasn't subscribed to the TestEvent.");
+			scriptObject.RemoveChild("Child");
+			Assert.IsNull(TestEvent.Instance.GetSubscribers(), "The Script wasn't unsubscribed from the TestEvent after it's HierarchyObject got removed.");
+		}
+	}
+}

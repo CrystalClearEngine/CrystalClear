@@ -187,7 +187,8 @@ namespace CrystalClear.HierarchySystem
 		public void RemoveChild(string childName)
 		{
 			EventSystem.EventSystem.UnsubscribeEvents(LocalHierarchy[childName].GetType(), LocalHierarchy[childName].GetType());
-			RemoveAllScripts();
+
+			LocalHierarchy[childName].RemoveAllScripts();
 
 			LocalHierarchy.RemoveChild(childName);
 		}
