@@ -77,6 +77,11 @@ namespace CrystalClear.HierarchySystem.Scripting
 			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
 
+		public void UnsubscribeAll()
+		{
+			EventSystem.EventSystem.UnsubscribeEvents(ScriptType, ScriptInstance);
+		}
+
 		public readonly object ScriptInstance;
 
 		public Type ScriptType { get; }
@@ -84,7 +89,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		public object DynamicallyCallMethod(string methodName, params object[] parameters)
 		{
 			List<Type> parameterTypes = new List<Type>();
-			
+
 			foreach (object parameter in parameters)
 			{
 				parameterTypes.Add(parameter.GetType());
