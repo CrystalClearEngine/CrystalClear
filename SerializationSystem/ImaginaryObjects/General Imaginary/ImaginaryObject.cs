@@ -11,7 +11,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	/// </summary>
 	[Serializable]
 	[DataContract]
-	public class ImaginaryObject
+	public class ImaginaryObject : ImaginaryObjectBase<object>
 	{
 		/// <summary>
 		/// Creates an ImaginaryObject with the specified type and constructor parameters.
@@ -86,7 +86,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return !UsesEditor();
 		}
 
-		public virtual object CreateInstance()
+		public override object CreateInstance()
 		{
 			if (UsesConstructorParameters())
 			{
@@ -110,7 +110,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// </summary>
 		/// <param name="writer">The BinaryWriter to use to write the data to.</param>
 		/// <param name="encoding">The encoding to use for writing data.</param>
-		internal virtual void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
+		internal override void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
 		{
 			lock (this)
 			{
