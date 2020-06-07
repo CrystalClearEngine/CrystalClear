@@ -1,5 +1,6 @@
 ﻿using System;
 
+// TODO: if ever static methods are allowed in interfaces, or constructors for that matter, rewrite all this and instead use an interface - IEditable.
 namespace CrystalClear.SerializationSystem
 {
 	// TODO: decide if they should be inherited.
