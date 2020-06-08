@@ -15,7 +15,6 @@ namespace CrystalClear.SerializationSystem
 
 		public EditableAttribute()
 		{
-
 		}
 
 		public string EditorMethodName { get; internal set; } = null;
