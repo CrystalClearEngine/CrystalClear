@@ -8,32 +8,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	/// <summary>
 	/// ImaginaryHierarchyObject is an derivative of ImaginaryObject that is designed specifically for storing HierarchyObjects and the extra data that goes along with it.
 	/// </summary>
-	[Serializable]
 	[DataContract]
-	public class ImaginaryHierarchyObject
-		: ImaginaryObject
+	public class ImaginaryHierarchyObject : ImaginaryObject
 	{
-		/// <summary>
-		/// Creates an ImaginaryHierarchyObject using the provided parent, construction type and construction parameters.
-		/// </summary>
-		/// <param name="parent">Defines the ImaginaryHierarchyObject's position in the Hierarchy.</param>
-		/// <param name="constructionType">The HierarchyObject type.</param>
-		/// <param name="constructorParameters">The construction parameters.</param>
-		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, Type constructionType, ImaginaryObject[] constructorParameters = null)
-			: base(constructionType, constructorParameters)
-		{
-			Parent = parent;
-		}
-
-		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, Type constructionType, EditorData editorData)
-			: base(constructionType, editorData)
-		{
-			Parent = parent;
-		}
-
-		protected ImaginaryHierarchyObject()
-		{ }
-
 		/// <summary>
 		/// Contains the children of this ImaginaryHierarchyObject.
 		/// </summary>
@@ -110,6 +87,15 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			}
 
 			return instance;
+		}
+
+		[DataMember]
+		public string ConstructionTypeName { get; private set; }
+
+		// TODO: determine if a cache for this is neccessary.
+		public Type GetConstructionType()
+		{
+			return Type.GetType(ConstructionTypeName, true);
 		}
 	}
 }
