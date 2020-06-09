@@ -219,7 +219,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				writer.Write(CrystalClearInformation.CrystalClearVersion.ToString());
 
 				// Write the constructor data.
-				toStore.WriteConstructionInfo(writer, encoding);
+				toStore.WriteConstructionInfo(writer);
 
 				// Write the LocalHierarchy.
 				WriteLocalHierarchy(toStore);
@@ -238,7 +238,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 						// Write the child's name.
 						writer.Write(child.Key);
 						// Write the child's constructor info.
-						child.Value.WriteConstructionInfo(writer, encoding);
+						child.Value.WriteConstructionInfo(writer);
 						// Write the child's LocalHierarchy.
 						WriteLocalHierarchy(child.Value);
 					}
@@ -254,7 +254,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 						// Write the script's name.
 						writer.Write(script.Key);
 						// Write the script's constructor info.
-						script.Value.WriteConstructionInfo(writer, encoding);
+						script.Value.WriteConstructionInfo(writer);
 					}
 				}
 			}

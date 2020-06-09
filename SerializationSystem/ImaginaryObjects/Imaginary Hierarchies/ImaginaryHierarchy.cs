@@ -21,7 +21,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		[DataMember]
 		public string HierarchyName { get; private set; }
 
-		public ImaginaryHierarchyObject GetHierarcyObject()
+		public ImaginaryHierarchyObject GetHierarchyObject()
 		{
 			return (ImaginaryHierarchyObject)this;
 		}

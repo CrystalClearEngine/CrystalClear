@@ -8,9 +8,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	public abstract class ImaginaryObject
 	{
+		protected ImaginaryObject()
+		{ }
+
 		private delegate ImaginaryObject CreateImaginaryObjectDelegate();
 
-		public ImaginaryObject ReadEmptyImaginaryObject(BinaryReader reader, Encoding encoding)
+		private static ImaginaryObject ReadEmptyImaginaryObject(BinaryReader reader)
 		{
 			// TODO: use cache for this.
 
@@ -20,7 +23,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			{
 				throw new ArgumentException();
 			}
-			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(new Type[] { });
+			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(Array.Empty<Type>());
 			MethodInfo readConstructionInfoMethod = imaginaryObjectType.GetMethod("ReadConstructionInfo");
 			MethodInfo createInstanceMethod = imaginaryObjectType.GetMethod("CreateInstance");
 
@@ -33,16 +36,33 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return ((CreateImaginaryObjectDelegate)dynamicMethod.CreateDelegate(typeof(CreateImaginaryObjectDelegate)))();
 		}
 
-		public void WriteEmptyImaginaryObject<TImaginaryObject>(BinaryWriter writer, Encoding encoding)
-			where TImaginaryObject : ImaginaryObject
+		private static void WriteImaginaryObjectType(Type imaginaryObjectType, BinaryWriter writer)
 		{
-			writer.Write(typeof(TImaginaryObject).AssemblyQualifiedName);
+			writer.Write(imaginaryObjectType.AssemblyQualifiedName);
+		}
+
+		/// <summary>
+		/// Reads an ImaginaryObject from the current position of the reader.
+		/// </summary>
+		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader)
+		{
+			ImaginaryObject imaginaryObject = ReadEmptyImaginaryObject(reader);
+			imaginaryObject.ReadConstructionInfo(reader);
+
+			return imaginaryObject;
+		}
+
+		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer)
+		{
+			WriteImaginaryObjectType(imaginaryObject.GetType(), writer);
+
+			imaginaryObject.WriteConstructionInfo(writer);
 		}
 
 		public abstract object CreateInstance();
 
-		internal abstract void WriteConstructionInfo(BinaryWriter writer, Encoding encoding);
+		protected abstract void WriteConstructionInfo(BinaryWriter writer);
 
-		internal abstract void ReadConstructionInfo(BinaryReader reader, Encoding encoding);
+		protected abstract void ReadConstructionInfo(BinaryReader reader);
 	}
 }

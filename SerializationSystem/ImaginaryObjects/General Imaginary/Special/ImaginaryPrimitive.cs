@@ -29,12 +29,17 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				throw new ArgumentException($"{value.GetType().FullName} does not qualify as an ImaginaryPrimitive."); // TODO: use custom exception.
 			}
 
+			TypeData = new TypeData(value.GetType());
+
 			PrimitiveObjectValue = value;
 		}
 
 		internal ImaginaryPrimitive()
 		{
 		}
+
+		[DataMember]
+		public TypeData TypeData;
 
 		[DataMember]
 		public object PrimitiveObjectValue;
@@ -51,23 +56,14 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return PrimitiveObjectValue;
 		}
 
-		internal override void WriteConstructionInfo(BinaryWriter writer, Encoding encoding)
+		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
 			writer.Write(StringValue);
 		}
 
-		internal override void ReadConstructionInfo(BinaryReader reader, Encoding encoding)
+		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
 			PrimitiveObjectValue = reader.ReadString();
-		}
-
-		[DataMember]
-		public string ConstructionTypeName { get; private set; }
-
-		// TODO: determine if a cache for this is neccessary.
-		public Type GetConstructionType()
-		{
-			return Type.GetType(ConstructionTypeName, true);
 		}
 	}
 }
