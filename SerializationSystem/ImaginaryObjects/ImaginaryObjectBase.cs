@@ -19,10 +19,6 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			// Create a DynamicMethod that returns a new instance of the encoded type.
 			Type imaginaryObjectType = Type.GetType(reader.ReadString());
-			if (!imaginaryObjectType.IsSubclassOf(typeof(ImaginaryObject)))
-			{
-				throw new ArgumentException();
-			}
 			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(Array.Empty<Type>());
 			MethodInfo readConstructionInfoMethod = imaginaryObjectType.GetMethod("ReadConstructionInfo");
 			MethodInfo createInstanceMethod = imaginaryObjectType.GetMethod("CreateInstance");
@@ -44,19 +40,63 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <summary>
 		/// Reads an ImaginaryObject from the current position of the reader.
 		/// </summary>
-		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader)
+		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success, bool expectImaginaryObjectUniqueIdentifier = true)
 		{
+			int imaginaryObjectUniqueIdentifier = 0;
+			
+			if (expectImaginaryObjectUniqueIdentifier)
+				imaginaryObjectUniqueIdentifier = reader.ReadInt32();
+
+			//try
+			//{
 			ImaginaryObject imaginaryObject = ReadEmptyImaginaryObject(reader);
 			imaginaryObject.ReadConstructionInfo(reader);
+			//}
+			//catch (Exception)
+			//{
+			//	// Move the position forward to where the ImaginaryObject ends.
+			//	return new CorruptedImaginaryObject();
+			//}
+
+			if (expectImaginaryObjectUniqueIdentifier)
+				success = (imaginaryObjectUniqueIdentifier == reader.ReadInt32());
+			else
+				success = null;
 
 			return imaginaryObject;
 		}
 
-		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer)
+		static int writtenImaginaryObjects = 0;
+
+		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
+			int imaginaryObjectUniqueIdentifier = 0;
+
+			if (writeImaginaryObjectUniqueIdentifier)
+			{
+				imaginaryObjectUniqueIdentifier = writtenImaginaryObjects;
+				imaginaryObjectUniqueIdentifier += imaginaryObject.GetHashCode();
+				imaginaryObjectUniqueIdentifier += new Random().Next(imaginaryObjectUniqueIdentifier, int.MaxValue);
+
+				writer.Write(imaginaryObjectUniqueIdentifier);
+			}
+
+			//try
+			//{
 			WriteImaginaryObjectType(imaginaryObject.GetType(), writer);
 
 			imaginaryObject.WriteConstructionInfo(writer);
+			//}
+			//catch (Exception)
+			//{
+			//	// Revert position to where the writer was before.
+			//	WriteImaginaryObject(new CorruptedImaginaryObject(), writer);
+			//}
+
+			if (writeImaginaryObjectUniqueIdentifier)
+				writer.Write(imaginaryObjectUniqueIdentifier);
+
+			writtenImaginaryObjects++;
 		}
 
 		public abstract object CreateInstance();

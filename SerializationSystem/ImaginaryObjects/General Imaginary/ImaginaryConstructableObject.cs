@@ -23,9 +23,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ImaginaryConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
 		}
 
-		internal ImaginaryConstructableObject()
-		{
-		}
+		private ImaginaryConstructableObject()
+		{ }
 
 		[DataMember]
 		public TypeData TypeData;
@@ -73,7 +72,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
 			{
-				ImaginaryConstructionParameters[i] = ReadImaginaryObject(reader);
+				ImaginaryConstructionParameters[i] = ReadImaginaryObject(reader, out _);
 			}
 		}
 	}
