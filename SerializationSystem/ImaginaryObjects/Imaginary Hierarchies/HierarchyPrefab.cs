@@ -1,50 +1,48 @@
 ﻿using System.Runtime.Serialization;
 
+// TODO: use FileSystemWatcher to detect changes to the Prefab when in editor. Should probably prompt the user on startup if the file has moved/been deleted that they have to provide a new path.
 // TODO: apply changes only when applied or some save event is called, or just update them (for now) on any change.
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
-	//[Editable(MainMode: false)]
 	[DataContract]
 	public sealed class HierarchyPrefab : ImaginaryHierarchyObject
 	{
-		public HierarchyPrefab(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
+		public HierarchyPrefab(ImaginaryHierarchyObject imaginaryHierarchyObject, string name, string prefabPath)
 		{
-			// Clone the imaginaryHierarchyObject's properties.
-			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
-			else
-				EditorData = imaginaryHierarchyObject.EditorData;
+			HierarchyObjectBase = imaginaryHierarchyObject.HierarchyObjectBase;
 
 			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
 			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
-			ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
 
-			// Set the name.
 			PrefabName = name;
+
+			PrefabPath = prefabPath;
 		}
 
+		private HierarchyPrefab()
+		{ }
+
+		[DataMember]
 		public string PrefabPath { get; set; }
 
 		[DataMember]
 		public string PrefabName { get; private set; }
 
-		public void Apply(bool saveAll)
+		public void Apply()
 		{
 			ImaginaryObjectSerialization.SaveToFile(PrefabPath, this);
 		}
 
 		public void Revert()
 		{
-			ImaginaryHierarchyObject prefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(PrefabPath);
+			HierarchyPrefab imaginaryObject = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(PrefabPath);
 
-			if (prefab.UsesConstructorParameters())
-				ImaginaryConstructionParameters = prefab.ImaginaryConstructionParameters;
-			else
-				EditorData = prefab.EditorData;
+			HierarchyObjectBase = imaginaryObject.HierarchyObjectBase;
 
-			AttatchedScripts = prefab.AttatchedScripts;
-			LocalHierarchy = prefab.LocalHierarchy;
-			ConstructionTypeName = prefab.ConstructionTypeName;
+			AttatchedScripts = imaginaryObject.AttatchedScripts;
+			LocalHierarchy = imaginaryObject.LocalHierarchy;
+
+			PrefabName = imaginaryObject.PrefabName;
 		}
 
 		public ImaginaryHierarchyObject GetNonPrefab()
