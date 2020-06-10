@@ -68,6 +68,11 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		static int writtenImaginaryObjects = 0;
 
+		/// <summary>
+		/// Shortcut for 'WriteImaginaryObject(this, writer)'.
+		/// </summary>
+		public void WriteThis(BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true) => WriteImaginaryObject(this, writer, writeImaginaryObjectUniqueIdentifier);
+
 		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
 			int imaginaryObjectUniqueIdentifier = 0;

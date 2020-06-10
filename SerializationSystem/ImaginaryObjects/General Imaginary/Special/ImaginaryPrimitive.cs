@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
+	[EditorBrowsable(EditorBrowsableState.Never)] // TODO: determine whether or not this will also hide the contained extension methods, in which case it should be removed.
 	public static class ImaginaryPrimitiveExtensions
 	{
 		public static bool QualifiesAsPrimitive(this object valueToCheck)

@@ -51,7 +51,7 @@ namespace CrystalClear.RuntimeMain
 			}
 
 			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
-			Run(userAssemblies, hierarchyName, ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(hierarchyPath), raiseStartEvent);
+			Run(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
 		}
 
 		public static void Run(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
@@ -66,7 +66,7 @@ namespace CrystalClear.RuntimeMain
 			Stopwatch performanceStopwatchForCreate = new Stopwatch();
 			performanceStopwatchForCreate.Start();
 			#endregion
-			HierarchyManager.AddHierarchy(hierarchyName, rootHierarchyObject.CreateInstance(null));
+			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject)rootHierarchyObject.CreateInstance());
 			#region Profiling
 			performanceStopwatchForCreate.Stop();
 			Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");

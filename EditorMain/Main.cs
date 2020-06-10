@@ -554,7 +554,7 @@ public static class MainClass
 		{
 			try
 			{
-				ImaginaryObjectSerialization.PackHierarchyObjectToFile(path, rootHierarchyObject);
+				ImaginaryObjectSerialization.PackImaginaryObjectToFile(path, rootHierarchyObject);
 			}
 			catch (FileNotFoundException)
 			{
@@ -566,7 +566,7 @@ public static class MainClass
 		{
 			try
 			{
-				rootHierarchyObject = ImaginaryObjectSerialization.UnpackHierarchyObjectFromFile(path);
+				rootHierarchyObject = ImaginaryObjectSerialization.UnpackImaginaryObject(path);
 				currentSelectedHierarchyObject = rootHierarchyObject;
 			}
 			catch (FileNotFoundException)
