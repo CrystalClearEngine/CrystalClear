@@ -127,7 +127,7 @@ namespace CrystalClear
 		{
 			DirectoryInfo projectDirectory = new DirectoryInfo(projectPath);
 
-			if (!IsProject(projectDirectory.FullName))
+			if (!IsProject(projectDirectory))
 			{
 				throw new Exception("No project exists at this location.");
 			}
@@ -165,9 +165,8 @@ namespace CrystalClear
 			Console.Title = $"{CurrentProject.ProjectName} | Crystal Clear Engine {CrystalClearVersion}";
 		}
 
-		public static bool IsProject(string path)
+		public static bool IsProject(DirectoryInfo projectDirectory)
 		{
-			DirectoryInfo projectDirectory = Directory.CreateDirectory(path);
 			if (!projectDirectory.Exists)
 			{
 				return false;
