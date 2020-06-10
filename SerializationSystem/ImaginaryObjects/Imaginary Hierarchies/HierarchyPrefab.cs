@@ -5,9 +5,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	//[Editable(MainMode: false)]
 	[DataContract]
-	public sealed class ImaginaryHierarchyPrefab : ImaginaryHierarchyObject
+	public sealed class HierarchyPrefab : ImaginaryHierarchyObject
 	{
-		public ImaginaryHierarchyPrefab(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
+		public HierarchyPrefab(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
 		{
 			// Clone the imaginaryHierarchyObject's properties.
 			if (imaginaryHierarchyObject.UsesConstructorParameters())

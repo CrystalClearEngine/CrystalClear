@@ -656,7 +656,7 @@ public static class MainClass
 
 		void ImportPrefab(string prefabPath)
 		{
-			ImaginaryHierarchyPrefab imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyPrefab>(prefabPath);
+			HierarchyPrefab imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(prefabPath);
 
 			imaginaryHierarchyPrefab.PrefabPath = prefabPath;
 
@@ -669,7 +669,7 @@ public static class MainClass
 
 		void ExportPrefab(string exportPath, string name = null)
 		{
-			ImaginaryHierarchyPrefab imaginaryHierarchyPrefab = new ImaginaryHierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
+			HierarchyPrefab imaginaryHierarchyPrefab = new HierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
 			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchyPrefab);
 		}
 
