@@ -8,15 +8,16 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	{
 		public ImaginaryHierarchy(ImaginaryHierarchyObject imaginaryHierarchyObject, string name)
 		{
-			if (imaginaryHierarchyObject.UsesConstructorParameters())
-				ImaginaryConstructionParameters = imaginaryHierarchyObject.ImaginaryConstructionParameters;
-			else
-				EditorData = imaginaryHierarchyObject.EditorData;
+			HierarchyObjectBase = imaginaryHierarchyObject.HierarchyObjectBase;
 
 			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
 			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
-			ConstructionTypeName = imaginaryHierarchyObject.ConstructionTypeName;
+
+			HierarchyName = name;
 		}
+
+		private ImaginaryHierarchy()
+		{ }
 
 		[DataMember]
 		public string HierarchyName { get; private set; }
