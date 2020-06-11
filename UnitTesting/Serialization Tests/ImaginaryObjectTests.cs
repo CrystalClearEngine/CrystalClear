@@ -12,7 +12,7 @@ namespace UnitTests
 		{
 			TestObject testObject = new TestObject("Hello!");
 
-			ImaginaryObject imaginaryObject = new ImaginaryObject(typeof(TestObject),
+			ImaginaryObject imaginaryObject = new ImaginaryConstructableObject(typeof(TestObject),
 														 new ImaginaryObject[] { new ImaginaryPrimitive("Hello!") });
 
 			TestObject createdTestObject = (TestObject)imaginaryObject.CreateInstance();
