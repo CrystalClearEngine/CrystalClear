@@ -67,18 +67,18 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Get the key (name) of a Hierarchy in LoadedHierarchies.
 		/// </summary>
-		/// <param name="hierarchy">The Hierarchy to find the name of.</param>
+		/// <param name="hierarchyObject">The Hierarchy to find the name of.</param>
 		/// <returns>The name of the HierarchyObject.</returns>
-		public static string GetHierarchyName(HierarchyObject hierarchy)
+		public static string GetHierarchyName(HierarchyObject hierarchyObject)
 		{
-			if (!LoadedHierarchies.ContainsValue(hierarchy))
+			if (!LoadedHierarchies.ContainsValue(hierarchyObject))
 			{
 				throw new KeyNotFoundException("Hierarchy not found!");
 			}
 
 			string key;
 
-			key = LoadedHierarchies.First(x =>ReferenceEquals(x.Value, hierarchy)).Key;
+			key = LoadedHierarchies.First(x =>ReferenceEquals(x.Value, hierarchyObject)).Key;
 
 			return key;
 		}
