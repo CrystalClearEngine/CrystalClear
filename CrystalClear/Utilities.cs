@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -7,6 +8,12 @@ namespace CrystalClear
 {
 	public static class Utilities
 	{
+		public static void CreateEmptyFile(string path)
+		{
+			Directory.CreateDirectory(Path.GetDirectoryName(path));
+			File.Create(path).Dispose();
+		}
+
 		/// <summary>
 		/// Returns a name that is ensured to be unique among the provided names and based on a base name.
 		/// Example:
