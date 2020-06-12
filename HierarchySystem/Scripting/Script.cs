@@ -100,6 +100,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 
 		public Type ScriptType { get; }
 
+		#region Script Management
 		public void UnsubscribeAll()
 		{
 			EventSystem.EventSystem.UnsubscribeEvents(ScriptType, ScriptInstance);
@@ -141,6 +142,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 
 			return returnObjects.ToArray();
 		}
+		#endregion
 
 		#region Script Utilities
 		/// <summary>
