@@ -2,10 +2,12 @@
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
+	[DataContract]
 	public abstract class ImaginaryObject
 	{
 		protected ImaginaryObject()
@@ -40,11 +42,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <summary>
 		/// Reads an ImaginaryObject from the current position of the reader.
 		/// </summary>
-		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success, bool expectImaginaryObjectUniqueIdentifier = true)
+		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success)
 		{
 			int imaginaryObjectUniqueIdentifier = 0;
-			
-			if (expectImaginaryObjectUniqueIdentifier)
+
+			bool usesImaginaryObjectUniqueIdentifier = reader.ReadBoolean();
+
+			if (usesImaginaryObjectUniqueIdentifier)
 				imaginaryObjectUniqueIdentifier = reader.ReadInt32();
 
 			//try
@@ -58,7 +62,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			//	return new CorruptedImaginaryObject();
 			//}
 
-			if (expectImaginaryObjectUniqueIdentifier)
+			if (usesImaginaryObjectUniqueIdentifier)
 				success = (imaginaryObjectUniqueIdentifier == reader.ReadInt32());
 			else
 				success = null;
@@ -75,8 +79,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
-			int imaginaryObjectUniqueIdentifier = 0;
+			writer.Write(writeImaginaryObjectUniqueIdentifier);
 
+			int imaginaryObjectUniqueIdentifier = 0;
 			if (writeImaginaryObjectUniqueIdentifier)
 			{
 				imaginaryObjectUniqueIdentifier = writtenImaginaryObjects;
