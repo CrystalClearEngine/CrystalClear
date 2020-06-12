@@ -18,7 +18,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		[DataMember]
-		public string ConstructionTypeName { get; }
+		public string ConstructionTypeName { get; private set; }
 
 		// TODO: determine if a cache for this is neccessary.
 		public Type GetConstructionType() => Type.GetType(ConstructionTypeName, true);
