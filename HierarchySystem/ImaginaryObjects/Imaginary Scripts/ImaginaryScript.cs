@@ -32,7 +32,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <returns>The created Script instance.</returns>
 		public override object CreateInstance()
 		{
-			Script script = new Script(ImaginaryObjectBase.CreateInstance(), AttatchedTo);
+			Script script = new Script((ImaginaryObject)ImaginaryObjectBase.CreateInstance(), AttatchedTo);
 
 			return script;
 		}
