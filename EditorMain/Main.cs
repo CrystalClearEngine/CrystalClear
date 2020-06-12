@@ -92,18 +92,17 @@ public static class MainClass
 		#region Editor loop
 		// Very basic editor.
 
-		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, typeof(HierarchyRoot));
+		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 		ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 		LoopEditor:
 		Console.WriteLine();
 
-		// Get input.
 		string line = Console.ReadLine();
 
-		// Split the command at any space.
 		string[] commandSections = line.Split(' ');
 
+		// The actual command recognition.
 		try
 		{
 			switch (commandSections[0])
@@ -345,19 +344,24 @@ public static class MainClass
 				SetName(hierarchyObjectToModify, AskQuestion("Write the new name"));
 			}
 
-			if (hierarchyObjectToModify.UsesEditor())
+			if (hierarchyObjectToModify.ImaginaryObjectBase is ImaginaryEditableObject imaginaryEditableObject)
 			{
-				EditableSystem.OpenEditor(hierarchyObjectToModify.GetConstructionType(), ref hierarchyObjectToModify.EditorData);
+				EditableSystem.OpenEditor(imaginaryEditableObject.TypeData.GetConstructionType(), ref ((ImaginaryEditableObject)hierarchyObjectToModify.ImaginaryObjectBase).EditorData);
+			}
+			else if (hierarchyObjectToModify.ImaginaryObjectBase is ImaginaryConstructableObject imaginaryConstructableObject)
+			{
+				imaginaryConstructableObject.ImaginaryConstructionParameters = GetConstructorParameters(imaginaryConstructableObject.TypeData.GetConstructionType());
 			}
 			else
 			{
-				hierarchyObjectToModify.ImaginaryConstructionParameters = GetConstructorParameters(hierarchyObjectToModify.GetConstructionType());
+				Output.ErrorLog($"{hierarchyObjectToModify.ImaginaryObjectBase.GetType()} cannot be modified using this tool.", true);
 			}
 		}
 
 		void Details(string toDetail = null)
 		{
 			ImaginaryHierarchyObject hierarchyObjectToViewDetailsOf;
+
 			if (string.IsNullOrEmpty(toDetail))
 			{
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject;
@@ -378,19 +382,19 @@ public static class MainClass
 
 			Console.WriteLine($"Details for {hierarchyObjectToViewDetailsOf}:");
 
-			Console.WriteLine($"Name: {toDetail}");
+			Console.WriteLine($"Name: {toDetail ?? "\b\b is unknown. Presumably the HierarchyObject is root."}");
 
-			Console.WriteLine($"Type: {hierarchyObjectToViewDetailsOf.GetConstructionType().FullName}");
+			Console.WriteLine($"Type: {hierarchyObjectToViewDetailsOf}");
 
-			if (hierarchyObjectToViewDetailsOf.UsesConstructorParameters())
+			if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryConstructableObject imaginaryConstructable)
 			{
 				Console.WriteLine("This HierarchyObject uses constructor parameters to be created.");
 
-				Console.WriteLine($"Parameter count: {hierarchyObjectToViewDetailsOf.ImaginaryConstructionParameters.Length}");
+				Console.WriteLine($"Parameter count: {imaginaryConstructable.ImaginaryConstructionParameters.Length}");
 
 				Console.Write("Parameters: (");
 				bool first = true;
-				foreach (ImaginaryObject parameter in hierarchyObjectToViewDetailsOf.ImaginaryConstructionParameters)
+				foreach (ImaginaryObject parameter in imaginaryConstructable.ImaginaryConstructionParameters)
 				{
 					// Put commas after every parameter if unless it's the first parameter.
 					if (!first)
@@ -404,15 +408,15 @@ public static class MainClass
 				}
 				Console.Write(")\n");
 			}
-			else
+			else if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryEditableObject imaginaryEditableObject)
 			{
 				Console.WriteLine("This HierarchyObject uses an Editor to be created and modified.");
 
-				Console.WriteLine($"EditorData count: {hierarchyObjectToViewDetailsOf.EditorData.Count}");
+				Console.WriteLine($"EditorData count: {imaginaryEditableObject.EditorData.Count}");
 
 				Console.Write("EditorData: (");
 				bool first = true;
-				foreach (KeyValuePair<string, string> data in hierarchyObjectToViewDetailsOf.EditorData)
+				foreach (KeyValuePair<string, string> data in imaginaryEditableObject.EditorData)
 				{
 					// Put commas after every parameter if unless it's the first parameter.
 					if (!first)
@@ -426,6 +430,13 @@ public static class MainClass
 				}
 				Console.Write(")\n");
 			}
+			else
+			{
+				Output.ErrorLog($"Cannot detail the construction of a HierarchyObject of type {hierarchyObjectToViewDetailsOf.ImaginaryObjectBase?.GetType()}.", true);
+				// TODO: use reflection to try and detail it anyways?
+			}
+
+			// TODO: add LocalHierarchy and AttatchedScripts information here.
 		}
 
 		// TODO: Make this support generics (generic HierarchyObjects) will also probably require a change to ImaginaryHierarchyObject. (Script equivalents too so they can support generic Scripts!)
@@ -447,19 +458,19 @@ public static class MainClass
 
 			ImaginaryHierarchyObject CreateImaginaryHierarchyObject(Type ofType)
 			{
-				if (ofType.IsEditable(out _))
+				if (ofType.IsEditable())
 				{
 					EditorData editorData = EditorData.GetEmpty();
 					EditableSystem.OpenEditor(ofType, ref editorData);
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, editorData);
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryEditableObject(ofType, editorData));
 				}
 				else if (ofType.GetConstructors().Length > 0)
 				{
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType, GetConstructorParameters(ofType));
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(ofType, GetConstructorParameters(ofType)));
 				}
 				else
 				{
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, ofType);
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(ofType));
 				}
 			}
 		}
@@ -501,19 +512,19 @@ public static class MainClass
 
 			ImaginaryScript CreateImaginaryScript(Type type)
 			{
-				if (type.IsEditable(out _))
+				if (type.IsEditable())
 				{
 					EditorData editorData = EditorData.GetEmpty();
 					EditableSystem.OpenEditor(type, ref editorData);
-					return new ImaginaryScript(type, editorData);
+					return new ImaginaryScript(new ImaginaryEditableObject(type, editorData));
 				}
 				else if (type.GetConstructors().Length > 0)
 				{
-					return new ImaginaryScript(type, GetConstructorParameters(type));
+					return new ImaginaryScript(new ImaginaryConstructableObject(type, GetConstructorParameters(type)));
 				}
 				else
 				{
-					return new ImaginaryScript(type);
+					return new ImaginaryScript(new ImaginaryConstructableObject(type));
 				}
 			}
 		}
@@ -529,6 +540,8 @@ public static class MainClass
 			try
 			{
 				ImaginaryObjectSerialization.SaveToFile(path, rootHierarchyObject);
+
+				Output.Log($"Successfuly saved to location {path}.", ConsoleColor.Black, ConsoleColor.Green);
 			}
 #pragma warning disable CA1031 // Do not catch general exception types
 			catch (FileNotFoundException)
@@ -543,6 +556,9 @@ public static class MainClass
 			{
 				rootHierarchyObject = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchyObject>(path);
 				currentSelectedHierarchyObject = rootHierarchyObject;
+
+				Output.Log($"Successfuly loaded from location {path}.", ConsoleColor.Black, ConsoleColor.Green);
+
 			}
 			catch (FileNotFoundException)
 			{
@@ -555,6 +571,8 @@ public static class MainClass
 			try
 			{
 				ImaginaryObjectSerialization.PackImaginaryObjectToFile(path, rootHierarchyObject);
+
+				Output.Log($"Successfuly packed to location {path}.", ConsoleColor.Black, ConsoleColor.Green);
 			}
 			catch (FileNotFoundException)
 			{
@@ -566,8 +584,10 @@ public static class MainClass
 		{
 			try
 			{
-				rootHierarchyObject = ImaginaryObjectSerialization.UnpackImaginaryObject(path);
+				rootHierarchyObject = (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(path);
 				currentSelectedHierarchyObject = rootHierarchyObject;
+
+				Output.Log($"Successfuly unpacked from location {path}.", ConsoleColor.Black, ConsoleColor.Green);
 			}
 			catch (FileNotFoundException)
 			{
@@ -580,6 +600,7 @@ public static class MainClass
 		void List(string toList = null)
 		{
 			ImaginaryHierarchyObject hierarchyObjectToList;
+
 			if (string.IsNullOrEmpty(toList))
 			{
 				hierarchyObjectToList = currentSelectedHierarchyObject;
@@ -593,6 +614,8 @@ public static class MainClass
 			{
 				Console.WriteLine(name);
 			}
+
+			Console.WriteLine("A total of " + hierarchyObjectToList.LocalHierarchy.Count + " HierarchyObjects in the local hierarchy.");
 		}
 
 		// TODO: add forwardsteps. A selection can be done like this to traverse multiple layers <<< MyFolder > MySubfolder > MyObject
@@ -669,7 +692,7 @@ public static class MainClass
 
 		void ExportPrefab(string exportPath, string name = null)
 		{
-			HierarchyPrefab imaginaryHierarchyPrefab = new HierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
+			HierarchyPrefab imaginaryHierarchyPrefab = new HierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name, AskQuestion("What should the path of this Hierarchy prefab be?"));
 			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchyPrefab);
 		}
 
@@ -681,7 +704,7 @@ public static class MainClass
 
 			currentSelectedHierarchyObject.LocalHierarchy.Add(
 				imaginaryHierarchy.HierarchyName,
-				imaginaryHierarchy.GetHierarcyObject());
+				imaginaryHierarchy.GetHierarchyObject());
 		}
 
 		void ExportHierarchy(string exportPath, string name = null)
@@ -743,7 +766,7 @@ public static class MainClass
 				}
 				else
 				{
-					Console.WriteLine("Invalid input.");
+					Output.ErrorLog("Invalid input.", true);
 					goto getInput;
 				}
 			}
@@ -785,27 +808,27 @@ public static class MainClass
 
 		ImaginaryObject CreateImaginaryObject(Type type)
 		{
-			if (type.IsEditable(out _))
+			if (type.IsEditable())
 			{
 				EditorData editorData = EditorData.GetEmpty();
 				EditableSystem.OpenEditor(type, ref editorData);
-				return new ImaginaryObject(type, editorData);
+				return new ImaginaryEditableObject(type, editorData);
 			}
 			else if (type.IsEnum)
 			{
 				return new ImaginaryEnum(type, SelectItem(Enum.GetNames(type)));
 			}
-			else if (ImaginaryPrimitive.QualifiesAsImaginaryPrimitive(type) || type.GetInterface(nameof(IConvertible)) != null || type.GetInterface(nameof(IFormattable)) != null)
+			else if (type.QualifiesAsPrimitive())
 			{
 				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), type));
 			}
 			else if (type.GetConstructors().Length > 0)
 			{
-				return new ImaginaryObject(type, GetConstructorParameters(type));
+				return new ImaginaryConstructableObject(type, GetConstructorParameters(type));
 			}
 			else
 			{
-				return new ImaginaryObject(type);
+				return new ImaginaryConstructableObject(type);
 			}
 		}
 		#endregion
