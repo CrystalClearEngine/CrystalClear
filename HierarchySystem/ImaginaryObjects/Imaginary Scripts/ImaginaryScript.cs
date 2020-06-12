@@ -10,6 +10,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	/// Stores data for constructing a Script.
 	/// </summary>
 	[DataContract]
+	[KnownType(typeof(ImaginaryObject)), KnownType(typeof(ImaginaryConstructableObject)), KnownType(typeof(ImaginaryEditableObject))]
 	public class ImaginaryScript : ImaginaryObject
 	{
 		public ImaginaryScript(ImaginaryObject imaginaryObjectBase)
@@ -22,6 +23,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		public HierarchyObject AttatchedTo;
 
+		[DataMember]
 		public ImaginaryObject ImaginaryObjectBase;
 
 		/// <summary>
@@ -30,7 +32,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <returns>The created Script instance.</returns>
 		public override object CreateInstance()
 		{
-			Script script = (Script)ImaginaryObjectBase.CreateInstance();
+			Script script = new Script(ImaginaryObjectBase.CreateInstance(), AttatchedTo);
 
 			return script;
 		}

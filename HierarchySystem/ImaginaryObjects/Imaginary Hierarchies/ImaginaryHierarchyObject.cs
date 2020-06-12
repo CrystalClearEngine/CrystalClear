@@ -11,6 +11,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	/// ImaginaryHierarchyObject is an derivative of ImaginaryObject that is designed specifically for storing HierarchyObjects and the extra data that goes along with it.
 	/// </summary>
 	[DataContract]
+	[KnownType(typeof(ImaginaryObject)), KnownType(typeof(ImaginaryConstructableObject)), KnownType(typeof(ImaginaryEditableObject))]
 	public class ImaginaryHierarchyObject : ImaginaryObject
 	{
 		protected ImaginaryHierarchyObject()
@@ -22,6 +23,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ImaginaryObjectBase = imaginaryObjectBase;
 		}
 
+		[DataMember]
 		public ImaginaryObject ImaginaryObjectBase;
 
 		/// <summary>
@@ -53,11 +55,23 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			}
 			set
 			{
+				if (parent is null)
+					parent = new WeakReference<ImaginaryHierarchyObject>(null);
+
 				parent.SetTarget(value);
 			}
 		}
 
-		private WeakReference<ImaginaryHierarchyObject> parent = new WeakReference<ImaginaryHierarchyObject>(null);
+		private WeakReference<ImaginaryHierarchyObject> parent;
+
+		[OnDeserialized]
+		private void OnDeserialize(StreamingContext streamingContext)
+		{
+			foreach (ImaginaryHierarchyObject imaginaryHierarchyObject in LocalHierarchy.Values)
+			{
+				imaginaryHierarchyObject.Parent = this;
+			}
+		}
 
 		public override object CreateInstance()
 		{

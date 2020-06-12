@@ -12,6 +12,7 @@
     <ProjectReference Include="..\ECSSystem\ECSSystem.csproj" />
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
+    <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj" />
   </ItemGroup>
 
 </Project>
