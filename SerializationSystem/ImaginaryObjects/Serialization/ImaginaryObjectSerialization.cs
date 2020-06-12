@@ -74,6 +74,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			Encoding encoding = Encoding.UTF8;
 
+			Utilities.CreateEmptyFile(path);
+
 			using (FileStream fileStream = new FileStream(path, FileMode.Create))
 #if DEBUG
 			using (BinaryWriter writer = new BinaryWriter(fileStream, encoding))
