@@ -12,18 +12,25 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	[DataContract]
 	public class ImaginaryScript : ImaginaryObject
 	{
+		public ImaginaryScript(ImaginaryObject imaginaryObjectBase)
+		{
+			ImaginaryObjectBase = imaginaryObjectBase;
+		}
+
+		private ImaginaryScript()
+		{ }
+
 		public HierarchyObject AttatchedTo;
 
-		public ImaginaryObject ScriptBase;
+		public ImaginaryObject ImaginaryObjectBase;
 
 		/// <summary>
 		/// Creates a Script instance using the construction data stored, as well as the optional attatchedTo HierarchyObject (required if the Script type is a HierarchyScript).
 		/// </summary>
-		/// <param name="attatchedTo">The HierarchyObject that this Script is attatched to IF it is a HierarchyScript.</param>
 		/// <returns>The created Script instance.</returns>
 		public override object CreateInstance()
 		{
-			Script script = (Script)ScriptBase.CreateInstance();
+			Script script = (Script)ImaginaryObjectBase.CreateInstance();
 
 			return script;
 		}
