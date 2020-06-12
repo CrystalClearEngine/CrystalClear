@@ -16,7 +16,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		protected ImaginaryHierarchyObject()
 		{ }
 
-		public ImaginaryObject HierarchyObjectBase;
+		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, ImaginaryObject imaginaryObjectBase)
+		{
+			Parent = parent;
+			ImaginaryObjectBase = imaginaryObjectBase;
+		}
+
+		public ImaginaryObject ImaginaryObjectBase;
 
 		/// <summary>
 		/// Contains the children of this ImaginaryHierarchyObject.
@@ -27,20 +33,41 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <summary>
 		/// Contains the scripts which will be added to the HierarchyObject when an instance is created.
 		/// </summary>
+		// TODO: add system where when a new script is added it will automatically be given its attached, maybe using [OnSerialized]? This for LocalHierarchy too.
 		[DataMember]
 		public virtual Dictionary<string, ImaginaryScript> AttatchedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
 
-		private HierarchyObject hierarchyObjectParent;
+		// TODO: ensure this actually gets set.
+		public HierarchyObject HierarchyObjectParent;
+
+		// TODO: Going to need to be able to serialize this somehow, at least for the DataContractSerializer...
+		public ImaginaryHierarchyObject Parent
+		{
+			get
+			{
+				ImaginaryHierarchyObject imaginaryHierarchyObject = null;
+
+				parent?.TryGetTarget(out imaginaryHierarchyObject);
+
+				return imaginaryHierarchyObject;
+			}
+			set
+			{
+				parent.SetTarget(value);
+			}
+		}
+
+		private WeakReference<ImaginaryHierarchyObject> parent = new WeakReference<ImaginaryHierarchyObject>(null);
 
 		public override object CreateInstance()
 		{
 			HierarchyObject hierarchyObject;
 
-			hierarchyObject = (HierarchyObject)this.HierarchyObjectBase.CreateInstance();
+			hierarchyObject = (HierarchyObject)ImaginaryObjectBase.CreateInstance();
 
 			foreach (var child in LocalHierarchy)
 			{
-				child.Value.hierarchyObjectParent = hierarchyObject;
+				child.Value.HierarchyObjectParent = hierarchyObject;
 				hierarchyObject.AddChild(child.Key, (HierarchyObject)child.Value.CreateInstance());
 			}
 
@@ -50,7 +77,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				hierarchyObject.AddScriptManually((Script)script.Value.CreateInstance(), script.Key);
 			}
 
-			hierarchyObject.SetUp(hierarchyObjectParent);
+			hierarchyObject.SetUp(HierarchyObjectParent);
 
 			return hierarchyObject;
 		}

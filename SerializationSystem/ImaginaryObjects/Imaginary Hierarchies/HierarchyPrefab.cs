@@ -9,7 +9,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	{
 		public HierarchyPrefab(ImaginaryHierarchyObject imaginaryHierarchyObject, string name, string prefabPath)
 		{
-			HierarchyObjectBase = imaginaryHierarchyObject.HierarchyObjectBase;
+			ImaginaryObjectBase = imaginaryHierarchyObject.ImaginaryObjectBase;
 
 			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
 			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
@@ -37,7 +37,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			HierarchyPrefab imaginaryObject = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(PrefabPath);
 
-			HierarchyObjectBase = imaginaryObject.HierarchyObjectBase;
+			ImaginaryObjectBase = imaginaryObject.ImaginaryObjectBase;
 
 			AttatchedScripts = imaginaryObject.AttatchedScripts;
 			LocalHierarchy = imaginaryObject.LocalHierarchy;
