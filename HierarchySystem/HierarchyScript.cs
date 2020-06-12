@@ -74,25 +74,19 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <returns>An instance of the script.</returns>
 		public static object CreateHierarchyScript(object attatchedTo, Type scriptType, object[] constructorParameters = null)
 		{
-			// Initialize object to store.
 			object instance;
 
-			// Is this type static?
-			if (scriptType.IsAbstract && scriptType.IsSealed)
+			if (scriptType.IsAbstract && scriptType.IsSealed) // Will be true if the type is static.
 			{
 				throw new Exception($"A HierarchyScript cannot be static. What happened here? Type = {scriptType.FullName}");
 			}
 
-			// Are any constructor parameters provided?
 			if (constructorParameters != null)
 			{
-				// Create an instance of the type using the provided paramters.
 				instance = Activator.CreateInstance(scriptType, constructorParameters);
 			}
-			// Create an instance without parameters.
 			else
 			{
-				// Create an instance of the type.
 				instance = Activator.CreateInstance(scriptType);
 			}
 
@@ -100,7 +94,6 @@ namespace CrystalClear.HierarchySystem.Scripting
 			// Invoke SetUp to set the HierarchyObject up.
 			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo });
 
-			// Return stored object.
 			return instance;
 		}
 	}

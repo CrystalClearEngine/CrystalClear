@@ -77,14 +77,33 @@ namespace CrystalClear.HierarchySystem.Scripting
 			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
 		}
 
-		public void UnsubscribeAll()
+		public Script(object scriptInstance, HierarchyObject attatchedTo)
 		{
-			EventSystem.EventSystem.UnsubscribeEvents(ScriptType, ScriptInstance);
+			if (!IsScript(scriptInstance.GetType()))
+			{
+				throw new ArgumentException("The provided type is not a script!");
+			}
+
+			if (HierarchyScript.IsHierarchyScript(scriptInstance.GetType()))
+			{
+				
+			}
+
+			ScriptInstance = scriptInstance;
+
+			ScriptType = scriptInstance.GetType();
+
+			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
 		public readonly object ScriptInstance;
 
 		public Type ScriptType { get; }
+
+		public void UnsubscribeAll()
+		{
+			EventSystem.EventSystem.UnsubscribeEvents(ScriptType, ScriptInstance);
+		}
 
 		public object DynamicallyCallMethod(string methodName, params object[] parameters)
 		{
