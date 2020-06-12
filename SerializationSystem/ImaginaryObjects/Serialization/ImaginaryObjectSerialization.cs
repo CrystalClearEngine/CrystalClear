@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
 using K4os.Compression.LZ4.Streams;
+using CrystalClear;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
@@ -22,6 +23,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public static void SaveToFile(string path, ImaginaryObject toStore)
 		{
 			XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+
+			Utilities.CreateEmptyFile(path);
 
 			using (XmlWriter writerStream = XmlWriter.Create(path, settings))
 			{
