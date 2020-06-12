@@ -61,40 +61,14 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// </summary>
 		/// <param name="toCheck">The type to check.</param>
 		/// <returns>whether or not the specified type is a subclass of HierarchyScript.</returns>
-		public static bool IsHierarchyScript(Type toCheck)
+		public static bool IsHierarchyScript(this Type toCheck)
 		{
 			return toCheck.IsSubclassOf(typeof(HierarchyScriptBase));
 		}
 
-		/// <summary>
-		/// Create an instance of a script deriving from HierarchyScript.
-		/// </summary>
-		/// <param name="attatchedTo">The HierarchyObject that this script is attatched to.</param>
-		/// <param name="scriptType">The type of the script.</param>
-		/// <returns>An instance of the script.</returns>
-		public static object CreateHierarchyScript(object attatchedTo, Type scriptType, object[] constructorParameters = null)
+		public static void SetUp(object scriptInstance, HierarchyObject attatchedTo)
 		{
-			object instance;
-
-			if (scriptType.IsAbstract && scriptType.IsSealed) // Will be true if the type is static.
-			{
-				throw new Exception($"A HierarchyScript cannot be static. What happened here? Type = {scriptType.FullName}");
-			}
-
-			if (constructorParameters != null)
-			{
-				instance = Activator.CreateInstance(scriptType, constructorParameters);
-			}
-			else
-			{
-				instance = Activator.CreateInstance(scriptType);
-			}
-
-			// TODO: add error handling for types incompatible with this specific HierarchyScript.
-			// Invoke SetUp to set the HierarchyObject up.
-			scriptType.GetMethod("SetUp").Invoke(instance, new[] { attatchedTo });
-
-			return instance;
+			scriptInstance.GetType().GetMethod("SetUp").Invoke(scriptInstance, new[] { attatchedTo });
 		}
 	}
 }

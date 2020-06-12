@@ -1,4 +1,5 @@
 ﻿using CrystalClear.ScriptUtilities;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,89 +12,16 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// </summary>
 	public struct Script
 	{
-		/// <summary>
-		/// Creates a Script of any type and initializes it as an HierarchyScript if necessary.
-		/// </summary>
-		/// <param name="scriptType">The type of the Script.</param>
-		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
-		/// <param name="attatchedTo">The HierarchyObject to attatch this Script to (provided it is a HierarchyScript!).</param>
-		public Script(Type scriptType, object[] constructorParameters = null, HierarchyObject attatchedTo = null)
+		public Script(ImaginaryObject scriptBase, HierarchyObject attatchedTo = null)
 		{
-			if (HierarchyScript.IsHierarchyScript(scriptType))
+			ScriptInstance = scriptBase.CreateInstance();
+
+			ScriptType = ((IGeneralImaginaryObject)scriptBase).TypeData.GetConstructionType();
+
+			if (ScriptType.IsHierarchyScript())
 			{
-				// This constructor is used for creating HierarchyScripts.
-				this = new Script(attatchedTo, scriptType, constructorParameters);
+				HierarchyScript.SetUp(ScriptInstance, attatchedTo);
 			}
-			else
-			{
-				// This constructor is used for all other types of scripts.
-				this = new Script(scriptType, constructorParameters);
-			}
-		}
-
-		/// <summary>
-		/// Creates a Script of any type.
-		/// </summary>
-		/// <param name="scriptType">The type of the Script.</param>
-		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
-		public Script(Type scriptType, object[] constructorParameters = null)
-		{
-			if (!IsScript(scriptType))
-			{
-				throw new ArgumentException($"The provided type is not a script! Type = {scriptType}");
-			}
-
-			ScriptType = scriptType;
-
-			if (constructorParameters is null)
-			{
-				ScriptInstance = Activator.CreateInstance(scriptType);
-			}
-			else
-			{
-				ScriptInstance = Activator.CreateInstance(scriptType, constructorParameters);
-			}
-
-			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
-		}
-
-		/// <summary>
-		/// Creates a HierarchyScript and instanciates it with the provided parameters.
-		/// </summary>
-		/// <param name="attatchedTo">The HierarchyObject that this script is attatched to.</param>
-		/// <param name="scriptType">The type of the HierarchyObject.</param>
-		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
-		public Script(HierarchyObject attatchedTo, Type scriptType, object[] constructorParameters = null)
-		{
-			if (!IsScript(scriptType))
-			{
-				throw new ArgumentException("The provided type is not a script!");
-			}
-
-			ScriptType = scriptType;
-
-			ScriptInstance = HierarchyScript.CreateHierarchyScript(attatchedTo, scriptType, constructorParameters);
-
-			EventSystem.EventSystem.SubscribeEvents(scriptType, ScriptInstance);
-		}
-
-		public Script(object scriptInstance, HierarchyObject attatchedTo)
-		{
-			if (!IsScript(scriptInstance.GetType()))
-			{
-				throw new ArgumentException("The provided type is not a script!");
-			}
-
-			if (HierarchyScript.IsHierarchyScript(scriptInstance.GetType()))
-			{
-				
-			}
-
-			ScriptInstance = scriptInstance;
-
-			ScriptType = scriptInstance.GetType();
-
-			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
 		public readonly object ScriptInstance;
