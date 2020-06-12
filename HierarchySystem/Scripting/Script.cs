@@ -63,7 +63,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		/// <param name="attatchedTo">The HierarchyObject that this script is attatched to.</param>
 		/// <param name="scriptType">The type of the HierarchyObject.</param>
 		/// <param name="constructorParameters">The parameters to use for the constructor.</param>
-		public Script(HierarchyObject attatchedTo, Type scriptType, object[] constructorParameters = null) // TODO (maybe) use compiled lambdas and expressions for better performance! https://vagifabilov.wordpress.com/2010/04/02/dont-use-activator-createinstance-or-constructorinfo-invoke-use-compiled-lambda-expressions/
+		public Script(HierarchyObject attatchedTo, Type scriptType, object[] constructorParameters = null)
 		{
 			if (!IsScript(scriptType))
 			{
