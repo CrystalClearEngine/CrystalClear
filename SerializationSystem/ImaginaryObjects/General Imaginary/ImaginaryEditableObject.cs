@@ -7,7 +7,7 @@ using System.Text;
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	[DataContract]
-	public sealed class ImaginaryEditableObject : ImaginaryObject
+	public sealed class ImaginaryEditableObject : ImaginaryObject, IGeneralImaginaryObject
 	{
 		public ImaginaryEditableObject(Type constructionType, EditorData editorData)
 		{
@@ -24,7 +24,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{ }
 
 		[DataMember]
-		public TypeData TypeData;
+		public TypeData TypeData { get; set; }
 
 		[DataMember]
 		public EditorData EditorData;

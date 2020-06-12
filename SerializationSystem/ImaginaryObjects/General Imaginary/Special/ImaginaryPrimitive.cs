@@ -7,12 +7,12 @@ using System.Text;
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	[EditorBrowsable(EditorBrowsableState.Never)] // TODO: determine whether or not this will also hide the contained extension methods, in which case it should be removed.
-	public static class ImaginaryPrimitiveExtensions
+	public static class ImaginaryPrimitiveExtensions // Extensions are kept here because they cannot be placed in the generic ImaginaryPrimitive class.
 	{
 		public static bool QualifiesAsPrimitive(this object valueToCheck)
-			=> QualifiesAsImaginaryPrimitive(valueToCheck.GetType());
+			=> QualifiesAsPrimitive(valueToCheck.GetType());
 
-		public static bool QualifiesAsImaginaryPrimitive(this Type type)
+		public static bool QualifiesAsPrimitive(this Type type)
 			=> type.IsPrimitive
 				|| type == typeof(string)
 				|| !type.IsEnum
@@ -22,7 +22,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	}
 
 	[DataContract]
-	public sealed class ImaginaryPrimitive : ImaginaryObject
+	public sealed class ImaginaryPrimitive : ImaginaryObject, IGeneralImaginaryObject
 	{
 		public ImaginaryPrimitive(object value)
 		{
@@ -41,7 +41,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		[DataMember]
-		public TypeData TypeData;
+		public TypeData TypeData { get; set; }
 
 		[DataMember]
 		public object PrimitiveObjectValue;

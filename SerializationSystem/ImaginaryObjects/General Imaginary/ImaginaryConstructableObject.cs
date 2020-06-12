@@ -6,11 +6,13 @@ using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
+	// TODO: Constructable or Constructible?
+
 	/// <summary>
 	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that it can be created in the editor, serialized and finally deserialized and an instance can be created.
 	/// </summary>
 	[DataContract]
-	public sealed class ImaginaryConstructableObject : ImaginaryObject
+	public sealed class ImaginaryConstructableObject : ImaginaryObject, IGeneralImaginaryObject
 	{
 		/// <summary>
 		/// Creates an ImaginaryObject with the specified type and constructor parameters.
@@ -27,7 +29,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{ }
 
 		[DataMember]
-		public TypeData TypeData;
+		public TypeData TypeData { get; set; }
 
 		/// <summary>
 		/// The parameters to be used when constructing the object.

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
-	public sealed class ImaginaryEnum : ImaginaryObject
+	public sealed class ImaginaryEnum : ImaginaryObject, IGeneralImaginaryObject
 	{
 		public ImaginaryEnum(Type constructionType, string enumValue)
 		{
@@ -18,7 +18,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		[DataMember]
-		public TypeData TypeData;
+		public TypeData TypeData { get; set; }
 
 		private string enumValue;
 
