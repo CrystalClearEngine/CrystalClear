@@ -14,6 +14,11 @@ namespace CrystalClear.HierarchySystem.Scripting
 	{
 		public Script(ImaginaryObject scriptBase, HierarchyObject attatchedTo = null)
 		{
+			if (!IsScript(((IGeneralImaginaryObject)scriptBase).TypeData.GetConstructionType()))
+			{
+				throw new ArgumentException("ScriptBase is not a Script!");
+			}
+
 			ScriptInstance = scriptBase.CreateInstance();
 
 			ScriptType = ((IGeneralImaginaryObject)scriptBase).TypeData.GetConstructionType();
@@ -22,6 +27,8 @@ namespace CrystalClear.HierarchySystem.Scripting
 			{
 				HierarchyScript.SetUp(ScriptInstance, attatchedTo);
 			}
+
+			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);
 		}
 
 		public readonly object ScriptInstance;
