@@ -10,7 +10,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// <summary>
 	/// Stores the type and instance of a Script.
 	/// </summary>
-	public struct Script
+	public sealed class Script
 	{
 		public Script(ImaginaryObject scriptBase, HierarchyObject attatchedTo = null)
 		{
