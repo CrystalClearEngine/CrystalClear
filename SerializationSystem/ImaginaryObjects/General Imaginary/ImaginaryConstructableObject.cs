@@ -37,16 +37,22 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		[DataMember]
 		public ImaginaryObject[] ImaginaryConstructionParameters;
 
-		public override object CreateInstance()
+		public object[] GetImaginaryConstructionParameters()
 		{
-			List<object> constructorObjects = new List<object>();
+			object[] imaginaryConstructionParameters = new object[ImaginaryConstructionParameters.Length];
 
-			foreach (ImaginaryObject imaginaryObject in ImaginaryConstructionParameters)
+			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
 			{
-				constructorObjects.Add(imaginaryObject.CreateInstance());
+				ImaginaryObject imaginaryObject = ImaginaryConstructionParameters[i];
+				imaginaryConstructionParameters[i] = imaginaryObject.CreateInstance();
 			}
 
-			return Activator.CreateInstance(TypeData.GetConstructionType(), constructorObjects.ToArray());
+			return imaginaryConstructionParameters;
+		}
+
+		public override object CreateInstance()
+		{
+			return Activator.CreateInstance(TypeData.GetConstructionType(), GetImaginaryConstructionParameters());
 		}
 
 		/// <summary>
