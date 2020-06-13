@@ -91,7 +91,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				hierarchyObject.AddScriptManually((Script)script.Value.CreateInstance(), script.Key);
 			}
 
-			hierarchyObject.SetUp(HierarchyObjectParent);
+			hierarchyObject.SetUp((HierarchyObjectParent == null), HierarchyObjectParent);
 
 			return hierarchyObject;
 		}

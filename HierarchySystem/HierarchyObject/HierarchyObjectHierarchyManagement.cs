@@ -100,7 +100,7 @@ namespace CrystalClear.HierarchySystem
 		public void AddChild(string name, HierarchyObject child)
 		{
 			LocalHierarchy.AddChild(name, child);
-			child.SetUp(this);
+			child.SetUp(false, this);
 		}
 
 		/// <summary>
@@ -146,11 +146,12 @@ namespace CrystalClear.HierarchySystem
 		/// Sets up the HierarchyObject.
 		/// </summary>
 		/// <param name="parent">Optional parent override.</param>
-		public void SetUp(HierarchyObject parent = null)
+		// TODO: make IsRoot into a field?
+		public void SetUp(bool IsRoot = false, HierarchyObject parent = null)
 		{
-			if (Parent is null && parent is null) // Parent null check.
+			if (Parent is null && parent is null && !IsRoot)
 			{
-				throw new ArgumentException("No parent specified! Please set the parent before calling or include it as a parameter.");
+				throw new ArgumentException("No parent specified for non root HierarchyObject! Please set the parent before calling or include it as a parameter.");
 			}
 
 			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
