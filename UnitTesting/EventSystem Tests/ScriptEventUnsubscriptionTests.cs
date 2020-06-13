@@ -3,6 +3,7 @@ using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -46,7 +47,7 @@ namespace UnitTests
 						{
 							AttatchedScripts =
 							{
-								{ "Script", new Script(typeof(TestScript), attatchedTo: null) }
+								{ "Script", new Script(new ImaginaryConstructableObject(typeof(TestScript)), null) }
 							}
 						}
 					)
