@@ -10,7 +10,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{ }
 
 		/// <summary>
-		/// Shorthand for 'WriteImaginaryObject(this, writer)'.
+		/// Shorthand for 'WriteImaginaryObject(this, writer, writeImaginaryObjectUniqueIdentifier)'.
 		/// </summary>
 		public void WriteThis(BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true) => WriteImaginaryObject(this, writer, writeImaginaryObjectUniqueIdentifier);
 
