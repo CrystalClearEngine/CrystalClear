@@ -34,15 +34,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		/// <summary>
 		/// Contains the scripts which will be added to the HierarchyObject when an instance is created.
-		/// </summary>
-		// TODO: add system where when a new script is added it will automatically be given its attached, maybe using [OnSerialized]? This for LocalHierarchy too.
+		/// </summary>		
 		[DataMember]
 		public virtual Dictionary<string, ImaginaryScript> AttatchedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
 
-		// TODO: ensure this actually gets set.
 		public HierarchyObject HierarchyObjectParent;
 
-		// TODO: Going to need to be able to serialize this somehow, at least for the DataContractSerializer...
 		public ImaginaryHierarchyObject Parent
 		{
 			get
