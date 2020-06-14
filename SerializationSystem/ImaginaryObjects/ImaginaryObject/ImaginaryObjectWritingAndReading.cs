@@ -2,22 +2,16 @@
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.Serialization;
-using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
-	[DataContract]
-	public abstract class ImaginaryObject
+	public abstract partial class ImaginaryObject
 	{
-		protected ImaginaryObject()
-		{ }
-
 		private delegate ImaginaryObject CreateImaginaryObjectDelegate();
 
 		private static ImaginaryObject ReadEmptyImaginaryObject(BinaryReader reader)
 		{
-			// TODO: use cache for this.
+			// TODO: use cache for the generated method.
 
 			// Create a DynamicMethod that returns a new instance of the encoded type.
 			Type imaginaryObjectType = Type.GetType(reader.ReadString());
@@ -25,12 +19,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			MethodInfo readConstructionInfoMethod = imaginaryObjectType.GetMethod("ReadConstructionInfo");
 			MethodInfo createInstanceMethod = imaginaryObjectType.GetMethod("CreateInstance");
 
-			DynamicMethod dynamicMethod = new DynamicMethod("CreateImaginaryObject", typeof(ImaginaryObject), Array.Empty<Type>() );
+			DynamicMethod dynamicMethod = new DynamicMethod("CreateImaginaryObject", typeof(ImaginaryObject), Array.Empty<Type>());
 			ILGenerator generator = dynamicMethod.GetILGenerator();
-			
+
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
-			
+
 			return ((CreateImaginaryObjectDelegate)dynamicMethod.CreateDelegate(typeof(CreateImaginaryObjectDelegate)))();
 		}
 
@@ -70,12 +64,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return imaginaryObject;
 		}
 
-		static int writtenImaginaryObjects = 0;
-
-		/// <summary>
-		/// Shortcut for 'WriteImaginaryObject(this, writer)'.
-		/// </summary>
-		public void WriteThis(BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true) => WriteImaginaryObject(this, writer, writeImaginaryObjectUniqueIdentifier);
+		static int totalWrittenImaginaryObjects = 0;
 
 		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
@@ -84,7 +73,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			int imaginaryObjectUniqueIdentifier = 0;
 			if (writeImaginaryObjectUniqueIdentifier)
 			{
-				imaginaryObjectUniqueIdentifier = writtenImaginaryObjects;
+				imaginaryObjectUniqueIdentifier = totalWrittenImaginaryObjects;
 				imaginaryObjectUniqueIdentifier += imaginaryObject.GetHashCode();
 				imaginaryObjectUniqueIdentifier += new Random().Next(imaginaryObjectUniqueIdentifier, int.MaxValue);
 
@@ -106,13 +95,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			if (writeImaginaryObjectUniqueIdentifier)
 				writer.Write(imaginaryObjectUniqueIdentifier);
 
-			writtenImaginaryObjects++;
+			totalWrittenImaginaryObjects++;
 		}
-
-		public abstract object CreateInstance();
-
-		protected abstract void WriteConstructionInfo(BinaryWriter writer);
-
-		protected abstract void ReadConstructionInfo(BinaryReader reader);
 	}
 }
