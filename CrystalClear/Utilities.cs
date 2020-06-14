@@ -52,11 +52,9 @@ namespace CrystalClear
 		/// <summary>
 		/// Compares two objects using reflection to find fields and properties.
 		/// </summary>
-		/// <param name="a"></param>
-		/// <param name="b"></param>
-		/// <param name="includePrivate">whether to include private properties and fields when comparing the two objects.</param>
-		/// <param name="ignoreProperties">whether to include properties when comparing the two objects.</param>
-		/// <returns></returns>
+		/// <param name="includePrivate">Whether to include private properties and fields when comparing the two objects.</param>
+		/// <param name="ignoreProperties">Whether to include properties when comparing the two objects.</param>
+		/// <returns>Whether the objects are equal.</returns>
 		public static bool ReflectionEquals(this object a, object b, bool includePrivate = false, bool ignoreProperties = false)
 		{
 			Type aType = a.GetType();
