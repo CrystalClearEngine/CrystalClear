@@ -1,12 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CrystalClear.ECS
 {
-	public interface IEntity
-	{
-		public int EntityId { get; }
-	}
-
 	/// <summary>
 	/// The most basic form of Entity. A PureEntity only stores it's EntityId.
 	/// </summary>
@@ -15,6 +11,7 @@ namespace CrystalClear.ECS
 		, IEquatable<PureEntity>
 	{
 		public int EntityId { get; }
+		public List<EntityAttribute> Attributes { get; set; }
 
 		#region Equality Overrides
 		public override bool Equals(object obj)

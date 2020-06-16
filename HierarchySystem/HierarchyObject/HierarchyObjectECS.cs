@@ -1,4 +1,5 @@
 ﻿using CrystalClear.ECS;
+using System.Collections.Generic;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -7,6 +8,9 @@ namespace CrystalClear.HierarchySystem
 	{
 		// Mixed/Hybrid ECS.
 		public int EntityId { get; }
+
 		public int ParentEntityId { get => Parent.EntityId; }
+
+		public List<EntityAttribute> Attributes { get; set; }
 	}
 }
