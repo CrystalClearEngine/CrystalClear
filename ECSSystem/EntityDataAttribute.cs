@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CrystalClear.ECS
 {
-	public class EntityAttribute
+	public class EntityDataAttribute
 	{
 
 	}

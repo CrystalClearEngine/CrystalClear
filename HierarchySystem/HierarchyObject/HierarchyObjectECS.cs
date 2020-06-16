@@ -11,6 +11,6 @@ namespace CrystalClear.HierarchySystem
 
 		public int ParentEntityId { get => Parent.EntityId; }
 
-		public List<EntityAttribute> Attributes { get; set; }
+		public List<EntityDataAttribute> Attributes { get; set; }
 	}
 }

@@ -11,7 +11,7 @@ namespace CrystalClear.ECS
 		, IEquatable<PureEntity>
 	{
 		public int EntityId { get; }
-		public List<EntityAttribute> Attributes { get; set; }
+		public List<EntityDataAttribute> Attributes { get; set; }
 
 		#region Equality Overrides
 		public override bool Equals(object obj)

@@ -6,14 +6,14 @@ namespace CrystalClear.ECS
 	{
 		public int EntityId { get; }
 
-		public List<EntityAttribute> Attributes { get; set; }
+		public List<EntityDataAttribute> Attributes { get; set; }
 
-		public void AttatchAttribute(EntityAttribute attribute)
+		public void AttatchAttribute(EntityDataAttribute attribute)
 		{
 			Attributes.Add(attribute);
 		}
 
-		public void DetachAttribute(EntityAttribute attribute)
+		public void DetachAttribute(EntityDataAttribute attribute)
 		{
 			Attributes.Remove(attribute);
 		}
