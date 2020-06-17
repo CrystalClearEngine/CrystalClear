@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	[DataContract]
-	public abstract partial class ImaginaryObject
+	public abstract partial class ImaginaryObject : IBinarySerializable
 	{
 		protected ImaginaryObject()
 		{ }
@@ -19,5 +19,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		protected abstract void WriteConstructionInfo(BinaryWriter writer);
 
 		protected abstract void ReadConstructionInfo(BinaryReader reader);
+
+		void IBinarySerializable.WriteConstructionInfo(BinaryWriter writer) => WriteConstructionInfo(writer);
+
+		void IBinarySerializable.ReadConstructionInfo(BinaryReader reader) => ReadConstructionInfo(reader);
 	}
 }

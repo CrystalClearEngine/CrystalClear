@@ -29,12 +29,16 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
-			throw new NotImplementedException();
+			TypeData.WriteConstructionInfo(writer);
+
+			writer.Write(enumValue);
 		}
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
-			throw new NotImplementedException();
+			TypeData = new TypeData(reader);
+
+			enumValue = reader.ReadString();
 		}
 	}
 }

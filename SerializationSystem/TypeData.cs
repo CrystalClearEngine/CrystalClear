@@ -1,11 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	// TODO: turn into struct?
 	[DataContract]
-	public sealed class TypeData
+	public sealed class TypeData : IBinarySerializable
 	{
 		public TypeData(Type type)
 		{
@@ -15,6 +16,21 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public TypeData(string constructionTypeName)
 		{
 			ConstructionTypeName = constructionTypeName;
+		}
+
+		public TypeData(BinaryReader reader)
+		{
+			ReadConstructionInfo(reader);
+		}
+
+		public void WriteConstructionInfo(BinaryWriter writer)
+		{
+			writer.Write(ConstructionTypeName);
+		}
+
+		public void ReadConstructionInfo(BinaryReader reader)
+		{
+			ConstructionTypeName = reader.ReadString();
 		}
 
 		[DataMember]
