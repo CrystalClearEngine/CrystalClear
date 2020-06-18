@@ -21,6 +21,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		private ImaginaryScript()
 		{ }
 
+		// Has to be set before calling CreateInstance.
 		public HierarchyObject AttatchedTo;
 
 		[DataMember]
@@ -39,12 +40,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
-			throw new NotImplementedException();
+			ImaginaryObjectBase = ReadImaginaryObject(reader, out _);
 		}
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
-			throw new NotImplementedException();
+			ImaginaryObjectBase.WriteThis(writer);
 		}
 	}
 }

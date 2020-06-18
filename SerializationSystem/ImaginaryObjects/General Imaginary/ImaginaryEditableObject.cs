@@ -36,7 +36,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
-			writer.Write(TypeData.ConstructionTypeName);
+			TypeData.WriteConstructionInfo(writer);
 
 			writer.Write(EditorData.Count);
 
@@ -49,7 +49,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
-			TypeData = new TypeData(reader.ReadString());
+			TypeData = new TypeData(reader);
 
 			EditorData = EditorData.GetEmpty();
 

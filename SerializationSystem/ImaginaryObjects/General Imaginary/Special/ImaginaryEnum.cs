@@ -13,7 +13,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			this.enumValue = enumValue;
 		}
 
-		internal ImaginaryEnum()
+		public ImaginaryEnum()
 		{
 		}
 

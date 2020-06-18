@@ -25,7 +25,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ImaginaryConstructionParameters = constructorParameters ?? Array.Empty<ImaginaryObject>();
 		}
 
-		private ImaginaryConstructableObject()
+		public ImaginaryConstructableObject()
 		{ }
 
 		[DataMember]
@@ -61,7 +61,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <param name="writer">The BinaryWriter to use to write the data to.</param>
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
-			writer.Write(TypeData.ConstructionTypeName);
+			TypeData.WriteConstructionInfo(writer);
 			
 			// TODO: use Write7BitEncodedInt?
 			writer.Write(ImaginaryConstructionParameters.Length);
@@ -74,7 +74,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
-			TypeData = new TypeData(reader.ReadString());
+			TypeData = new TypeData(reader);
 
 			ImaginaryConstructionParameters = new ImaginaryObject[reader.ReadInt32()];
 

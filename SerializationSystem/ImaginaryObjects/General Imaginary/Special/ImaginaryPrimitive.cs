@@ -36,7 +36,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			PrimitiveObjectValue = value;
 		}
 
-		internal ImaginaryPrimitive()
+		public ImaginaryPrimitive()
 		{
 		}
 
@@ -48,23 +48,21 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		public string StringValue => Convert.ToString(PrimitiveObjectValue);
 
-		public override string ToString()
-		{
-			return StringValue;
-		}
+		public override string ToString() => StringValue;
 
-		public override object CreateInstance()
-		{
-			return PrimitiveObjectValue;
-		}
+		public override object CreateInstance() => PrimitiveObjectValue;
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
+			TypeData.WriteConstructionInfo(writer);
+
 			writer.Write(StringValue);
 		}
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
+			TypeData = new TypeData(reader);
+
 			PrimitiveObjectValue = reader.ReadString();
 		}
 	}

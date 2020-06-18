@@ -3,6 +3,7 @@ using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
 namespace CrystalClear.SerializationSystem
 {
+	// TODO: finish...
 	// TODO: either mirror all properties of the referenced, or just return the referenced.
 	[Editable(nameof(Creator), nameof(Editor))]
 	public class HierarchyObjectReference : HierarchyObject

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -7,6 +8,32 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	public abstract partial class ImaginaryObject
 	{
+		public static void WriteStringDictionary<TValue>(Dictionary<string, TValue> dictionary, BinaryWriter writer)
+			where TValue : IBinarySerializable
+		{
+			writer.Write(dictionary.Count);
+
+			foreach (KeyValuePair<string, TValue> attatchedScript in dictionary)
+			{
+				writer.Write(attatchedScript.Key);
+
+				attatchedScript.Value.WriteConstructionInfo(writer);
+			}
+		}
+
+		public static Dictionary<string, TValue> ReadStringDictionary<TValue>(BinaryReader reader)
+			where TValue : ImaginaryObject
+		{
+			var dictionary = new Dictionary<string, TValue>();
+
+			for (int i = 0; i < reader.ReadInt32(); i++)
+			{
+				dictionary.Add(reader.ReadString(), (TValue)ReadImaginaryObject(reader, out _));
+			}
+
+			return dictionary;
+		}
+
 		private delegate ImaginaryObject CreateImaginaryObjectDelegate();
 
 		private static ImaginaryObject ReadEmptyImaginaryObject(BinaryReader reader)
@@ -15,7 +42,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			// Create a DynamicMethod that returns a new instance of the encoded type.
 			Type imaginaryObjectType = Type.GetType(reader.ReadString());
-			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(Array.Empty<Type>());
+			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(new Type[0]);
+
+			if (constructor is null)
+			{
+				throw new Exception($"{imaginaryObjectType.FullName} does not have an empty constructor, which is required.");
+			}
+
 			MethodInfo readConstructionInfoMethod = imaginaryObjectType.GetMethod("ReadConstructionInfo");
 			MethodInfo createInstanceMethod = imaginaryObjectType.GetMethod("CreateInstance");
 
@@ -36,7 +69,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <summary>
 		/// Reads an ImaginaryObject from the current position of the reader.
 		/// </summary>
-		internal static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success)
+		public static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success)
 		{
 			int imaginaryObjectUniqueIdentifier = 0;
 
@@ -66,7 +99,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		static private int totalWrittenImaginaryObjects = 0;
 		
-		internal static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
+		public static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
 			writer.Write(writeImaginaryObjectUniqueIdentifier);
 

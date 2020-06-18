@@ -14,7 +14,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	[KnownType(typeof(ImaginaryObject)), KnownType(typeof(ImaginaryConstructableObject)), KnownType(typeof(ImaginaryEditableObject))]
 	public class ImaginaryHierarchyObject : ImaginaryObject
 	{
-		protected ImaginaryHierarchyObject()
+		public ImaginaryHierarchyObject()
 		{ }
 
 		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, ImaginaryObject imaginaryObjectBase)
@@ -95,12 +95,20 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
-			throw new NotImplementedException();
+			ImaginaryObjectBase.WriteThis(writer);
+
+			WriteStringDictionary(AttatchedScripts, writer);
+
+			WriteStringDictionary(LocalHierarchy, writer);
 		}
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{
-			throw new NotImplementedException();
+			ImaginaryObjectBase = ReadImaginaryObject(reader, out _);
+
+			AttatchedScripts = ReadStringDictionary<ImaginaryScript>(reader);
+
+			LocalHierarchy = ReadStringDictionary<ImaginaryHierarchyObject>(reader);
 		}
 	}
 }
