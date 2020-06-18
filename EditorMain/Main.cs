@@ -514,7 +514,7 @@ public static class MainClass
 
 			Console.WriteLine($"Script {name} has been added!");
 
-			ImaginaryScript CreateImaginaryScript(Type type)
+			static ImaginaryScript CreateImaginaryScript(Type type)
 			{
 				if (type.IsEditable())
 				{
@@ -733,7 +733,7 @@ public static class MainClass
 			toName.Parent.LocalHierarchy.Add(newName, toName);
 		}
 
-		T SelectItem<T>(IEnumerable<T> collection)
+		static T SelectItem<T>(IEnumerable<T> collection)
 		{
 			selection:
 			// Get number of items in the provided collection.
@@ -778,7 +778,7 @@ public static class MainClass
 			goto selection;
 		}
 
-		ImaginaryObject[] GetConstructorParameters(Type type)
+		static ImaginaryObject[] GetConstructorParameters(Type type)
 		{
 			Console.WriteLine($"Constructor parameter wizard for {type.FullName}.");
 
@@ -810,7 +810,7 @@ public static class MainClass
 			return parameters;
 		}
 
-		ImaginaryObject CreateImaginaryObject(Type type)
+		static ImaginaryObject CreateImaginaryObject(Type type)
 		{
 			if (type.IsEditable())
 			{
