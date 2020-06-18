@@ -103,147 +103,150 @@ public static class MainClass
 		string[] commandSections = line.Split(' ');
 
 		// The actual command recognition.
+#if RELEASE
 		try
 		{
-			switch (commandSections[0])
-			{
-				case "compile":
-					Compile();
-					break;
+#endif
+		switch (commandSections[0])
+		{
+			case "compile":
+				Compile();
+				break;
 
-				case "new":
-					if (commandSections.Length > 1)
-					{
-						NewHierarchyObject(commandSections[1]);
-					}
-					else
-					{
-						// Use default HierarchyObject name if no name is provided.
-						NewHierarchyObject();
-					}
-					break;
+			case "new":
+				if (commandSections.Length > 1)
+				{
+					NewHierarchyObject(commandSections[1]);
+				}
+				else
+				{
+					// Use default HierarchyObject name if no name is provided.
+					NewHierarchyObject();
+				}
+				break;
 
-				case "del":
-					DeleteHierarchyObject(commandSections[1]);
-					break;
+			case "del":
+				DeleteHierarchyObject(commandSections[1]);
+				break;
 
-				case "rename":
-					Rename(commandSections[1]);
-					break;
+			case "rename":
+				Rename(commandSections[1]);
+				break;
 
-				case "modify":
-					Modify(commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+			case "modify":
+				Modify(commandSections.Length >= 2 ? commandSections[1] : null);
+				break;
 
-				case "details":
-					Details(commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+			case "details":
+				Details(commandSections.Length >= 2 ? commandSections[1] : null);
+				break;
 
-				case "add":
-					AddScript(commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+			case "add":
+				AddScript(commandSections.Length >= 2 ? commandSections[1] : null);
+				break;
 
-				case "rem":
-					RemoveScript(commandSections[1]);
-					break;
+			case "rem":
+				RemoveScript(commandSections[1]);
+				break;
 
-				case "save":
-					Save(commandSections[1]);
-					break;
+			case "save":
+				Save(commandSections[1]);
+				break;
 
-				case "load":
-					Load(commandSections[1]);
-					break;
+			case "load":
+				Load(commandSections[1]);
+				break;
 
-				case "pack":
-					Pack(commandSections[1]);
-					break;
+			case "pack":
+				Pack(commandSections[1]);
+				break;
 
-				case "unpack":
-					Unpack(commandSections[1]);
-					break;
+			case "unpack":
+				Unpack(commandSections[1]);
+				break;
 
-				case "list":
-					List(commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+			case "list":
+				List(commandSections.Length >= 2 ? commandSections[1] : null);
+				break;
 
-				case "select":
-					Select(commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+			case "select":
+				Select(commandSections.Length >= 2 ? commandSections[1] : null);
+				break;
 
-				case "export":
-					switch (commandSections[1])
-					{
-						case "prefab":
-							ExportPrefab(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
-							break;
+			case "export":
+				switch (commandSections[1])
+				{
+					case "prefab":
+						ExportPrefab(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
+						break;
 
-						case "copy":
-							ExportHierarchy(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
-							break;
+					case "copy":
+						ExportHierarchy(commandSections[2], commandSections.Length! < 3 ? commandSections[3] : null);
+						break;
 
-						default:
-							Output.ErrorLog("command error: unknown subcommand", true);
-							break;
-					}
-					break;
+					default:
+						Output.ErrorLog("command error: unknown subcommand", true);
+						break;
+				}
+				break;
 
-				case "import":
-					switch (commandSections[1])
-					{
-						case "prefab":
-							ImportPrefab(commandSections[2]);
-							break;
+			case "import":
+				switch (commandSections[1])
+				{
+					case "prefab":
+						ImportPrefab(commandSections[2]);
+						break;
 
-						case "copy":
-							ImportHierarchy(commandSections[2]);
-							break;
+					case "copy":
+						ImportHierarchy(commandSections[2]);
+						break;
 
-						default:
-							Output.ErrorLog("command error: unknown subcommand");
-							break;
-					}
-					break;
+					default:
+						Output.ErrorLog("command error: unknown subcommand");
+						break;
+				}
+				break;
 
-				case "project":
-					switch (commandSections[1])
-					{
-						case "new":
-							ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
-							break;
+			case "project":
+				switch (commandSections[1])
+				{
+					case "new":
+						ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
+						break;
 
-						case "open":
-							ProjectInfo.OpenProject(AskQuestion("Enter the path of the project"));
-							break;
+					case "open":
+						ProjectInfo.OpenProject(AskQuestion("Enter the path of the project"));
+						break;
 
-						case "modify":
-							ProjectInfo.ModifyCurrentProject(AskQuestion($"Pick a new name for {CurrentProject.ProjectName}"), AskYOrNQuestion("Change folder name to match new name?"));
-							break;
+					case "modify":
+						ProjectInfo.ModifyCurrentProject(AskQuestion($"Pick a new name for {CurrentProject.ProjectName}"), AskYOrNQuestion("Change folder name to match new name?"));
+						break;
 
-						default:
-							Output.ErrorLog("command error: unknown subcommand");
-							break;
-					}
-					break;
+					default:
+						Output.ErrorLog("command error: unknown subcommand");
+						break;
+				}
+				break;
 
-				case "script":
-					break;
+			case "script":
+				break;
 
-				case "build":
-					Builder.Build(commandSections[1], commandSections[2], new[] { compiledAssembly });
-					break;
+			case "build":
+				Builder.Build(commandSections[1], commandSections[2], new[] { compiledAssembly });
+				break;
 
-				case "run":
-					goto RunProgram;
+			case "run":
+				goto RunProgram;
 
-				case "exit":
-					Environment.Exit(0);
-					break;
+			case "exit":
+				Environment.Exit(0);
+				break;
 
-				default:
-					Output.ErrorLog("command error: unknown command");
-					break;
-			}
+			default:
+				Output.ErrorLog("command error: unknown command");
+				break;
+		}
+#if RELEASE
 		}
 		#region Error Handling
 #pragma warning disable CA1031 // Do not catch general exception types
@@ -264,11 +267,12 @@ public static class MainClass
 			Output.ErrorLog($"command error: not supported ({ex.Message})");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
-		#endregion
+#endregion
+#endif
 		goto LoopEditor;
-		#endregion
+#endregion
 
-		#region Running
+#region Running
 		RunProgram:
 
 		Console.Write("Choose a name for the hierarchy: ");
@@ -277,9 +281,9 @@ public static class MainClass
 		Console.WriteLine();
 
 		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
-		#endregion
+#endregion
 
-		#region Exit handling
+#region Exit handling
 		ExitHandling:
 		if (Console.ReadKey().Key == ConsoleKey.Escape)
 		{
@@ -288,9 +292,9 @@ public static class MainClass
 			goto LoopEditor;
 		}
 		goto ExitHandling;
-		#endregion
+#endregion
 
-		#region Editor Methods
+#region Editor Methods
 		bool Compile()
 		{
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
@@ -306,7 +310,7 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
-			#region Type identification
+#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
 			// Find all scripts that are present in the compiled assembly.
@@ -317,7 +321,7 @@ public static class MainClass
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
-			#endregion
+#endregion
 
 			return true;
 		}
@@ -831,6 +835,6 @@ public static class MainClass
 				return new ImaginaryConstructableObject(type);
 			}
 		}
-		#endregion
+#endregion
 	}
 }
