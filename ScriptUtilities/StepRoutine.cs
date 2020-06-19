@@ -9,6 +9,7 @@ namespace CrystalClear.ScriptUtilities
 	public static class StepRoutine
 	{
 		// TODO: Should StepRoutines be IEnumerators or IEnumerables?
+		// TODO: StepRoutineManager to manage all running StepRoutines.
 
 		public static void Start(IEnumerator stepRoutine)
 		{
