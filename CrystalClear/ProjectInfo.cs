@@ -138,7 +138,7 @@ namespace CrystalClear
 
 			if (crystalClearProjectFiles.Length > 1)
 			{
-				Console.WriteLine($"There are multiple Crystal Clear project files in this project folder, defaulting to {crystalClearProjectFiles[0].Name}.");
+				Output.Log($"There are multiple Crystal Clear project files in this project folder, defaulting to {crystalClearProjectFiles[0].Name}.");
 			}
 
 			using (FileStream fileStream = crystalClearProjectFiles[0].OpenRead())
@@ -146,18 +146,15 @@ namespace CrystalClear
 			{
 				ProjectInfo loadedProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
 
-				ConsoleColor beforeColor = Console.ForegroundColor;
-				Console.ForegroundColor = ConsoleColor.Yellow;
 				if (loadedProject.ProjectCrystalClearVersion < CrystalClearVersion)
 				{
-					Console.WriteLine($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
+					Output.ErrorLog($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
 				}
 
 				else if (loadedProject.ProjectCrystalClearVersion > CrystalClearVersion)
 				{
-					Console.WriteLine($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
+					Output.ErrorLog($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
 				}
-				Console.ForegroundColor = beforeColor;
 
 				CurrentProject = loadedProject;
 			}

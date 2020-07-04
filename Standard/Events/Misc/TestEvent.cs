@@ -10,9 +10,9 @@ namespace CrystalClear.Standard.Events
 	{
 		public override void RaiseEvent()
 		{
-			Console.WriteLine("Raising test event.");
+			Output.Log("Raising test event.");
 			base.RaiseEvent();
-			Console.WriteLine("Raised test event.");
+			Output.Log("Raised test event.");
 		}
 	}
 }

@@ -27,7 +27,7 @@ public static class MainClass
 		#endregion
 
 		#region Project Selection
-		Console.WriteLine("Please open or create a new project:");
+		Output.Log("Please open or create a new project:");
 		ProjectSelection:
 		switch (Console.ReadLine())
 		{
@@ -82,7 +82,7 @@ public static class MainClass
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
 		{
-			Console.WriteLine("Code change detected, recompiling.");
+			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 			Compile();
 		};
@@ -96,7 +96,7 @@ public static class MainClass
 		ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 		LoopEditor:
-		Console.WriteLine();
+		Output.Log();
 
 		string line = Console.ReadLine();
 
@@ -278,7 +278,7 @@ public static class MainClass
 		Console.Write("Choose a name for the hierarchy: ");
 		string hierarchyName = Console.ReadLine();
 
-		Console.WriteLine();
+		Output.Log();
 
 		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
 #endregion
@@ -384,17 +384,17 @@ public static class MainClass
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject.LocalHierarchy[toDetail];
 			}
 
-			Console.WriteLine($"Details for {hierarchyObjectToViewDetailsOf}:");
+			Output.Log($"Details for {hierarchyObjectToViewDetailsOf}:");
 
-			Console.WriteLine($"Name: {toDetail ?? "\b\b is unknown. Presumably the HierarchyObject is root."}");
+			Output.Log($"Name: {toDetail ?? "\b\b is unknown. Presumably the HierarchyObject is root."}");
 
-			Console.WriteLine($"Type: {hierarchyObjectToViewDetailsOf}");
+			Output.Log($"Type: {hierarchyObjectToViewDetailsOf}");
 
 			if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryConstructableObject imaginaryConstructable)
 			{
-				Console.WriteLine("This HierarchyObject uses constructor parameters to be created.");
+				Output.Log("This HierarchyObject uses constructor parameters to be created.");
 
-				Console.WriteLine($"Parameter count: {imaginaryConstructable.ImaginaryConstructionParameters.Length}");
+				Output.Log($"Parameter count: {imaginaryConstructable.ImaginaryConstructionParameters.Length}");
 
 				Console.Write("Parameters: (");
 				bool first = true;
@@ -414,9 +414,9 @@ public static class MainClass
 			}
 			else if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryEditableObject imaginaryEditableObject)
 			{
-				Console.WriteLine("This HierarchyObject uses an Editor to be created and modified.");
+				Output.Log("This HierarchyObject uses an Editor to be created and modified.");
 
-				Console.WriteLine($"EditorData count: {imaginaryEditableObject.EditorData.Count}");
+				Output.Log($"EditorData count: {imaginaryEditableObject.EditorData.Count}");
 
 				Console.Write("EditorData: (");
 				bool first = true;
@@ -458,7 +458,7 @@ public static class MainClass
 			}
 
 			currentSelectedHierarchyObject.LocalHierarchy.Add(name, CreateImaginaryHierarchyObject(hierarchyObjectType));
-			Console.WriteLine($"HierarchyObject {name} has been added!");
+			Output.Log($"HierarchyObject {name} has been added!");
 
 			ImaginaryHierarchyObject CreateImaginaryHierarchyObject(Type ofType)
 			{
@@ -482,7 +482,7 @@ public static class MainClass
 		void DeleteHierarchyObject(string nameOfEditorHierarchyObjectToDelete)
 		{
 			currentSelectedHierarchyObject.LocalHierarchy.Remove(nameOfEditorHierarchyObjectToDelete);
-			Console.WriteLine($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
+			Output.Log($"HierarchyObject {nameOfEditorHierarchyObjectToDelete} has been deleted.");
 		}
 
 		void Rename(string newName)
@@ -494,7 +494,7 @@ public static class MainClass
 			}
 			string oldName = GetName(currentSelectedHierarchyObject);
 			SetName(currentSelectedHierarchyObject, newName);
-			Console.WriteLine($"Renamed {oldName} to {newName}.");
+			Output.Log($"Renamed {oldName} to {newName}.");
 		}
 
 		void AddScript(string name = null)
@@ -512,7 +512,7 @@ public static class MainClass
 
 			currentSelectedHierarchyObject.AttatchedScripts.Add(name, CreateImaginaryScript(scriptType));
 
-			Console.WriteLine($"Script {name} has been added!");
+			Output.Log($"Script {name} has been added!");
 
 			static ImaginaryScript CreateImaginaryScript(Type type)
 			{
@@ -536,7 +536,7 @@ public static class MainClass
 		void RemoveScript(string name)
 		{
 			currentSelectedHierarchyObject.AttatchedScripts.Remove(name);
-			Console.WriteLine($"Script {name} has been removed.");
+			Output.Log($"Script {name} has been removed.");
 		}
 
 		void Save(string path)
@@ -616,10 +616,10 @@ public static class MainClass
 
 			foreach (string name in currentSelectedHierarchyObject.LocalHierarchy.Keys)
 			{
-				Console.WriteLine(name);
+				Output.Log(name);
 			}
 
-			Console.WriteLine("A total of " + hierarchyObjectToList.LocalHierarchy.Count + " HierarchyObjects in the local hierarchy.");
+			Output.Log("A total of " + hierarchyObjectToList.LocalHierarchy.Count + " HierarchyObjects in the local hierarchy.");
 		}
 
 		// TODO: add forwardsteps. A selection can be done like this to traverse multiple layers <<< MyFolder > MySubfolder > MyObject
@@ -745,22 +745,22 @@ public static class MainClass
 			}
 			else if (count == 1)
 			{
-				Console.WriteLine($"Defaulted to {collection.First()}.");
+				Output.Log($"Defaulted to {collection.First()}.");
 				return collection.First();
 			}
 
-			Console.WriteLine($"Select an item of type {typeof(T).FullName} from this list:");
+			Output.Log($"Select an item of type {typeof(T).FullName} from this list:");
 			int i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 			foreach (T item in collection)
 			{
-				Console.WriteLine($"Item ({i}/{count - 1}): {item.ToString()}");
+				Output.Log($"Item ({i}/{count - 1}): {item.ToString()}");
 				getInput:
 				Console.Write("Select? Y/N: ");
 				char readChar = Console.ReadKey().KeyChar;
-				Console.WriteLine();
+				Output.Log();
 				if (readChar == 'Y' || readChar == 'y')
 				{
-					Console.WriteLine($"Selected {item.ToString()}");
+					Output.Log($"Selected {item.ToString()}");
 					return item;
 				}
 				else if (readChar == 'N' || readChar == 'n')
@@ -774,21 +774,21 @@ public static class MainClass
 					goto getInput;
 				}
 			}
-			Console.WriteLine("An item needs to be selected!");
+			Output.Log("An item needs to be selected!");
 			goto selection;
 		}
 
 		static ImaginaryObject[] GetConstructorParameters(Type type)
 		{
-			Console.WriteLine($"Constructor parameter wizard for {type.FullName}.");
+			Output.Log($"Constructor parameter wizard for {type.FullName}.");
 
-			Console.WriteLine("Please select a constructor.");
+			Output.Log("Please select a constructor.");
 			ConstructorInfo constructorInfo = SelectItem(type.GetConstructors());
 			ParameterInfo[] parameterInfoArray = constructorInfo.GetParameters();
 
 			ImaginaryObject[] parameters = new ImaginaryObject[parameterInfoArray.Length];
 
-			Console.WriteLine("Now provide values for the different parameters.");
+			Output.Log("Now provide values for the different parameters.");
 			for (int i = 0; i < parameterInfoArray.Length; i++)
 			{
 				ParameterInfo parameter = parameterInfoArray[i];
@@ -802,7 +802,7 @@ public static class MainClass
 				}
 				else
 				{
-					Console.WriteLine($"{parameter.Name}:");
+					Output.Log($"{parameter.Name}:");
 					parameters[i] = CreateImaginaryObject(parameter.ParameterType);
 				}
 			}

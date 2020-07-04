@@ -16,7 +16,7 @@
 //	{
 //		public static void RuntimeDebuggerSetLine(/*[CallerLineNumber] */int? lineNumber = null, [CallerMemberName] string caller = null, [CallerFilePath] string file = null)
 //		{
-//			Console.WriteLine($"Thread {Thread.CurrentThread.Name} is at line {lineNumber} in member {caller}, file {file}.");
+//			Output.Log($"Thread {Thread.CurrentThread.Name} is at line {lineNumber} in member {caller}, file {file}.");
 //		}
 
 

@@ -33,16 +33,16 @@ namespace CrystalClear.ScriptUtilities.Utilities
 			{
 				case 't':
 				case 'y':
-					Console.WriteLine();
+					Output.Log();
 					return true;
 
 				case 'f':
 				case 'n':
-					Console.WriteLine();
+					Output.Log();
 					return false;
 
 				default:
-					Console.WriteLine("\nInvalid, should be 't' or 'y' for true and 'f' or 'n' for false!");
+					Output.ErrorLog("\nInvalid, should be 't' or 'y' for true and 'f' or 'n' for false!");
 					goto retry;
 			}
 		}

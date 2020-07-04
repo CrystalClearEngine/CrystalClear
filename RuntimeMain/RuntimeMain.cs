@@ -69,7 +69,7 @@ namespace CrystalClear.RuntimeMain
 			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject)rootHierarchyObject.CreateInstance());
 			#region Profiling
 			performanceStopwatchForCreate.Stop();
-			Console.WriteLine(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
+			Output.Log(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
 			#endregion Profiling
 			#endregion
 

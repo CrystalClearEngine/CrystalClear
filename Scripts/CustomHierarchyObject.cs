@@ -1,4 +1,5 @@
-﻿using CrystalClear.EventSystem.StandardEvents;
+﻿using CrystalClear;
+using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
 using System;
@@ -10,27 +11,27 @@ public class CustomHierarchyObject : HierarchyObject
 	//[Editor]
 	private static void Editor(ref EditorData currentEditorData)
 	{
-		Console.WriteLine("CustomHierarchyObject editor opened.");
+		Output.Log("CustomHierarchyObject editor opened.");
 		if (currentEditorData["Text"] != null)
 		{
-			Console.WriteLine("Do you want to set a new value for Text?");
+			Output.Log("Do you want to set a new value for Text?");
 			if (!GetBool())
 			{
 				goto SetPointlessBool;
 			}
 		}
-		Console.WriteLine("Choose a value for Text:");
+		Output.Log("Choose a value for Text:");
 		currentEditorData["Text"] = Console.ReadLine();
 		SetPointlessBool:
 		if (currentEditorData["PointlessBool"] != null)
 		{
-			Console.WriteLine("Do you want to set a new value for PointlessBool?");
+			Output.Log("Do you want to set a new value for PointlessBool?");
 			if (!GetBool())
 			{
 				goto Exit;
 			}
 		}
-		Console.WriteLine("Choose true or false for Pointless bool:");
+		Output.Log("Choose true or false for Pointless bool:");
 		currentEditorData["PointlessBool"] = GetBool().ToString();
 		Exit:
 
@@ -55,7 +56,7 @@ public class CustomHierarchyObject : HierarchyObject
 					return false;
 
 				default:
-					Console.WriteLine("Invalid input, retrying.");
+					Output.ErrorLog("Invalid input, retrying.");
 					goto GetBool;
 			}
 		}
@@ -116,8 +117,8 @@ public class CustomHierarchyObject : HierarchyObject
 	[OnStartEvent]
 	public void PrintContents()
 	{
-		Console.WriteLine(Text);
-		Console.WriteLine(PointlessBool);
+		Output.Log(Text);
+		Output.Log(PointlessBool);
 	}
 
 	public string Text { get; private set; }

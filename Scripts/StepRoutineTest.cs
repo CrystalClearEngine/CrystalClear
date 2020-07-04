@@ -1,4 +1,5 @@
-﻿using CrystalClear.EventSystem.StandardEvents;
+﻿using CrystalClear;
+using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
@@ -21,11 +22,11 @@ namespace Scripts
 
 		public IEnumerator MyStepRoutine()
 		{
-			Console.WriteLine("Before frame update");
+			Output.Log("Before frame update");
 			yield return new WaitFor(typeof(FrameUpdateEvent)); // This and...
-			Console.WriteLine("After frame update");
+			Output.Log("After frame update");
 			yield return new WaitFor(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
-			Console.WriteLine("After test event class");
+			Output.Log("After test event class");
 			yield break;
 		}
 
@@ -41,7 +42,7 @@ namespace Scripts
 			while (true)
 			{
 				yield return waitForNewFrame;
-				Console.WriteLine("New frame drawn.");
+				Output.Log("New frame drawn.");
 			}
 		}
 
@@ -57,7 +58,7 @@ namespace Scripts
 			while (true)
 			{
 				yield return waitForNewPhysicsStep;
-				Console.WriteLine("New physics step.");
+				Output.Log("New physics step.");
 			}
 		}
 	}

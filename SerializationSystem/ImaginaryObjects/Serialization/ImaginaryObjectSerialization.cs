@@ -52,14 +52,14 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				if (fileCreatedInVersion < CrystalClearInformation.CrystalClearVersion)
 				{
 					// The version that this file was created in is older than the current version.
-					Console.WriteLine($"This file was created in an older version of the CrystalClear Engine. {fileCreatedInVersion} (file) < {CrystalClearInformation.CrystalClearVersion} (current)");
+					Output.ErrorLog($"This file was created in an older version of the CrystalClear Engine. {fileCreatedInVersion} (file) < {CrystalClearInformation.CrystalClearVersion} (current)");
 				}
 
 				// Is the pack file from a newer version of CrystalClear?
 				else if (fileCreatedInVersion > CrystalClearInformation.CrystalClearVersion)
 				{
 					// The version that this file was created in is newer than the current version.
-					Console.WriteLine($"This file was created in a newer version of the CrystalClear Engine. {fileCreatedInVersion} (file) > {CrystalClearInformation.CrystalClearVersion} (current)");
+					Output.ErrorLog($"This file was created in a newer version of the CrystalClear Engine. {fileCreatedInVersion} (file) > {CrystalClearInformation.CrystalClearVersion} (current)");
 				}
 
 				ImaginaryObject unpacked;
