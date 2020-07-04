@@ -1,4 +1,5 @@
-﻿#define Editor
+﻿// TODO: compile without this define for the standalone DLLS.
+#define Editor
 
 using System;
 using System.Reflection;
