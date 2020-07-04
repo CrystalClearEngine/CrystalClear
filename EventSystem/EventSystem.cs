@@ -1,5 +1,8 @@
-﻿using System;
+﻿#define Editor
+
+using System;
 using System.Reflection;
+using CrystalClear;
 
 namespace CrystalClear.EventSystem
 {
@@ -26,13 +29,28 @@ namespace CrystalClear.EventSystem
 			}
 		}
 
+		// TODO: make IsSubscribedMethod(out SubscribeToAttribute) method
 		/// <summary>
 		/// Subscribes all events a method has (if any).
 		/// </summary>
 		public static void SubscribeMethod(MethodInfo method, object instance)
 		{
 			SubscribeToAttribute subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
-			subscribeToAttribute?.ScriptEvent.Subscribe(method, instance);
+			if (!(subscribeToAttribute is null))
+			{
+#if Editor
+				if (method.ContainsGenericParameters != subscribeToAttribute.EventType.ContainsGenericParameters)
+				{
+					throw new Exception($"The event method {method.Name} contains generic parameters while the event type does not.");
+				}
+
+				if (method.ReturnType != typeof(void))
+				{
+					throw new Exception($"The event method {method.Name} has a return type of {method.ReturnType.Name}, which is not void.");
+				}
+#endif
+				subscribeToAttribute?.ScriptEvent.Subscribe(method, instance);
+			}
 		}
 
 		/// <summary>
