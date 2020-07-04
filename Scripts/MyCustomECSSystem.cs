@@ -1,6 +1,7 @@
 ﻿using CrystalClear.ECS;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
+using CrystalClear;
 
 public class MyCustomECSSystem : SelectiveECSSystem
 {

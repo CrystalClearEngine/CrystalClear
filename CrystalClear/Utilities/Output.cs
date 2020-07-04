@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace CrystalClear.ScriptUtilities
+namespace CrystalClear
 {
 	// TODO: maybe rename to DeveloperConsole?
 	public static class Output
