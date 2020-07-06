@@ -5,6 +5,7 @@ namespace CrystalClear.MessageSystem
 {
 	public static class MessageSystem
 	{
+		// TODO: use message.GetType instead of a generic method?
 		public static void SendMessage<TMessage>(this object recipient, TMessage message)
 			where TMessage : Message
 		{
