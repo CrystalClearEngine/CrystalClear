@@ -9,6 +9,7 @@
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
     <ProjectReference Include="..\ECSSystem\ECSSystem.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
+    <ProjectReference Include="..\MessageSystem\MessageSystem.csproj" />
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
     <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj" />
     <ProjectReference Include="..\Standard\Standard.csproj" />
