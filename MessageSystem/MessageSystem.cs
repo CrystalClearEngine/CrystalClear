@@ -7,7 +7,7 @@ namespace CrystalClear.MessageSystem
 	public static class MessageSystem
 	{
 		// TODO: add out parameter messageGotRecieved
-		// TODO: add method where you can get the returns?
+		// TODO: add method where you can get the returns from the invokes?
 
 		public static void SendMessage(this object recipient, Message message)
 		{
