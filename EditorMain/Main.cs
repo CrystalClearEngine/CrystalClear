@@ -126,7 +126,7 @@ public static class MainClass
 				break;
 
 			case "del":
-				DeleteHierarchyObject(commandSections[1]);
+				DeleteHierarchyObject(commandSections.Length < 1 ? GetName(currentSelectedHierarchyObject) : commandSections[1]);
 				break;
 
 			case "rename":
