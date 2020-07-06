@@ -19,6 +19,8 @@ namespace Scripts
 				Data = "MyData"
 			};
 
+			Output.Log("Sending message.");
+
 			myMessage.Send(recipient);
 		}
 	}
