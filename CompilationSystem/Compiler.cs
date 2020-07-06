@@ -30,7 +30,8 @@ namespace CrystalClear.CompilationSystem
 					@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
 					@"E:\dev\crystal clear\Standard\bin\Debug\netcoreapp3.1\Standard.dll", // The path to the Standard dll.
 					@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.
-					@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll" // The location of the CompilationSystem dll.
+					@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll", // The location of the CompilationSystem dll.
+					@"E:\dev\crystal clear\CrystalClear\bin\Debug\netcoreapp3.1\CrystalClear.dll", // The location of the CrystalClear dll.
 				};
 
 		/// <summary>

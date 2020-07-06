@@ -7,6 +7,16 @@ namespace CrystalClear.MessageSystem
 {
 	public abstract class Message
 	{
+		public abstract Type DelegateType { get; }
 
+		public void Send(object recipient)
+		{
+			recipient.SendMessage(this);
+		}
+
+		public void Send(Type recipient)
+		{
+			recipient.SendMessage(this);
+		}
 	}
 }

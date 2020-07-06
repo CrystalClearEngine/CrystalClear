@@ -14,7 +14,7 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public static void SubscribeEvents(Type typeToSubscribe, object instance)
 		{
-			foreach (MethodInfo method in typeToSubscribe.GetMethods())
+			foreach (MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
 				SubscribeToAttribute subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
 				subscribeToAttribute?.ScriptEvent.Subscribe(method, instance);
@@ -23,7 +23,7 @@ namespace CrystalClear.EventSystem
 
 		public static void UnsubscribeEvents(Type typeToUnsubscribe, object instance)
 		{
-			foreach (MethodInfo method in typeToUnsubscribe.GetMethods())
+			foreach (MethodInfo method in typeToUnsubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
 				SubscribeToAttribute subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
 				subscribeToAttribute?.ScriptEvent.Unsubscribe((ScriptEventHandler)method.CreateDelegate(typeof(ScriptEventHandler), instance));

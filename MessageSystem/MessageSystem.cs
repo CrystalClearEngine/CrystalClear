@@ -1,63 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace CrystalClear.MessageSystem
 {
 	public static class MessageSystem
 	{
-		// TODO: use DynamicMethods?
-		static Dictionary<Type, Dictionary<Type, Delegate>> messageRecipientMethodsCache = new Dictionary<Type, Dictionary<Type, Delegate>>();
-
-		public static void SendMessage<TMessage>(this object recipient, TMessage message, bool shouldThrow)
-			where TMessage : Message
+		public static void SendMessage(this object recipient, Message message)
 		{
-			FindMessageRecipientMethods(recipient.GetType());
+			var messageRecievers = (from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
 
-			if (messageRecipientMethodsCache.ContainsKey(recipient.GetType()))
+			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType, recipient));
+
+			foreach (Delegate item in toCall)
 			{
-				if (messageRecipientMethodsCache[recipient.GetType()].ContainsKey(message.GetType()))
-				{
-					messageRecipientMethodsCache[recipient.GetType()][message.GetType()].DynamicInvoke(message);
-					return;
-				}
-
+				item.DynamicInvoke(message);
 			}
-
 		}
 
-		/// <summary>Finds message recipient methods and fills in the cache.</summary>
-		/// <returns>Whether any message recipient methods were found.</returns>
-		public static bool FindMessageRecipientMethods(Type type)
+		public static void SendMessage(this Type recipient, Message message)
 		{
-			if (messageRecipientMethodsCache.ContainsKey(type))
+			var messageRecievers = (from MethodInfo method in recipient.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
+
+			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType));
+
+			foreach (Delegate item in toCall)
 			{
-				if (messageRecipientMethodsCache[type].Count > 0)
-				{
-					return true;
-				}
+				item.DynamicInvoke(message);
 			}
-
-			bool hasMessageRecipientMethods = false;
-
-			var dictionaryEntry = new KeyValuePair<Type, Dictionary<Type, Delegate>>(type, new Dictionary<Type, Delegate>());
-
-			foreach (MethodInfo method in type.GetMethods())
-			{
-				var attribute = method.GetCustomAttribute<OnReceiveMessageAttribute>();
-				if (!(attribute is null))
-				{
-					dictionaryEntry.Value.Add(attribute.MessageType, method.CreateDelegate());
-				}
-			}
-
-			if (hasMessageRecipientMethods)
-			{
-				messageRecipientMethodsCache.Add(dictionaryEntry.Key, dictionaryEntry.Value);
-			}
-
-			return hasMessageRecipientMethods;
 		}
 	}
 }
