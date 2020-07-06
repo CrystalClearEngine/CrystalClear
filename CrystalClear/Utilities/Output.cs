@@ -8,7 +8,7 @@ namespace CrystalClear
 	{
 		public static void Log()
 		{
-			Output.Log();
+			Console.WriteLine();
 		}
 
 		/// <summary>
@@ -19,7 +19,7 @@ namespace CrystalClear
 		{
 			foreach (object obj in objs)
 			{
-				Output.Log(obj);
+				Console.WriteLine(obj);
 			}
 		}
 
@@ -31,7 +31,7 @@ namespace CrystalClear
 		{
 			foreach (object obj in objs)
 			{
-				Output.Log(obj);
+				Console.WriteLine(obj);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace CrystalClear
 		/// <param name="obj">The object to write.</param>
 		public static void Log(object obj)
 		{
-			Output.Log(obj);
+			Console.WriteLine(obj);
 		}
 
 		/// <summary>
@@ -50,7 +50,7 @@ namespace CrystalClear
 		/// <param name="str">The string to write.</param>
 		public static void Log(string str)
 		{
-			Output.Log(str);
+			Console.WriteLine(str);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace CrystalClear
 			ConsoleColor prevBgColor = Console.BackgroundColor;
 			Console.BackgroundColor = bgColor; // Set new colors.
 			Console.ForegroundColor = fgColor;
-			Output.Log(str); // Write string.
+			Console.WriteLine(str); // Write string.
 			Console.BackgroundColor = prevBgColor; // Restore previous colors.
 			Console.ForegroundColor = prevFgColor;
 		}
@@ -74,7 +74,7 @@ namespace CrystalClear
 		{
 			ConsoleColor prevFgColor = Console.ForegroundColor; // Store previous foreground and background color so that we can restore them after writing.
 			Console.ForegroundColor = minorError ? ConsoleColor.DarkYellow : ConsoleColor.Red; // Set new colors.
-			Output.Log(str); // Write string.
+			Console.WriteLine(str); // Write string.
 			Console.ForegroundColor = prevFgColor; // Restore previous colors.
 		}
 	}
