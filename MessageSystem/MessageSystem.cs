@@ -8,6 +8,7 @@ namespace CrystalClear.MessageSystem
 	{
 		// TODO: add out parameter messageGotRecieved
 		// TODO: add method where you can get the returns from the invokes?
+		// TODO: use cache for messageRecievers and toCall?
 
 		public static void SendMessage(this object recipient, Message message)
 		{
