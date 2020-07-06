@@ -6,6 +6,9 @@ namespace CrystalClear.MessageSystem
 {
 	public static class MessageSystem
 	{
+		// TODO: add out parameter messageGotRecieved
+		// TODO: add method where you can get the returns?
+
 		public static void SendMessage(this object recipient, Message message)
 		{
 			var messageRecievers = (from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
@@ -14,6 +17,7 @@ namespace CrystalClear.MessageSystem
 
 			foreach (Delegate item in toCall)
 			{
+				// TODO: cast to Action<TMessage> or Action.MakeGeneric(message.GetType()) then invoke for better speed?
 				item.DynamicInvoke(message);
 			}
 		}
