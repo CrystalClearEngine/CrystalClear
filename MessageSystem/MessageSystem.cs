@@ -5,11 +5,9 @@ namespace CrystalClear.MessageSystem
 {
 	public static class MessageSystem
 	{
-		// TODO: use message.GetType instead of a generic method?
-		public static void SendMessage<TMessage>(this object recipient, TMessage message)
-			where TMessage : Message
+		public static void SendMessage(this object recipient, Message message)
 		{
-			var messageRecievers = (from MethodInfo method in recipient.GetType().GetMethods() where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == typeof(TMessage) select method);
+			var messageRecievers = (from MethodInfo method in recipient.GetType().GetMethods() where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
 
 			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType, recipient));
 		}
