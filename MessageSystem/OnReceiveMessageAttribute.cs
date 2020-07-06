@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MessageSystem
+namespace CrystalClear.MessageSystem
 {
 	[AttributeUsage(AttributeTargets.Method)]
-	public class OnMessageAttribute : Attribute
+	public class OnReceiveMessageAttribute : Attribute
 	{
 		public Type MessageType;
 
-		public OnMessageAttribute(Type messageType)
+		public OnReceiveMessageAttribute(Type messageType)
 		{
 			MessageType = messageType;
 		}
