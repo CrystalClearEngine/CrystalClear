@@ -10,7 +10,8 @@ namespace CrystalClear.MessageSystem
 		// TODO: use DynamicMethods?
 		static Dictionary<Type, Dictionary<Type, Delegate>> messageRecipientMethodsCache = new Dictionary<Type, Dictionary<Type, Delegate>>();
 
-		public static void SendMessage(this object recipient, Message message, bool shouldThrow)
+		public static void SendMessage<TMessage>(this object recipient, TMessage message, bool shouldThrow)
+			where TMessage : Message
 		{
 			FindMessageRecipientMethods(recipient.GetType());
 
