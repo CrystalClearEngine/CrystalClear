@@ -16,6 +16,23 @@ namespace CrystalClear.CompilationSystem
 	/// </summary>
 	public static class Compiler
 	{
+		static readonly string[] references =
+				{
+					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
+					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
+					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
+					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.dll",
+					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\netstandard.dll",
+					@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
+					@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+					@"E:\dev\crystal clear\EventSystem\bin\Debug\netcoreapp3.1\EventSystem.dll", // The path to the EventSystem dll.
+					@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netcoreapp3.1\HierarchySystem.dll", // The path to the EventSystem dll.
+					@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
+					@"E:\dev\crystal clear\Standard\bin\Debug\netcoreapp3.1\Standard.dll", // The path to the Standard dll.
+					@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.
+					@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll" // The location of the CompilationSystem dll.
+				};
+
 		/// <summary>
 		/// Compiles C# source code files to an assembly. Will in the future likely also support other .net languages!
 		/// </summary>
@@ -31,22 +48,6 @@ namespace CrystalClear.CompilationSystem
 												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
 												CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
 												, fileName, Encoding.UTF8)).ToList();
-
-				string[] references =
-				{
-					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
-					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
-					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
-					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.dll",
-					@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\netstandard.dll",
-					@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netstandard2.0\SerializationSystem.dll", // The path to the SerializationSystem dll.
-					@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netstandard2.0\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
-					@"E:\dev\crystal clear\EventSystem\bin\Debug\netstandard2.0\EventSystem.dll", // The path to the EventSystem dll.
-					@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netstandard2.0\HierarchySystem.dll", // The path to the EventSystem dll.
-					@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
-					@"E:\dev\crystal clear\Standard\bin\Debug\netstandard2.0\Standard.dll", // The path to the Standard dll.
-					Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem dll.
-				};
 
 				List<MetadataReference> metadataReferences = new List<MetadataReference>();
 				foreach (string reference in references)
@@ -90,22 +91,6 @@ namespace CrystalClear.CompilationSystem
 			SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code
 											, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
 											, encoding: Encoding.UTF8);
-
-			string[] references =
-			{
-				@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
-				@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
-				@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
-				@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.dll",
-				@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\netstandard.dll",
-				@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netstandard2.0\SerializationSystem.dll", // The path to the SerializationSystem dll.
-				@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netstandard2.0\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
-				@"E:\dev\crystal clear\EventSystem\bin\Debug\netstandard2.0\EventSystem.dll", // The path to the EventSystem dll.
-				@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netstandard2.0\HierarchySystem.dll", // The path to the EventSystem dll.
-				@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
-				@"E:\dev\crystal clear\Standard\bin\Debug\netstandard2.0\Standard.dll", // The path to the Standard dll.
-				Assembly.GetExecutingAssembly().Location // The location of the CompilationSystem dll.
-			};
 
 			List<MetadataReference> metadataReferences = new List<MetadataReference>();
 			foreach (string reference in references)
