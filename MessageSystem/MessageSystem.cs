@@ -17,5 +17,17 @@ namespace CrystalClear.MessageSystem
 				item.DynamicInvoke(message);
 			}
 		}
+
+		public static void SendMessage(this Type recipient, Message message)
+		{
+			var messageRecievers = (from MethodInfo method in recipient.GetMethods(BindingFlags.Static & BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
+
+			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType));
+
+			foreach (Delegate item in toCall)
+			{
+				item.DynamicInvoke(message);
+			}
+		}
 	}
 }

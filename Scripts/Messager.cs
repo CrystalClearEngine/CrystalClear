@@ -22,6 +22,8 @@ namespace Scripts
 			Output.Log("Sending message.");
 
 			myMessage.Send(recipient);
+
+			myMessage.Send(recipient.GetType());
 		}
 	}
 
@@ -31,6 +33,13 @@ namespace Scripts
 		void RecieveMyMessage(MyMessage myMessage)
 		{
 			Output.Log("Recieved MyMessage!");
+			Output.Log("Data: " + myMessage.Data);
+		}
+
+		[OnReceiveMessage(typeof(MyMessage))]
+		static void StaticRecieveMyMessage(MyMessage myMessage)
+		{
+			Output.Log("Recieved MyMessage in static method!");
 			Output.Log("Data: " + myMessage.Data);
 		}
 	}

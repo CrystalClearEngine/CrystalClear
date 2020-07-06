@@ -13,5 +13,10 @@ namespace CrystalClear.MessageSystem
 		{
 			recipient.SendMessage(this);
 		}
+
+		public void Send(Type recipient)
+		{
+			recipient.SendMessage(this);
+		}
 	}
 }
