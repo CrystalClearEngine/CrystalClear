@@ -272,7 +272,7 @@ public static class MainClass
 		goto LoopEditor;
 #endregion
 
-#region Running
+		#region Running
 		RunProgram:
 
 		Console.Write("Choose a name for the hierarchy: ");
@@ -281,9 +281,9 @@ public static class MainClass
 		Output.Log();
 
 		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
-#endregion
+		#endregion
 
-#region Exit handling
+		#region Exit handling
 		ExitHandling:
 		if (Console.ReadKey().Key == ConsoleKey.Escape)
 		{
@@ -292,9 +292,9 @@ public static class MainClass
 			goto LoopEditor;
 		}
 		goto ExitHandling;
-#endregion
+		#endregion
 
-#region Editor Methods
+		#region Editor Methods
 		bool Compile()
 		{
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
@@ -310,7 +310,7 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
-#region Type identification
+			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
 			// Find all scripts that are present in the compiled assembly.
@@ -321,7 +321,7 @@ public static class MainClass
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
-#endregion
+			#endregion
 
 			return true;
 		}
@@ -835,6 +835,6 @@ public static class MainClass
 				return new ImaginaryConstructableObject(type);
 			}
 		}
-#endregion
+		#endregion
 	}
 }
