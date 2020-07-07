@@ -7,7 +7,7 @@ namespace CrystalClear.MessageSystem
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class OnReceiveMessageAttribute : Attribute
 	{
-		public Type MessageType;
+		public Type MessageType { get; }
 
 		public OnReceiveMessageAttribute(Type messageType)
 		{
