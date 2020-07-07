@@ -12,6 +12,8 @@ namespace CrystalClear.HierarchySystem.Messages
 	{
 		public delegate void HierarchyObjectToBeRemovedDelegate(Messages.HierarchyObjectToBeRemoved message);
 
+		public override bool AllowStaticMethods => false;
+
 		public override Type DelegateType => typeof(HierarchyObjectToBeRemovedDelegate);
 	}
 }
