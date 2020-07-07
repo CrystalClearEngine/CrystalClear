@@ -5,3 +5,4 @@ TODO: add system to track at which verison breaking changes occur so users can b
 TODO: possibly rethink entire solution's structure, as it easily leads to circular dependencies.
 TODO: remove unnecessary comments.
 TODO: ensure that all files follow the same layout (where fields, constructors, methods etc go).
+TODO: the files in every project should be renamed to Readme.txt so that they show up properly in GitHub.
