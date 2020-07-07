@@ -8,10 +8,10 @@ namespace CrystalClear.HierarchySystem.Messages
 	/// <summary>
 	/// This message will be sent to any HierarchyObject that is going to be removed.
 	/// </summary>
-	public class HierarchyObjectToBeDeleted : Message
+	public class HierarchyObjectToBeRemoved : Message
 	{
-		public delegate void ScriptToBeRemovedDelegate(HierarchyObjectToBeDeleted message);
+		public delegate void HierarchyObjectToBeRemovedDelegate(Messages.HierarchyObjectToBeRemoved message);
 
-		public override Type DelegateType => typeof(ScriptToBeRemovedDelegate);
+		public override Type DelegateType => typeof(HierarchyObjectToBeRemovedDelegate);
 	}
 }

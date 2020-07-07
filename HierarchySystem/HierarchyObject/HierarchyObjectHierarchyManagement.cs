@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrystalClear.HierarchySystem.Messages;
+using System;
 using System.Linq;
 
 namespace CrystalClear.HierarchySystem
@@ -181,6 +182,7 @@ namespace CrystalClear.HierarchySystem
 			RemoveChild(key);
 		}
 
+		// TODO: rename to DestroyChild and add new MoveChild method!
 		/// <summary>
 		/// Removes the specified child specified by name from the LocalHierarchy.
 		/// </summary>
@@ -192,6 +194,8 @@ namespace CrystalClear.HierarchySystem
 			LocalHierarchy[childName].RemoveAllScripts();
 
 			LocalHierarchy.RemoveChild(childName);
+
+			new HierarchyObjectToBeRemoved().SendTo(this);
 		}
 
 		/// <summary>
