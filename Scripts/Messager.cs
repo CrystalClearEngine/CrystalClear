@@ -21,9 +21,9 @@ namespace Scripts
 
 			Output.Log("Sending message.");
 
-			myMessage.Send(recipient);
+			myMessage.SendTo(recipient);
 
-			myMessage.Send(recipient.GetType());
+			myMessage.SendTo(recipient.GetType());
 		}
 	}
 

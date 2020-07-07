@@ -9,12 +9,12 @@ namespace CrystalClear.MessageSystem
 	{
 		public abstract Type DelegateType { get; }
 
-		public void Send(object recipient)
+		public void SendTo(object recipient)
 		{
 			recipient.SendMessage(this);
 		}
 
-		public void Send(Type recipient)
+		public void SendTo(Type recipient)
 		{
 			recipient.SendMessage(this);
 		}
