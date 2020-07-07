@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CrystalClear.MessageSystem
 {
+	// TODO: add OnRecieveAnyMessageAttribute?
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class OnReceiveMessageAttribute : Attribute
 	{
