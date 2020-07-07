@@ -1,4 +1,5 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.HierarchySystem.Scripting.Messages;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using System;
 using System.Collections.Generic;
@@ -35,16 +36,18 @@ namespace CrystalClear.HierarchySystem
 
 		public void RemoveScript(string name)
 		{
+			new ScriptToBeRemoved().SendTo(AttatchedScripts[name]);
+
 			AttatchedScripts[name].UnsubscribeAll();
+
 			AttatchedScripts.Remove(name);
 		}
 
 		protected void RemoveAllScripts()
 		{
-			foreach (KeyValuePair<string, Script> scriptKeyValuePair in AttatchedScripts)
+			foreach (string scriptName in AttatchedScripts.Keys)
 			{
-				scriptKeyValuePair.Value.UnsubscribeAll();
-				AttatchedScripts.Remove(scriptKeyValuePair.Key);
+				RemoveScript(scriptName);
 			}
 		}
 	}

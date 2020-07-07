@@ -189,13 +189,13 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="childName">The child's name.</param>
 		public void RemoveChild(string childName)
 		{
+			new HierarchyObjectToBeRemoved().SendTo(this);
+
 			EventSystem.EventSystem.UnsubscribeEvents(LocalHierarchy[childName].GetType(), LocalHierarchy[childName].GetType());
 
 			LocalHierarchy[childName].RemoveAllScripts();
 
 			LocalHierarchy.RemoveChild(childName);
-
-			new HierarchyObjectToBeRemoved().SendTo(this);
 		}
 
 		/// <summary>
