@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace CrystalClear.HierarchySystem
 {
+	// TODO: add verification, such as ensuring a HierarchyObject doesn't have a parent already when adding it to the LocalHierarchy.
 	public partial class HierarchyObject
 	{
 		/// <summary>
@@ -54,7 +55,7 @@ namespace CrystalClear.HierarchySystem
 
 			set
 			{
-				ReParentThis(value);
+				Move(value);
 			}
 		}
 
@@ -65,9 +66,8 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(HierarchyObject child, string newName)
 		{
-			string key = GetChildName(child);
-			RemoveChild(key);
-			AddChild(newName, child);
+			LocalHierarchy.RemoveChild(child);
+			LocalHierarchy.AddChild(newName, child);
 		}
 
 		/// <summary>
@@ -77,9 +77,9 @@ namespace CrystalClear.HierarchySystem
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(string currentName, string newName)
 		{
-			HierarchyObject hierarchyObject = LocalHierarchy[currentName];
-			RemoveChild(currentName);
-			AddChild(newName, hierarchyObject);
+			HierarchyObject child = LocalHierarchy[currentName];
+			LocalHierarchy.RemoveChild(currentName);
+			LocalHierarchy.AddChild(newName, child);
 		}
 
 		/// <summary>
@@ -105,42 +105,12 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Changes the parent of a HierarchyObject in the LocalHierarchy.
-		/// </summary>
-		/// <param name="newParent">The parent to move the child to.</param>
-		/// <param name="child">The child to move.</param>
-		public void ReParentChild(HierarchyObject newParent, HierarchyObject child)
-		{
-			string childName = child.Name;
-			RemoveChild(child);
-			newParent.AddChild(childName, child);
-		}
-
-		/// <summary>
-		/// Changes the parent of a HierarchyObject in a Hierarchy.
-		/// </summary>
-		/// <param name="oldParent">The parent to remove the HierarchyObject from.</param>
-		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
-		/// <param name="child">The child object to re-parent.</param>
-		public static void ReParent(HierarchyObject oldParent, HierarchyObject newParent, HierarchyObject child)
-		{
-			string childName = child.Name;
-			oldParent.RemoveChild(child);
-			newParent.AddChild(childName, child);
-		}
-
-		/// <summary>
 		/// Changes the parent of this HierarchyObject.
 		/// </summary>
 		/// <param name="newParent">The parent to add the HierarchyObject to.</param>
-		public void ReParentThis(HierarchyObject newParent)
+		public void Move(HierarchyObject newParent)
 		{
-			string childName = Name;
-			if (!IsRoot)
-			{
-				Parent.RemoveChild(childName);
-			}
-			newParent.AddChild(childName, this);
+			Parent.MoveChild(Name, newParent);
 		}
 
 		/// <summary>
@@ -174,20 +144,26 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// Removes the specified child specified by HierarchyObject from the LocalHierarchy.
 		/// </summary>
-		/// <param name="child">The child HierarchyObject to remove.</param>
-		public void RemoveChild(HierarchyObject child)
+		/// <param name="child">The child HierarchyObject to destroy.</param>
+		public void DestroyChild(HierarchyObject child)
 		{
 			string key = LocalHierarchy.First(HierarchyObject => HierarchyObject.Value == child).Key;
 
-			RemoveChild(key);
+			DestroyChild(key);
 		}
 
-		// TODO: rename to DestroyChild and add new MoveChild method!
 		/// <summary>
 		/// Removes the specified child specified by name from the LocalHierarchy.
 		/// </summary>
 		/// <param name="childName">The child's name.</param>
-		public void RemoveChild(string childName)
+		public void MoveChild(string childName, HierarchyObject newParent)
+		{
+			HierarchyObject child = LocalHierarchy[childName];
+			LocalHierarchy.RemoveChild(childName);
+			newParent.LocalHierarchy.AddChild(childName, child);
+		}
+
+		public void DestroyChild(string childName)
 		{
 			new HierarchyObjectToBeRemoved().SendTo(this);
 

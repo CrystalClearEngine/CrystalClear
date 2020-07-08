@@ -54,7 +54,7 @@ namespace UnitTests
 				}
 			};
 			Assert.IsNotNull(TestEvent.Instance.GetSubscribers(), "The Script wasn't subscribed to the TestEvent.");
-			scriptObject.RemoveChild("Child");
+			scriptObject.DestroyChild("Child");
 			Assert.IsNull(TestEvent.Instance.GetSubscribers(), "The Script wasn't unsubscribed from the TestEvent after it's HierarchyObject got removed.");
 		}
 	}
