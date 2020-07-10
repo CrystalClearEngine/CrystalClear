@@ -1,7 +1,6 @@
 ﻿using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.HierarchySystem.Scripting.Messages;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
-using System;
 using System.Collections.Generic;
 
 namespace CrystalClear.HierarchySystem

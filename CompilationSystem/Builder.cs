@@ -1,5 +1,4 @@
-﻿using CrystalClear.ScriptUtilities;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 
 namespace CrystalClear.CompilationSystem

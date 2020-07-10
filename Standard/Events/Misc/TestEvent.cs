@@ -1,5 +1,4 @@
 ﻿using CrystalClear.EventSystem;
-using System;
 
 namespace CrystalClear.Standard.Events
 {

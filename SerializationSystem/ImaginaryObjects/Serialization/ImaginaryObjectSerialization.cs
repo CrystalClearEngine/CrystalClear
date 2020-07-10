@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Xml;
-using K4os.Compression.LZ4.Streams;
-using CrystalClear;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
@@ -45,7 +42,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			using (BinaryReader reader = new BinaryReader(decompressionStream, encoding))
 #endif
 			{
-				 // Read the version of CrystalClear that this pack file was created in.
+				// Read the version of CrystalClear that this pack file was created in.
 				Version fileCreatedInVersion = new Version(reader.ReadString());
 
 				// Is the pack file from an older version of CrystalClear?

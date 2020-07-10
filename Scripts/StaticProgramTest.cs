@@ -1,6 +1,5 @@
-﻿using CrystalClear.EventSystem.StandardEvents;
-using CrystalClear.ScriptUtilities;
-using CrystalClear;
+﻿using CrystalClear;
+using CrystalClear.EventSystem.StandardEvents;
 
 public static class StaticProgramTest
 {

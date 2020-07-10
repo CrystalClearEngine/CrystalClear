@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
@@ -62,7 +60,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
 			TypeData.WriteConstructionInfo(writer);
-			
+
 			// TODO: use Write7BitEncodedInt?
 			writer.Write(ImaginaryConstructionParameters.Length);
 

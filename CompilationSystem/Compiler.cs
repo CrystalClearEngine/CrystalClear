@@ -1,5 +1,4 @@
-﻿using CrystalClear.ScriptUtilities;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 using System.Collections.Generic;

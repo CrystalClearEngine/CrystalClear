@@ -3,7 +3,6 @@
 
 using System;
 using System.Reflection;
-using CrystalClear;
 
 namespace CrystalClear.EventSystem
 {

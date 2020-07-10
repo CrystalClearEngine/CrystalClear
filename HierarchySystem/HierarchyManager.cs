@@ -78,7 +78,7 @@ namespace CrystalClear.HierarchySystem
 
 			string key;
 
-			key = LoadedHierarchies.First(x =>ReferenceEquals(x.Value, hierarchyObject)).Key;
+			key = LoadedHierarchies.First(x => ReferenceEquals(x.Value, hierarchyObject)).Key;
 
 			return key;
 		}

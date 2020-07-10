@@ -4,7 +4,6 @@ using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
-using System;
 using System.Collections;
 
 namespace Scripts

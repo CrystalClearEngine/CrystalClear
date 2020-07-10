@@ -3,7 +3,6 @@ using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.RuntimeMain;
-using CrystalClear.ScriptUtilities;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
@@ -267,10 +266,10 @@ public static class MainClass
 			Output.ErrorLog($"command error: not supported ({ex.Message})");
 		}
 #pragma warning restore CA1031 // Do not catch general exception types
-#endregion
+		#endregion
 #endif
 		goto LoopEditor;
-#endregion
+		#endregion
 
 		#region Running
 		RunProgram:

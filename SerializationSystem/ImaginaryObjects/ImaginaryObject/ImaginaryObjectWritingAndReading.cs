@@ -97,8 +97,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return imaginaryObject;
 		}
 
-		static private int totalWrittenImaginaryObjects = 0;
-		
+		private static int totalWrittenImaginaryObjects = 0;
+
 		public static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
 		{
 			writer.Write(writeImaginaryObjectUniqueIdentifier);

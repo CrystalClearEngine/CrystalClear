@@ -1,6 +1,5 @@
 ﻿using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
-using System;
 using System.IO;
 using System.Runtime.Serialization;
 

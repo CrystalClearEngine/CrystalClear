@@ -1,7 +1,5 @@
 ﻿using CrystalClear.MessageSystem;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CrystalClear.HierarchySystem.Messages
 {
