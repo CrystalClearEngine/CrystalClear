@@ -7,6 +7,7 @@ using System.Reflection;
 
 namespace CrystalClear.HierarchySystem.Scripting
 {
+	// TODO: rename to ScriptInfo?
 	/// <summary>
 	/// Stores the type and instance of a Script.
 	/// </summary>
