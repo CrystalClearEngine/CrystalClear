@@ -22,11 +22,21 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		private readonly WeakReference<IEnumerator> stepRoutineWeakRef = new WeakReference<IEnumerator>(null);
 
+		public StepRoutineState State { get; internal set; }
+
 		public StepRoutineInfo(int stepRoutineId, string stepRoutineName, IEnumerator stepRoutine)
 		{
 			StepRoutineId = stepRoutineId;
 			StepRoutineName = stepRoutineName;
 			stepRoutineWeakRef.SetTarget(stepRoutine);
 		}
+	}
+
+	public enum StepRoutineState
+	{
+		NotStarted,
+		Running,
+		Finished,
+		Stopped,
 	}
 }
