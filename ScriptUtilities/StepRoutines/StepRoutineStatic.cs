@@ -24,57 +24,43 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Start the StepRoutine.
 			stepRoutine.MoveNext();
 			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
-			((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+			((WaitForEvent)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 
 			return info;
 		}
 
-		public static StepRoutineInfo Start(this IEnumerator<WaitFor> stepRoutine, string name = null)
-		{
-			try
-			{
-				StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
-
-				// Initialize stepRoutineRunnerDelegate.
-				ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
-				// Assign the action.
-				stepRoutineRunnerDelegate = new ScriptEventHandler(() => RunStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
-				// Start the StepRoutine.
-				stepRoutine.MoveNext();
-				// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
-				(stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
-
-				// Dispose of the StepRoutine.
-				//TODO: can we actually do this here? Won't this dispose it before it is done?
-				stepRoutine.Dispose();
-
-				return info;
-			}
-			finally
-			{
-				// Dispose of the StepRoutine.
-				stepRoutine.Dispose();
-			}
-		}
-
+		// TODO: fix, doesn't actually work right now, will just resubscribe same old stuff.
 		private static void RunStepRoutine(this IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
 			// Unsubscribe this delegate so it won't run again.
-			((WaitFor)stepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
+			((WaitForEvent)stepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
 			// Move the enumerator forwards.
 			if (stepRoutine.MoveNext())
 			{
 				// Subscribe the delegate to the new WaitFor ScriptEvent.
-				((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
 		}
 	}
 
-	public class WaitFor // TODO: create separate WaitForScriptEvent and keep this as a base.
+	public abstract class WaitFor
+	{
+		// To prevent inheritance from outside the assembly.
+		internal WaitFor()
+		{
+
+		}
+
+		public abstract void Cancel();
+	}
+
+	public class WaitForEvent : WaitFor
 	{
 		public ScriptEventBase ScriptEvent;
 
-		public WaitFor(Type scriptEventType)
+		public ScriptEventHandler ScriptEventHandler;
+
+		public WaitForEvent(Type scriptEventType)
 		{
 			ScriptEvent =
 				(ScriptEventBase)scriptEventType
@@ -82,9 +68,14 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
 		}
 
-		public WaitFor(ScriptEventBase scriptEvent)
+		public WaitForEvent(ScriptEventBase scriptEvent)
 		{
 			ScriptEvent = scriptEvent;
+		}
+
+		public override void Cancel()
+		{
+			ScriptEvent.Unsubscribe(ScriptEventHandler);
 		}
 	}
 }
