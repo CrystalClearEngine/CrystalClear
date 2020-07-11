@@ -31,6 +31,9 @@ namespace UnitTests
 
 			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineId)));
 			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineId)));
+			
+			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineName)));
+			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineName)));
 		}
 
 		public IEnumerator SimpleStepRoutine()

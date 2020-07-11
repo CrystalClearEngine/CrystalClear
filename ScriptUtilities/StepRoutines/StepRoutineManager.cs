@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
@@ -16,7 +17,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			return runningStepRoutines[id];
 		}
-		
+
+		public static StepRoutineInfo GetStepRoutine(string name)
+		{
+			return runningStepRoutines[nameToStepRoutineIdTranslator[name]];
+		}
+
 		/// <summary>
 		/// Registers a new StepRoutine, adding it to the database.
 		/// </summary>
