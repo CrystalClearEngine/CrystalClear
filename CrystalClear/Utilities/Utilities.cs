@@ -57,6 +57,16 @@ namespace CrystalClear
 		/// <returns>Whether the objects are equal.</returns>
 		public static bool ReflectionEquals(this object a, object b, bool includePrivate = false, bool ignoreProperties = false)
 		{
+			if (a is null && b is null) // null is null
+			{
+				return true;
+			}
+
+			else if (a is null || b is null) // if both aren't, then if one is they can´t be equal
+			{
+				return false;
+			}
+
 			Type aType = a.GetType();
 			Type bType = b.GetType();
 
