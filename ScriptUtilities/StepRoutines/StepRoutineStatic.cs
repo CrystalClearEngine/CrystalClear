@@ -17,14 +17,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
 
-			// Initialize stepRoutineRunnerDelegate.
-			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
-			// Assign the action.
-			stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(info, stepRoutineRunnerDelegate));
-			// Start the StepRoutine.
-			stepRoutine.MoveNext();
-			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
-			((WaitForEvent)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+			DoStepInStepRoutine(info, null);
 
 			return info;
 		}
@@ -39,7 +32,6 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
 				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
-				stepRoutine.StepRoutineEnumerable.MoveNext();
 				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
 		}
