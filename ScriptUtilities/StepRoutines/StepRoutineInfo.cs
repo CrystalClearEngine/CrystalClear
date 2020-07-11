@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace ScriptUtilities.StepRoutines
+namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public class StepRoutineInfo
 	{

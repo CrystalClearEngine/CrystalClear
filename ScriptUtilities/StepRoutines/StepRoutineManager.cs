@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ScriptUtilities.StepRoutines
+namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public static class StepRoutineManager
 	{

@@ -1,11 +1,11 @@
 ﻿using CrystalClear.EventSystem;
-using ScriptUtilities.StepRoutines;
+using CrystalClear.ScriptUtilities.StepRoutines;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace CrystalClear.ScriptUtilities
+namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public static class StepRoutine
 	{
