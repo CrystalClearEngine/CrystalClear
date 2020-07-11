@@ -24,6 +24,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public StepRoutineState State { get; internal set; }
 
+		public WaitFor CurrentWaitFor => (WaitFor)StepRoutineEnumerable.Current;
+
 		public StepRoutineInfo(int stepRoutineId, string stepRoutineName, IEnumerator stepRoutine)
 		{
 			StepRoutineId = stepRoutineId;
