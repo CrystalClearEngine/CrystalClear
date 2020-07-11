@@ -32,7 +32,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
 			// Unsubscribe this delegate so it won't run again.
-			if (stepRoutineRunnerDelegate is null)
+			if (!(stepRoutineRunnerDelegate is null))
 				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
 			// Move the enumerator forwards.
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
