@@ -20,7 +20,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Initialize stepRoutineRunnerDelegate.
 			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
 			// Assign the action.
-			stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
+			stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(info, stepRoutineRunnerDelegate));
 			// Start the StepRoutine.
 			stepRoutine.MoveNext();
 			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
@@ -29,17 +29,17 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			return info;
 		}
 
-		private static void DoStepInStepRoutine(this /*use StepRoutineInfo instead?*/ IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
+		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
 			// Unsubscribe this delegate so it won't run again.
 			if (stepRoutineRunnerDelegate is null)
-				((WaitForEvent)stepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.StepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
 			// Move the enumerator forwards.
-			if (stepRoutine.MoveNext())
+			if (stepRoutine.StepRoutine.MoveNext())
 			{
 				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
-				stepRoutine.MoveNext();
-				((WaitForEvent)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+				stepRoutine.StepRoutine.MoveNext();
+				((WaitForEvent)stepRoutine.StepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
 		}
 	}
