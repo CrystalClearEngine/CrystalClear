@@ -45,7 +45,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 	public abstract class WaitFor
 	{
-		// To prevent inheritance from outside the assembly.
+		// Internal to prevent inheritance from outside the assembly.
 		internal WaitFor()
 		{
 
