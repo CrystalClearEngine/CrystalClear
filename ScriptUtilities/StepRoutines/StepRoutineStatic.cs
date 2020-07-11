@@ -23,18 +23,18 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			return info;
 		}
 
-		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
+		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler previousStepRoutineRunnerDelegate)
 		{
 			// Unsubscribe the previous delegate so it won't run again.
-			if (!(stepRoutineRunnerDelegate is null))
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
+			if (!(previousStepRoutineRunnerDelegate is null))
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Unsubscribe(previousStepRoutineRunnerDelegate);
 
 			// Move the enumerator forwards.
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
-				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEventHandler = stepRoutineRunnerDelegate;
+				previousStepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, previousStepRoutineRunnerDelegate));
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(previousStepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEventHandler = previousStepRoutineRunnerDelegate;
 			}
 			else
 			{
