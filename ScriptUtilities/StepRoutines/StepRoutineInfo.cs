@@ -10,7 +10,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public readonly string StepRoutineName;
 
-		public IEnumerator StepRoutine
+		public IEnumerator StepRoutineEnumerable
 		{
 			get
 			{

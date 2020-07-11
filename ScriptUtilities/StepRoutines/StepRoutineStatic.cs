@@ -33,13 +33,13 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			// Unsubscribe this delegate so it won't run again.
 			if (stepRoutineRunnerDelegate is null)
-				((WaitForEvent)stepRoutine.StepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
 			// Move the enumerator forwards.
-			if (stepRoutine.StepRoutine.MoveNext())
+			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
 				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
-				stepRoutine.StepRoutine.MoveNext();
-				((WaitForEvent)stepRoutine.StepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+				stepRoutine.StepRoutineEnumerable.MoveNext();
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
 		}
 	}
