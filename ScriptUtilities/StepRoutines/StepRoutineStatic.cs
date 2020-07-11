@@ -1,4 +1,5 @@
 ﻿using CrystalClear.EventSystem;
+using ScriptUtilities.StepRoutines;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,13 @@ namespace CrystalClear.ScriptUtilities
 	public static class StepRoutine
 	{
 		// TODO: Should StepRoutines be IEnumerators or IEnumerables?
-		// TODO: StepRoutineManager to manage all running StepRoutines.
+		// TODO: support IEnumerators by just calling the regular methods with IEnumerator.GetEnumerable()
 
-		public static void Start(IEnumerator stepRoutine)
+		// TODO: require StepRoutineAttribute.
+		public static void Start(this IEnumerator stepRoutine, string name = null)
 		{
+			StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
+
 			// Initialize stepRoutineRunnerDelegate.
 			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
 			// Assign the action.
@@ -23,10 +27,12 @@ namespace CrystalClear.ScriptUtilities
 			((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 		}
 
-		public static void Start(IEnumerator<WaitFor> stepRoutine)
+		public static void Start(this IEnumerator<WaitFor> stepRoutine, string name = null)
 		{
 			try
 			{
+				StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
+
 				// Initialize stepRoutineRunnerDelegate.
 				ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
 				// Assign the action.
@@ -46,7 +52,7 @@ namespace CrystalClear.ScriptUtilities
 			}
 		}
 
-		private static void RunStepRoutine(IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
+		private static void RunStepRoutine(this IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
 			// Unsubscribe this delegate so it won't run again.
 			((WaitFor)stepRoutine.Current).ScriptEvent.Unsubscribe(stepRoutineRunnerDelegate);
