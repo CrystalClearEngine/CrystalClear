@@ -23,9 +23,9 @@ namespace Scripts
 		public IEnumerator MyStepRoutine()
 		{
 			Output.Log("Before frame update");
-			yield return new WaitFor(typeof(FrameUpdateEvent)); // This and...
+			yield return new WaitForEvent(typeof(FrameUpdateEvent)); // This and...
 			Output.Log("After frame update");
-			yield return new WaitFor(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
+			yield return new WaitForEvent(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
 			Output.Log("After test event class");
 			yield break;
 		}
@@ -38,7 +38,7 @@ namespace Scripts
 
 		private IEnumerator FrameStepRoutine()
 		{
-			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEvent));
+			WaitFor waitForNewFrame = new WaitForEvent(typeof(FrameUpdateEvent));
 			while (true)
 			{
 				yield return waitForNewFrame;
@@ -54,7 +54,7 @@ namespace Scripts
 
 		private IEnumerator PhysicsStepRoutine()
 		{
-			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEvent));
+			WaitFor waitForNewPhysicsStep = new WaitForEvent(typeof(PhysicsTimeStepEvent));
 			while (true)
 			{
 				yield return waitForNewPhysicsStep;

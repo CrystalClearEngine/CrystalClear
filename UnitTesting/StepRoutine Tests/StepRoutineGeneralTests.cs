@@ -38,13 +38,13 @@ namespace UnitTests
 
 		public IEnumerator SimpleStepRoutine()
 		{
-			yield return new WaitFor(typeof(TestEvent));
+			yield return new WaitForEvent(typeof(TestEvent));
 			SimpleStepRoutineWaitDone = true;
 		}
 
 		public IEnumerator<WaitFor> GenericSimpleStepRoutine()
 		{
-			yield return new WaitFor(typeof(TestEvent));
+			yield return new WaitForEvent(typeof(TestEvent));
 			GenericSimpleStepRoutineWaitDone = true;
 		}
 	}
