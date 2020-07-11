@@ -13,9 +13,9 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		// TODO: support IEnumerators by just calling the regular methods with IEnumerator.GetEnumerable()
 
 		// TODO: rename to StartStepRoutine since it can be used as an extension method.
-		public static void Start(this IEnumerator stepRoutine, string name = null)
+		public static StepRoutineInfo Start(this IEnumerator stepRoutine, string name = null)
 		{
-			StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
+			StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
 
 			// Initialize stepRoutineRunnerDelegate.
 			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
@@ -25,13 +25,15 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			stepRoutine.MoveNext();
 			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
 			((WaitFor)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+
+			return info;
 		}
 
-		public static void Start(this IEnumerator<WaitFor> stepRoutine, string name = null)
+		public static StepRoutineInfo Start(this IEnumerator<WaitFor> stepRoutine, string name = null)
 		{
 			try
 			{
-				StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
+				StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
 
 				// Initialize stepRoutineRunnerDelegate.
 				ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
@@ -43,7 +45,10 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				(stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 
 				// Dispose of the StepRoutine.
+				//TODO: can we actually do this here? Won't this dispose it before it is done?
 				stepRoutine.Dispose();
+
+				return info;
 			}
 			finally
 			{
