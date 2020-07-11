@@ -17,6 +17,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
 
+			info.State = StepRoutineState.Running;
+
 			DoStepInStepRoutine(info, null);
 
 			return info;
@@ -33,6 +35,11 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			{
 				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
 				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEventHandler = stepRoutineRunnerDelegate;
+			}
+			else
+			{
+				stepRoutine.State = StepRoutineState.Finished;
 			}
 		}
 	}
@@ -45,6 +52,11 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		}
 
+		// TODO: add Resume() method?
+
+		/// <summary>
+		/// Cancel does not guarantee cancellation, in rare cases race conditions could prevent the cancellation measures from being effective.
+		/// </summary>
 		public abstract void Cancel();
 	}
 
@@ -52,7 +64,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 	{
 		public ScriptEventBase ScriptEvent;
 
-		public ScriptEventHandler ScriptEventHandler;
+		internal ScriptEventHandler ScriptEventHandler;
 
 		public WaitForEvent(Type scriptEventType)
 		{
