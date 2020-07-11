@@ -23,6 +23,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			return info;
 		}
 
+		// TODO: support multiple different WaitFor types.
 		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler previousStepRoutineRunnerDelegate)
 		{
 			// Unsubscribe the previous delegate so it won't run again.
