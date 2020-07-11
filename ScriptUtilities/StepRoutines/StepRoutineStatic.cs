@@ -20,7 +20,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Initialize stepRoutineRunnerDelegate.
 			ScriptEventHandler stepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
 			// Assign the action.
-			stepRoutineRunnerDelegate = new ScriptEventHandler(() => RunStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
+			stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
 			// Start the StepRoutine.
 			stepRoutine.MoveNext();
 			// Subscribe the stepRoutineRunnerDelegate to the current WaitFor.
@@ -29,8 +29,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			return info;
 		}
 
-		// TODO: fix, doesn't actually work right now, will just resubscribe same old stuff.
-		private static void RunStepRoutine(this IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
+		private static void DoStepInStepRoutine(this /*use StepRoutineInfo instead?*/ IEnumerator stepRoutine, ScriptEventHandler stepRoutineRunnerDelegate)
 		{
 			// Unsubscribe this delegate so it won't run again.
 			if (stepRoutineRunnerDelegate is null)
@@ -38,7 +37,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Move the enumerator forwards.
 			if (stepRoutine.MoveNext())
 			{
-				stepRoutineRunnerDelegate = new ScriptEventHandler(() => RunStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
+				stepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, stepRoutineRunnerDelegate));
 				stepRoutine.MoveNext();
 				((WaitForEvent)stepRoutine.Current).ScriptEvent.Subscribe(stepRoutineRunnerDelegate);
 			}
