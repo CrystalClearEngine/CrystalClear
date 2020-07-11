@@ -12,8 +12,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		// TODO: Should StepRoutines be IEnumerators or IEnumerables?
 		// TODO: support IEnumerators by just calling the regular methods with IEnumerator.GetEnumerable()
 
-		// TODO: rename to StartStepRoutine since it can be used as an extension method.
-		public static StepRoutineInfo Start(this IEnumerator stepRoutine, string name = null)
+		public static StepRoutineInfo StartStepRoutine(this IEnumerator stepRoutine, string name = null)
 		{
 			StepRoutineInfo info = StepRoutineManager.RegisterNewStepRoutine(stepRoutine, name);
 

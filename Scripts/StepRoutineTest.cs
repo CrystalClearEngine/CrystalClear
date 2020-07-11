@@ -15,7 +15,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunMyStepRoutine()
 		{
-			StepRoutine.Start(MyStepRoutine());
+			StepRoutine.StartStepRoutine(MyStepRoutine());
 			FrameUpdateEvent.Instance.RaiseEvent();
 			TestEvent.Instance.RaiseEvent();
 		}
@@ -33,7 +33,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunFrameUpdateStepRoutine()
 		{
-			StepRoutine.Start(FrameStepRoutine());
+			StepRoutine.StartStepRoutine(FrameStepRoutine());
 		}
 
 		private IEnumerator FrameStepRoutine()
@@ -49,7 +49,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunPhysicsStepStepRoutine()
 		{
-			StepRoutine.Start(PhysicsStepRoutine());
+			StepRoutine.StartStepRoutine(PhysicsStepRoutine());
 		}
 
 		private IEnumerator PhysicsStepRoutine()
