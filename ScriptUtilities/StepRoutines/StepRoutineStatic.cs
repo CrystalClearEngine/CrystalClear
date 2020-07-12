@@ -22,6 +22,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		}
 
 		// TODO: support multiple different WaitFor types.
+		// TODO: use something other than ScriptEventHandler.
 		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, ScriptEventHandler previousStepRoutineRunnerDelegate)
 		{
 			// Unsubscribe the previous delegate so it won't run again.
@@ -31,9 +32,10 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Move the enumerator forwards.
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
-				previousStepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, previousStepRoutineRunnerDelegate));
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(previousStepRoutineRunnerDelegate);
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEventHandler = previousStepRoutineRunnerDelegate;
+				ScriptEventHandler newStepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
+				newStepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, newStepRoutineRunnerDelegate));
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(newStepRoutineRunnerDelegate);
+				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEventHandler = newStepRoutineRunnerDelegate;
 			}
 			else
 			{
