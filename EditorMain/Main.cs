@@ -66,43 +66,26 @@ public static class MainClass
 		// TODO: make this into a property in ProjectInfo.
 		string[] codeFilePaths;
 
-		const int totalTicks = 3;
-		var options = new ProgressBarOptions
 		{
-			CollapseWhenFinished = true,
-			ProgressBarOnBottom = true
-		};
-		using (var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options))
-		{
-			progressBar.Tick();
-
+			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+			codeFilePaths = new string[files.Length];
+			for (int i = 0; i < files.Length; i++)
 			{
-				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
-				codeFilePaths = new string[files.Length];
-				for (int i = 0; i < files.Length; i++)
-				{
-					codeFilePaths[i] = files[i].FullName;
-				}
+				codeFilePaths[i] = files[i].FullName;
 			}
-
-			progressBar.Tick();
-
-			// Compile our code.
-			Compile(progressBar);
-
-			progressBar.Tick();
 		}
+
+		// Compile our code.
+		Compile();
 
 
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
 		{
-			using var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options);
-
 			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
-			Compile(progressBar);
+			Compile();
 		};
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
@@ -128,8 +111,7 @@ public static class MainClass
 		switch (commandSections[0])
 		{
 			case "compile":
-				using (var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options))
-					Compile(progressBar);
+				Compile();
 				break;
 
 			case "new":
@@ -314,12 +296,14 @@ public static class MainClass
 		#endregion
 
 		#region Editor Methods
-		bool Compile(ProgressBar progressBar)
+		bool Compile()
 		{
+			using var progressBar = new ProgressBar(0, "Compiling and analyzing code.");
+
 			using var compilingProgressBar = progressBar.Spawn(1, "Compiling");
 
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
-			compilingProgressBar.Tick("Done compiling.");
+			compilingProgressBar.Tick("Compiled.");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
