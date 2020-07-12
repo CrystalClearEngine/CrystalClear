@@ -70,7 +70,6 @@ public static class MainClass
 		var options = new ProgressBarOptions
 		{
 			CollapseWhenFinished = true,
-			ProgressCharacter = '─',
 			ProgressBarOnBottom = true
 		};
 		using (var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options))
