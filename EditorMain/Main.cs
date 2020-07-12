@@ -6,6 +6,7 @@ using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
+using ShellProgressBar;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,32 +59,51 @@ public static class MainClass
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
 
-		// TODO: update this when a new ProjectInfo is used.
-		// TODO: make getting this into a property in ProjectInfo.
-		string[] codeFilePaths;
-
-		{
-			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
-			codeFilePaths = new string[files.Length];
-			for (int i = 0; i < files.Length; i++)
-			{
-				codeFilePaths[i] = files[i].FullName;
-			}
-		}
-
 		// TODO: rename to UserGeneratedCode?
 		Assembly compiledAssembly;
 
-		// Compile our code.
-		Compile();
+		// TODO: should update this when a new project is loaded.
+		// TODO: make this into a property in ProjectInfo.
+		string[] codeFilePaths;
+
+		const int totalTicks = 3;
+		var options = new ProgressBarOptions
+		{
+			CollapseWhenFinished = true,
+			ProgressCharacter = '─',
+			ProgressBarOnBottom = true
+		};
+		using (var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options))
+		{
+			progressBar.Tick();
+
+			{
+				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+				codeFilePaths = new string[files.Length];
+				for (int i = 0; i < files.Length; i++)
+				{
+					codeFilePaths[i] = files[i].FullName;
+				}
+			}
+
+			progressBar.Tick();
+
+			// Compile our code.
+			Compile(progressBar);
+
+			progressBar.Tick();
+		}
+
 
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
 		{
+			using var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options);
+
 			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
-			Compile();
+			Compile(progressBar);
 		};
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
@@ -109,7 +129,8 @@ public static class MainClass
 		switch (commandSections[0])
 		{
 			case "compile":
-				Compile();
+				using (var progressBar = new ProgressBar(totalTicks, "Compiling and analyzing code.", options))
+					Compile(progressBar);
 				break;
 
 			case "new":
@@ -294,9 +315,13 @@ public static class MainClass
 		#endregion
 
 		#region Editor Methods
-		bool Compile()
+		bool Compile(ProgressBar progressBar)
 		{
+			using var compilingProgressBar = progressBar.Spawn(1, "Compiling");
+
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
+			compilingProgressBar.Tick("Done compiling.");
+			Thread.Sleep(100);
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
@@ -309,17 +334,29 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
+			using var analysisProgressBar = progressBar.Spawn(5, "Analyzing");
+
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
+			analysisProgressBar.Tick("Found Standard");
+			Thread.Sleep(100);
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
+			analysisProgressBar.Tick("Found Script types in compiled assembly");
+			Thread.Sleep(100);
 			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
+			analysisProgressBar.Tick("Found Script types in Standard");
+			Thread.Sleep(100);
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
+			analysisProgressBar.Tick("Found HierarchyObject types in compiled assembly");
+			Thread.Sleep(100);
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
+			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
+			Thread.Sleep(100);
 			#endregion
 
 			return true;
