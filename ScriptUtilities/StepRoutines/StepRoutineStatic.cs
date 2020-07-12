@@ -1,9 +1,7 @@
 ﻿using CrystalClear.EventSystem;
 using CrystalClear.ScriptUtilities.StepRoutines;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
@@ -41,47 +39,6 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			{
 				stepRoutine.State = StepRoutineState.Finished;
 			}
-		}
-	}
-
-	public abstract class WaitFor
-	{
-		// Internal to prevent inheritance from outside the assembly.
-		internal WaitFor()
-		{
-
-		}
-
-		// TODO: add Resume() method?
-
-		/// <summary>
-		/// Cancel does not guarantee cancellation, in rare cases race conditions could prevent the cancellation measures from being effective.
-		/// </summary>
-		public abstract void Cancel();
-	}
-
-	public class WaitForEvent : WaitFor
-	{
-		public ScriptEventBase ScriptEvent;
-
-		internal ScriptEventHandler ScriptEventHandler;
-
-		public WaitForEvent(Type scriptEventType)
-		{
-			ScriptEvent =
-				(ScriptEventBase)scriptEventType
-				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
-		}
-
-		public WaitForEvent(ScriptEventBase scriptEvent)
-		{
-			ScriptEvent = scriptEvent;
-		}
-
-		public override void Cancel()
-		{
-			ScriptEvent.Unsubscribe(ScriptEventHandler);
 		}
 	}
 }
