@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
+using System.Linq;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
@@ -21,6 +21,17 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		public static StepRoutineInfo GetStepRoutine(string name)
 		{
 			return runningStepRoutines[nameToStepRoutineIdTranslator[name]];
+		}
+
+		public static void StopAllStepRoutines()
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void StopAllOfType(IEnumerable stepRoutineTypeToStop)
+		{
+			var toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
+			throw new NotImplementedException();
 		}
 
 		/// <summary>
