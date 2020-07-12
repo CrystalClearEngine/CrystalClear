@@ -320,7 +320,6 @@ public static class MainClass
 
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
 			compilingProgressBar.Tick("Done compiling.");
-			Thread.Sleep(100);
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
@@ -338,24 +337,19 @@ public static class MainClass
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 			analysisProgressBar.Tick("Found Standard");
-			Thread.Sleep(100);
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
 			analysisProgressBar.Tick("Found Script types in compiled assembly");
-			Thread.Sleep(100);
 			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
 			analysisProgressBar.Tick("Found Script types in Standard");
-			Thread.Sleep(100);
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
 			analysisProgressBar.Tick("Found HierarchyObject types in compiled assembly");
-			Thread.Sleep(100);
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
 			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
-			Thread.Sleep(100);
 			#endregion
 
 			return true;
