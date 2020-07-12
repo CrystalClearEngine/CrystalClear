@@ -30,16 +30,16 @@ namespace Scripts
 	class Recipient
 	{
 		[OnReceiveMessage(typeof(MyMessage))]
-		void RecieveMyMessage(MyMessage myMessage)
+		void ReceiveMyMessage(MyMessage myMessage)
 		{
-			Output.Log("Recieved MyMessage!");
+			Output.Log("Received MyMessage!");
 			Output.Log("Data: " + myMessage.Data);
 		}
 
 		[OnReceiveMessage(typeof(MyMessage))]
-		static void StaticRecieveMyMessage(MyMessage myMessage)
+		static void StaticReceiveMyMessage(MyMessage myMessage)
 		{
-			Output.Log("Recieved MyMessage in static method!");
+			Output.Log("Received MyMessage in static method!");
 			Output.Log("Data: " + myMessage.Data);
 		}
 	}

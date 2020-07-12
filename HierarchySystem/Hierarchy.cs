@@ -45,7 +45,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
 		/// </summary>
-		/// <param name="child">The HierarchyObject that should recieve a name change</param>
+		/// <param name="child">The HierarchyObject that should receive a name change</param>
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(HierarchyObject child, string newName)
 		{
@@ -57,7 +57,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// This method sets the name of the specified key in the Hierarchy to the new key. 
 		/// </summary>
-		/// <param name="currentName">The HierarchyObject that should recieve a name change</param>
+		/// <param name="currentName">The HierarchyObject that should receive a name change</param>
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(string currentName, string newName)
 		{
@@ -210,7 +210,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// This method sets the name of the specified child to the specified new key. 
 		/// </summary>
-		/// <param name="child">The T that should recieve a name change</param>
+		/// <param name="child">The T that should receive a name change</param>
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(T child, string newName)
 		{
@@ -222,7 +222,7 @@ namespace CrystalClear.HierarchySystem
 		/// <summary>
 		/// This method sets the name of the specified key in the Hierarchy to the new key. 
 		/// </summary>
-		/// <param name="currentName">The T that should recieve a name change</param>
+		/// <param name="currentName">The T that should receive a name change</param>
 		/// <param name="newName">The new name for the child</param>
 		public void SetChildName(string currentName, string newName)
 		{

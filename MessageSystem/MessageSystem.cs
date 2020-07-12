@@ -6,18 +6,18 @@ namespace CrystalClear.MessageSystem
 {
 	public static class MessageSystem
 	{
-		// TODO: add out parameter messageGotRecieved
+		// TODO: add out parameter messageGotReceived
 		// TODO: add method where you can get the returns from the invokes?
-		// TODO: use cache for messageRecievers and toCall?
+		// TODO: use cache for messageReceivers and toCall?
 
 		public static void SendMessage(this object recipient, Message message)
 		{
 			if (!message.AllowInstanceMethods)
 				return;
 
-			var messageRecievers = (from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
+			var messageReceivers = (from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
 
-			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType, recipient));
+			var toCall = (from MethodInfo method in messageReceivers select method.CreateDelegate(message.DelegateType, recipient));
 
 			foreach (Delegate item in toCall)
 			{
@@ -36,9 +36,9 @@ namespace CrystalClear.MessageSystem
 			if (!message.AllowStaticMethods)
 				return;
 
-			var messageRecievers = (from MethodInfo method in recipient.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
+			var messageReceivers = (from MethodInfo method in recipient.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method);
 
-			var toCall = (from MethodInfo method in messageRecievers select method.CreateDelegate(message.DelegateType));
+			var toCall = (from MethodInfo method in messageReceivers select method.CreateDelegate(message.DelegateType));
 
 			foreach (Delegate item in toCall)
 			{

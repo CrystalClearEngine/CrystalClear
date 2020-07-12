@@ -2,7 +2,7 @@
 
 namespace CrystalClear.MessageSystem
 {
-	// TODO: add OnRecieveAnyMessageAttribute?
+	// TODO: add OnReceiveAnyMessageAttribute?
 	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public class OnReceiveMessageAttribute : Attribute
 	{
