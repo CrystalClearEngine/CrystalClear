@@ -14,5 +14,7 @@
 		/// Cancel does not guarantee cancellation, in rare cases race conditions could prevent the cancellation measures from being effective.
 		/// </summary>
 		public abstract void Cancel();
+
+		public abstract void Start();
 	}
 }

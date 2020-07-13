@@ -27,5 +27,10 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			ScriptEvent.Unsubscribe(ScriptEventHandler);
 		}
+
+		public override void Start()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

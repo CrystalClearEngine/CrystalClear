@@ -40,6 +40,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			State = StepRoutineState.AttemptedStop;
 			CurrentWaitFor.Cancel();
 		}
+
+		public void Resume()
+		{
+			State = StepRoutineState.Running;
+			CurrentWaitFor.Start();
+		}
 	}
 
 	public enum StepRoutineState
