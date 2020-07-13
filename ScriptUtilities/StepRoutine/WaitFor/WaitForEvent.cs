@@ -9,13 +9,13 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 	/// </summary>
 	public sealed class WaitForEvent : WaitFor
 	{
-		ScriptEventBase EventToWaitFor;
+		ScriptEventBase eventToWaitFor;
 
 		Action proceeder; // A delegate that will simply call ProceedStepRoutine. It is here so that Cancel and Cleanup can access it.
 
 		public WaitForEvent(Type scriptEventType)
 		{
-			EventToWaitFor =
+			eventToWaitFor =
 				(ScriptEventBase)scriptEventType // TODO: make this into a utility method somewhere.
 				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
 				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
@@ -23,7 +23,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public WaitForEvent(ScriptEventBase scriptEvent)
 		{
-			EventToWaitFor = scriptEvent;
+			eventToWaitFor = scriptEvent;
 		}
 
 		public override void Start(StepRoutineInfo stepRoutine)
@@ -42,7 +42,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				});
 
 			// Subscribe the delegate to the event so it will be called when the event is raised.
-			EventToWaitFor.Subscribe(proceeder);
+			eventToWaitFor.Subscribe(proceeder);
 		}
 
 		public override void Cancel()
