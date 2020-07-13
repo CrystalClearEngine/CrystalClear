@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="CompilationSystem.txt" />
+    <None Remove="Readme.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="CompilationSystem.txt" />
+    <Content Include="Readme.txt" />
   </ItemGroup>
 
   <ItemGroup>
