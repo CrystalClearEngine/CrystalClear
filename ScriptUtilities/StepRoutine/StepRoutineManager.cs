@@ -28,7 +28,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			throw new NotImplementedException();
 		}
 
-		public static void StopAllOfType(IEnumerable stepRoutineTypeToStop)
+		// TODO: Ensure that this is correct, that IEnumerators that run are equal to one not run etc.
+		public static void StopAllOfType(IEnumerator stepRoutineTypeToStop)
 		{
 			var toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
 			throw new NotImplementedException();
