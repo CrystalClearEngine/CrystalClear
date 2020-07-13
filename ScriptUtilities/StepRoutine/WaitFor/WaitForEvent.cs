@@ -47,12 +47,14 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public override void Cancel()
 		{
-			throw new NotImplementedException();
+			if (proceeder != null)
+				eventToWaitFor.Unsubscribe(proceeder);
 		}
 
 		internal override void Cleanup()
 		{
-			throw new NotImplementedException();
+			if (proceeder != null)
+				eventToWaitFor.Unsubscribe(proceeder);
 		}
 	}
 }
