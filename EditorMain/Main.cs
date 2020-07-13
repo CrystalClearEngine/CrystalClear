@@ -66,18 +66,26 @@ public static class MainClass
 		// TODO: make this into a property in ProjectInfo.
 		string[] codeFilePaths;
 
+		using ProgressBar progressBar = new ProgressBar(3, "Indexing files.");
 		{
-			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
-			codeFilePaths = new string[files.Length];
-			for (int i = 0; i < files.Length; i++)
 			{
-				codeFilePaths[i] = files[i].FullName;
+				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+
+				progressBar.Tick("Gathered files.");
+
+				codeFilePaths = new string[files.Length];
+
+				progressBar.Tick();
+
+				for (int i = 0; i < files.Length; i++)
+					codeFilePaths[i] = files[i].FullName;
+
+				progressBar.Tick();
 			}
 		}
 
 		// Compile our code.
 		Compile();
-
 
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
