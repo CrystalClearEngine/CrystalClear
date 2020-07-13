@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
-	public class WaitForEvent : WaitFor
+	public sealed class WaitForEvent : WaitFor
 	{
 		public ScriptEventBase ScriptEvent;
 

@@ -2,7 +2,7 @@
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
-	//public class WaitForVariable : WaitFor
+	//public sealed class WaitForVariable : WaitFor
 	//{
 
 
