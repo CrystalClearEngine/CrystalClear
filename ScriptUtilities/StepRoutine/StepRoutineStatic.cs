@@ -30,9 +30,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				return;
 
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
-			{
 				stepRoutine.CurrentWaitFor.Start(stepRoutine);
-			}
 			else
 			{
 				stepRoutine.State = StepRoutineState.Finished;
