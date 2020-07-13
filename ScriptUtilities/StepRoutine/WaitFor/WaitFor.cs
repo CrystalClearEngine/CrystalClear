@@ -11,6 +11,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		}
 
+		// TODO: make Resume method? That only does, say part of Start?
+
 		// TODO: couldn't this stuff just be done in the constructor? It wouldn't allow a Resume(), but perhaps the constructor should call this?
 		public abstract void Start(StepRoutineInfo stepRoutine);
 
