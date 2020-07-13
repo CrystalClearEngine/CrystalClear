@@ -34,6 +34,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			StepRoutineName = stepRoutineName;
 			stepRoutineWeakRef.SetTarget(stepRoutine);
 		}
+
+		public void TryStop()
+		{
+			State = StepRoutineState.AttemptedStop;
+			CurrentWaitFor.Cancel();
+		}
 	}
 
 	public enum StepRoutineState
@@ -41,6 +47,6 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		NotStarted,
 		Running,
 		Finished,
-		Stopped,
+		AttemptedStop,
 	}
 }
