@@ -43,8 +43,9 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public void Resume()
 		{
-			CurrentWaitFor.Start();
-			State = StepRoutineState.Running;
+			throw new NotImplementedException();
+			//CurrentWaitFor.Start();
+			//State = StepRoutineState.Running;
 		}
 	}
 
