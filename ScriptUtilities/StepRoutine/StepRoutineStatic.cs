@@ -32,6 +32,9 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			// Move the enumerator forwards.
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
+				if (stepRoutine.State == StepRoutineState.AttemptedStop)
+					return;
+
 				stepRoutine.State = StepRoutineState.Running;
 				ScriptEventHandler newStepRoutineRunnerDelegate = new ScriptEventHandler(() => { });
 				newStepRoutineRunnerDelegate = new ScriptEventHandler(() => DoStepInStepRoutine(stepRoutine, newStepRoutineRunnerDelegate));
