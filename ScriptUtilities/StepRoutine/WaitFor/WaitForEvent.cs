@@ -8,7 +8,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 	{
 		public ScriptEventBase ScriptEvent;
 
-		internal ScriptEventHandler ScriptEventHandler;
+		internal Action Action;
 
 		public WaitForEvent(Type scriptEventType)
 		{
@@ -25,7 +25,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public override void Cancel()
 		{
-			ScriptEvent.Unsubscribe(ScriptEventHandler);
+			ScriptEvent.Unsubscribe(Action);
 		}
 
 		public override void Start()
