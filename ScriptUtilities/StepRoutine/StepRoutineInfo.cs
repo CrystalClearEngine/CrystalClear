@@ -43,8 +43,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public void Resume()
 		{
-			State = StepRoutineState.Running;
 			CurrentWaitFor.Start();
+			State = StepRoutineState.Running;
 		}
 	}
 
