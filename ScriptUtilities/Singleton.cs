@@ -1,4 +1,6 @@
-﻿namespace CrystalClear.ScriptUtilities
+﻿// TODO: keep in mind: https://csharpindepth.com/articles/singleton
+
+namespace CrystalClear.ScriptUtilities
 {
 	public abstract class Singleton<T> where T : class, new()
 	{
