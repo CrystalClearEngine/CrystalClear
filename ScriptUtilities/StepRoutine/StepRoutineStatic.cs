@@ -17,33 +17,26 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 			info.State = StepRoutineState.Running;
 
-			DoStepInStepRoutine(info, null);
+			ProceedStepRoutine(info);
 
 			return info;
 		}
 
-		// TODO: support multiple different WaitFor types.
-		private static void DoStepInStepRoutine(this StepRoutineInfo stepRoutine, Action previousStepRoutineRunnerDelegate)
+		internal static void ProceedStepRoutine(StepRoutineInfo stepRoutine)
 		{
-			// Unsubscribe the previous delegate so it won't run again.
-			if (!(previousStepRoutineRunnerDelegate is null))
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Unsubscribe(previousStepRoutineRunnerDelegate);
+			stepRoutine.CurrentWaitFor?.Cleanup();
 
-			// Move the enumerator forwards.
+			if (stepRoutine.State == StepRoutineState.AttemptedStop)
+				return;
+
 			if (stepRoutine.StepRoutineEnumerable.MoveNext())
 			{
-				if (stepRoutine.State == StepRoutineState.AttemptedStop)
-					return;
-
-				stepRoutine.State = StepRoutineState.Running;
-				Action newStepRoutineRunnerDelegate = new Action(() => { });
-				newStepRoutineRunnerDelegate = new Action(() => DoStepInStepRoutine(stepRoutine, newStepRoutineRunnerDelegate));
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).ScriptEvent.Subscribe(newStepRoutineRunnerDelegate);
-				((WaitForEvent)stepRoutine.StepRoutineEnumerable.Current).Action = newStepRoutineRunnerDelegate;
+				stepRoutine.CurrentWaitFor.Start(stepRoutine);
 			}
 			else
 			{
 				stepRoutine.State = StepRoutineState.Finished;
+				return;
 			}
 		}
 	}
