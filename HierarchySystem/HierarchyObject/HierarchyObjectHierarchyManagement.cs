@@ -49,10 +49,8 @@ namespace CrystalClear.HierarchySystem
 		{
 			get
 			{
-				parent.TryGetTarget(out HierarchyObject hierarchyObject);/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
-				return hierarchyObject;
+				return parent.TryGetTargetExt();/* ?? throw new Exception("This HierarchyObject has no parent! Please check using IsRoot beforehand.")*/;
 			}
-
 			set
 			{
 				Move(value);

@@ -42,14 +42,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		public ImaginaryHierarchyObject Parent
 		{
-			get
-			{
-				ImaginaryHierarchyObject imaginaryHierarchyObject = null;
-
-				parent?.TryGetTarget(out imaginaryHierarchyObject);
-
-				return imaginaryHierarchyObject;
-			}
+			get => parent?.TryGetTargetExt();
 			set
 			{
 				if (parent is null)

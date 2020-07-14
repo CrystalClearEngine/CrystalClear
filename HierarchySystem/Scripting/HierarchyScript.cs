@@ -34,9 +34,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 		{
 			get
 			{
-				T _ = null;
-				hierarchyObject.TryGetTarget(out _);
-				return _;
+				return hierarchyObject.TryGetTargetExt();
 			}
 
 			private set => hierarchyObject.SetTarget(value);

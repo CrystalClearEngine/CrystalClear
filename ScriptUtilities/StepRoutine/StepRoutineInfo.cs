@@ -11,15 +11,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public readonly string StepRoutineName;
 
-		public IEnumerator StepRoutineEnumerable
-		{
-			get
-			{
-				stepRoutineWeakRef.TryGetTarget(out var obj);
-
-				return obj;
-			}
-		}
+		public IEnumerator StepRoutineEnumerable => stepRoutineWeakRef.TryGetTargetExt();
 
 		private readonly WeakReference<IEnumerator> stepRoutineWeakRef = new WeakReference<IEnumerator>(null);
 
