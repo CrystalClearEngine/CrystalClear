@@ -12,7 +12,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		ScriptEventBase eventToCheckOn;
 
-		Action checker;
+		ScriptEventHandler checker;
 
 		// TODO: use in instead of ref?
 		// TODO: add option to use ReflectionEquals as the equality comparator.
@@ -32,7 +32,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			 */
 
 			// Create the checking and proceeding delegate.
-			checker = new Action(
+			checker = new ScriptEventHandler(
 			delegate
 			{
 				if (toCheck is null && toWaitFor is null) // Both are null? Proceed.

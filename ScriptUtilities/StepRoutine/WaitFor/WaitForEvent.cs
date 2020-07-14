@@ -11,7 +11,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 	{
 		ScriptEventBase eventToWaitFor;
 
-		Action proceeder; // A delegate that will simply call ProceedStepRoutine. It is a field so that Cancel and Cleanup can access it.
+		ScriptEventHandler proceeder; // A delegate that will simply call ProceedStepRoutine. It is a field so that Cancel and Cleanup can access it.
 
 		public WaitForEvent(Type scriptEventType)
 		{
@@ -35,7 +35,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			*/
 
 			// Create the proceeder delegate.
-			proceeder = new Action( // TODO: make utility method that generates this exact delegate, or perhaps even have it as a property on WaitFor?
+			proceeder = new ScriptEventHandler( // TODO: make utility method that generates this exact delegate, or perhaps even have it as a property on WaitFor?
 				delegate
 				{
 					StepRoutine.ProceedStepRoutine(stepRoutine);
