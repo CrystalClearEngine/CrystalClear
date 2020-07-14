@@ -333,7 +333,7 @@ public static class MainClass
 
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
-			analysisProgressBar.Tick("Found Standard");
+			analysisProgressBar.Tick("Found Standard assembly");
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
