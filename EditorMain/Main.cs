@@ -80,7 +80,7 @@ public static class MainClass
 				for (int i = 0; i < files.Length; i++)
 					codeFilePaths[i] = files[i].FullName;
 
-				indexingProgressBar.Tick();
+				indexingProgressBar.Tick("Indexed");
 			}
 		}
 
@@ -329,7 +329,7 @@ public static class MainClass
 
 		void Analyze()
 		{
-			using var analysisProgressBar = new ProgressBar(5, "Analyzing");
+			using var analysisProgressBar = new ProgressBar(6, "Analyzing");
 
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
@@ -347,6 +347,8 @@ public static class MainClass
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
 			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
+
+			analysisProgressBar.Tick("Analyzed");
 			#endregion
 		}
 
