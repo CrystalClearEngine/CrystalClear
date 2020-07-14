@@ -87,6 +87,8 @@ public static class MainClass
 		// Compile our code.
 		Compile();
 
+		Analyze();
+
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
@@ -306,9 +308,7 @@ public static class MainClass
 		#region Editor Methods
 		bool Compile()
 		{
-			using var progressBar = new ProgressBar(0, "Compiling and analyzing code.");
-
-			using var compilingProgressBar = progressBar.Spawn(1, "Compiling");
+			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
 			compilingProgressBar.Tick("Compiled.");
@@ -324,7 +324,12 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
-			using var analysisProgressBar = progressBar.Spawn(5, "Analyzing");
+			return true;
+		}
+
+		void Analyze()
+		{
+			using var analysisProgressBar = new ProgressBar(5, "Analyzing");
 
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
@@ -343,8 +348,6 @@ public static class MainClass
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
 			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
 			#endregion
-
-			return true;
 		}
 
 		void Modify(string toModify = null)
