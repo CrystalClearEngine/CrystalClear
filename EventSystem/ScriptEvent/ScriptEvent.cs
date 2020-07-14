@@ -3,6 +3,7 @@ using System.Reflection;
 
 namespace CrystalClear.EventSystem
 {
+	// TODO: add FromType method that does the reflection stuff?
 	public abstract class ScriptEventBase
 	{
 		public event ScriptEventHandler Event;

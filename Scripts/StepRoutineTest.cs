@@ -2,6 +2,7 @@
 using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
+using CrystalClear.ScriptUtilities.StepRoutines;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
 using System.Collections;
@@ -14,7 +15,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunMyStepRoutine()
 		{
-			StepRoutine.Start(MyStepRoutine());
+			StepRoutine.StartStepRoutine(MyStepRoutine());
 			FrameUpdateEvent.Instance.RaiseEvent();
 			TestEvent.Instance.RaiseEvent();
 		}
@@ -22,9 +23,9 @@ namespace Scripts
 		public IEnumerator MyStepRoutine()
 		{
 			Output.Log("Before frame update");
-			yield return new WaitFor(typeof(FrameUpdateEvent)); // This and...
+			yield return new WaitForEvent(typeof(FrameUpdateEvent)); // This and...
 			Output.Log("After frame update");
-			yield return new WaitFor(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
+			yield return new WaitForEvent(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
 			Output.Log("After test event class");
 			yield break;
 		}
@@ -32,12 +33,12 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunFrameUpdateStepRoutine()
 		{
-			StepRoutine.Start(FrameStepRoutine());
+			StepRoutine.StartStepRoutine(FrameStepRoutine());
 		}
 
 		private IEnumerator FrameStepRoutine()
 		{
-			WaitFor waitForNewFrame = new WaitFor(typeof(FrameUpdateEvent));
+			WaitFor waitForNewFrame = new WaitForEvent(typeof(FrameUpdateEvent));
 			while (true)
 			{
 				yield return waitForNewFrame;
@@ -48,12 +49,12 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunPhysicsStepStepRoutine()
 		{
-			StepRoutine.Start(PhysicsStepRoutine());
+			StepRoutine.StartStepRoutine(PhysicsStepRoutine());
 		}
 
 		private IEnumerator PhysicsStepRoutine()
 		{
-			WaitFor waitForNewPhysicsStep = new WaitFor(typeof(PhysicsTimeStepEvent));
+			WaitFor waitForNewPhysicsStep = new WaitForEvent(typeof(PhysicsTimeStepEvent));
 			while (true)
 			{
 				yield return waitForNewPhysicsStep;
