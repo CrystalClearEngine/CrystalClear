@@ -1,6 +1,4 @@
 ﻿using CrystalClear.EventSystem;
-using System;
-using System.IO;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {

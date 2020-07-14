@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CrystalClear.ScriptUtilities.StepRoutines
+﻿namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public abstract class WaitFor
 	{

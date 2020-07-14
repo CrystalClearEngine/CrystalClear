@@ -1,8 +1,4 @@
-﻿using CrystalClear.EventSystem;
-using CrystalClear.ScriptUtilities.StepRoutines;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
