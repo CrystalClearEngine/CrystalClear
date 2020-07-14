@@ -16,8 +16,19 @@ using System.Threading;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
+// TODO: make partial. (Methods in one file etc.)
 public static class MainClass
 {
+	private static WeakReference<Assembly> compiledAssemblyWeakRef = new WeakReference<Assembly>(null);
+
+	// TODO: rename to UserGeneratedCode?
+	private static Assembly compiledAssembly
+	{
+		get => compiledAssemblyWeakRef.TryGetTargetExt();
+
+		set => compiledAssemblyWeakRef.SetTarget(value);
+	}
+
 	private static void Main()
 	{
 		#region Thread Culture
@@ -58,9 +69,6 @@ public static class MainClass
 
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
-
-		// TODO: rename to UserGeneratedCode?
-		Assembly compiledAssembly;
 
 		// TODO: should update this when a new project is loaded.
 		// TODO: make this into a property in ProjectInfo.
