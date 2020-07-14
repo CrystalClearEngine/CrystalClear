@@ -6,6 +6,7 @@ using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
+using ShellProgressBar;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,24 +59,35 @@ public static class MainClass
 		// Find all HierarchyObject types in the compiled assembly.
 		List<Type> hierarchyObjectTypes = null;
 
-		// TODO: update this when a new ProjectInfo is used.
-		// TODO: make getting this into a property in ProjectInfo.
-		string[] codeFilePaths;
-
-		{
-			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
-			codeFilePaths = new string[files.Length];
-			for (int i = 0; i < files.Length; i++)
-			{
-				codeFilePaths[i] = files[i].FullName;
-			}
-		}
-
 		// TODO: rename to UserGeneratedCode?
 		Assembly compiledAssembly;
 
+		// TODO: should update this when a new project is loaded.
+		// TODO: make this into a property in ProjectInfo.
+		string[] codeFilePaths;
+
+		using ProgressBar indexingProgressBar = new ProgressBar(3, "Indexing files.");
+		{
+			{
+				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+
+				indexingProgressBar.Tick("Gathered files.");
+
+				codeFilePaths = new string[files.Length];
+
+				indexingProgressBar.Tick();
+
+				for (int i = 0; i < files.Length; i++)
+					codeFilePaths[i] = files[i].FullName;
+
+				indexingProgressBar.Tick("Indexed");
+			}
+		}
+
 		// Compile our code.
 		Compile();
+
+		Analyze();
 
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
@@ -296,7 +308,10 @@ public static class MainClass
 		#region Editor Methods
 		bool Compile()
 		{
+			using var compilingProgressBar = new ProgressBar(1, "Compiling");
+
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
+			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
@@ -309,20 +324,32 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
+			return true;
+		}
+
+		void Analyze()
+		{
+			using var analysisProgressBar = new ProgressBar(6, "Analyzing");
+
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
+			analysisProgressBar.Tick("Found Standard assembly");
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
+			analysisProgressBar.Tick("Found Script types in compiled assembly");
 			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
+			analysisProgressBar.Tick("Found Script types in Standard");
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
+			analysisProgressBar.Tick("Found HierarchyObject types in compiled assembly");
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
-			#endregion
+			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
 
-			return true;
+			analysisProgressBar.Tick("Analyzed");
+			#endregion
 		}
 
 		void Modify(string toModify = null)
