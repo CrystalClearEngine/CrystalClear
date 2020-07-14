@@ -173,5 +173,13 @@ namespace CrystalClear
 
 			return true;
 		}
+
+		public static T TryGetTargetExt<T>(this WeakReference<T> weakReference)
+			where T : class
+		{
+			weakReference.TryGetTarget(out T value);
+
+			return value;
+		}
 	}
 }
