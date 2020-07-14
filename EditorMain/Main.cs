@@ -311,7 +311,7 @@ public static class MainClass
 			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
-			compilingProgressBar.Tick("Compiled.");
+			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
