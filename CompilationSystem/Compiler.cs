@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Text;
 using static CrystalClear.EditorInformation;
@@ -38,8 +39,9 @@ namespace CrystalClear.CompilationSystem
 		/// Compiles C# source code files to an assembly. Will in the future likely also support other .net languages!
 		/// </summary>
 		/// <param name="codeFileNames">The files to compile.</param>
-		/// <returns>The compiled assembly.</returns>
-		public static Assembly CompileCode(string[] codeFileNames)
+		/// <returns>Whether the compilation was successful.</returns>
+		[MethodImpl(MethodImplOptions.NoInlining)]
+		public static bool CompileCode(string[] codeFileNames, ref AssemblyLoadContext assemblyLoadContext)
 		{
 			// TODO: Maybe it should be called UserGenerated only?
 			using (FileStream dllStream = File.Create(CurrentProject.BuildPath + @"\UserGeneratedCode.dll"))
@@ -73,14 +75,13 @@ namespace CrystalClear.CompilationSystem
 
 				if (!emitResult.Success)
 				{
-					return null;
+					return false;
 				}
 			}
 
-			AssemblyLoadContext assemblyLoadContext = new AssemblyLoadContext("UserGeneratedCodeContext", true);
 			assemblyLoadContext.LoadFromAssemblyPath(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 
-			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
+			return true;
 		}
 
 		/// <summary>
