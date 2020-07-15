@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
@@ -27,6 +28,15 @@ public static class MainClass
 		get => compiledAssemblyWeakRef.TryGetTargetExt();
 
 		set => compiledAssemblyWeakRef.SetTarget(value);
+	}
+
+	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(null);
+
+	private static AssemblyLoadContext userGeneratedCodeLoadContext
+	{
+		get => userGeneratedCodeLoadContextWeakRef.TryGetTargetExt();
+
+		set => userGeneratedCodeLoadContextWeakRef.SetTarget(value);
 	}
 
 	private static void Main()
@@ -290,7 +300,7 @@ public static class MainClass
 #endif
 		goto LoopEditor;
 		#endregion
-
+		
 		#region Running
 		RunProgram:
 
