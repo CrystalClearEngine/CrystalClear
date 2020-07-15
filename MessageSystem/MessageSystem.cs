@@ -4,11 +4,14 @@ using System.Reflection;
 
 namespace CrystalClear.MessageSystem
 {
+
 	public static class MessageSystem
 	{
 		// TODO: add out parameter messageGotReceived
 		// TODO: add method where you can get the returns from the invokes?
 		// TODO: use cache for messageReceivers and toCall?
+		// TODO: use something else than DynamicInvoke
+		// TODO: add send to multiple method.
 
 		public static void SendMessage(this object recipient, Message message)
 		{
