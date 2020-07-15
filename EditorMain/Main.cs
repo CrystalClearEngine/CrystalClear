@@ -24,7 +24,7 @@ public static class MainClass
 	private static Assembly compiledAssembly => userGeneratedCodeLoadContext.Assemblies.First();
 
 	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
-	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(null);
+	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 
 	private static AssemblyLoadContext userGeneratedCodeLoadContext
 	{
