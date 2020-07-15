@@ -6,6 +6,7 @@ namespace CrystalClear
 	// TODO: maybe rename to DeveloperConsole?
 	public static class Output
 	{
+		// TODO: rename to NewLine?
 		public static void Log()
 		{
 			Console.WriteLine();
