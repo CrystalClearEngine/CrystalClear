@@ -11,10 +11,5 @@ namespace EditorMain
 		{
 
 		}
-
-		public void LoadAssembly(string path)
-		{
-			LoadFromAssemblyPath(path);
-		}
 	}
 }
