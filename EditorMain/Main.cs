@@ -20,15 +20,8 @@ using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 // TODO: make partial. (Methods in one file etc.)
 public static class MainClass
 {
-	private static WeakReference<Assembly> compiledAssemblyWeakRef = new WeakReference<Assembly>(null);
-
 	// TODO: rename to UserGeneratedCode?
-	private static Assembly compiledAssembly
-	{
-		get => compiledAssemblyWeakRef.TryGetTargetExt();
-
-		set => compiledAssemblyWeakRef.SetTarget(value);
-	}
+	private static Assembly compiledAssembly => userGeneratedCodeLoadContext.Assemblies.First();
 
 	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
 	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(null);
@@ -329,14 +322,14 @@ public static class MainClass
 		{
 			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
-			compiledAssembly = Compiler.CompileCode(codeFilePaths);
+			bool success = Compiler.CompileCode(codeFilePaths, userGeneratedCodeLoadContext);
 			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-			if (compiledAssembly is null)
+			if (!success)
 			{
 				// Explain to user that the compilation failed.
-				Output.ErrorLog("compilation error: compilation failed :( (compiled assembly is null)", true);
+				Output.ErrorLog("compilation error: compilation failed :(", true);
 				// TODO: do type identification for Standard regardless.
 				return false;
 			}
