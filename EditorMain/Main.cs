@@ -30,6 +30,7 @@ public static class MainClass
 		set => compiledAssemblyWeakRef.SetTarget(value);
 	}
 
+	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
 	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(null);
 
 	private static AssemblyLoadContext userGeneratedCodeLoadContext
