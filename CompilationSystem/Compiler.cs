@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using static CrystalClear.EditorInformation;
 
@@ -75,6 +76,10 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 			}
+
+			AssemblyLoadContext assemblyLoadContext = new AssemblyLoadContext("UserGeneratedCodeContext", true);
+			assemblyLoadContext.LoadFromAssemblyPath(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
+
 			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 		}
 
