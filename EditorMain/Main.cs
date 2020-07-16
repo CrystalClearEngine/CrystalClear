@@ -101,13 +101,6 @@ public static class MainClass
 
 		Analyze();
 
-		CrystalClearInformation.UserAssemblies = new[]
-		{
-			compiledAssembly,
-			Assembly.GetAssembly(typeof(ScriptObject)),
-			Assembly.GetAssembly(typeof(HierarchyObject)),
-		};
-
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
@@ -325,8 +318,31 @@ public static class MainClass
 		#endregion
 
 		#region Editor Methods
+		void Unload()
+		{
+			using var unloadingProgressBar = new ProgressBar(2, "Unloading");
+
+			scriptTypes = null;
+			hierarchyObjectTypes = null;
+
+			CrystalClearInformation.UserAssemblies = null;
+
+			userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
+
+			userGeneratedCodeLoadContext.Unload();
+			unloadingProgressBar.Tick();
+
+			GC.Collect();
+			GC.WaitForPendingFinalizers();
+			GC.Collect();
+
+			userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
+		}
+
 		bool Compile()
 		{
+			Unload();
+
 			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
 			bool success = Compiler.CompileCode(codeFilePaths, userGeneratedCodeLoadContext);
@@ -342,6 +358,13 @@ public static class MainClass
 			}
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
+
+			CrystalClearInformation.UserAssemblies = new[]
+			{
+				compiledAssembly,
+				Assembly.GetAssembly(typeof(ScriptObject)),
+				Assembly.GetAssembly(typeof(HierarchyObject)),
+			};
 
 			return true;
 		}
