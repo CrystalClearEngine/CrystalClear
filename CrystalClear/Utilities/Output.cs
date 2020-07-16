@@ -78,5 +78,10 @@ namespace CrystalClear
 			Console.WriteLine(str); // Write string.
 			Console.ForegroundColor = prevFgColor; // Restore previous colors.
 		}
+
+		public static void Clear()
+		{
+			Console.Clear();
+		}
 	}
 }
