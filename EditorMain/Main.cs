@@ -42,7 +42,10 @@ public static class MainClass
 #endif
 		#endregion
 
-		Editor();
+		while (true)
+		{
+			Editor();
+		}
 	}
 
 	private static void Editor()
@@ -237,25 +240,7 @@ public static class MainClass
 				break;
 
 			case "project":
-				switch (commandSections[1])
-				{
-					case "new":
-						ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
-						break;
-
-					case "open":
-						ProjectInfo.OpenProject(AskQuestion("Enter the path of the project"));
-						break;
-
-					case "modify":
-						ProjectInfo.ModifyCurrentProject(AskQuestion($"Pick a new name for {CurrentProject.ProjectName}"), AskYOrNQuestion("Change folder name to match new name?"));
-						break;
-
-					default:
-						Output.ErrorLog("command error: unknown subcommand");
-						break;
-				}
-				break;
+				return;
 
 			case "script":
 				break;
