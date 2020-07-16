@@ -42,6 +42,11 @@ public static class MainClass
 #endif
 		#endregion
 
+		Editor();
+	}
+
+	private static void Editor()
+	{
 		#region Project Selection
 		Output.Log("Please open or create a new project:");
 		ProjectSelection:
@@ -295,7 +300,7 @@ public static class MainClass
 #endif
 		goto LoopEditor;
 		#endregion
-		
+
 		#region Running
 		RunProgram:
 
