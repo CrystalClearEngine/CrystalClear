@@ -36,6 +36,9 @@ public static class MainClass
 
 	private static void Main()
 	{
+		Console.ForegroundColor = ConsoleColor.White;
+		Console.BackgroundColor = ConsoleColor.Black;
+
 		#region Thread Culture
 #if DEBUG
 		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US"); // To ensure google-able exceptions.
@@ -44,7 +47,9 @@ public static class MainClass
 
 		while (true)
 		{
+			Output.Clear();
 			Editor();
+			Unload();
 		}
 	}
 
@@ -892,6 +897,6 @@ public static class MainClass
 		GC.WaitForPendingFinalizers();
 		GC.Collect();
 
-		userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
+		userGeneratedCodeLoadContextWeakRef.SetTarget(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 	}
 }
