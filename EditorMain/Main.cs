@@ -48,12 +48,13 @@ public static class MainClass
 		while (true)
 		{
 			Output.Clear();
+			ProjectSelect();
 			Editor();
 			Unload();
 		}
 	}
 
-	private static void Editor()
+	private static void ProjectSelect()
 	{
 		#region Project Selection
 		Output.Log("Please open or create a new project:");
@@ -80,7 +81,10 @@ public static class MainClass
 				goto ProjectSelection;
 		}
 		#endregion
+	}
 
+	private static void Editor()
+	{
 		#region Compilation
 		// Find all scripts that are present.
 		List<Type> scriptTypes = null;
