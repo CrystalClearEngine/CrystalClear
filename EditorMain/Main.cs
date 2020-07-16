@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
@@ -318,27 +319,6 @@ public static class MainClass
 		#endregion
 
 		#region Editor Methods
-		void Unload()
-		{
-			using var unloadingProgressBar = new ProgressBar(2, "Unloading");
-
-			scriptTypes = null;
-			hierarchyObjectTypes = null;
-
-			CrystalClearInformation.UserAssemblies = null;
-
-			userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
-
-			userGeneratedCodeLoadContext.Unload();
-			unloadingProgressBar.Tick();
-
-			GC.Collect();
-			GC.WaitForPendingFinalizers();
-			GC.Collect();
-
-			userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
-		}
-
 		bool Compile()
 		{
 			Unload();
@@ -904,5 +884,24 @@ public static class MainClass
 			}
 		}
 		#endregion
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static void Unload()
+	{
+		using var unloadingProgressBar = new ProgressBar(2, "Unloading");
+
+		CrystalClearInformation.UserAssemblies = null;
+
+		userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
+
+		userGeneratedCodeLoadContext.Unload();
+		unloadingProgressBar.Tick();
+
+		GC.Collect();
+		GC.WaitForPendingFinalizers();
+		GC.Collect();
+
+		userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 	}
 }
