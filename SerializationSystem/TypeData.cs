@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
@@ -37,6 +38,20 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public string ConstructionTypeName { get; private set; }
 
 		// TODO: determine if a cache for this is neccessary.
-		public Type GetConstructionType() => Type.GetType(ConstructionTypeName, true);
+		public Type GetConstructionType() => Type.GetType(ConstructionTypeName,
+		assemblyResolver: delegate (AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
+		{
+			foreach (var assembly in CrystalClearInformation.UserAssemblies)
+			{
+				if (assembly.GetName().FullName == assemblyName.FullName)
+				{
+					return assembly;
+				}
+			}
+
+			return null;
+		},
+		typeResolver: null,
+		throwOnError: true);
 	}
 }

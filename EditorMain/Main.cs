@@ -101,6 +101,13 @@ public static class MainClass
 
 		Analyze();
 
+		CrystalClearInformation.UserAssemblies = new[]
+		{
+			compiledAssembly,
+			Assembly.GetAssembly(typeof(ScriptObject)),
+			Assembly.GetAssembly(typeof(HierarchyObject)),
+		};
+
 		// TODO: update this when a new ProjectInfo is used.
 		FileSystemWatcher fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
