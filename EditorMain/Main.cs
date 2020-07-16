@@ -259,7 +259,8 @@ public static class MainClass
 				break;
 
 			case "run":
-				goto RunProgram;
+				Run(rootHierarchyObject);
+				break;
 
 			case "exit":
 				Environment.Exit(0);
@@ -293,28 +294,6 @@ public static class MainClass
 		#endregion
 #endif
 		goto LoopEditor;
-		#endregion
-
-		#region Running
-		RunProgram:
-
-		Console.Write("Choose a name for the hierarchy: ");
-		string hierarchyName = Console.ReadLine();
-
-		Output.Log();
-
-		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
-		#endregion
-
-		#region Exit handling
-		ExitHandling:
-		if (Console.ReadKey().Key == ConsoleKey.Escape)
-		{
-			// Exit on escape key.
-			RuntimeMain.Stop();
-			goto LoopEditor;
-		}
-		goto ExitHandling;
 		#endregion
 
 		#region Editor Methods
@@ -882,6 +861,29 @@ public static class MainClass
 				return new ImaginaryConstructableObject(type);
 			}
 		}
+		#endregion
+	}
+
+	private static void Run(ImaginaryHierarchyObject rootHierarchyObject)
+	{
+		#region Running
+		Console.Write("Choose a name for the hierarchy: ");
+		string hierarchyName = Console.ReadLine();
+
+		Output.Log();
+
+		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
+		#endregion
+
+		#region Exit handling
+		ExitHandling:
+		if (Console.ReadKey().Key == ConsoleKey.Escape)
+		{
+			// Exit on escape key.
+			RuntimeMain.Stop();
+			return;
+		}
+		goto ExitHandling;
 		#endregion
 	}
 
