@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
@@ -19,14 +21,17 @@ using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 // TODO: make partial. (Methods in one file etc.)
 public static class MainClass
 {
-	private static WeakReference<Assembly> compiledAssemblyWeakRef = new WeakReference<Assembly>(null);
-
 	// TODO: rename to UserGeneratedCode?
-	private static Assembly compiledAssembly
-	{
-		get => compiledAssemblyWeakRef.TryGetTargetExt();
+	private static Assembly compiledAssembly => userGeneratedCodeLoadContext.Assemblies.First();
 
-		set => compiledAssemblyWeakRef.SetTarget(value);
+	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
+	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
+
+	private static AssemblyLoadContext userGeneratedCodeLoadContext
+	{
+		get => userGeneratedCodeLoadContextWeakRef.TryGetTargetExt();
+
+		set => userGeneratedCodeLoadContextWeakRef.SetTarget(value);
 	}
 
 	private static void Main()
@@ -290,7 +295,7 @@ public static class MainClass
 #endif
 		goto LoopEditor;
 		#endregion
-
+		
 		#region Running
 		RunProgram:
 
@@ -316,21 +321,30 @@ public static class MainClass
 		#region Editor Methods
 		bool Compile()
 		{
+			Unload();
+
 			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
-			compiledAssembly = Compiler.CompileCode(codeFilePaths);
+			bool success = Compiler.CompileCode(codeFilePaths, userGeneratedCodeLoadContext);
 			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-			if (compiledAssembly is null)
+			if (!success)
 			{
 				// Explain to user that the compilation failed.
-				Output.ErrorLog("compilation error: compilation failed :( (compiled assembly is null)", true);
+				Output.ErrorLog("compilation error: compilation failed :(", true);
 				// TODO: do type identification for Standard regardless.
 				return false;
 			}
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
+
+			CrystalClearInformation.UserAssemblies = new[]
+			{
+				compiledAssembly,
+				Assembly.GetAssembly(typeof(ScriptObject)),
+				Assembly.GetAssembly(typeof(HierarchyObject)),
+			};
 
 			return true;
 		}
@@ -870,5 +884,24 @@ public static class MainClass
 			}
 		}
 		#endregion
+	}
+
+	[MethodImpl(MethodImplOptions.NoInlining)]
+	private static void Unload()
+	{
+		using var unloadingProgressBar = new ProgressBar(2, "Unloading");
+
+		CrystalClearInformation.UserAssemblies = null;
+
+		userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
+
+		userGeneratedCodeLoadContext.Unload();
+		unloadingProgressBar.Tick();
+
+		GC.Collect();
+		GC.WaitForPendingFinalizers();
+		GC.Collect();
+
+		userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 	}
 }

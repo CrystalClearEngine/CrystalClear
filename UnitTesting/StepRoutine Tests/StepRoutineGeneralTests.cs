@@ -1,11 +1,8 @@
-﻿using CrystalClear.ScriptUtilities;
+﻿using CrystalClear.ScriptUtilities.StepRoutines;
 using CrystalClear.Standard.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using CrystalClear.ScriptUtilities.StepRoutines;
 
 namespace UnitTests
 {
@@ -31,7 +28,7 @@ namespace UnitTests
 
 			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineId)));
 			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineId)));
-			
+
 			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineName)));
 			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineName)));
 		}
