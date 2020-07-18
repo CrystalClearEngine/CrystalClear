@@ -13,10 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CompilationSystem\CompilationSystem.csproj" />
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
-    <ProjectReference Include="..\RuntimeMain\RuntimeMain.csproj" />
-    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
     <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj" />
-    <ProjectReference Include="..\Standard\Standard.csproj" />
   </ItemGroup>
 
 </Project>
