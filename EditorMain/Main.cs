@@ -1,11 +1,7 @@
 ﻿using CrystalClear;
 using CrystalClear.CompilationSystem;
-using CrystalClear.HierarchySystem;
-using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
-using CrystalClear.Standard.HierarchyObjects;
 using ShellProgressBar;
 using System;
 using System.Collections.Generic;
@@ -16,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
-using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
+using static CrystalClear.Input;
 
 // TODO: make partial. (Methods in one file etc.)
 public static class MainClass
