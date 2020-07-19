@@ -24,6 +24,24 @@ public static class MainClass
 	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
 	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 
+	private static readonly string[] runtimeAssemblies =
+	{
+		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
+		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
+		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
+		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.dll",
+		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\netstandard.dll",
+		@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
+		@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+		@"E:\dev\crystal clear\EventSystem\bin\Debug\netcoreapp3.1\EventSystem.dll", // The path to the EventSystem dll.
+		@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netcoreapp3.1\HierarchySystem.dll", // The path to the EventSystem dll.
+		@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
+		@"E:\dev\crystal clear\Standard\bin\Debug\netcoreapp3.1\Standard.dll", // The path to the Standard dll.
+		@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.
+		@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll", // The location of the CompilationSystem dll.
+		@"E:\dev\crystal clear\CrystalClear\bin\Debug\netcoreapp3.1\CrystalClear.dll", // The location of the CrystalClear dll.
+	};
+
 	private static AssemblyLoadContext userGeneratedCodeLoadContext
 	{
 		get => userGeneratedCodeLoadContextWeakRef.TryGetTargetExt();
@@ -313,13 +331,6 @@ public static class MainClass
 			}
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
-
-			CrystalClearInformation.UserAssemblies = new[]
-			{
-				compiledAssembly,
-				Assembly.GetAssembly(typeof(ScriptObject)),
-				Assembly.GetAssembly(typeof(HierarchyObject)),
-			};
 
 			return true;
 		}
@@ -869,18 +880,14 @@ public static class MainClass
 
 		Output.Log();
 
-		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
-		#endregion
+		// Create AssemblyLoadContext, load all Runtime assemblies, start RuntimeMain.
 
-		#region Exit handling
-		ExitHandling:
-		if (Console.ReadKey().Key == ConsoleKey.Escape)
+		AssemblyLoadContext runtimeLoadContext = new AssemblyLoadContext("RuntimeLoadContext", isCollectible: true);
+
+		foreach (string assemblyPath in runtimeAssemblies)
 		{
-			// Exit on escape key.
-			RuntimeMain.Stop();
-			return;
+			runtimeLoadContext.LoadFromAssemblyPath(assemblyPath);
 		}
-		goto ExitHandling;
 		#endregion
 	}
 
