@@ -1,5 +1,6 @@
 ﻿using CrystalClear;
 using CrystalClear.CompilationSystem;
+using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using ShellProgressBar;
