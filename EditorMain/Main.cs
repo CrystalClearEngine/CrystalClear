@@ -1,8 +1,10 @@
 ﻿using CrystalClear;
 using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
+using CrystalClear.Standard.HierarchyObjects;
 using ShellProgressBar;
 using System;
 using System.Collections.Generic;
@@ -25,20 +27,14 @@ public static class MainClass
 	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 
 	private static readonly string[] runtimeAssemblies =
-	{
-		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
-		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
-		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Console.dll",
-		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.dll",
-		@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\netstandard.dll",
-		@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
-		@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
-		@"E:\dev\crystal clear\EventSystem\bin\Debug\netcoreapp3.1\EventSystem.dll", // The path to the EventSystem dll.
-		@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netcoreapp3.1\HierarchySystem.dll", // The path to the EventSystem dll.
+	{// With everything not needed to be referenced by EditorMain commented out.
 		@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
+		//@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
+		@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
+		//@"E:\dev\crystal clear\EventSystem\bin\Debug\netcoreapp3.1\EventSystem.dll", // The path to the EventSystem dll.
+		@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netcoreapp3.1\HierarchySystem.dll", // The path to the EventSystem dll.
 		@"E:\dev\crystal clear\Standard\bin\Debug\netcoreapp3.1\Standard.dll", // The path to the Standard dll.
-		@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.
-		@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll", // The location of the CompilationSystem dll.
+		//@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.	
 		@"E:\dev\crystal clear\CrystalClear\bin\Debug\netcoreapp3.1\CrystalClear.dll", // The location of the CrystalClear dll.
 	};
 
@@ -888,6 +884,18 @@ public static class MainClass
 		{
 			runtimeLoadContext.LoadFromAssemblyPath(assemblyPath);
 		}
+
+		// Invoke RuntimeMain.Run(new { compiledAssembly }, hierarchyName, rootHierarchyObject) with reflection!
+		runtimeLoadContext.Assemblies.First((asm) => asm.GetName().Name == "RuntimeMain")
+			.GetType("CrystalClear.RuntimeMain.RuntimeMain", true)
+			.GetMethod("Run",
+				bindingAttr: BindingFlags.Public | BindingFlags.Static,
+				null,
+				types: new Type[] { typeof(Assembly[]), typeof(string), typeof(ImaginaryHierarchyObject), typeof(bool?) },
+				null)
+					.Invoke(null, new object[] { new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject });
+
+		Thread.Sleep(10000000);
 		#endregion
 	}
 
