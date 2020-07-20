@@ -3,6 +3,7 @@ using CrystalClear.HierarchySystem.Scripting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
@@ -37,6 +38,40 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// </summary>		
 		[DataMember]
 		public virtual Dictionary<string, ImaginaryScript> AttatchedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
+
+		/// <summary>
+		/// Does not matter unless this ImaginaryObject is root.
+		/// </summary>
+		private string rootName;
+
+		public string Name
+		{
+			get
+			{
+				if (parent is null)
+				{
+					return rootName;
+				}
+				else
+				{
+					return Parent.LocalHierarchy.First((keyValuePair) => keyValuePair.Value == this).Key;
+				}
+			}
+
+			set
+			{
+				if (parent is null)
+				{
+					rootName = value;
+				}
+				else
+				{
+					Parent.LocalHierarchy.Remove(Name);
+
+					Parent.LocalHierarchy.Add(value, this);
+				}
+			}
+		}
 
 		public HierarchyObject HierarchyObjectParent;
 
