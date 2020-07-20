@@ -8,11 +8,10 @@ using CrystalClear.Standard.HierarchyObjects;
 using ShellProgressBar;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
@@ -21,29 +20,7 @@ using static CrystalClear.Input;
 public static class MainClass
 {
 	// TODO: rename to UserGeneratedCode?
-	private static Assembly compiledAssembly => userGeneratedCodeLoadContext.Assemblies.First();
-
-	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
-	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
-
-	private static readonly string[] runtimeAssemblies =
-	{// With everything not needed to be referenced by EditorMain commented out as it is probably referenced by the assemblies automatically.
-		@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
-		//@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
-		@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
-		//@"E:\dev\crystal clear\EventSystem\bin\Debug\netcoreapp3.1\EventSystem.dll", // The path to the EventSystem dll.
-		@"E:\dev\crystal clear\HierarchySystem\bin\Debug\netcoreapp3.1\HierarchySystem.dll", // The path to the EventSystem dll.
-		@"E:\dev\crystal clear\Standard\bin\Debug\netcoreapp3.1\Standard.dll", // The path to the Standard dll.
-		//@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.	
-		@"E:\dev\crystal clear\CrystalClear\bin\Debug\netcoreapp3.1\CrystalClear.dll", // The location of the CrystalClear dll.
-	};
-
-	private static AssemblyLoadContext userGeneratedCodeLoadContext
-	{
-		get => userGeneratedCodeLoadContextWeakRef.TryGetTargetExt();
-
-		set => userGeneratedCodeLoadContextWeakRef.SetTarget(value);
-	}
+	private static Assembly compiledAssembly;
 
 	private static void Main()
 	{
@@ -61,7 +38,6 @@ public static class MainClass
 			Output.Clear();
 			ProjectSelect();
 			Editor();
-			Unload();
 		}
 	}
 
@@ -310,15 +286,13 @@ public static class MainClass
 		#region Editor Methods
 		bool Compile()
 		{
-			Unload();
-
 			using var compilingProgressBar = new ProgressBar(1, "Compiling");
 
-			bool success = Compiler.CompileCode(codeFilePaths, userGeneratedCodeLoadContext);
+			compiledAssembly = Compiler.CompileCode(codeFilePaths);
 			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-			if (!success)
+			if (compiledAssembly is null)
 			{
 				// Explain to user that the compilation failed.
 				Output.ErrorLog("compilation error: compilation failed :(", true);
@@ -876,44 +850,15 @@ public static class MainClass
 
 		Output.Log();
 
-		// Create AssemblyLoadContext, load all Runtime assemblies, start RuntimeMain.
+		Process userProcess = new Process();
 
-		AssemblyLoadContext runtimeLoadContext = new AssemblyLoadContext("RuntimeLoadContext", isCollectible: true);
+		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe");
 
-		foreach (string assemblyPath in runtimeAssemblies)
-		{
-			runtimeLoadContext.LoadFromAssemblyPath(assemblyPath);
-		}
+		userProcess.Start();
 
-		// Pack the root to a file so it can be loaded by the runtime.
-		ImaginaryObjectSerialization.PackImaginaryObjectToFile(CurrentProject.TempPath + @"\temphierarchy", rootHierarchyObject);
+		userProcess.WaitForExit();
 
-		// Invoke RuntimeMain.RunWithImaginaryHierarchyObjectPath(new { compiledAssembly }, hierarchyName, pathToRootHierarchyObject) with reflection!
-		runtimeLoadContext.Assemblies.First((asm) => asm.GetName().Name == "RuntimeMain")
-			.GetType("CrystalClear.RuntimeMain.RuntimeMain", true)
-			.GetMethod("RunWithImaginaryHierarchyObjectPath", BindingFlags.Public | BindingFlags.Static)
-			!.Invoke(null, new object[] { new Assembly[] { compiledAssembly }, hierarchyName, CurrentProject.TempPath + @"\temphierarchy", true });
-
-		Thread.Sleep(10000000);
+		userProcess.Dispose();
 		#endregion
-	}
-
-	[MethodImpl(MethodImplOptions.NoInlining)]
-	private static void Unload()
-	{
-		using var unloadingProgressBar = new ProgressBar(2, "Unloading");
-
-		CrystalClearInformation.UserAssemblies = null;
-
-		userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
-
-		userGeneratedCodeLoadContext.Unload();
-		unloadingProgressBar.Tick();
-
-		GC.Collect();
-		GC.WaitForPendingFinalizers();
-		GC.Collect();
-
-		userGeneratedCodeLoadContextWeakRef.SetTarget(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 	}
 }
