@@ -43,18 +43,17 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void Run(Assembly[] userAssemblies, string hierarchyPath, string hierarchyName, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies, string hierarchyName, string hierarchyPath, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
 				throw new Exception("Already running!");
 			}
 
-			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
-			Run(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
+			RunWithImaginaryHierarchyObject(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
 		}
 
-		public static void Run(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{

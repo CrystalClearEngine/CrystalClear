@@ -27,7 +27,7 @@ public static class MainClass
 	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
 
 	private static readonly string[] runtimeAssemblies =
-	{// With everything not needed to be referenced by EditorMain commented out.
+	{// With everything not needed to be referenced by EditorMain commented out as it is probably referenced by the assemblies automatically.
 		@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.dll", // The path to the RuntimeMain dll.
 		//@"E:\dev\crystal clear\SerializationSystem\bin\Debug\netcoreapp3.1\SerializationSystem.dll", // The path to the SerializationSystem dll.
 		@"E:\dev\crystal clear\ScriptUtilities\bin\Debug\netcoreapp3.1\ScriptUtilities.dll", // The path to the ScriptUtilities dll.
@@ -885,15 +885,14 @@ public static class MainClass
 			runtimeLoadContext.LoadFromAssemblyPath(assemblyPath);
 		}
 
-		// Invoke RuntimeMain.Run(new { compiledAssembly }, hierarchyName, rootHierarchyObject) with reflection!
+		// Pack the root to a file so it can be loaded by the runtime.
+		ImaginaryObjectSerialization.PackImaginaryObjectToFile(CurrentProject.TempPath + @"\temphierarchy", rootHierarchyObject);
+
+		// Invoke RuntimeMain.RunWithImaginaryHierarchyObjectPath(new { compiledAssembly }, hierarchyName, pathToRootHierarchyObject) with reflection!
 		runtimeLoadContext.Assemblies.First((asm) => asm.GetName().Name == "RuntimeMain")
 			.GetType("CrystalClear.RuntimeMain.RuntimeMain", true)
-			.GetMethod("Run",
-				bindingAttr: BindingFlags.Public | BindingFlags.Static,
-				null,
-				types: new Type[] { typeof(Assembly[]), typeof(string), typeof(ImaginaryHierarchyObject), typeof(bool?) },
-				null)
-					.Invoke(null, new object[] { new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject });
+			.GetMethod("RunWithImaginaryHierarchyObjectPath", BindingFlags.Public | BindingFlags.Static)
+			!.Invoke(null, new object[] { new Assembly[] { compiledAssembly }, hierarchyName, CurrentProject.TempPath + @"\temphierarchy", true });
 
 		Thread.Sleep(10000000);
 		#endregion
