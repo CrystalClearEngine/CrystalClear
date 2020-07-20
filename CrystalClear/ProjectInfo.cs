@@ -85,6 +85,20 @@ namespace CrystalClear
 			}
 		}
 
+		[XmlIgnore]
+		public DirectoryInfo TempDirectory;
+		public string TempPath
+		{
+			get
+			{
+				return HierarchiesDirectory.FullName;
+			}
+			set
+			{
+				HierarchiesDirectory = new DirectoryInfo(value);
+			}
+		}
+
 		#region Project Management
 		public static void SaveCurrentProject()
 		{
@@ -111,6 +125,7 @@ namespace CrystalClear
 			project.BuildDirectory = projectDirectory.CreateSubdirectory(@"Build");
 			project.AssetsDirectory = projectDirectory.CreateSubdirectory(@"Assets");
 			project.HierarchiesDirectory = projectDirectory.CreateSubdirectory(@"Hierarchies");
+			project.TempDirectory = projectDirectory.CreateSubdirectory(@"Temp");
 
 			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
