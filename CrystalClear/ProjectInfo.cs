@@ -45,7 +45,7 @@ namespace CrystalClear
 
 		[XmlIgnore]
 		public DirectoryInfo BuildDirectory;
-		public string BuildPath
+		public string BuildPath // TODO: should add / at end?
 		{
 			get
 			{
