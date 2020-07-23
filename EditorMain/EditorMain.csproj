@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ShellProgressBar" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CompilationSystem\CompilationSystem.csproj" />
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
