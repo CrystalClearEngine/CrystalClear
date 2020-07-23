@@ -11,9 +11,17 @@ namespace CrystalClear.RuntimeMain
 {
 	public static class RuntimeMain
 	{
-		public static void Main()
+		public static void Main(string[] args)
 		{
-			Assembly compiledAssembly = Assembly.LoadFile(AskQuestion("Enter the path to the UserGeneratedCode for the runtime to use"));
+			string assemblyPath = string.IsNullOrEmpty(args[0]) ? AskQuestion("Please enter a UserGeneratedCode to use.") : args[0];
+
+			Assembly compiledAssembly = Assembly.LoadFrom(assemblyPath);
+
+			if (compiledAssembly is null)
+			{
+				Output.ErrorLog($"error: the assembly at '{assemblyPath}' could not be loaded.", false);
+				Environment.Exit(-2);
+			}
 
 			Run(new Assembly[] { compiledAssembly });
 

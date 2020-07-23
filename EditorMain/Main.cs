@@ -5,7 +5,6 @@ using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
-using ShellProgressBar;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,22 +82,13 @@ public static class MainClass
 		// TODO: make this into a property in ProjectInfo.
 		string[] codeFilePaths;
 
-		using ProgressBar indexingProgressBar = new ProgressBar(3, "Indexing files.");
 		{
-			{
-				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
 
-				indexingProgressBar.Tick("Gathered files.");
+			codeFilePaths = new string[files.Length];
 
-				codeFilePaths = new string[files.Length];
-
-				indexingProgressBar.Tick();
-
-				for (int i = 0; i < files.Length; i++)
-					codeFilePaths[i] = files[i].FullName;
-
-				indexingProgressBar.Tick("Indexed");
-			}
+			for (int i = 0; i < files.Length; i++)
+				codeFilePaths[i] = files[i].FullName;
 		}
 
 		// Compile our code.
@@ -112,7 +102,10 @@ public static class MainClass
 		{
 			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
+			// TODO: something to wait until the file is ready.
+			Thread.Sleep(100); // OTHER THAN THIS LOL
 			Compile();
+			Analyze();
 		};
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
@@ -286,10 +279,7 @@ public static class MainClass
 		#region Editor Methods
 		bool Compile()
 		{
-			using var compilingProgressBar = new ProgressBar(1, "Compiling");
-
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
-			compilingProgressBar.Tick("Compiled");
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
 			if (compiledAssembly is null)
@@ -307,26 +297,21 @@ public static class MainClass
 
 		void Analyze()
 		{
-			using var analysisProgressBar = new ProgressBar(6, "Analyzing");
+			if (compiledAssembly is null)
+				return;
 
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
-			analysisProgressBar.Tick("Found Standard assembly");
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
-			analysisProgressBar.Tick("Found Script types in compiled assembly");
 			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
-			analysisProgressBar.Tick("Found Script types in Standard");
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
-			analysisProgressBar.Tick("Found HierarchyObject types in compiled assembly");
+
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
-			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
-
-			analysisProgressBar.Tick("Analyzed");
 			#endregion
 		}
 
@@ -852,7 +837,7 @@ public static class MainClass
 
 		Process userProcess = new Process();
 
-		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe");
+		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe", CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 
 		userProcess.Start();
 
