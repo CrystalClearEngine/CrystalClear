@@ -11,9 +11,17 @@ namespace CrystalClear.RuntimeMain
 {
 	public static class RuntimeMain
 	{
-		public static void Main()
+		public static void Main(string[] args)
 		{
-			Assembly compiledAssembly = Assembly.LoadFile(AskQuestion("Enter the path to the UserGeneratedCode for the runtime to use"));
+			string assemblyPath = string.IsNullOrEmpty(args[0]) ? AskQuestion("Please enter a UserGeneratedCode to use.") : args[0];
+
+			Assembly compiledAssembly = Assembly.LoadFrom(assemblyPath);
+
+			if (compiledAssembly is null)
+			{
+				Output.ErrorLog($"error: the assembly at '{assemblyPath}' could not be loaded.", false);
+				Environment.Exit(-2);
+			}
 
 			Run(new Assembly[] { compiledAssembly });
 
@@ -43,18 +51,17 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void Run(Assembly[] userAssemblies, string hierarchyPath, string hierarchyName, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies, string hierarchyName, string hierarchyPath, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
 				throw new Exception("Already running!");
 			}
 
-			// TODO: create and use a method that unpacks ImaginaryHierarchies instead of straight up HierarchyObjects.
-			Run(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
+			RunWithImaginaryHierarchyObject(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
 		}
 
-		public static void Run(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{

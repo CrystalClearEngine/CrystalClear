@@ -41,7 +41,7 @@ namespace CrystalClear.CompilationSystem
 		/// <param name="codeFileNames">The files to compile.</param>
 		/// <returns>Whether the compilation was successful.</returns>
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		public static bool CompileCode(string[] codeFileNames, AssemblyLoadContext assemblyLoadContext)
+		public static Assembly CompileCode(string[] codeFileNames)
 		{
 			// TODO: Maybe it should be called UserGenerated only?
 			using (FileStream dllStream = File.Create(CurrentProject.BuildPath + @"\UserGeneratedCode.dll"))
@@ -75,13 +75,11 @@ namespace CrystalClear.CompilationSystem
 
 				if (!emitResult.Success)
 				{
-					return false;
+					return null;
 				}
 			}
 
-			assemblyLoadContext.LoadFromAssemblyPath(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
-
-			return true;
+			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 		}
 
 		/// <summary>
