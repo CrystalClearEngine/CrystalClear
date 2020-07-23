@@ -28,7 +28,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				new DataContractSerializer(toStore.GetType()).WriteObject(writerStream, toStore);
 			}
 		}
-
+		
+		// TODO: add TExpected
 		public static ImaginaryObject UnpackImaginaryObject(string path)
 		{
 			Encoding encoding = Encoding.UTF8;

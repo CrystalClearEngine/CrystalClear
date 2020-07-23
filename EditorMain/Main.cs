@@ -2,37 +2,24 @@
 using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
-using ShellProgressBar;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Loader;
 using System.Threading;
 using static CrystalClear.EditorInformation;
-using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
+using static CrystalClear.Input;
 
 // TODO: make partial. (Methods in one file etc.)
 public static class MainClass
 {
 	// TODO: rename to UserGeneratedCode?
-	private static Assembly compiledAssembly => userGeneratedCodeLoadContext.Assemblies.First();
-
-	// TODO: when sourcegenerators are stable, make a [AutoWeakProperty] that makes the property automatically.
-	private static WeakReference<AssemblyLoadContext> userGeneratedCodeLoadContextWeakRef = new WeakReference<AssemblyLoadContext>(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
-
-	private static AssemblyLoadContext userGeneratedCodeLoadContext
-	{
-		get => userGeneratedCodeLoadContextWeakRef.TryGetTargetExt();
-
-		set => userGeneratedCodeLoadContextWeakRef.SetTarget(value);
-	}
+	private static Assembly compiledAssembly;
 
 	private static void Main()
 	{
@@ -48,12 +35,12 @@ public static class MainClass
 		while (true)
 		{
 			Output.Clear();
+			ProjectSelect();
 			Editor();
-			Unload();
 		}
 	}
 
-	private static void Editor()
+	private static void ProjectSelect()
 	{
 		#region Project Selection
 		Output.Log("Please open or create a new project:");
@@ -80,7 +67,10 @@ public static class MainClass
 				goto ProjectSelection;
 		}
 		#endregion
+	}
 
+	private static void Editor()
+	{
 		#region Compilation
 		// Find all scripts that are present.
 		List<Type> scriptTypes = null;
@@ -92,22 +82,13 @@ public static class MainClass
 		// TODO: make this into a property in ProjectInfo.
 		string[] codeFilePaths;
 
-		using ProgressBar indexingProgressBar = new ProgressBar(3, "Indexing files.");
 		{
-			{
-				FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
+			FileInfo[] files = CurrentProject.ScriptsDirectory.GetFiles("*.cs");
 
-				indexingProgressBar.Tick("Gathered files.");
+			codeFilePaths = new string[files.Length];
 
-				codeFilePaths = new string[files.Length];
-
-				indexingProgressBar.Tick();
-
-				for (int i = 0; i < files.Length; i++)
-					codeFilePaths[i] = files[i].FullName;
-
-				indexingProgressBar.Tick("Indexed");
-			}
+			for (int i = 0; i < files.Length; i++)
+				codeFilePaths[i] = files[i].FullName;
 		}
 
 		// Compile our code.
@@ -121,7 +102,10 @@ public static class MainClass
 		{
 			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
+			// TODO: something to wait until the file is ready.
+			Thread.Sleep(100); // OTHER THAN THIS LOL
 			Compile();
+			Analyze();
 		};
 		fileSystemWatcher.EnableRaisingEvents = true;
 		#endregion
@@ -255,7 +239,8 @@ public static class MainClass
 				break;
 
 			case "run":
-				goto RunProgram;
+				Run(rootHierarchyObject);
+				break;
 
 			case "exit":
 				Environment.Exit(0);
@@ -291,40 +276,13 @@ public static class MainClass
 		goto LoopEditor;
 		#endregion
 
-		#region Running
-		RunProgram:
-
-		Console.Write("Choose a name for the hierarchy: ");
-		string hierarchyName = Console.ReadLine();
-
-		Output.Log();
-
-		RuntimeMain.Run(new Assembly[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
-		#endregion
-
-		#region Exit handling
-		ExitHandling:
-		if (Console.ReadKey().Key == ConsoleKey.Escape)
-		{
-			// Exit on escape key.
-			RuntimeMain.Stop();
-			goto LoopEditor;
-		}
-		goto ExitHandling;
-		#endregion
-
 		#region Editor Methods
 		bool Compile()
 		{
-			Unload();
-
-			using var compilingProgressBar = new ProgressBar(1, "Compiling");
-
-			bool success = Compiler.CompileCode(codeFilePaths, userGeneratedCodeLoadContext);
-			compilingProgressBar.Tick("Compiled");
+			compiledAssembly = Compiler.CompileCode(codeFilePaths);
 
 			// If the compiled assembly is null then something went wrong during compilation (there was probably en error in the code).
-			if (!success)
+			if (compiledAssembly is null)
 			{
 				// Explain to user that the compilation failed.
 				Output.ErrorLog("compilation error: compilation failed :(", true);
@@ -334,38 +292,26 @@ public static class MainClass
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
 
-			CrystalClearInformation.UserAssemblies = new[]
-			{
-				compiledAssembly,
-				Assembly.GetAssembly(typeof(ScriptObject)),
-				Assembly.GetAssembly(typeof(HierarchyObject)),
-			};
-
 			return true;
 		}
 
 		void Analyze()
 		{
-			using var analysisProgressBar = new ProgressBar(6, "Analyzing");
+			if (compiledAssembly is null)
+				return;
 
 			#region Type identification
 			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
-			analysisProgressBar.Tick("Found Standard assembly");
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
-			analysisProgressBar.Tick("Found Script types in compiled assembly");
 			scriptTypes.AddRange(Script.FindScriptTypesInAssembly(standardAssembly));
-			analysisProgressBar.Tick("Found Script types in Standard");
 
 			// Find all HierarchyObject types in the compiled assembly.
 			hierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssembly(compiledAssembly).ToList();
-			analysisProgressBar.Tick("Found HierarchyObject types in compiled assembly");
+
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
-			analysisProgressBar.Tick("Found HierarchyObject types in Standard");
-
-			analysisProgressBar.Tick("Analyzed");
 			#endregion
 		}
 
@@ -881,22 +827,23 @@ public static class MainClass
 		#endregion
 	}
 
-	[MethodImpl(MethodImplOptions.NoInlining)]
-	private static void Unload()
+	private static void Run(ImaginaryHierarchyObject rootHierarchyObject)
 	{
-		using var unloadingProgressBar = new ProgressBar(2, "Unloading");
+		#region Running
+		Console.Write("Choose a name for the hierarchy: ");
+		string hierarchyName = Console.ReadLine();
 
-		CrystalClearInformation.UserAssemblies = null;
+		Output.Log();
 
-		userGeneratedCodeLoadContext.Unloading += (_) => unloadingProgressBar.Tick();
+		Process userProcess = new Process();
 
-		userGeneratedCodeLoadContext.Unload();
-		unloadingProgressBar.Tick();
+		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe", CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
 
-		GC.Collect();
-		GC.WaitForPendingFinalizers();
-		GC.Collect();
+		userProcess.Start();
 
-		userGeneratedCodeLoadContextWeakRef.SetTarget(new AssemblyLoadContext("UserGeneratedCodeLoadContext", isCollectible: true));
+		userProcess.WaitForExit();
+
+		userProcess.Dispose();
+		#endregion
 	}
 }
