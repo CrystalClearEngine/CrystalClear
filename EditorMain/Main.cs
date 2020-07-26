@@ -843,7 +843,15 @@ public static class MainClass
 
 		userProcess.WaitForExit();
 
+		Console.WriteLine($"The program exited with code {userProcess.ExitCode}.");
+
 		userProcess.Dispose();
+
+		Console.WriteLine("Press any key to continue.");
+
+		Console.ReadKey(true);
+
+		Console.Clear();
 		#endregion
 	}
 }
