@@ -79,7 +79,7 @@ namespace CrystalClear.CompilationSystem
 				}
 			}
 
-			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
+			return Assembly.Load(File.ReadAllBytes(CurrentProject.BuildPath + @"\UserGeneratedCode.dll")); // Load the assembly without locking the file.
 		}
 
 		/// <summary>
