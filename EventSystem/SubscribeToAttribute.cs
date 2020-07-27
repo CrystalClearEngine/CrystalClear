@@ -9,6 +9,8 @@ namespace CrystalClear.EventSystem
 		public ScriptEventBase ScriptEvent;
 		public Type EventType;
 
+		public int Order = 0;
+
 		public SubscribeToAttribute(Type eventType)
 		{
 			EventType = eventType;
