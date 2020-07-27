@@ -2,6 +2,7 @@
 #define Editor
 
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace CrystalClear.EventSystem
@@ -13,11 +14,12 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public static void SubscribeEvents(Type typeToSubscribe, object instance)
 		{
-			foreach (MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
-			{
-				SubscribeToAttribute subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
-				subscribeToAttribute?.ScriptEvent.Subscribe(method, instance);
-			}
+			var methodsToSubscribe = from MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
+
+			methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
+
+			foreach(var methodToSubscribe in methodsToSubscribe)
+				methodToSubscribe.Item2.ScriptEvent.Subscribe(methodToSubscribe.method, instance);
 		}
 
 		public static void UnsubscribeEvents(Type typeToUnsubscribe, object instance)
@@ -66,10 +68,12 @@ namespace CrystalClear.EventSystem
 		{
 			foreach (Type type in types)
 			{
-				foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-				{
-					SubscribeMethod(method, null);
-				}
+				var methodsToSubscribe = from MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
+
+				methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
+
+				foreach (var methodToSubscribe in methodsToSubscribe)
+					methodToSubscribe.Item2.ScriptEvent.Subscribe(methodToSubscribe.method, null);
 			}
 		}
 	}
