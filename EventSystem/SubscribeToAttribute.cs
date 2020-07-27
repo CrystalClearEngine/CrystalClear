@@ -9,6 +9,10 @@ namespace CrystalClear.EventSystem
 		public ScriptEventBase ScriptEvent;
 		public Type EventType;
 
+		// TODO: make this work globally.
+		/// <summary>
+		/// The position in the order to subscribe the method in. Works within the type only.
+		/// </summary>
 		public int Order = 0;
 
 		public SubscribeToAttribute(Type eventType)
