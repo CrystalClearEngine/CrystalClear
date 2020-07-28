@@ -27,6 +27,8 @@ partial class MainClass
 		CrystalClearInformation.UserAssemblies = new[] { compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)) };
 
 		RuntimeMain.RunWithImaginaryHierarchyObject(new[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
+
+		while (true) ; // In DEBUG mode you cannot exit the run.
 #endif
 
 #if RELEASE
