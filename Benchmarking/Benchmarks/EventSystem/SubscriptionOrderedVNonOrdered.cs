@@ -10,6 +10,7 @@ using System.Reflection;
 
 namespace Benchmarks
 {
+	[MemoryDiagnoser]
 	public class SubscriptionOrderedVNonOrdered
 	{
 		[OnStartEvent]
