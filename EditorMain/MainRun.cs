@@ -31,7 +31,7 @@ partial class MainClass
 		while (true) ; // In DEBUG mode you cannot exit the run.
 #endif
 
-#if RELEASE
+#if RELEASE // TODO: send and recieve path to Hierarchy to use and also use anonymous pipes for communication.
 		Process userProcess = new Process();
 
 		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe", CurrentProject.BuildPath + @"\UserGeneratedCode.dll");
