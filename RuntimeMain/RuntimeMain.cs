@@ -69,15 +69,7 @@ namespace CrystalClear.RuntimeMain
 			}
 
 			#region Creating
-			#region Profiling
-			Stopwatch performanceStopwatchForCreate = new Stopwatch();
-			performanceStopwatchForCreate.Start();
-			#endregion
 			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject)rootHierarchyObject.CreateInstance());
-			#region Profiling
-			performanceStopwatchForCreate.Stop();
-			Output.Log(performanceStopwatchForCreate.ElapsedMilliseconds + " ms");
-			#endregion Profiling
 			#endregion
 
 			Run(userAssemblies, raiseStartEvent);
