@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
+	// TODO: is all the data verification neccessary? The likelyhood of a bit-flip is low. Perhaps a checksum check is sufficent.
 	public abstract partial class ImaginaryObject
 	{
 		public static void WriteStringDictionary<TValue>(Dictionary<string, TValue> dictionary, BinaryWriter writer)

@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	[DataContract]
+	// TODO: should ImaginaryObject be generic, or at least optionally so, such as ImaginaryObject<TRealType> and CreateInstance returns TRealType?
 	public abstract partial class ImaginaryObject : IBinarySerializable
 	{
 		protected ImaginaryObject()
