@@ -9,14 +9,17 @@ namespace CrystalClear
 
 		public static string WorkingPath => $@"{Environment.CurrentDirectory}\"; // TODO make constant, also maybe rename to WorkPath?
 
-		public static Assembly[] UserAssemblies;
-
 		public enum ExitCodes
 		{
 			Error = -1,
 			ForceClose = 0,
 			Close = 1,
 		}
+	}
+
+	public static class RuntimeInformation
+	{
+		public static Assembly[] UserAssemblies { get; set; }
 	}
 
 	public static class EditorInformation
