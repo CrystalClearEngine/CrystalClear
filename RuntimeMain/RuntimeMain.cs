@@ -1,4 +1,5 @@
-﻿using CrystalClear.EventSystem.StandardEvents;
+﻿#define AllowDebug
+using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
@@ -19,6 +20,7 @@ namespace CrystalClear.RuntimeMain
 		{
 			string assemblyPath = string.IsNullOrEmpty(args[0]) ? AskQuestion("Please enter a UserGeneratedCode to use.") : args[0];
 
+#if AllowDebug
 			bool isDebug = args.Contains("--debug");
 
 			NamedPipeClientStream debugStream;
@@ -35,6 +37,7 @@ namespace CrystalClear.RuntimeMain
 
 				Console.WriteLine(ReadString(debugStream));
 			}
+#endif
 
 			Assembly compiledAssembly = Assembly.LoadFrom(assemblyPath);
 
@@ -43,6 +46,8 @@ namespace CrystalClear.RuntimeMain
 				Output.ErrorLog($"error: the assembly at '{assemblyPath}' could not be loaded.", false);
 				Environment.Exit(-2);
 			}
+
+			AppDomain.CurrentDomain.ProcessExit += (info, obj) => Stop();
 
 			Run(new Assembly[] { compiledAssembly });
 
@@ -58,34 +63,6 @@ namespace CrystalClear.RuntimeMain
 			}
 			goto ExitHandling;
 			#endregion
-
-			static string ReadString(PipeStream ioStream)
-			{
-				int len = 0;
-
-				len = ioStream.ReadByte() * 256;
-				len += ioStream.ReadByte();
-				byte[] inBuffer = new byte[len];
-				ioStream.Read(inBuffer, 0, len);
-
-				return Encoding.ASCII.GetString(inBuffer);
-			}
-
-			static int WriteString(PipeStream ioStream, string outString)
-			{
-				byte[] outBuffer = Encoding.ASCII.GetBytes(outString);
-				int len = outBuffer.Length;
-				if (len > UInt16.MaxValue)
-				{
-					len = (int)UInt16.MaxValue;
-				}
-				ioStream.WriteByte((byte)(len / 256));
-				ioStream.WriteByte((byte)(len & 255));
-				ioStream.Write(outBuffer, 0, len);
-				ioStream.Flush();
-
-				return outBuffer.Length + 2;
-			}
 		}
 
 		public static bool IsRunning = false;
@@ -147,12 +124,12 @@ namespace CrystalClear.RuntimeMain
 		{
 			if (!IsRunning)
 			{
-				throw new Exception("Not running!");
+				return;
 			}
 
-			IsRunning = false;
-
 			StopEvent.Instance.RaiseEvent();
+
+			IsRunning = false;
 		}
 	}
 }
