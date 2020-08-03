@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using CrystalClear.HierarchySystem.Annotations;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -174,8 +173,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
-		[NotifyPropertyChangedInvocator]
+		
 		private void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
