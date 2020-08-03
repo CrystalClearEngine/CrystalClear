@@ -32,7 +32,11 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		public static void StopAllOfType(IEnumerator stepRoutineTypeToStop)
 		{
 			var toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
-			throw new NotImplementedException();
+
+			foreach (StepRoutineInfo stepRoutine in toStop)
+			{
+				stepRoutine.TryStop();
+			}
 		}
 
 		/// <summary>
