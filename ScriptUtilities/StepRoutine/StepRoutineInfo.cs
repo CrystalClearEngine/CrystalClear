@@ -28,6 +28,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			State = StepRoutineState.AttemptedStop;
 			CurrentWaitFor.Cancel();
+			// TODO: make sure to remove from StepRoutineManager's list of RunningStepRoutines when this happens...
 		}
 
 		public void Resume()
