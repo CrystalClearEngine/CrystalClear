@@ -136,7 +136,7 @@ namespace CrystalClear.HierarchySystem
 
 		public override bool Equals(object obj)
 		{
-			return (Equals(obj as Hierarchy));
+			return Equals(obj as Hierarchy);
 
 			//if (!(obj is Hierarchy))
 			//	return false;
@@ -150,7 +150,7 @@ namespace CrystalClear.HierarchySystem
 		public bool Equals(Hierarchy other)
 		{
 			return other != null &&
-				hierarchy.Equals(other.hierarchy) || (hierarchy.Count == 0 && other.hierarchy.Count == 0);
+				hierarchy.Equals(other.hierarchy) || hierarchy.Count == 0 && other.hierarchy.Count == 0;
 		}
 
 		public override int GetHashCode()
@@ -301,7 +301,7 @@ namespace CrystalClear.HierarchySystem
 
 		public override bool Equals(object obj)
 		{
-			return (Equals(obj as Hierarchy));
+			return Equals(obj as Hierarchy);
 
 			//if (!(obj is Hierarchy))
 			//	return false;
@@ -314,7 +314,7 @@ namespace CrystalClear.HierarchySystem
 
 		public bool Equals(Hierarchy<T> other)
 		{
-			return hierarchy.Equals(other.hierarchy) || (hierarchy.Count == 0 && other.hierarchy.Count == 0);
+			return hierarchy.Equals(other.hierarchy) || hierarchy.Count == 0 && other.hierarchy.Count == 0;
 		}
 
 		public override int GetHashCode()

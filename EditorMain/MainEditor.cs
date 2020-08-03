@@ -575,7 +575,7 @@ partial class MainClass
 			if (editorObjectSelectQuery.StartsWith("<"))
 			{
 				// Get the count of backsteps.
-				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => (c == '<')).Count();
+				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => c == '<').Count();
 
 				// Backstep.
 				for (int i = 0; i < backStepCount; i++)

@@ -16,16 +16,16 @@ namespace UnitTests
 			Vector v4 = new Vector(1f);
 
 			// Addition test.
-			Assert.IsTrue((v1 + v2 + v3 + v4).Axis[0] == (1f + 1f + 1f + 1f));
+			Assert.IsTrue((v1 + v2 + v3 + v4).Axis[0] == 1f + 1f + 1f + 1f);
 
 			// Subtraction test.
-			Assert.IsTrue((v1 - v2 - v3 - v4).Axis[0] == (1f - 1f - 1f - 1f));
+			Assert.IsTrue((v1 - v2 - v3 - v4).Axis[0] == 1f - 1f - 1f - 1f);
 
 			// Multiplication test.
-			Assert.IsTrue((v1 * v2 * v3 * v4).Axis[0] == (1f * 1f * 1f * 1f));
+			Assert.IsTrue((v1 * v2 * v3 * v4).Axis[0] == 1f * 1f * 1f * 1f);
 
 			// Subtraction test.
-			Assert.IsTrue((v1 / v2 / v3 / v4).Axis[0] == (1f / 1f / 1f / 1f));
+			Assert.IsTrue((v1 / v2 / v3 / v4).Axis[0] == 1f / 1f / 1f / 1f);
 
 			// Equality test.
 			Assert.IsTrue(v1 == new Vector(1f));

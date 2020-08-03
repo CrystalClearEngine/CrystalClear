@@ -91,7 +91,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			//}
 
 			if (usesImaginaryObjectUniqueIdentifier)
-				success = (imaginaryObjectUniqueIdentifier == reader.ReadInt32());
+				success = imaginaryObjectUniqueIdentifier == reader.ReadInt32();
 			else
 				success = null;
 
