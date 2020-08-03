@@ -20,7 +20,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		/// <summary>
-		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attatch the Script to the HierachyObject.
+		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attached the Script to the HierachyObject.
 		/// </summary>
 		/// <param name="script">The Script to add.</param>
 		public void AddScriptManually(Script script, string name = null)

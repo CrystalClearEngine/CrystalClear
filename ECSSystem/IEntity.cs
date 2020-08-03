@@ -8,7 +8,7 @@ namespace CrystalClear.ECS
 
 		public List<DataAttribute> Attributes { get; set; }
 
-		public void AttatchAttribute(DataAttribute attribute)
+		public void AttachedAttribute(DataAttribute attribute)
 		{
 			Attributes.Add(attribute);
 		}
