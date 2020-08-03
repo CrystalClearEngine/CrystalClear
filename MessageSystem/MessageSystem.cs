@@ -5,7 +5,6 @@ using System.Reflection;
 
 namespace CrystalClear.MessageSystem
 {
-
 	public static class MessageSystem
 	{
 		// TODO: add out parameter messageGotReceived
@@ -21,12 +20,9 @@ namespace CrystalClear.MessageSystem
 
 			IEnumerable<MethodInfo> messageReceivers = from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method;
 
-			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers select method.CreateDelegate(message.DelegateType, recipient);
-
-			foreach (Delegate item in toCall)
+			foreach (MethodInfo messageReceiver in messageReceivers)
 			{
-				// TODO: cast to Action<TMessage> or Action.MakeGeneric(message.GetType()) then invoke for better speed?
-				item.DynamicInvoke(message);
+				messageReceiver.Invoke(recipient, messageReceiver.GetParameters().Length == 0 ? null : new[] {message});
 			}
 		}
 
@@ -42,11 +38,9 @@ namespace CrystalClear.MessageSystem
 
 			IEnumerable<MethodInfo> messageReceivers = from MethodInfo method in recipient.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method;
 
-			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers select method.CreateDelegate(message.DelegateType);
-
-			foreach (Delegate item in toCall)
+			foreach (MethodInfo messageReceiver in messageReceivers)
 			{
-				item.DynamicInvoke(message);
+				messageReceiver.Invoke(recipient, messageReceiver.GetParameters().Length == 0 ? null : new[] {message});
 			}
 		}
 	}
