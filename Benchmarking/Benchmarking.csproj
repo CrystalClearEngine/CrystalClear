@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
+    <ProjectReference Include="..\MessageSystem\MessageSystem.csproj" />
   </ItemGroup>
 
 </Project>
