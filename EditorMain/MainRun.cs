@@ -6,7 +6,9 @@ using System;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Text;
+// ReSharper disable once RedundantUsingDirective
 using System.Diagnostics;
+// ReSharper disable once RedundantUsingDirective
 using static CrystalClear.EditorInformation;
 
 partial class MainClass
