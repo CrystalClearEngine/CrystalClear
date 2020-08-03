@@ -3,7 +3,7 @@
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
-	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attatched.
+	/// A HierarchyObject is an object that exists in a Hierarchy, can have child objects and which can have HierarchyScripts attached.
 	/// </summary>
 	public abstract partial class HierarchyObject
 	// TODO: should probably not only rewrite some of these methods, but also make HierarchyObject immutable or something.

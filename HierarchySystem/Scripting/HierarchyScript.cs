@@ -40,7 +40,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 			private set => hierarchyObject.SetTarget(value);
 		}
 
-		public Dictionary<string, Script> Scripts => HierarchyObject.AttatchedScripts;
+		public Dictionary<string, Script> Scripts => HierarchyObject.AttachedScripts;
 
 		public HierarchyObject Root => HierarchyObject.Root;
 
@@ -64,9 +64,9 @@ namespace CrystalClear.HierarchySystem.Scripting
 			return toCheck.IsSubclassOf(typeof(HierarchyScriptBase));
 		}
 
-		public static void SetUp(object scriptInstance, HierarchyObject attatchedTo)
+		public static void SetUp(object scriptInstance, HierarchyObject attachedTo)
 		{
-			scriptInstance.GetType().GetMethod("SetUp").Invoke(scriptInstance, new[] { attatchedTo });
+			scriptInstance.GetType().GetMethod("SetUp").Invoke(scriptInstance, new[] { attachedTo });
 		}
 	}
 }

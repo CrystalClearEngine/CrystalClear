@@ -21,18 +21,18 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{ }
 
 		// Has to be set before calling CreateInstance.
-		public HierarchyObject AttatchedTo;
+		public HierarchyObject AttachedTo;
 
 		[DataMember]
 		public ImaginaryObject ImaginaryObjectBase;
 
 		/// <summary>
-		/// Creates a Script instance using the construction data stored, as well as the optional attatchedTo HierarchyObject (required if the Script type is a HierarchyScript).
+		/// Creates a Script instance using the construction data stored, as well as the optional attachedTo HierarchyObject (required if the Script type is a HierarchyScript).
 		/// </summary>
 		/// <returns>The created Script instance.</returns>
 		public override object CreateInstance()
 		{
-			Script script = new Script(ImaginaryObjectBase, AttatchedTo);
+			Script script = new Script(ImaginaryObjectBase, AttachedTo);
 
 			return script;
 		}

@@ -10,7 +10,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			ImaginaryObjectBase = imaginaryHierarchyObject.ImaginaryObjectBase;
 
-			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
+			AttachedScripts = imaginaryHierarchyObject.AttachedScripts;
 			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
 
 			HierarchyName = name;

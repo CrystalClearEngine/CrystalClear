@@ -14,11 +14,11 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			writer.Write(dictionary.Count);
 
-			foreach (KeyValuePair<string, TValue> attatchedScript in dictionary)
+			foreach (KeyValuePair<string, TValue> attachedScript in dictionary)
 			{
-				writer.Write(attatchedScript.Key);
+				writer.Write(attachedScript.Key);
 
-				attatchedScript.Value.WriteConstructionInfo(writer);
+				attachedScript.Value.WriteConstructionInfo(writer);
 			}
 		}
 

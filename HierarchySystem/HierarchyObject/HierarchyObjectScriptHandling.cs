@@ -10,13 +10,13 @@ namespace CrystalClear.HierarchySystem
 		// Script Handling.
 
 		/// <summary>
-		/// The Scripts that are currently attatched to this object.
+		/// The Scripts that are currently attached to this object.
 		/// </summary>
-		public Dictionary<string, Script> AttatchedScripts = new Dictionary<string, Script>();
+		public Dictionary<string, Script> AttachedScripts = new Dictionary<string, Script>();
 
 		public void AddScript(string name, ImaginaryScript imaginaryScript)
 		{
-			AttatchedScripts.Add(name, (Script)imaginaryScript.CreateInstance());
+			AttachedScripts.Add(name, (Script)imaginaryScript.CreateInstance());
 		}
 
 		/// <summary>
@@ -27,24 +27,24 @@ namespace CrystalClear.HierarchySystem
 		{
 			if (name is null)
 			{
-				name = Utilities.EnsureUniqueName(script.ScriptType.Name, AttatchedScripts.Keys);
+				name = Utilities.EnsureUniqueName(script.ScriptType.Name, AttachedScripts.Keys);
 			}
 
-			AttatchedScripts.Add(name, script);
+			AttachedScripts.Add(name, script);
 		}
 
 		public void RemoveScript(string name)
 		{
-			new ScriptToBeRemoved().SendTo(AttatchedScripts[name]);
+			new ScriptToBeRemoved().SendTo(AttachedScripts[name]);
 
-			AttatchedScripts[name].UnsubscribeAll();
+			AttachedScripts[name].UnsubscribeAll();
 
-			AttatchedScripts.Remove(name);
+			AttachedScripts.Remove(name);
 		}
 
 		protected void RemoveAllScripts()
 		{
-			foreach (string scriptName in AttatchedScripts.Keys)
+			foreach (string scriptName in AttachedScripts.Keys)
 			{
 				RemoveScript(scriptName);
 			}

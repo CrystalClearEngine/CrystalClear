@@ -43,7 +43,7 @@ namespace UnitTests
 				{
 					new KeyValuePair<string, HierarchyObject>("Child", new ScriptObject()
 						{
-							AttatchedScripts =
+							AttachedScripts =
 							{
 								{ "Script", new Script(new ImaginaryConstructableObject(typeof(TestScript)), null) }
 							}

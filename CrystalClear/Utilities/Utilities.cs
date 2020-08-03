@@ -28,7 +28,7 @@ namespace CrystalClear
 		{
 			int i = 1;
 
-			// Repeat while name is already taken in AttatchedScripts.
+			// Repeat while name is already taken in AttachedScripts.
 			while (otherNames.Contains(baseName))
 			{
 				string OldDuplicateDecorator = $" ({i - 1})";

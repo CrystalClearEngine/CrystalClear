@@ -376,7 +376,7 @@ partial class MainClass
 				// TODO: use reflection to try and detail it anyways?
 			}
 
-			// TODO: add LocalHierarchy and AttatchedScripts information here.
+			// TODO: add LocalHierarchy and AttachedScripts information here.
 		}
 
 		// TODO: Make this support generics (generic HierarchyObjects) will also probably require a change to ImaginaryHierarchyObject. (Script equivalents too so they can support generic Scripts!)
@@ -439,14 +439,14 @@ partial class MainClass
 
 			if (name is null)
 			{
-				name = Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
+				name = Utilities.EnsureUniqueName(scriptType.Name, currentSelectedHierarchyObject.AttachedScripts.Keys);
 			}
-			else if (currentSelectedHierarchyObject.AttatchedScripts.ContainsKey(name))
+			else if (currentSelectedHierarchyObject.AttachedScripts.ContainsKey(name))
 			{
-				name = Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttatchedScripts.Keys);
+				name = Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.AttachedScripts.Keys);
 			}
 
-			currentSelectedHierarchyObject.AttatchedScripts.Add(name, CreateImaginaryScript(scriptType));
+			currentSelectedHierarchyObject.AttachedScripts.Add(name, CreateImaginaryScript(scriptType));
 
 			Output.Log($"Script {name} has been added!");
 
@@ -471,7 +471,7 @@ partial class MainClass
 
 		void RemoveScript(string name)
 		{
-			currentSelectedHierarchyObject.AttatchedScripts.Remove(name);
+			currentSelectedHierarchyObject.AttachedScripts.Remove(name);
 			Output.Log($"Script {name} has been removed.");
 		}
 

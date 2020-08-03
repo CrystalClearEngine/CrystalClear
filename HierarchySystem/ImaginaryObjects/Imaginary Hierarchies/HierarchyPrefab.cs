@@ -11,7 +11,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			ImaginaryObjectBase = imaginaryHierarchyObject.ImaginaryObjectBase;
 
-			AttatchedScripts = imaginaryHierarchyObject.AttatchedScripts;
+			AttachedScripts = imaginaryHierarchyObject.AttachedScripts;
 			LocalHierarchy = imaginaryHierarchyObject.LocalHierarchy;
 
 			PrefabName = name;
@@ -39,7 +39,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			ImaginaryObjectBase = imaginaryObject.ImaginaryObjectBase;
 
-			AttatchedScripts = imaginaryObject.AttatchedScripts;
+			AttachedScripts = imaginaryObject.AttachedScripts;
 			LocalHierarchy = imaginaryObject.LocalHierarchy;
 
 			PrefabName = imaginaryObject.PrefabName;

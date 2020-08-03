@@ -13,7 +13,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 	/// </summary>
 	public sealed class Script
 	{
-		public Script(ImaginaryObject scriptBase, HierarchyObject attatchedTo = null)
+		public Script(ImaginaryObject scriptBase, HierarchyObject attachedTo = null)
 		{
 			if (!IsScript(((IGeneralImaginaryObject)scriptBase).TypeData.GetConstructionType()))
 			{
@@ -26,7 +26,7 @@ namespace CrystalClear.HierarchySystem.Scripting
 
 			if (ScriptType.IsHierarchyScript())
 			{
-				HierarchyScript.SetUp(ScriptInstance, attatchedTo);
+				HierarchyScript.SetUp(ScriptInstance, attachedTo);
 			}
 
 			EventSystem.EventSystem.SubscribeEvents(ScriptType, ScriptInstance);

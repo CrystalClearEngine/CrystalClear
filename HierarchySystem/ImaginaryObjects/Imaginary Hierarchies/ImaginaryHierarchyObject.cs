@@ -37,7 +37,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// Contains the scripts which will be added to the HierarchyObject when an instance is created.
 		/// </summary>		
 		[DataMember]
-		public virtual Dictionary<string, ImaginaryScript> AttatchedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
+		public virtual Dictionary<string, ImaginaryScript> AttachedScripts { get; set; } = new Dictionary<string, ImaginaryScript>();
 
 		/// <summary>
 		/// Does not matter unless this ImaginaryObject is root.
@@ -110,10 +110,10 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 				hierarchyObject.AddChild(child.Key, (HierarchyObject)child.Value.CreateInstance());
 			}
 
-			foreach (KeyValuePair<string, ImaginaryScript> script in AttatchedScripts)
+			foreach (KeyValuePair<string, ImaginaryScript> script in AttachedScripts)
 			{
 				// TODO: make the api more consistent, AddScriptManually and AddChild take the name and value in different places!
-				script.Value.AttatchedTo = hierarchyObject;
+				script.Value.AttachedTo = hierarchyObject;
 				hierarchyObject.AddScriptManually((Script)script.Value.CreateInstance(), script.Key);
 			}
 
@@ -126,7 +126,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			ImaginaryObjectBase.WriteThis(writer);
 
-			WriteStringDictionary(AttatchedScripts, writer);
+			WriteStringDictionary(AttachedScripts, writer);
 
 			WriteStringDictionary(LocalHierarchy, writer);
 		}
@@ -135,7 +135,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			ImaginaryObjectBase = ReadImaginaryObject(reader, out _);
 
-			AttatchedScripts = ReadStringDictionary<ImaginaryScript>(reader);
+			AttachedScripts = ReadStringDictionary<ImaginaryScript>(reader);
 
 			LocalHierarchy = ReadStringDictionary<ImaginaryHierarchyObject>(reader);
 		}
