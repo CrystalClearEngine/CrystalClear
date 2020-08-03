@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
@@ -9,7 +10,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	/// <summary>
 	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that it can be created in the editor, serialized and finally deserialized and an instance can be created.
 	/// </summary>
-	[DataContract]
+	[DataContract] // TODO: wait does this support generic types? Don't think so, that should be resolved.
 	public sealed class ImaginaryConstructableObject : ImaginaryObject, IGeneralImaginaryObject
 	{
 		/// <summary>
@@ -35,22 +36,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		[DataMember]
 		public ImaginaryObject[] ImaginaryConstructionParameters;
 
-		public object[] GetImaginaryConstructionParameters()
-		{
-			object[] imaginaryConstructionParameters = new object[ImaginaryConstructionParameters.Length];
-
-			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
-			{
-				ImaginaryObject imaginaryObject = ImaginaryConstructionParameters[i];
-				imaginaryConstructionParameters[i] = imaginaryObject.CreateInstance();
-			}
-
-			return imaginaryConstructionParameters;
-		}
-
 		public override object CreateInstance()
 		{
-			return Activator.CreateInstance(TypeData.GetConstructionType(), GetImaginaryConstructionParameters());
+			return Activator.CreateInstance(TypeData.GetConstructionType(), ImaginaryConstructionParameters.ToArray());
 		}
 
 		/// <summary>
