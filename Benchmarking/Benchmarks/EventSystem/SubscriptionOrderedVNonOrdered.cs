@@ -4,7 +4,7 @@ using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
 using System.Reflection;
 
-namespace Benchmarks
+namespace Benchmarks.EventSystemBenchmarks
 {
 	[MemoryDiagnoser]
 	public class SubscriptionOrderedVNonOrdered
@@ -25,7 +25,7 @@ namespace Benchmarks
 			SubscribeEventsUnordered(GetType(), this);
 		}
 
-		public static void SubscribeEventsUnordered(Type typeToSubscribe, object instance)
+		private static void SubscribeEventsUnordered(Type typeToSubscribe, object instance)
 		{
 			foreach (MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
