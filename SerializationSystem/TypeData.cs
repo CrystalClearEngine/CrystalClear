@@ -42,7 +42,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		assemblyResolver: delegate (AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
 		{ // TODO: keep a list of all AssemblyLoadContexts and look through them instead, so all types can be detected?
 			// TODO: turn this whole call into an extension for Type?
-			foreach (var assembly in CrystalClearInformation.UserAssemblies)
+			foreach (Assembly assembly in CrystalClearInformation.UserAssemblies)
 			{
 				if (assembly.GetName().FullName == assemblyName.FullName)
 				{

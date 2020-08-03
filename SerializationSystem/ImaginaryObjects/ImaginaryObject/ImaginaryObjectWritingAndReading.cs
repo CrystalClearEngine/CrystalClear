@@ -25,7 +25,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public static Dictionary<string, TValue> ReadStringDictionary<TValue>(BinaryReader reader)
 			where TValue : ImaginaryObject
 		{
-			var dictionary = new Dictionary<string, TValue>();
+			Dictionary<string, TValue> dictionary = new Dictionary<string, TValue>();
 
 			for (int i = 0; i < reader.ReadInt32(); i++)
 			{

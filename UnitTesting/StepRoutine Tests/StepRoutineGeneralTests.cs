@@ -15,8 +15,8 @@ namespace UnitTests
 		[TestMethod]
 		public void SimpleStepRoutineStartTest()
 		{
-			var simpleStepRoutineInfo = SimpleStepRoutine().StartStepRoutine("SimpleStepRoutine");
-			var genericSimpleStepRoutineInfo = GenericSimpleStepRoutine().StartStepRoutine("GenericSimpleStepRoutine");
+			StepRoutineInfo simpleStepRoutineInfo = SimpleStepRoutine().StartStepRoutine("SimpleStepRoutine");
+			StepRoutineInfo genericSimpleStepRoutineInfo = GenericSimpleStepRoutine().StartStepRoutine("GenericSimpleStepRoutine");
 
 			Assert.IsFalse(SimpleStepRoutineWaitDone);
 			Assert.IsFalse(GenericSimpleStepRoutineWaitDone);

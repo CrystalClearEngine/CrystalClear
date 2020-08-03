@@ -31,7 +31,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		// TODO: Ensure that this is correct, that IEnumerators that run are equal to one not run etc.
 		public static void StopAllOfType(IEnumerator stepRoutineTypeToStop)
 		{
-			var toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
+			IEnumerable<StepRoutineInfo> toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
 
 			foreach (StepRoutineInfo stepRoutine in toStop)
 			{

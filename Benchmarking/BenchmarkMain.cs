@@ -18,7 +18,7 @@ namespace Benchmarks
 		{
 			Console.WriteLine("Running all benchmarks!");
 
-			foreach (var benchmark in benchmarks)
+			foreach (Type benchmark in benchmarks)
 			{
 				BenchmarkRunner.Run(benchmark, new DebugBuildConfig());
 			}

@@ -104,13 +104,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			hierarchyObject = (HierarchyObject)ImaginaryObjectBase.CreateInstance();
 
-			foreach (var child in LocalHierarchy)
+			foreach (KeyValuePair<string, ImaginaryHierarchyObject> child in LocalHierarchy)
 			{
 				child.Value.HierarchyObjectParent = hierarchyObject;
 				hierarchyObject.AddChild(child.Key, (HierarchyObject)child.Value.CreateInstance());
 			}
 
-			foreach (var script in AttatchedScripts)
+			foreach (KeyValuePair<string, ImaginaryScript> script in AttatchedScripts)
 			{
 				// TODO: make the api more consistent, AddScriptManually and AddChild take the name and value in different places!
 				script.Value.AttatchedTo = hierarchyObject;

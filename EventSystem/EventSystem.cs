@@ -2,6 +2,7 @@
 #define Editor
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -14,11 +15,11 @@ namespace CrystalClear.EventSystem
 		/// </summary>
 		public static void SubscribeEvents(Type typeToSubscribe, object instance)
 		{
-			var methodsToSubscribe = from MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
+			IEnumerable<(MethodInfo method, SubscribeToAttribute?)> methodsToSubscribe = from MethodInfo method in typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
 
 			methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
 
-			foreach(var methodToSubscribe in methodsToSubscribe)
+			foreach((MethodInfo method, SubscribeToAttribute?) methodToSubscribe in methodsToSubscribe)
 				methodToSubscribe.Item2.ScriptEvent.Subscribe(methodToSubscribe.method, instance);
 		}
 
@@ -68,11 +69,11 @@ namespace CrystalClear.EventSystem
 		{
 			foreach (Type type in types)
 			{
-				var methodsToSubscribe = from MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
+				IEnumerable<(MethodInfo method, SubscribeToAttribute?)> methodsToSubscribe = from MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<SubscribeToAttribute>() != null select (method, method.GetCustomAttribute<SubscribeToAttribute>());
 
 				methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
 
-				foreach (var methodToSubscribe in methodsToSubscribe)
+				foreach ((MethodInfo method, SubscribeToAttribute?) methodToSubscribe in methodsToSubscribe)
 					methodToSubscribe.Item2.ScriptEvent.Subscribe(methodToSubscribe.method, null);
 			}
 		}
