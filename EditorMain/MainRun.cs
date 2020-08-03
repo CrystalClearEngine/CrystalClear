@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 // ReSharper disable once RedundantUsingDirective
 using System.Diagnostics;
+using CrystalClear.Standard.HierarchyObjects;
 // ReSharper disable once RedundantUsingDirective
 using static CrystalClear.EditorInformation;
 
@@ -28,7 +29,7 @@ partial class MainClass
 		Output.Log();
 
 #if DEBUG
-		CrystalClearInformation.UserAssemblies = new[] { compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)) };
+		CrystalClearInformation.UserAssemblies = new[] { compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) };
 
 		RuntimeMain.RunWithImaginaryHierarchyObject(new[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
 
