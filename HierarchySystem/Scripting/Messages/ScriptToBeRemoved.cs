@@ -8,10 +8,6 @@ namespace CrystalClear.HierarchySystem.Scripting.Messages
 	/// </summary>
 	public class ScriptToBeRemoved : Message
 	{
-		public delegate void ScriptToBeRemovedDelegate(ScriptToBeRemoved message);
-
 		public override bool AllowStaticMethods => false;
-
-		public override Type DelegateType => typeof(ScriptToBeRemovedDelegate);
 	}
 }

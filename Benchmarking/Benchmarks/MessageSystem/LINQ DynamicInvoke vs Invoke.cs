@@ -11,7 +11,7 @@ namespace Benchmarks.MessageSystemBenchmarks
 	{
 		public delegate void SampleMessageDelegate(SampleMessage message);
 
-		public override Type DelegateType => typeof(SampleMessageDelegate);
+		public Type DelegateType => typeof(SampleMessageDelegate); // For LINQDynamicInvokeSender.
 	}
 	
 	[MemoryDiagnoser]
@@ -36,7 +36,7 @@ namespace Benchmarks.MessageSystemBenchmarks
 
 			IEnumerable<MethodInfo> messageReceivers = from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method;
 
-			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers select method.CreateDelegate(message.DelegateType, recipient);
+			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers select method.CreateDelegate(((SampleMessage)message).DelegateType, recipient);
 
 			foreach (Delegate item in toCall)
 			{

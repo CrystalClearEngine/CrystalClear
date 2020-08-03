@@ -47,8 +47,5 @@ namespace Scripts
 	class MyMessage : Message
 	{
 		public string Data;
-
-		delegate void MyMessageDelegate(MyMessage message);
-		public override Type DelegateType => typeof(MyMessageDelegate);
 	}
 }

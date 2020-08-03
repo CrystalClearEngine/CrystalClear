@@ -14,8 +14,6 @@ namespace CrystalClear.MessageSystem
 		/// </summary>
 		public virtual bool AllowInstanceMethods => true;
 
-		public abstract Type DelegateType { get; }
-
 		public void SendTo(object recipient)
 		{
 			recipient.SendMessage(this);
