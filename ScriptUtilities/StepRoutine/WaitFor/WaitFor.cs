@@ -2,7 +2,7 @@
 {
 	public abstract class WaitFor
 	{
-		// TODO: should this be allowd to be inherited from outside the assembly?
+		// TODO: should this be allowed to be inherited from outside the assembly?
 		// Internal to prevent inheritance from outside the assembly.
 		internal WaitFor()
 		{
