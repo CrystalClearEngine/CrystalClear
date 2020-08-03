@@ -14,7 +14,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		// TODO: use in instead of ref?
 		// TODO: add option to use ReflectionEquals as the equality comparator.
-		public WaitForVariable(ref object toCheck, object toWaitFor, ScriptEventBase checkOn)
+		public WaitForVariable(object toCheck, object toWaitFor, ScriptEventBase checkOn)
 		{
 			this.toCheck = toCheck;
 			this.toWaitFor = toWaitFor;
