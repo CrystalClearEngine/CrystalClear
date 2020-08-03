@@ -5,8 +5,6 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public class StepRoutineInfo
 	{
-		// TODO: add TryStop method.
-
 		public readonly int StepRoutineId;
 
 		public readonly string StepRoutineName;
@@ -34,6 +32,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public void Resume()
 		{
+			// TODO: finish
 			throw new NotImplementedException();
 			//CurrentWaitFor.Start();
 			//State = StepRoutineState.Running;
