@@ -35,7 +35,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			*/
 
 			// Create the proceeder delegate.
-			proceeder = new ScriptEventHandler( // TODO: make utility method that generates this exact delegate, or perhaps even have it as a property on WaitFor?
+			proceeder = new ScriptEventHandler(
 				delegate
 				{
 					StepRoutine.ProceedStepRoutine(stepRoutine);
