@@ -82,7 +82,7 @@ namespace CrystalClear.HierarchySystem
 		internal Hierarchy Hierarchy => Root.LocalHierarchy;
 
 		public string Path // TODO: document this.
-						   // TODO: use > insead of /?
+						   // DONE: use > insead of /
 		{
 			get
 			{
@@ -91,7 +91,7 @@ namespace CrystalClear.HierarchySystem
 				if (!IsRoot)
 				{
 					string parentPath = Parent.Path;
-					path = path.Insert(0, parentPath + @"\");
+					path = path.Insert(0, parentPath + @">");
 				}
 
 				return path;
