@@ -1,9 +1,8 @@
 ﻿TODO: decide on naming, either CrystalClear or Crystal Clear. Usage is currently split between the two.
 TODO: maybe use XMLSerializer instead of DataContractSerializer for extensibility reasons when serializing ImaginaryHierarchyObjects?
 TODO: a TODOs file for each project.
-TODO: add system to track at which verison breaking changes occur so users can be warned and updates can be performed.
+TODO: add system to track at which version breaking changes occur so users can be warned and updates can be performed.
 TODO: possibly rethink entire solution's structure, as it easily leads to circular dependencies.
 TODO: remove unnecessary comments.
 TODO: ensure that all files follow the same layout (where fields, constructors, methods etc go).
-TODO: the files in every project should be renamed to Readme.txt so that they show up properly in GitHub.
-TODO: add system that performs analysis such as finding recipient methods and ensuring they match the message delegate and don't use messages that aren't allowed for them, same with events and other things, then display it similarily to compiler errors.
+TODO: add system that performs analysis such as finding recipient methods and ensuring they match the message delegate and don't use messages that aren't allowed for them, same with events and other things, then display it similarly to compiler errors.
