@@ -1,11 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Reflection;
 
 namespace Benchmarks

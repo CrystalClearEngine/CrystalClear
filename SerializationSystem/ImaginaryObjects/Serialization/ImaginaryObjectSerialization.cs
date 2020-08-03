@@ -1,4 +1,5 @@
-﻿using K4os.Compression.LZ4.Streams;
+﻿// ReSharper disable once RedundantUsingDirective
+using K4os.Compression.LZ4.Streams;
 using System;
 using System.IO;
 using System.Runtime.Serialization;

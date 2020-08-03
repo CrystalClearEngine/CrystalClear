@@ -3,11 +3,9 @@ using CrystalClear.HierarchySystem;
 using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using System;
-using System.Diagnostics;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Text;
-using static CrystalClear.EditorInformation;
 
 partial class MainClass
 {
