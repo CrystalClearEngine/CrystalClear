@@ -1,4 +1,4 @@
-﻿// TODO: compile without this define for the standalone DLLS.
+﻿// TODO: compile without the Editor define for the standalone DLLS.
 
 #define Editor
 
