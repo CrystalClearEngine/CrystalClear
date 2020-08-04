@@ -37,7 +37,20 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		[DataMember] public TypeData TypeData { get; set; }
 
 		public override object CreateInstance() => Activator.CreateInstance(TypeData.GetConstructionType(),
-			ImaginaryConstructionParameters.ToArray());
+			GetImaginaryConstructionParameters());
+
+		public object[] GetImaginaryConstructionParameters()
+		{
+			object[] imaginaryConstructionParameters = new object[ImaginaryConstructionParameters.Length];
+
+			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
+			{
+				ImaginaryObject imaginaryObject = ImaginaryConstructionParameters[i];
+				imaginaryConstructionParameters[i] = imaginaryObject.CreateInstance();
+			}
+
+			return imaginaryConstructionParameters;
+		}
 
 		/// <summary>
 		///     Writes the construction info of the object using the provided BinaryWriter and encoding.
