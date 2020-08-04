@@ -9,7 +9,7 @@ using CrystalClear.EventSystem.StandardEvents;
 namespace Benchmarks.EventSystemBenchmarks
 {
 	[MemoryDiagnoser]
-	public class SubscriptionOrderedVNonOrdered
+	public class SubscriptionBenchmarks
 	{
 		[OnStartEvent]
 		public void OnStart()

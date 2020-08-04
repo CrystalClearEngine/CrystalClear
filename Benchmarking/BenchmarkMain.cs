@@ -10,8 +10,8 @@ namespace Benchmarks
 	{
 		private static readonly Type[] benchmarks =
 		{
-			typeof(SubscriptionOrderedVNonOrdered),
-			typeof(LINQ_DynamicInvoke_vs_Invoke),
+			typeof(SubscriptionBenchmarks),
+			typeof(SendMessageBenchmarks),
 		};
 
 		public static void Main()

@@ -15,7 +15,7 @@ namespace Benchmarks.MessageSystemBenchmarks
 	}
 
 	[MemoryDiagnoser]
-	public class LINQ_DynamicInvoke_vs_Invoke
+	public class SendMessageBenchmarks
 	{
 		[OnReceiveMessage(typeof(SampleMessage))]
 		public void MessageReceiver(SampleMessage message)
