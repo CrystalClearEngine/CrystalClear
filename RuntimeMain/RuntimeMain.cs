@@ -1,4 +1,9 @@
-﻿using System;
+﻿#define AllowDebug
+using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
+using CrystalClear.Standard.HierarchyObjects;
+using System;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Linq;
@@ -22,7 +27,8 @@ namespace CrystalClear.RuntimeMain
 				? AskQuestion("Please enter a UserGeneratedCode to use.")
 				: args[0];
 
-			var isDebug = args.Contains("--debug");
+#if AllowDebug
+			bool isDebug = args.Contains("--debug");
 
 			NamedPipeClientStream debugStream;
 
@@ -36,8 +42,9 @@ namespace CrystalClear.RuntimeMain
 
 				debugStream.Connect();
 
-				Console.WriteLine(ReadString(debugStream));
+				//Console.WriteLine(ReadString(debugStream));
 			}
+#endif
 
 			Assembly compiledAssembly = Assembly.LoadFrom(assemblyPath);
 
@@ -47,7 +54,9 @@ namespace CrystalClear.RuntimeMain
 				Environment.Exit(-2);
 			}
 
-			Run(new[] {compiledAssembly});
+			AppDomain.CurrentDomain.ProcessExit += (info, obj) => Stop();
+
+			Run(new Assembly[] { compiledAssembly });
 
 			// TODO: make the Main thread do something instead of wasting it.
 
@@ -64,35 +73,6 @@ namespace CrystalClear.RuntimeMain
 			goto ExitHandling;
 
 			#endregion
-
-			static string ReadString(PipeStream ioStream)
-			{
-				var len = 0;
-
-				len = ioStream.ReadByte() * 256;
-				len += ioStream.ReadByte();
-				byte[] inBuffer = new byte[len];
-				ioStream.Read(inBuffer, 0, len);
-
-				return Encoding.ASCII.GetString(inBuffer);
-			}
-
-			static int WriteString(PipeStream ioStream, string outString)
-			{
-				byte[] outBuffer = Encoding.ASCII.GetBytes(outString);
-				var len = outBuffer.Length;
-				if (len > ushort.MaxValue)
-				{
-					len = ushort.MaxValue;
-				}
-
-				ioStream.WriteByte((byte) (len / 256));
-				ioStream.WriteByte((byte) (len & 255));
-				ioStream.Write(outBuffer, 0, len);
-				ioStream.Flush();
-
-				return outBuffer.Length + 2;
-			}
 		}
 
 		private static void SubscribeAllStatic(params Assembly[] userAssemblies)
@@ -158,12 +138,12 @@ namespace CrystalClear.RuntimeMain
 		{
 			if (!IsRunning)
 			{
-				throw new Exception("Not running!");
+				return;
 			}
 
-			IsRunning = false;
-
 			StopEvent.Instance.RaiseEvent();
+
+			IsRunning = false;
 		}
 	}
 }
