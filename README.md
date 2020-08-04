@@ -17,7 +17,7 @@ The world in Crystal Clear is built up of HierarchyObjects. These magnificent be
 
 *Scripting*
 
-The brains of your game or software is scripts. HierarchyScripts are attatchable to HierarchyObjects, although all scripting does not have to be done in them. Static methods can be subscribed to events, and can work just as well.
+The brains of your game or software is scripts. HierarchyScripts are attachable to HierarchyObjects, although all scripting does not have to be done in them. Static methods can be subscribed to events, and can work just as well.
 
 The HierarchyScripting way of scripting is commonly known as component-based scripting, although this is not entierly accurate to how scripting works in Crystal Clear.
 
