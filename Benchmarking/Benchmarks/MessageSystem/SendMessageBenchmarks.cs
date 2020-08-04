@@ -20,9 +20,16 @@ namespace Benchmarks.MessageSystemBenchmarks
 		[OnReceiveMessage(typeof(SampleMessage))]
 		public void MessageReceiver(SampleMessage message)
 		{
-			
 		}
-		
+
+		[Benchmark(Baseline = true)] public void CurrentSendMessage() => new SampleMessage().SendTo(this);
+
+		[Benchmark]
+		public void Invoke()
+		{
+			new SampleMessage().SendTo(this);
+		}
+
 		[Benchmark]
 		public void LINQDynamicInvoke()
 		{
@@ -42,12 +49,6 @@ namespace Benchmarks.MessageSystemBenchmarks
 			{
 				item.DynamicInvoke(message);
 			}
-		}
-
-		[Benchmark]
-		public void Invoke()
-		{
-			new SampleMessage().SendTo(this);
 		}
 	}
 }
