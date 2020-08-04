@@ -4,16 +4,19 @@ namespace CrystalClear.ECS
 {
 	public abstract class SelectiveECSSystem : ECSSystem
 	{
-		private List<int> entitiesUnderControl = new List<int>();
+		private readonly List<int> entitiesUnderControl = new List<int>();
 
 		protected IEnumerable<IEntity> EnumerateEntities()
 		{
 			lock (entitiesUnderControl)
-				foreach (int id in entitiesUnderControl)
-					yield return ECSSystem.GetEntity(id);
+				foreach (var id in entitiesUnderControl)
+					yield return GetEntity(id);
 		}
 
-		protected void AddControlledEntity(IEntity entity) => AddControlledEntity(entity.EntityId);
+		protected void AddControlledEntity(IEntity entity)
+		{
+			AddControlledEntity(entity.EntityId);
+		}
 
 		protected void AddControlledEntity(int entityId)
 		{
@@ -21,7 +24,10 @@ namespace CrystalClear.ECS
 				entitiesUnderControl.Add(entityId);
 		}
 
-		protected void UncontrolEntity(IEntity entity) => UncontrolEntity(entity.EntityId);
+		protected void UncontrolEntity(IEntity entity)
+		{
+			UncontrolEntity(entity.EntityId);
+		}
 
 		protected void UncontrolEntity(int entityId)
 		{
@@ -34,4 +40,3 @@ namespace CrystalClear.ECS
 		public bool Controls(int entityId) => entitiesUnderControl.Contains(entityId);
 	}
 }
-

@@ -1,16 +1,18 @@
-﻿using CrystalClear.HierarchySystem;
+﻿using System.Collections.Generic;
+using CrystalClear.HierarchySystem;
 using CrystalClear.ScriptUtilities;
-using System.Collections.Generic;
 
 namespace CrystalClear.Standard.HierarchyObjects
 {
 	/// <summary>
-	/// A WorldObject is an HierarchyObject that has a Transform.
+	///     A WorldObject is an HierarchyObject that has a Transform.
 	/// </summary>
 	public class WorldObject : HierarchyObject
 	{
+		public Transform Transform;
+
 		/// <summary>
-		/// Creates a WorldObject with the provided Transform.
+		///     Creates a WorldObject with the provided Transform.
 		/// </summary>
 		/// <param name="transform">The transfrom to use.</param>
 		public WorldObject(Transform transform)
@@ -19,7 +21,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 		}
 
 		/// <summary>
-		/// Creates a new WorldObject and creates a Transform with all Vectors initialized with the axis as axis count.
+		///     Creates a new WorldObject and creates a Transform with all Vectors initialized with the axis as axis count.
 		/// </summary>
 		/// <param name="axis">The dimension for the Transform.</param>
 		public WorldObject(int axis)
@@ -28,7 +30,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 		}
 
 		/// <summary>
-		/// Creates a WorldObject with a 3D Transform.
+		///     Creates a WorldObject with a 3D Transform.
 		/// </summary>
 		public WorldObject()
 		{
@@ -44,10 +46,9 @@ namespace CrystalClear.Standard.HierarchyObjects
 				}
 			}
 
-			Transform = new Transform(new Vector(3), new Vector(3), new Vector(3), parent, childTransforms); ;
+			Transform = new Transform(new Vector(3), new Vector(3), new Vector(3), parent, childTransforms);
+			;
 		}
-
-		public Transform Transform;
 
 		protected override void OnLocalHierarchyChange()
 		{
@@ -65,6 +66,7 @@ namespace CrystalClear.Standard.HierarchyObjects
 					childTransforms.Add(transform);
 				}
 			}
+
 			// Set the child transforms to the temporary child Transform.
 			Transform.Children = childTransforms;
 		}

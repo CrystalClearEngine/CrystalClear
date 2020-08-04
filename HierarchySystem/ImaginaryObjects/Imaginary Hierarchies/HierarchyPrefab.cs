@@ -20,13 +20,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		private HierarchyPrefab()
-		{ }
+		{
+		}
 
-		[DataMember]
-		public string PrefabPath { get; set; }
+		[DataMember] public string PrefabPath { get; set; }
 
-		[DataMember]
-		public string PrefabName { get; private set; }
+		[DataMember] public string PrefabName { get; private set; }
 
 		public void Apply()
 		{
@@ -35,7 +34,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 		public void Revert()
 		{
-			HierarchyPrefab imaginaryObject = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(PrefabPath);
+			var imaginaryObject = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(PrefabPath);
 
 			ImaginaryObjectBase = imaginaryObject.ImaginaryObjectBase;
 
@@ -45,9 +44,6 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			PrefabName = imaginaryObject.PrefabName;
 		}
 
-		public ImaginaryHierarchyObject GetNonPrefab()
-		{
-			return (ImaginaryHierarchyObject)this;
-		}
+		public ImaginaryHierarchyObject GetNonPrefab() => this;
 	}
 }

@@ -7,21 +7,17 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public static class StepRoutineManager
 	{
-		private static Dictionary<int, StepRoutineInfo> runningStepRoutines = new Dictionary<int, StepRoutineInfo>();
+		private static readonly Dictionary<int, StepRoutineInfo> runningStepRoutines =
+			new Dictionary<int, StepRoutineInfo>();
 
-		private static Dictionary<string, int> nameToStepRoutineIdTranslator = new Dictionary<string, int>();
+		private static readonly Dictionary<string, int> nameToStepRoutineIdTranslator = new Dictionary<string, int>();
 
-		private static Random random = new Random();
+		private static readonly Random random = new Random();
 
-		public static StepRoutineInfo GetStepRoutine(int id)
-		{
-			return runningStepRoutines[id];
-		}
+		public static StepRoutineInfo GetStepRoutine(int id) => runningStepRoutines[id];
 
-		public static StepRoutineInfo GetStepRoutine(string name)
-		{
-			return runningStepRoutines[nameToStepRoutineIdTranslator[name]];
-		}
+		public static StepRoutineInfo GetStepRoutine(string name) =>
+			runningStepRoutines[nameToStepRoutineIdTranslator[name]];
 
 		public static void StopAllStepRoutines()
 		{
@@ -31,7 +27,9 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		// TODO: Ensure that this is correct, that IEnumerators that run are equal to one not run etc.
 		public static void StopAllOfType(IEnumerator stepRoutineTypeToStop)
 		{
-			IEnumerable<StepRoutineInfo> toStop = from StepRoutineInfo info in runningStepRoutines.Values where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop) select info;
+			IEnumerable<StepRoutineInfo> toStop = from StepRoutineInfo info in runningStepRoutines.Values
+				where info.StepRoutineEnumerable.Equals(stepRoutineTypeToStop)
+				select info;
 
 			foreach (StepRoutineInfo stepRoutine in toStop)
 			{
@@ -40,12 +38,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		}
 
 		/// <summary>
-		/// Registers a new StepRoutine, adding it to the database.
+		///     Registers a new StepRoutine, adding it to the database.
 		/// </summary>
 		/// <returns>The new StepRoutine's ID.</returns>
 		internal static StepRoutineInfo RegisterNewStepRoutine(IEnumerator stepRoutine, string name = null)
 		{
-			int id = GenerateNewId(name);
+			var id = GenerateNewId(name);
 
 			StepRoutineInfo stepRoutineInfo;
 
@@ -61,7 +59,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		private static int GenerateNewId(string name)
 		{
-			int proposedId = 0;
+			var proposedId = 0;
 
 			do
 			{

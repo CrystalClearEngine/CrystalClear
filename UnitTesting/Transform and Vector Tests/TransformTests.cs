@@ -10,8 +10,8 @@ namespace UnitTests
 		public void LocalPositionAndGlobalPositionUpdateTest()
 		{
 			// Initialization.
-			Transform baseTransform = new Transform(3);
-			Transform childTransform = new Transform(3);
+			var baseTransform = new Transform(3);
+			var childTransform = new Transform(3);
 
 			// Add childTransform to baseTransform.
 			baseTransform.AddChildTransform(childTransform);

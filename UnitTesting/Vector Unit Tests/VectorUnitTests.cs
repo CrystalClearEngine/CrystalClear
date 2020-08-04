@@ -10,10 +10,10 @@ namespace UnitTests
 		public void VectorOperatorTest()
 		{
 			// Initialization.
-			Vector v1 = new Vector(1f);
-			Vector v2 = new Vector(1f);
-			Vector v3 = new Vector(1f);
-			Vector v4 = new Vector(1f);
+			var v1 = new Vector(1f);
+			var v2 = new Vector(1f);
+			var v3 = new Vector(1f);
+			var v4 = new Vector(1f);
 
 			// Addition test.
 			Assert.IsTrue((v1 + v2 + v3 + v4).Axis[0] == 1f + 1f + 1f + 1f);

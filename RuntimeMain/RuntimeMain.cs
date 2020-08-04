@@ -1,24 +1,28 @@
-﻿using CrystalClear.EventSystem.StandardEvents;
-using CrystalClear.HierarchySystem;
-using CrystalClear.SerializationSystem.ImaginaryObjects;
-using CrystalClear.Standard.HierarchyObjects;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO.Pipes;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using CrystalClear.EventSystem.StandardEvents;
+using CrystalClear.HierarchySystem;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
+using CrystalClear.Standard.HierarchyObjects;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
 
 namespace CrystalClear.RuntimeMain
 {
 	public static class RuntimeMain
 	{
+		public static bool IsRunning;
+
 		public static void Main(string[] args)
 		{
-			string assemblyPath = string.IsNullOrEmpty(args[0]) ? AskQuestion("Please enter a UserGeneratedCode to use.") : args[0];
+			var assemblyPath = string.IsNullOrEmpty(args[0])
+				? AskQuestion("Please enter a UserGeneratedCode to use.")
+				: args[0];
 
-			bool isDebug = args.Contains("--debug");
+			var isDebug = args.Contains("--debug");
 
 			NamedPipeClientStream debugStream;
 
@@ -26,7 +30,7 @@ namespace CrystalClear.RuntimeMain
 			{
 				Debugger.Launch();
 
-				string pipeName = args[1];
+				var pipeName = args[1];
 
 				debugStream = new NamedPipeClientStream(pipeName);
 
@@ -43,11 +47,12 @@ namespace CrystalClear.RuntimeMain
 				Environment.Exit(-2);
 			}
 
-			Run(new Assembly[] { compiledAssembly });
+			Run(new[] {compiledAssembly});
 
 			// TODO: make the Main thread do something instead of wasting it.
 
 			#region Exit handling
+
 			ExitHandling:
 			if (Console.ReadKey().Key == ConsoleKey.Escape)
 			{
@@ -55,12 +60,14 @@ namespace CrystalClear.RuntimeMain
 				Stop();
 				Environment.Exit(1);
 			}
+
 			goto ExitHandling;
+
 			#endregion
 
 			static string ReadString(PipeStream ioStream)
 			{
-				int len = 0;
+				var len = 0;
 
 				len = ioStream.ReadByte() * 256;
 				len += ioStream.ReadByte();
@@ -73,21 +80,20 @@ namespace CrystalClear.RuntimeMain
 			static int WriteString(PipeStream ioStream, string outString)
 			{
 				byte[] outBuffer = Encoding.ASCII.GetBytes(outString);
-				int len = outBuffer.Length;
-				if (len > UInt16.MaxValue)
+				var len = outBuffer.Length;
+				if (len > ushort.MaxValue)
 				{
-					len = (int)UInt16.MaxValue;
+					len = ushort.MaxValue;
 				}
-				ioStream.WriteByte((byte)(len / 256));
-				ioStream.WriteByte((byte)(len & 255));
+
+				ioStream.WriteByte((byte) (len / 256));
+				ioStream.WriteByte((byte) (len & 255));
 				ioStream.Write(outBuffer, 0, len);
 				ioStream.Flush();
 
 				return outBuffer.Length + 2;
 			}
 		}
-
-		public static bool IsRunning = false;
 
 		private static void SubscribeAllStatic(params Assembly[] userAssemblies)
 		{
@@ -99,17 +105,21 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies, string hierarchyName, string hierarchyPath, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies, string hierarchyName,
+			string hierarchyPath, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
 				throw new Exception("Already running!");
 			}
 
-			RunWithImaginaryHierarchyObject(userAssemblies, hierarchyName, (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath), raiseStartEvent);
+			RunWithImaginaryHierarchyObject(userAssemblies, hierarchyName,
+				(ImaginaryHierarchyObject) ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath),
+				raiseStartEvent);
 		}
 
-		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies, string hierarchyName, ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
+		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies, string hierarchyName,
+			ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
 			{
@@ -117,7 +127,9 @@ namespace CrystalClear.RuntimeMain
 			}
 
 			#region Creating
-			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject)rootHierarchyObject.CreateInstance());
+
+			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject) rootHierarchyObject.CreateInstance());
+
 			#endregion
 
 			Run(userAssemblies, raiseStartEvent);

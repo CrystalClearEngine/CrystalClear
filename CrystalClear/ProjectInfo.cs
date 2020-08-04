@@ -9,18 +9,28 @@ namespace CrystalClear
 {
 	public class ProjectInfo
 	{
-		// TODO: add EditorData-like ProjectData storage for project specific preferences and data.
+		[XmlIgnore] public DirectoryInfo AssetsDirectory;
 
-		[XmlElement]
-		public Version ProjectCrystalClearVersion { get; set; } = new Version(0, 0, 0, 3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
+		[XmlIgnore] public DirectoryInfo BuildDirectory;
+
+		[XmlIgnore] public DirectoryInfo HierarchiesDirectory;
+
+		[XmlIgnore] public DirectoryInfo ProjectDirectory;
 
 		public string ProjectName;
 
-		[XmlIgnore]
-		public FileInfo ProjectFile => new FileInfo($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl");
+		[XmlIgnore] public DirectoryInfo ScriptsDirectory;
+
+		[XmlIgnore] public DirectoryInfo TempDirectory;
+		// TODO: add EditorData-like ProjectData storage for project specific preferences and data.
+
+		[XmlElement]
+		public Version ProjectCrystalClearVersion { get; set; } =
+			new Version(0, 0, 0,
+				3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
 
 		[XmlIgnore]
-		public DirectoryInfo ProjectDirectory;
+		public FileInfo ProjectFile => new FileInfo($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl");
 
 		public string Path
 		{
@@ -28,82 +38,43 @@ namespace CrystalClear
 			set => ProjectDirectory = new DirectoryInfo(value);
 		}
 
-		[XmlIgnore]
-		public DirectoryInfo ScriptsDirectory;
 		// TODO: make paths relative.
 		public string ScriptsPath
 		{
-			get
-			{
-				return ScriptsDirectory.FullName;
-			}
-			set
-			{
-				ScriptsDirectory = new DirectoryInfo(value);
-			}
+			get => ScriptsDirectory.FullName;
+			set => ScriptsDirectory = new DirectoryInfo(value);
 		}
 
-		[XmlIgnore]
-		public DirectoryInfo BuildDirectory;
 		public string BuildPath // TODO: should add / at end?
 		{
-			get
-			{
-				return BuildDirectory.FullName;
-			}
-			set
-			{
-				BuildDirectory = new DirectoryInfo(value);
-			}
+			get => BuildDirectory.FullName;
+			set => BuildDirectory = new DirectoryInfo(value);
 		}
 
-		[XmlIgnore]
-		public DirectoryInfo AssetsDirectory;
 		public string AssetsPath
 		{
-			get
-			{
-				return AssetsDirectory.FullName;
-			}
-			set
-			{
-				AssetsDirectory = new DirectoryInfo(value);
-			}
+			get => AssetsDirectory.FullName;
+			set => AssetsDirectory = new DirectoryInfo(value);
 		}
 
-		[XmlIgnore]
-		public DirectoryInfo HierarchiesDirectory;
 		public string HierarchyPath
 		{
-			get
-			{
-				return HierarchiesDirectory.FullName;
-			}
-			set
-			{
-				HierarchiesDirectory = new DirectoryInfo(value);
-			}
+			get => HierarchiesDirectory.FullName;
+			set => HierarchiesDirectory = new DirectoryInfo(value);
 		}
 
-		[XmlIgnore]
-		public DirectoryInfo TempDirectory;
 		public string TempPath
 		{
-			get
-			{
-				return HierarchiesDirectory.FullName;
-			}
-			set
-			{
-				HierarchiesDirectory = new DirectoryInfo(value);
-			}
+			get => HierarchiesDirectory.FullName;
+			set => HierarchiesDirectory = new DirectoryInfo(value);
 		}
 
 		#region Project Management
+
 		public static void SaveCurrentProject()
 		{
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
-			XmlWriter projectWriter = XmlWriter.Create(CurrentProject.ProjectFile.OpenWrite());
+			var xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
+			var projectWriter = XmlWriter.Create(CurrentProject.ProjectFile.OpenWrite());
 
 			xmlSerializer.Serialize(projectWriter, CurrentProject);
 		}
@@ -114,7 +85,7 @@ namespace CrystalClear
 
 			projectDirectory.Create();
 
-			ProjectInfo project = new ProjectInfo()
+			var project = new ProjectInfo
 			{
 				ProjectDirectory = projectDirectory,
 				ProjectName = projectName,
@@ -127,10 +98,10 @@ namespace CrystalClear
 			project.HierarchiesDirectory = projectDirectory.CreateSubdirectory(@"Hierarchies");
 			project.TempDirectory = projectDirectory.CreateSubdirectory(@"Temp");
 
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
+			var xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
 			using (FileStream fileStream = File.OpenWrite($@"{project.Path}\{project.ProjectName}.crcl"))
-			using (XmlWriter projectWriter = XmlWriter.Create(fileStream, new XmlWriterSettings() { Indent = true }))
+			using (var projectWriter = XmlWriter.Create(fileStream, new XmlWriterSettings {Indent = true}))
 			{
 				xmlSerializer.Serialize(projectWriter, project);
 			}
@@ -140,35 +111,38 @@ namespace CrystalClear
 
 		public static void OpenProject(string projectPath)
 		{
-			DirectoryInfo projectDirectory = new DirectoryInfo(projectPath);
+			var projectDirectory = new DirectoryInfo(projectPath);
 
 			if (!IsProject(projectDirectory))
 			{
 				throw new Exception("No project exists at this location.");
 			}
 
-			XmlSerializer xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
+			var xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
 			FileInfo[] crystalClearProjectFiles = projectDirectory.GetFiles("*.crcl");
 
 			if (crystalClearProjectFiles.Length > 1)
 			{
-				Output.Log($"There are multiple Crystal Clear project files in this project folder, defaulting to {crystalClearProjectFiles[0].Name}.");
+				Output.Log(
+					$"There are multiple Crystal Clear project files in this project folder, defaulting to {crystalClearProjectFiles[0].Name}.");
 			}
 
 			using (FileStream fileStream = crystalClearProjectFiles[0].OpenRead())
-			using (XmlReader reader = XmlReader.Create(fileStream))
+			using (var reader = XmlReader.Create(fileStream))
 			{
-				ProjectInfo loadedProject = (ProjectInfo)xmlSerializer.Deserialize(reader);
+				var loadedProject = (ProjectInfo) xmlSerializer.Deserialize(reader);
 
 				if (loadedProject.ProjectCrystalClearVersion < CrystalClearVersion)
 				{
-					Output.ErrorLog($"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
+					Output.ErrorLog(
+						$"{loadedProject.ProjectName} is from an older version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} < Current Crystal Clear Version: {CrystalClearVersion})");
 				}
 
 				else if (loadedProject.ProjectCrystalClearVersion > CrystalClearVersion)
 				{
-					Output.ErrorLog($"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
+					Output.ErrorLog(
+						$"{loadedProject.ProjectName} is from a newer version of Crystal Clear. (Project version: {loadedProject.ProjectCrystalClearVersion} > Current Crystal Clear Version: {CrystalClearVersion})");
 				}
 
 				CurrentProject = loadedProject;
@@ -201,11 +175,13 @@ namespace CrystalClear
 			if (changeFolderNameToMatch)
 			{
 				// TODO: unload UserGeneratedContent before this. It won't work otherwise.
-				CurrentProject.ProjectDirectory.MoveTo(Directory.GetParent(CurrentProject.ProjectDirectory.FullName).FullName + @"\" + newName);
+				CurrentProject.ProjectDirectory.MoveTo(
+					Directory.GetParent(CurrentProject.ProjectDirectory.FullName).FullName + @"\" + newName);
 			}
 
 			SaveCurrentProject();
 		}
+
 		#endregion
 	}
 }

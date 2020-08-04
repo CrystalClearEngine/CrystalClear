@@ -12,8 +12,7 @@ namespace CrystalClear.ScriptUtilities.Utilities
 				{
 					return;
 				}
-			}
-			while (true);
+			} while (true);
 		}
 	}
 
@@ -55,7 +54,8 @@ namespace CrystalClear.ScriptUtilities.Utilities
 			}
 			else
 				Console.Write(question + ": ");
-			string response = Console.ReadLine();
+
+			var response = Console.ReadLine();
 			return response;
 		}
 	}

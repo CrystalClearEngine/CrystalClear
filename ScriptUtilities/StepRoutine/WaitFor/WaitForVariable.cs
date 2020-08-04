@@ -4,13 +4,11 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	public sealed class WaitForVariable : WaitFor
 	{
-		object toCheck;
+		private readonly ScriptEventBase eventToCheckOn;
+		private readonly object toCheck;
 
-		object toWaitFor;
-
-		ScriptEventBase eventToCheckOn;
-
-		ScriptEventHandler checker;
+		private readonly object toWaitFor;
+		private ScriptEventHandler checker;
 
 		// TODO: use in instead of ref?
 		// TODO: add option to use ReflectionEquals as the equality comparator.
@@ -18,7 +16,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 		{
 			this.toCheck = toCheck;
 			this.toWaitFor = toWaitFor;
-			this.eventToCheckOn = checkOn;
+			eventToCheckOn = checkOn;
 		}
 
 		public override void Start(StepRoutineInfo stepRoutine)
@@ -30,8 +28,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			 */
 
 			// Create the checking and proceeding delegate.
-			checker = new ScriptEventHandler(
-			delegate
+			checker = delegate
 			{
 				if (toCheck is null && toWaitFor is null) // Both are null? Proceed.
 				{
@@ -39,15 +36,14 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 					return;
 				}
 
-				else if (toCheck is null || toWaitFor is null) // Only one is null? Not there yet.
+				if (toCheck is null || toWaitFor is null) // Only one is null? Not there yet.
 					return;
 
 				if (toCheck.Equals(eventToCheckOn))
 				{
 					StepRoutine.ProceedStepRoutine(stepRoutine);
-					return;
 				}
-			});
+			};
 
 			// Subscribe the checking and proceeding delegate to the event so that it is called when
 			// it is raised.

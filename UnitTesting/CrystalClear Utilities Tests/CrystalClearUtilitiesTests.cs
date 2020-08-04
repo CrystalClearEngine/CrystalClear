@@ -10,27 +10,33 @@ namespace UnitTests
 		public void SimpleReflectionEqualsTest()
 		{
 			{
-				TestObject testObjectA = new TestObject("Hello!");
-				TestObject testObjectB = new TestObject("Hello!");
+				var testObjectA = new TestObject("Hello!");
+				var testObjectB = new TestObject("Hello!");
 
-				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB), "If this check failed, that means that ReflectionEquals recognized two equal TestObjects as non-equal.");
+				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB),
+					"If this check failed, that means that ReflectionEquals recognized two equal TestObjects as non-equal.");
 			}
 
 			{
-				TestObject testObjectA = new TestObject("Hello!");
-				TestObject testObjectB = new TestObject("This is a different string.");
+				var testObjectA = new TestObject("Hello!");
+				var testObjectB = new TestObject("This is a different string.");
 
-				Assert.IsFalse(testObjectA.ReflectionEquals(testObjectB), "If this check failed, that means that ReflectionEquals recognized two non-equal TestObjects as equal.");
+				Assert.IsFalse(testObjectA.ReflectionEquals(testObjectB),
+					"If this check failed, that means that ReflectionEquals recognized two non-equal TestObjects as equal.");
 			}
 
 			{
-				TestObject testObjectA = new TestObject("Hey!", true);
-				TestObject testObjectB = new TestObject("Hey!", true);
+				var testObjectA = new TestObject("Hey!", true);
+				var testObjectB = new TestObject("Hey!", true);
 
-				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB), "If this check failed, that means that ReflectionEquals recognized two equal TestObjects as non-equal.");
-				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, includePrivate: true), "If this check failed, that means that the includePrivate parameter worked incorrectly.");
-				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, includePrivate: true, ignoreProperties: true), "If this check failed, that means that the includePrivate and/or ignoreProperties parameters worked incorrectly.");
-				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, ignoreProperties: true), "If this check failed, that means that the ignoreProperties parameter worked incorrectly.");
+				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB),
+					"If this check failed, that means that ReflectionEquals recognized two equal TestObjects as non-equal.");
+				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, true),
+					"If this check failed, that means that the includePrivate parameter worked incorrectly.");
+				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, true, true),
+					"If this check failed, that means that the includePrivate and/or ignoreProperties parameters worked incorrectly.");
+				Assert.IsTrue(testObjectA.ReflectionEquals(testObjectB, ignoreProperties: true),
+					"If this check failed, that means that the ignoreProperties parameter worked incorrectly.");
 			}
 		}
 	}

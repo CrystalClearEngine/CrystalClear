@@ -13,27 +13,26 @@ namespace CrystalClear.EventSystem
 			Event?.Invoke();
 		}
 
-		public Delegate[] GetSubscribers()
-		{
-			return Event?.GetInvocationList();
-		}
+		public Delegate[] GetSubscribers() => Event?.GetInvocationList();
 
 		#region Subscription Management
+
 		public void Subscribe(Delegate toSubscribe)
 		{
-			Event += (ScriptEventHandler)toSubscribe;
+			Event += (ScriptEventHandler) toSubscribe;
 		}
 
 		public void Subscribe(MethodInfo method, object instance)
 		{
 			Delegate @delegate = method.CreateDelegate(typeof(ScriptEventHandler), instance);
-			Event += (ScriptEventHandler)@delegate;
+			Event += (ScriptEventHandler) @delegate;
 		}
 
 		public void Unsubscribe(Delegate toUnsubscribe)
 		{
-			Event -= (ScriptEventHandler)toUnsubscribe;
+			Event -= (ScriptEventHandler) toUnsubscribe;
 		}
+
 		#endregion
 	}
 
@@ -41,10 +40,6 @@ namespace CrystalClear.EventSystem
 		: ScriptEventBase
 		where TInstance : new()
 	{
-		protected ScriptEvent() // For "new T()" and for deriving classes.
-		{
-		}
-
 		private static TInstance _instance;
 
 		public static TInstance Instance => _instance ?? (_instance = new TInstance());

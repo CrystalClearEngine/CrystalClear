@@ -8,22 +8,22 @@ namespace CrystalClear.EventSystem
 		: ScriptEvent<TInstance>
 		where TInstance : UpdatingScriptEvent<TInstance>, new()
 	{
+		// TODO: decide if these should be static.
+
+		private readonly Stopwatch stopwatch = new Stopwatch();
+
+		private Thread thread;
+
+		private Timer timer;
+
+		public static double DeltaTimeInSeconds => Instance.stopwatch.Elapsed.TotalSeconds;
+
+		public static TimeSpan DeltaTime => Instance.stopwatch.Elapsed;
+
 		~UpdatingScriptEvent()
 		{
 			timer?.Dispose();
 		}
-
-		// TODO: decide if these should be static.
-
-		private Stopwatch stopwatch = new Stopwatch();
-
-		private Timer timer;
-
-		private Thread thread;
-
-		public static double DeltaTimeInSeconds { get => Instance.stopwatch.Elapsed.TotalSeconds; }
-
-		public static TimeSpan DeltaTime { get => Instance.stopwatch.Elapsed; }
 
 		// TODO: add check so it can't Raise the event if it is already being raised from last time? Maybe an IsStillBeingRaised field in Instance?
 		public static void Start(TimeSpan interval = new TimeSpan())
@@ -32,8 +32,8 @@ namespace CrystalClear.EventSystem
 			if (interval != TimeSpan.Zero)
 			{
 				// TODO: determine if a timer is suitable for this at all.
-				Instance.timer = new Timer((object obj)
-					=>
+				Instance.timer = new Timer(obj
+						=>
 					{
 						Instance.RaiseEvent();
 						Instance.stopwatch.Restart();

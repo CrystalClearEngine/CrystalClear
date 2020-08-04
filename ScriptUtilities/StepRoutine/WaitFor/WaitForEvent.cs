@@ -1,24 +1,25 @@
-﻿using CrystalClear.EventSystem;
-using System;
+﻿using System;
 using System.Reflection;
+using CrystalClear.EventSystem;
 
 namespace CrystalClear.ScriptUtilities.StepRoutines
 {
 	/// <summary>
-	/// Waits for an event to be raised, then proceeds the StepRoutine.
+	///     Waits for an event to be raised, then proceeds the StepRoutine.
 	/// </summary>
 	public sealed class WaitForEvent : WaitFor
 	{
-		ScriptEventBase eventToWaitFor;
+		private readonly ScriptEventBase eventToWaitFor;
 
-		ScriptEventHandler proceeder; // A delegate that will simply call ProceedStepRoutine. It is a field so that Cancel and Cleanup can access it.
+		private ScriptEventHandler
+			proceeder; // A delegate that will simply call ProceedStepRoutine. It is a field so that Cancel and Cleanup can access it.
 
 		public WaitForEvent(Type scriptEventType)
 		{
 			eventToWaitFor =
-				(ScriptEventBase)scriptEventType // TODO: make this into a utility method somewhere.
-				.GetProperty("Instance", bindingAttr: BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-				.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
+				(ScriptEventBase) scriptEventType // TODO: make this into a utility method somewhere.
+					.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+					.GetValue(null); // TODO: add an ISingleton<maybe T> that we can then do GetInstance from instead of this.
 		}
 
 		public WaitForEvent(ScriptEventBase scriptEvent)
@@ -35,11 +36,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			*/
 
 			// Create the proceeder delegate.
-			proceeder = new ScriptEventHandler(
-				delegate
-				{
-					StepRoutine.ProceedStepRoutine(stepRoutine);
-				});
+			proceeder = delegate { StepRoutine.ProceedStepRoutine(stepRoutine); };
 
 			// Subscribe the delegate to the event so it will be called when the event is raised.
 			eventToWaitFor.Subscribe(proceeder);

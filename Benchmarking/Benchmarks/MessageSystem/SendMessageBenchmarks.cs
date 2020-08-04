@@ -13,7 +13,7 @@ namespace Benchmarks.MessageSystemBenchmarks
 
 		public Type DelegateType => typeof(SampleMessageDelegate); // For LINQDynamicInvokeSender.
 	}
-	
+
 	[MemoryDiagnoser]
 	public class LINQ_DynamicInvoke_vs_Invoke
 	{
@@ -22,7 +22,11 @@ namespace Benchmarks.MessageSystemBenchmarks
 		{
 		}
 
-		[Benchmark(Baseline = true)] public void CurrentSendMessage() => new SampleMessage().SendTo(this);
+		[Benchmark(Baseline = true)]
+		public void CurrentSendMessage()
+		{
+			new SampleMessage().SendTo(this);
+		}
 
 		[Benchmark]
 		public void Invoke()
@@ -41,9 +45,14 @@ namespace Benchmarks.MessageSystemBenchmarks
 			if (!message.AllowInstanceMethods)
 				return;
 
-			IEnumerable<MethodInfo> messageReceivers = from MethodInfo method in recipient.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic) where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType() select method;
+			IEnumerable<MethodInfo> messageReceivers =
+				from MethodInfo method in recipient.GetType()
+					.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType()
+				select method;
 
-			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers select method.CreateDelegate(((SampleMessage)message).DelegateType, recipient);
+			IEnumerable<Delegate> toCall = from MethodInfo method in messageReceivers
+				select method.CreateDelegate(((SampleMessage) message).DelegateType, recipient);
 
 			foreach (Delegate item in toCall)
 			{

@@ -9,6 +9,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	// TODO: is all the data verification neccessary? The likelyhood of a bit-flip is low. Perhaps a checksum check is sufficent.
 	public abstract partial class ImaginaryObject
 	{
+		private static int totalWrittenImaginaryObjects;
+
 		public static void WriteStringDictionary<TValue>(Dictionary<string, TValue> dictionary, BinaryWriter writer)
 			where TValue : IBinarySerializable
 		{
@@ -27,39 +29,40 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			Dictionary<string, TValue> dictionary = new Dictionary<string, TValue>();
 
-			for (int i = 0; i < reader.ReadInt32(); i++)
+			for (var i = 0; i < reader.ReadInt32(); i++)
 			{
-				dictionary.Add(reader.ReadString(), (TValue)ReadImaginaryObject(reader, out _));
+				dictionary.Add(reader.ReadString(), (TValue) ReadImaginaryObject(reader, out _));
 			}
 
 			return dictionary;
 		}
-
-		private delegate ImaginaryObject CreateImaginaryObjectDelegate();
 
 		private static ImaginaryObject ReadEmptyImaginaryObject(BinaryReader reader)
 		{
 			// TODO: use cache for the generated method.
 
 			// Create a DynamicMethod that returns a new instance of the encoded type.
-			Type imaginaryObjectType = Type.GetType(reader.ReadString());
+			var imaginaryObjectType = Type.GetType(reader.ReadString());
 			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(new Type[0]);
 
 			if (constructor is null)
 			{
-				throw new Exception($"{imaginaryObjectType.FullName} does not have an empty constructor, which is required.");
+				throw new Exception(
+					$"{imaginaryObjectType.FullName} does not have an empty constructor, which is required.");
 			}
 
 			MethodInfo readConstructionInfoMethod = imaginaryObjectType.GetMethod("ReadConstructionInfo");
 			MethodInfo createInstanceMethod = imaginaryObjectType.GetMethod("CreateInstance");
 
-			DynamicMethod dynamicMethod = new DynamicMethod("CreateImaginaryObject", typeof(ImaginaryObject), Array.Empty<Type>());
+			var dynamicMethod =
+				new DynamicMethod("CreateImaginaryObject", typeof(ImaginaryObject), Array.Empty<Type>());
 			ILGenerator generator = dynamicMethod.GetILGenerator();
 
 			generator.Emit(OpCodes.Newobj, constructor);
 			generator.Emit(OpCodes.Ret);
 
-			return ((CreateImaginaryObjectDelegate)dynamicMethod.CreateDelegate(typeof(CreateImaginaryObjectDelegate)))();
+			return ((CreateImaginaryObjectDelegate) dynamicMethod.CreateDelegate(
+				typeof(CreateImaginaryObjectDelegate)))();
 		}
 
 		private static void WriteImaginaryObjectType(Type imaginaryObjectType, BinaryWriter writer)
@@ -68,13 +71,13 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		/// <summary>
-		/// Reads an ImaginaryObject from the current position of the reader.
+		///     Reads an ImaginaryObject from the current position of the reader.
 		/// </summary>
 		public static ImaginaryObject ReadImaginaryObject(BinaryReader reader, out bool? success)
 		{
-			int imaginaryObjectUniqueIdentifier = 0;
+			var imaginaryObjectUniqueIdentifier = 0;
 
-			bool usesImaginaryObjectUniqueIdentifier = reader.ReadBoolean();
+			var usesImaginaryObjectUniqueIdentifier = reader.ReadBoolean();
 
 			if (usesImaginaryObjectUniqueIdentifier)
 				imaginaryObjectUniqueIdentifier = reader.ReadInt32();
@@ -98,13 +101,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			return imaginaryObject;
 		}
 
-		private static int totalWrittenImaginaryObjects = 0;
-
-		public static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer, bool writeImaginaryObjectUniqueIdentifier = true)
+		public static void WriteImaginaryObject(ImaginaryObject imaginaryObject, BinaryWriter writer,
+			bool writeImaginaryObjectUniqueIdentifier = true)
 		{
 			writer.Write(writeImaginaryObjectUniqueIdentifier);
 
-			int imaginaryObjectUniqueIdentifier = 0;
+			var imaginaryObjectUniqueIdentifier = 0;
 			if (writeImaginaryObjectUniqueIdentifier)
 			{
 				imaginaryObjectUniqueIdentifier = totalWrittenImaginaryObjects;
@@ -131,5 +133,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			totalWrittenImaginaryObjects++;
 		}
+
+		private delegate ImaginaryObject CreateImaginaryObjectDelegate();
 	}
 }

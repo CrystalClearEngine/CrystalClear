@@ -10,12 +10,12 @@ namespace UnitTests
 		[TestMethod]
 		public void TestImaginaryObject()
 		{
-			TestObject testObject = new TestObject("Hello!");
+			var testObject = new TestObject("Hello!");
 
 			ImaginaryObject imaginaryObject = new ImaginaryConstructableObject(typeof(TestObject),
-														 new ImaginaryObject[] { new ImaginaryPrimitive("Hello!") });
+				new ImaginaryObject[] {new ImaginaryPrimitive("Hello!")});
 
-			TestObject createdTestObject = (TestObject)imaginaryObject.CreateInstance();
+			var createdTestObject = (TestObject) imaginaryObject.CreateInstance();
 
 			Assert.IsTrue(testObject.Equals(createdTestObject));
 

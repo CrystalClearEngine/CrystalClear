@@ -5,29 +5,34 @@ using System.Runtime.Serialization;
 
 namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
-	[EditorBrowsable(EditorBrowsableState.Never)] // TODO: determine whether or not this will also hide the contained extension methods, in which case it should be removed.
-	public static class ImaginaryPrimitiveExtensions // Extensions are kept here because they cannot be placed in the generic ImaginaryPrimitive class.
+	[EditorBrowsable(EditorBrowsableState
+		.Never)] // TODO: determine whether or not this will also hide the contained extension methods, in which case it should be removed.
+	public static class
+		ImaginaryPrimitiveExtensions // Extensions are kept here because they cannot be placed in the generic ImaginaryPrimitive class.
 	{
-		public static bool QualifiesAsPrimitive(this object valueToCheck)
-			=> QualifiesAsPrimitive(valueToCheck.GetType());
+		public static bool QualifiesAsPrimitive(this object valueToCheck) =>
+			QualifiesAsPrimitive(valueToCheck.GetType());
 
-		public static bool QualifiesAsPrimitive(this Type type)
-			=> type.IsPrimitive
-				|| type == typeof(string)
-				|| !type.IsEnum
-				|| type.IsAssignableFrom(typeof(string))
-				|| type.IsAssignableFrom(typeof(IFormattable))
-				|| type.IsAssignableFrom(typeof(IConvertible));
+		public static bool QualifiesAsPrimitive(this Type type) =>
+			type.IsPrimitive
+			|| type == typeof(string)
+			|| !type.IsEnum
+			|| type.IsAssignableFrom(typeof(string))
+			|| type.IsAssignableFrom(typeof(IFormattable))
+			|| type.IsAssignableFrom(typeof(IConvertible));
 	}
 
 	[DataContract]
 	public sealed class ImaginaryPrimitive : ImaginaryObject, IGeneralImaginaryObject
 	{
+		[DataMember] public object PrimitiveObjectValue;
+
 		public ImaginaryPrimitive(object value)
 		{
 			if (!value.QualifiesAsPrimitive())
 			{
-				throw new ArgumentException($"{value.GetType().FullName} does not qualify as an ImaginaryPrimitive."); // TODO: use custom exception.
+				throw new ArgumentException(
+					$"{value.GetType().FullName} does not qualify as an ImaginaryPrimitive."); // TODO: use custom exception.
 			}
 
 			TypeData = new TypeData(value.GetType());
@@ -39,13 +44,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 		}
 
-		[DataMember]
-		public TypeData TypeData { get; set; }
-
-		[DataMember]
-		public object PrimitiveObjectValue;
-
 		public string StringValue => Convert.ToString(PrimitiveObjectValue);
+
+		[DataMember] public TypeData TypeData { get; set; }
 
 		public override string ToString() => StringValue;
 

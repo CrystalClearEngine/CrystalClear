@@ -3,11 +3,16 @@
 namespace CrystalClear.HierarchySystem
 {
 	/// <summary>
-	/// HierarchyRoot is a custom HierarchyObject type specifically designed to be at the root of a regular Hierarchy.
+	///     HierarchyRoot is a custom HierarchyObject type specifically designed to be at the root of a regular Hierarchy.
 	/// </summary>
 	[HiddenHierarchyObject]
 	public class HierarchyRoot : HierarchyObject
 	{
+		// The name of a HierarchyRoot is stored in the HierarchyManager in LoadedHierarchies.
+		public new string Name => HierarchyManager.GetHierarchyName(this);
+
+		// Refer HierarchyObjects to LocalHierarchy instead.
+		public Hierarchy HierarchyObjects => LocalHierarchy;
 #pragma warning disable IDE0051 // Remove unused private members
 		// This has to be true, since a HierarchyRoot has to be at the root of the Hierarchy.
 		private new bool IsRoot => true;
@@ -16,22 +21,7 @@ namespace CrystalClear.HierarchySystem
 		public new HierarchyObject Parent => null;
 
 		// This HierarchyObject has to be the root.
-		private new HierarchyObject Root
-		{
-			get => this;
-		}
+		private new HierarchyObject Root => this;
 #pragma warning restore IDE0051 // Remove unused private members
-
-		// The name of a HierarchyRoot is stored in the HierarchyManager in LoadedHierarchies.
-		public new string Name
-		{
-			get
-			{
-				return HierarchyManager.GetHierarchyName(this);
-			}
-		}
-
-		// Refer HierarchyObjects to LocalHierarchy instead.
-		public Hierarchy HierarchyObjects => LocalHierarchy;
 	}
 }

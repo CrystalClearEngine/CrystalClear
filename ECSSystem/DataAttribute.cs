@@ -3,6 +3,5 @@
 	// DONE: implemented :D
 	public abstract class DataAttribute
 	{
-		
 	}
 }

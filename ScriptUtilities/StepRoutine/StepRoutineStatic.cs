@@ -30,7 +30,6 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			else
 			{
 				stepRoutine.State = StepRoutineState.Finished;
-				return;
 			}
 		}
 	}

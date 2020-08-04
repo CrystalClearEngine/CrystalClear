@@ -17,7 +17,7 @@ namespace UnitTests
 		[TestMethod]
 		public void WorldObjectChildren()
 		{
-			WorldObject worldObject = new WorldObject();
+			var worldObject = new WorldObject();
 			worldObject.AddChild("child", new WorldObject());
 		}
 
@@ -31,7 +31,7 @@ namespace UnitTests
 			const string Child3Name = "nonWorldObjectChild";
 
 			// Initialize the parent WorldObject.
-			WorldObject worldObject = new WorldObject();
+			var worldObject = new WorldObject();
 
 			// Add the zeroth child to the parent WorldObject.
 			worldObject.AddChild(Child0Name, new WorldObject());

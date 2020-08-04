@@ -9,13 +9,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public readonly string StepRoutineName;
 
-		public IEnumerator StepRoutineEnumerable => stepRoutineWeakRef.TryGetTargetExt();
-
 		private readonly WeakReference<IEnumerator> stepRoutineWeakRef = new WeakReference<IEnumerator>(null);
-
-		public StepRoutineState State { get; internal set; } = StepRoutineState.NotStarted;
-
-		public WaitFor CurrentWaitFor => (WaitFor)StepRoutineEnumerable.Current;
 
 		public StepRoutineInfo(int stepRoutineId, string stepRoutineName, IEnumerator stepRoutine)
 		{
@@ -23,6 +17,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			StepRoutineName = stepRoutineName;
 			stepRoutineWeakRef.SetTarget(stepRoutine);
 		}
+
+		public IEnumerator StepRoutineEnumerable => stepRoutineWeakRef.TryGetTargetExt();
+
+		public StepRoutineState State { get; internal set; } = StepRoutineState.NotStarted;
+
+		public WaitFor CurrentWaitFor => (WaitFor) StepRoutineEnumerable.Current;
 
 		public void TryStop()
 		{

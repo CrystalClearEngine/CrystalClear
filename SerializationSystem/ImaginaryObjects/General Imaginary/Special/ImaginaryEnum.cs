@@ -6,6 +6,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 {
 	public sealed class ImaginaryEnum : ImaginaryObject, IGeneralImaginaryObject
 	{
+		private string enumValue;
+
 		public ImaginaryEnum(Type constructionType, string enumValue)
 		{
 			TypeData = new TypeData(constructionType);
@@ -16,15 +18,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 		}
 
-		[DataMember]
-		public TypeData TypeData { get; set; }
+		[DataMember] public TypeData TypeData { get; set; }
 
-		private string enumValue;
-
-		public override object CreateInstance()
-		{
-			return Enum.Parse(TypeData.GetConstructionType(), enumValue);
-		}
+		public override object CreateInstance() => Enum.Parse(TypeData.GetConstructionType(), enumValue);
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{

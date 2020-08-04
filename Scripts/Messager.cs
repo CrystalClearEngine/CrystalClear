@@ -2,21 +2,20 @@
 using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.MessageSystem;
 using CrystalClear.ScriptUtilities;
-using System;
 
 namespace Scripts
 {
 	[IsScript]
-	class Messager
+	internal class Messager
 	{
 		[OnStartEvent]
-		void SendMessage()
+		private void SendMessage()
 		{
-			Recipient recipient = new Recipient();
+			var recipient = new Recipient();
 
-			MyMessage myMessage = new MyMessage()
+			var myMessage = new MyMessage
 			{
-				Data = "MyData"
+				Data = "MyData",
 			};
 
 			Output.Log("Sending message.");
@@ -27,24 +26,24 @@ namespace Scripts
 		}
 	}
 
-	class Recipient
+	internal class Recipient
 	{
 		[OnReceiveMessage(typeof(MyMessage))]
-		void ReceiveMyMessage(MyMessage myMessage)
+		private void ReceiveMyMessage(MyMessage myMessage)
 		{
 			Output.Log("Received MyMessage!");
 			Output.Log("Data: " + myMessage.Data);
 		}
 
 		[OnReceiveMessage(typeof(MyMessage))]
-		static void StaticReceiveMyMessage(MyMessage myMessage)
+		private static void StaticReceiveMyMessage(MyMessage myMessage)
 		{
 			Output.Log("Received MyMessage in static method!");
 			Output.Log("Data: " + myMessage.Data);
 		}
 	}
 
-	class MyMessage : Message
+	internal class MyMessage : Message
 	{
 		public string Data;
 	}

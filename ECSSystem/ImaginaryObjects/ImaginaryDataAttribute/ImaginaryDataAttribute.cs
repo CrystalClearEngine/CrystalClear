@@ -1,15 +1,12 @@
-﻿using CrystalClear.SerializationSystem.ImaginaryObjects;
-using System;
+﻿using System;
 using System.IO;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 
 namespace CrystalClear.ECS.ImaginaryObjects.ImaginaryDataAttribute
 {
-	class ImaginaryDataAttribute : ImaginaryObject
+	internal class ImaginaryDataAttribute : ImaginaryObject
 	{
-		public override object CreateInstance()
-		{
-			throw new NotImplementedException();
-		}
+		public override object CreateInstance() => throw new NotImplementedException();
 
 		protected override void ReadConstructionInfo(BinaryReader reader)
 		{

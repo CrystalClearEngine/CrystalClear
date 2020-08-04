@@ -1,15 +1,15 @@
-﻿using CrystalClear.ECS;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CrystalClear.ECS;
 
 namespace CrystalClear.HierarchySystem
 {
 	public partial class HierarchyObject
 		: IEntity
 	{
+		public int ParentEntityId => Parent.EntityId;
+
 		// Mixed/Hybrid ECS.
 		public int EntityId { get; }
-
-		public int ParentEntityId { get => Parent.EntityId; }
 
 		public List<DataAttribute> Attributes { get; set; }
 	}

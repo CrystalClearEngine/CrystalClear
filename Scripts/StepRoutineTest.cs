@@ -1,11 +1,11 @@
-﻿using CrystalClear;
+﻿using System.Collections;
+using CrystalClear;
 using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.ScriptUtilities.StepRoutines;
 using CrystalClear.Standard.Events;
 using CrystalClear.Standard.HierarchyObjects;
-using System.Collections;
 
 namespace Scripts
 {
@@ -15,7 +15,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunMyStepRoutine()
 		{
-			StepRoutine.StartStepRoutine(MyStepRoutine());
+			MyStepRoutine().StartStepRoutine();
 			FrameUpdateEvent.Instance.RaiseEvent();
 			TestEvent.Instance.RaiseEvent();
 		}
@@ -25,15 +25,15 @@ namespace Scripts
 			Output.Log("Before frame update");
 			yield return new WaitForEvent(typeof(FrameUpdateEvent)); // This and...
 			Output.Log("After frame update");
-			yield return new WaitForEvent(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
+			yield return
+				new WaitForEvent(TestEvent.Instance); // ...this are both valid options for Singleton Script Events!
 			Output.Log("After test event class");
-			yield break;
 		}
 
 		[OnStartEvent]
 		public void RunFrameUpdateStepRoutine()
 		{
-			StepRoutine.StartStepRoutine(FrameStepRoutine());
+			FrameStepRoutine().StartStepRoutine();
 		}
 
 		private IEnumerator FrameStepRoutine()
@@ -49,7 +49,7 @@ namespace Scripts
 		[OnStartEvent]
 		public void RunPhysicsStepStepRoutine()
 		{
-			StepRoutine.StartStepRoutine(PhysicsStepRoutine());
+			PhysicsStepRoutine().StartStepRoutine();
 		}
 
 		private IEnumerator PhysicsStepRoutine()

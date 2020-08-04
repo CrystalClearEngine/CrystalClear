@@ -8,13 +8,19 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	// TODO: Constructable or Constructible?
 
 	/// <summary>
-	/// An ImaginaryObject is an object that stores the construction or editor data for the object so that it can be created in the editor, serialized and finally deserialized and an instance can be created.
+	///     An ImaginaryObject is an object that stores the construction or editor data for the object so that it can be
+	///     created in the editor, serialized and finally deserialized and an instance can be created.
 	/// </summary>
 	[DataContract] // TODO: wait does this support generic types? Don't think so, that should be resolved.
 	public sealed class ImaginaryConstructableObject : ImaginaryObject, IGeneralImaginaryObject
 	{
 		/// <summary>
-		/// Creates an ImaginaryObject with the specified type and constructor parameters.
+		///     The parameters to be used when constructing the object.
+		/// </summary>
+		[DataMember] public ImaginaryObject[] ImaginaryConstructionParameters;
+
+		/// <summary>
+		///     Creates an ImaginaryObject with the specified type and constructor parameters.
 		/// </summary>
 		/// <param name="constructionType">The type of object to represent.</param>
 		/// <param name="constructorParameters">The constructor parameters to use initially.</param>
@@ -25,24 +31,16 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		public ImaginaryConstructableObject()
-		{ }
-
-		[DataMember]
-		public TypeData TypeData { get; set; }
-
-		/// <summary>
-		/// The parameters to be used when constructing the object.
-		/// </summary>
-		[DataMember]
-		public ImaginaryObject[] ImaginaryConstructionParameters;
-
-		public override object CreateInstance()
 		{
-			return Activator.CreateInstance(TypeData.GetConstructionType(), ImaginaryConstructionParameters.ToArray());
 		}
 
+		[DataMember] public TypeData TypeData { get; set; }
+
+		public override object CreateInstance() => Activator.CreateInstance(TypeData.GetConstructionType(),
+			ImaginaryConstructionParameters.ToArray());
+
 		/// <summary>
-		/// Writes the construction info of the object using the provided BinaryWriter and encoding.
+		///     Writes the construction info of the object using the provided BinaryWriter and encoding.
 		/// </summary>
 		/// <param name="writer">The BinaryWriter to use to write the data to.</param>
 		protected override void WriteConstructionInfo(BinaryWriter writer)
@@ -64,7 +62,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			ImaginaryConstructionParameters = new ImaginaryObject[reader.ReadInt32()];
 
-			for (int i = 0; i < ImaginaryConstructionParameters.Length; i++)
+			for (var i = 0; i < ImaginaryConstructionParameters.Length; i++)
 			{
 				ImaginaryConstructionParameters[i] = ReadImaginaryObject(reader, out _);
 			}

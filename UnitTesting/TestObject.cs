@@ -6,6 +6,8 @@ namespace UnitTests
 	internal class TestObject
 		: IEquatable<TestObject>
 	{
+		public string StringData;
+
 		public TestObject(string stringData)
 		{
 			StringData = stringData;
@@ -17,25 +19,14 @@ namespace UnitTests
 			Booly = booly;
 		}
 
-		public string StringData;
+		public bool Booly { get; set; }
 
-		private bool booly;
-		public bool Booly { get => booly; set => booly = value; }
+		public bool Equals(TestObject other) =>
+			other != null &&
+			StringData == other.StringData;
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as TestObject);
-		}
+		public override bool Equals(object obj) => Equals(obj as TestObject);
 
-		public bool Equals(TestObject other)
-		{
-			return other != null &&
-				   StringData == other.StringData;
-		}
-
-		public override int GetHashCode()
-		{
-			return 1045584480 + EqualityComparer<string>.Default.GetHashCode(StringData);
-		}
+		public override int GetHashCode() => 1045584480 + EqualityComparer<string>.Default.GetHashCode(StringData);
 	}
 }

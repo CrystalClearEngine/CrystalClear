@@ -1,4 +1,5 @@
 ﻿using CrystalClear.ScriptUtilities;
+using CrystalClear.Standard.HierarchyObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -23,7 +24,7 @@ namespace UnitTests
 		public void CreateAndReadSetting()
 		{
 			object objectToStore = "If you can read this, computer, then the save and load has been successful!";
-			string settingName = "UnitTestSetting";
+			var settingName = "UnitTestSetting";
 
 			UserSettings.SaveSetting(settingName, objectToStore);
 
@@ -34,8 +35,8 @@ namespace UnitTests
 
 		public void CreateAndReadObjectSetting()
 		{
-			object objectToStore = new CrystalClear.Standard.HierarchyObjects.WorldObject();
-			string settingName = "UnitTestSetting";
+			object objectToStore = new WorldObject();
+			var settingName = "UnitTestSetting";
 
 			UserSettings.SaveSetting(settingName, objectToStore);
 
@@ -54,8 +55,8 @@ namespace UnitTests
 		[TestMethod]
 		public void DeleteSpecificUserSetting()
 		{
-			string nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
-			string objectToStore = "123 ABC";
+			var nameOfObjectToStore = "DeleteSpecificUserSetting UserSetting";
+			var objectToStore = "123 ABC";
 
 			UserSettings.SaveSetting(nameOfObjectToStore, objectToStore);
 			Assert.IsTrue(UserSettings.ExistsSetting(nameOfObjectToStore));

@@ -8,6 +8,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 	[DataContract]
 	public sealed class ImaginaryEditableObject : ImaginaryObject, IGeneralImaginaryObject
 	{
+		[DataMember] public EditorData EditorData;
+
 		public ImaginaryEditableObject(Type constructionType, EditorData editorData)
 		{
 			if (!constructionType.IsEditable())
@@ -20,18 +22,12 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		public ImaginaryEditableObject()
-		{ }
-
-		[DataMember]
-		public TypeData TypeData { get; set; }
-
-		[DataMember]
-		public EditorData EditorData;
-
-		public override object CreateInstance()
 		{
-			return EditableSystem.Create(TypeData.GetConstructionType(), EditorData);
 		}
+
+		[DataMember] public TypeData TypeData { get; set; }
+
+		public override object CreateInstance() => EditableSystem.Create(TypeData.GetConstructionType(), EditorData);
 
 		protected override void WriteConstructionInfo(BinaryWriter writer)
 		{
@@ -52,7 +48,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			EditorData = EditorData.GetEmpty();
 
-			for (int i = 0; i < reader.ReadInt32(); i++)
+			for (var i = 0; i < reader.ReadInt32(); i++)
 			{
 				EditorData.Add(reader.ReadString(), reader.ReadString());
 			}

@@ -5,7 +5,7 @@ namespace CrystalClear.ECS
 	public abstract class ECSSystem
 	{
 		// TODO: Use uint instead, since there is not really any reason to use negative values in ids?
-		private static Dictionary<int, IEntity> allEntities = new Dictionary<int, IEntity>();
+		private static readonly Dictionary<int, IEntity> allEntities = new Dictionary<int, IEntity>();
 
 		public static List<ECSSystem> ECSSystems = new List<ECSSystem>();
 
@@ -16,7 +16,6 @@ namespace CrystalClear.ECS
 		}
 
 		/// <summary>
-		/// 
 		/// </summary>
 		/// <param name="startingId"></param>
 		/// <param name="endingId"></param>
@@ -31,7 +30,7 @@ namespace CrystalClear.ECS
 			{
 				lock (allEntities)
 				{
-					foreach (int id in allEntities.Keys)
+					foreach (var id in allEntities.Keys)
 					{
 						if (id >= startingId && id <= endingId)
 						{
@@ -47,7 +46,7 @@ namespace CrystalClear.ECS
 				lock (allEntities)
 					copyOfAllEntities = new Dictionary<int, IEntity>(allEntities);
 
-				foreach (int id in copyOfAllEntities.Keys)
+				foreach (var id in copyOfAllEntities.Keys)
 				{
 					if (id >= startingId && id <= endingId)
 					{

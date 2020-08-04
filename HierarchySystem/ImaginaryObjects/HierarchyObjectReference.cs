@@ -8,15 +8,7 @@ namespace CrystalClear.SerializationSystem
 	[Editable(nameof(Creator), nameof(Editor))]
 	public class HierarchyObjectReference : HierarchyObject
 	{
-		public HierarchyObjectReference()
-		{
-
-		}
-
-		private static HierarchyObject Creator(EditorData data)
-		{
-			return HierarchyManager.FollowPath(data["ReferencePath"]);
-		}
+		private static HierarchyObject Creator(EditorData data) => HierarchyManager.FollowPath(data["ReferencePath"]);
 
 		private static void Editor(ref EditorData data)
 		{

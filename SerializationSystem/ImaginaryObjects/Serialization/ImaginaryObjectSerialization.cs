@@ -1,4 +1,5 @@
 ﻿// ReSharper disable once RedundantUsingDirective
+
 using K4os.Compression.LZ4.Streams;
 using System;
 using System.IO;
@@ -13,53 +14,55 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		public static TExpected LoadFromSaveFile<TExpected>(string path)
 			where TExpected : ImaginaryObject
 		{
-			using (XmlReader readerStream = XmlReader.Create(path))
+			using (var readerStream = XmlReader.Create(path))
 			{
-				return (TExpected)new DataContractSerializer(typeof(TExpected)).ReadObject(readerStream);
+				return (TExpected) new DataContractSerializer(typeof(TExpected)).ReadObject(readerStream);
 			}
 		}
 
 		public static void SaveToFile(string path, ImaginaryObject toStore)
 		{
-			XmlWriterSettings settings = new XmlWriterSettings { Indent = true };
+			var settings = new XmlWriterSettings {Indent = true};
 
 			Utilities.CreateEmptyFile(path);
 
-			using (XmlWriter writerStream = XmlWriter.Create(path, settings))
+			using (var writerStream = XmlWriter.Create(path, settings))
 			{
 				new DataContractSerializer(toStore.GetType()).WriteObject(writerStream, toStore);
 			}
 		}
-		
+
 		// TODO: add TExpected
 		public static ImaginaryObject UnpackImaginaryObject(string path)
 		{
 			Encoding encoding = Encoding.UTF8;
 
-			using (FileStream fileStream = new FileStream(path, FileMode.Open))
+			using (var fileStream = new FileStream(path, FileMode.Open))
 #if DEBUG
-			// BinaryReader without decompression if the program is being debugged.
-			using (BinaryReader reader = new BinaryReader(fileStream, encoding))
+				// BinaryReader without decompression if the program is being debugged.
+			using (var reader = new BinaryReader(fileStream, encoding))
 #else
 			using (LZ4DecoderStream decompressionStream = LZ4Stream.Decode(fileStream))
 			using (BinaryReader reader = new BinaryReader(decompressionStream, encoding))
 #endif
 			{
 				// Read the version of CrystalClear that this pack file was created in.
-				Version fileCreatedInVersion = new Version(reader.ReadString());
+				var fileCreatedInVersion = new Version(reader.ReadString());
 
 				// Is the pack file from an older version of CrystalClear?
 				if (fileCreatedInVersion < CrystalClearInformation.CrystalClearVersion)
 				{
 					// The version that this file was created in is older than the current version.
-					Output.ErrorLog($"This file was created in an older version of the CrystalClear Engine. {fileCreatedInVersion} (file) < {CrystalClearInformation.CrystalClearVersion} (current)");
+					Output.ErrorLog(
+						$"This file was created in an older version of the CrystalClear Engine. {fileCreatedInVersion} (file) < {CrystalClearInformation.CrystalClearVersion} (current)");
 				}
 
 				// Is the pack file from a newer version of CrystalClear?
 				else if (fileCreatedInVersion > CrystalClearInformation.CrystalClearVersion)
 				{
 					// The version that this file was created in is newer than the current version.
-					Output.ErrorLog($"This file was created in a newer version of the CrystalClear Engine. {fileCreatedInVersion} (file) > {CrystalClearInformation.CrystalClearVersion} (current)");
+					Output.ErrorLog(
+						$"This file was created in a newer version of the CrystalClear Engine. {fileCreatedInVersion} (file) > {CrystalClearInformation.CrystalClearVersion} (current)");
 				}
 
 				ImaginaryObject unpacked;
@@ -76,9 +79,9 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			Utilities.CreateEmptyFile(path);
 
-			using (FileStream fileStream = new FileStream(path, FileMode.Create))
+			using (var fileStream = new FileStream(path, FileMode.Create))
 #if DEBUG
-			using (BinaryWriter writer = new BinaryWriter(fileStream, encoding))
+			using (var writer = new BinaryWriter(fileStream, encoding))
 #else
 			using (LZ4EncoderStream compressionStream = LZ4Stream.Encode(fileStream))
 			using (BinaryWriter writer = new BinaryWriter(compressionStream, encoding))

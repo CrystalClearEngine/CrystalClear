@@ -1,13 +1,14 @@
-﻿using CrystalClear;
-using CrystalClear.HierarchySystem;
-using CrystalClear.RuntimeMain;
-using CrystalClear.SerializationSystem.ImaginaryObjects;
+﻿// ReSharper disable once RedundantUsingDirective
+
 using System;
+using System.Diagnostics;
 using System.IO.Pipes;
 using System.Reflection;
 using System.Text;
-// ReSharper disable once RedundantUsingDirective
-using System.Diagnostics;
+using CrystalClear;
+using CrystalClear.HierarchySystem;
+using CrystalClear.RuntimeMain;
+using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 // ReSharper disable once RedundantUsingDirective
 using static CrystalClear.EditorInformation;
@@ -17,6 +18,7 @@ partial class MainClass
 	private static void Run(ImaginaryHierarchyObject rootHierarchyObject)
 	{
 		#region Running
+
 		if (compiledAssembly is null)
 		{
 			Output.ErrorLog("error: code not compiling");
@@ -24,14 +26,17 @@ partial class MainClass
 		}
 
 		Console.Write("Choose a name for the hierarchy: ");
-		string hierarchyName = Console.ReadLine();
+		var hierarchyName = Console.ReadLine();
 
 		Output.Log();
 
 #if DEBUG
-		CrystalClearInformation.UserAssemblies = new[] { compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) };
+		CrystalClearInformation.UserAssemblies = new[]
+		{
+			compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)),
+		};
 
-		RuntimeMain.RunWithImaginaryHierarchyObject(new[] { compiledAssembly }, hierarchyName, rootHierarchyObject);
+		RuntimeMain.RunWithImaginaryHierarchyObject(new[] {compiledAssembly}, hierarchyName, rootHierarchyObject);
 
 		while (true) ; // In DEBUG mode you cannot exit the run, since it runs it in the engine.
 #endif
@@ -43,7 +48,8 @@ partial class MainClass
 
 		string args = $"{CurrentProject.BuildPath + @"\UserGeneratedCode.dll"} {"CrystalClearDebugStream"} --debug";
 
-		userProcess.StartInfo = new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe", args);
+		userProcess.StartInfo =
+ new ProcessStartInfo(@"E:\dev\crystal clear\RuntimeMain\bin\Debug\netcoreapp3.1\RuntimeMain.exe", args);
 
 		userProcess.Start();
 
@@ -65,12 +71,13 @@ partial class MainClass
 		Console.Clear();
 		#endregion
 #endif
+
 		#endregion
 	}
 
 	public static string ReadString(PipeStream ioStream)
 	{
-		int len = 0;
+		var len = 0;
 
 		len = ioStream.ReadByte() * 256;
 		len += ioStream.ReadByte();
@@ -83,13 +90,14 @@ partial class MainClass
 	public static int WriteString(PipeStream ioStream, string outString)
 	{
 		byte[] outBuffer = Encoding.ASCII.GetBytes(outString);
-		int len = outBuffer.Length;
-		if (len > UInt16.MaxValue)
+		var len = outBuffer.Length;
+		if (len > ushort.MaxValue)
 		{
-			len = (int)UInt16.MaxValue;
+			len = ushort.MaxValue;
 		}
-		ioStream.WriteByte((byte)(len / 256));
-		ioStream.WriteByte((byte)(len & 255));
+
+		ioStream.WriteByte((byte) (len / 256));
+		ioStream.WriteByte((byte) (len & 255));
 		ioStream.Write(outBuffer, 0, len);
 		ioStream.Flush();
 

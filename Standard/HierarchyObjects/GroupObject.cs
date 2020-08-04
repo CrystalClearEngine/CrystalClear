@@ -1,5 +1,5 @@
-﻿using CrystalClear.HierarchySystem;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CrystalClear.HierarchySystem;
 
 namespace CrystalClear.Standard.HierarchyObjects
 {

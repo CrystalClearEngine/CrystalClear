@@ -24,6 +24,8 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ReadConstructionInfo(reader);
 		}
 
+		[DataMember] public string ConstructionTypeName { get; private set; }
+
 		public void WriteConstructionInfo(BinaryWriter writer)
 		{
 			writer.Write(ConstructionTypeName);
@@ -34,25 +36,26 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 			ConstructionTypeName = reader.ReadString();
 		}
 
-		[DataMember]
-		public string ConstructionTypeName { get; private set; }
-
 		// TODO: determine if a cache for this is neccessary.
-		public Type GetConstructionType() => Type.GetType(ConstructionTypeName,
-		assemblyResolver: delegate (AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
-		{ // TODO: keep a list of all AssemblyLoadContexts and look through them instead, so all types can be detected?
-			// TODO: turn this whole call into an extension for Type?
-			foreach (Assembly assembly in CrystalClearInformation.UserAssemblies)
-			{
-				if (assembly.GetName().FullName == assemblyName.FullName)
+		public Type GetConstructionType()
+		{
+			return Type.GetType(ConstructionTypeName,
+				delegate(AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
 				{
-					return assembly;
-				}
-			}
+					// TODO: keep a list of all AssemblyLoadContexts and look through them instead, so all types can be detected?
+					// TODO: turn this whole call into an extension for Type?
+					foreach (Assembly assembly in CrystalClearInformation.UserAssemblies)
+					{
+						if (assembly.GetName().FullName == assemblyName.FullName)
+						{
+							return assembly;
+						}
+					}
 
-			return null;
-		},
-		typeResolver: null,
-		throwOnError: true);
+					return null;
+				},
+				null,
+				true);
+		}
 	}
 }

@@ -1,7 +1,8 @@
-﻿using CrystalClear;
-using System;
+﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
+using CrystalClear;
 
 public static partial class MainClass
 {
@@ -14,9 +15,11 @@ public static partial class MainClass
 		Console.BackgroundColor = ConsoleColor.Black;
 
 		#region Thread Culture
+
 #if DEBUG
-		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US"); // To ensure google-able exceptions.
+		Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US"); // To ensure google-able exceptions.
 #endif
+
 		#endregion
 
 		while (true)

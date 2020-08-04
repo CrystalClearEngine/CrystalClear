@@ -1,16 +1,16 @@
-﻿using CrystalClear;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using CrystalClear;
 using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
 
@@ -19,6 +19,7 @@ partial class MainClass
 	private static void Editor()
 	{
 		#region Compilation
+
 		// Find all scripts that are present.
 		List<Type> scriptTypes = null;
 
@@ -34,7 +35,7 @@ partial class MainClass
 
 			codeFilePaths = new string[files.Length];
 
-			for (int i = 0; i < files.Length; i++)
+			for (var i = 0; i < files.Length; i++)
 				codeFilePaths[i] = files[i].FullName;
 		}
 
@@ -45,7 +46,7 @@ partial class MainClass
 
 		// TODO: update this when a new ProjectInfo is used.
 		var fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
-		fileSystemWatcher.Changed += (object _, FileSystemEventArgs _1) =>
+		fileSystemWatcher.Changed += (_, _1) =>
 		{
 			Output.Log("Code change detected, recompiling.");
 			codeFilePaths = Directory.GetFiles(CurrentProject.ScriptsDirectory.FullName, "*.cs");
@@ -55,18 +56,21 @@ partial class MainClass
 			Analyze();
 		};
 		fileSystemWatcher.EnableRaisingEvents = true;
+
 		#endregion
 
 		#region Editor loop
+
 		// Very basic editor.
 
-		ImaginaryHierarchyObject rootHierarchyObject = new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
+		var rootHierarchyObject =
+			new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 		ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 		LoopEditor:
 		Output.Log();
 
-		string line = Console.ReadLine();
+		var line = Console.ReadLine();
 
 		string[] commandSections = line.Split(' ');
 
@@ -91,10 +95,13 @@ partial class MainClass
 					// Use default HierarchyObject name if no name is provided.
 					NewHierarchyObject();
 				}
+
 				break;
 
 			case "del":
-				DeleteHierarchyObject(commandSections.Length < 1 ? GetName(currentSelectedHierarchyObject) : commandSections[1]);
+				DeleteHierarchyObject(commandSections.Length < 1
+					? GetName(currentSelectedHierarchyObject)
+					: commandSections[1]);
 				break;
 
 			case "rename":
@@ -153,9 +160,10 @@ partial class MainClass
 						break;
 
 					default:
-						Output.ErrorLog("command error: unknown subcommand", true);
+						Output.ErrorLog("command error: unknown subcommand");
 						break;
 				}
+
 				break;
 
 			case "import":
@@ -173,6 +181,7 @@ partial class MainClass
 						Output.ErrorLog("command error: unknown subcommand");
 						break;
 				}
+
 				break;
 
 			case "project":
@@ -182,7 +191,7 @@ partial class MainClass
 				break;
 
 			case "build":
-				Builder.Build(commandSections[1], commandSections[2], new[] { compiledAssembly });
+				Builder.Build(commandSections[1], commandSections[2], new[] {compiledAssembly});
 				break;
 
 			case "run":
@@ -221,9 +230,11 @@ partial class MainClass
 		#endregion
 #endif
 		goto LoopEditor;
+
 		#endregion
 
 		#region Editor Methods
+
 		bool Compile()
 		{
 			compiledAssembly = Compiler.CompileCode(codeFilePaths);
@@ -232,12 +243,13 @@ partial class MainClass
 			if (compiledAssembly is null)
 			{
 				// Explain to user that the compilation failed.
-				Output.ErrorLog("compilation error: compilation failed :(", true);
+				Output.ErrorLog("compilation error: compilation failed :(");
 				// TODO: do type identification for Standard regardless.
 				return false;
 			}
 
-			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.", ConsoleColor.Black, ConsoleColor.Green);
+			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.",
+				ConsoleColor.Black, ConsoleColor.Green);
 
 			return true;
 		}
@@ -248,7 +260,8 @@ partial class MainClass
 				return;
 
 			#region Type identification
-			Assembly standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
+
+			var standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
 			// Find all scripts that are present in the compiled assembly.
 			scriptTypes = Script.FindScriptTypesInAssembly(compiledAssembly).ToList();
@@ -259,6 +272,7 @@ partial class MainClass
 
 			// Add the HierarchyObjects defined in standard HierarchyObjects.
 			hierarchyObjectTypes.AddRange(HierarchyObject.FindHierarchyObjectTypesInAssembly(standardAssembly));
+
 			#endregion
 		}
 
@@ -276,25 +290,31 @@ partial class MainClass
 					Output.ErrorLog($"command error: no HierarchyObject named {toModify} can be found!");
 					return;
 				}
+
 				hierarchyObjectToModify = currentSelectedHierarchyObject.LocalHierarchy[toModify];
 			}
 
-			if (AskYOrNQuestion($"Do you want to change the name of the HierarchyObject? Name = {GetName(hierarchyObjectToModify)}"))
+			if (AskYOrNQuestion(
+				$"Do you want to change the name of the HierarchyObject? Name = {GetName(hierarchyObjectToModify)}"))
 			{
 				SetName(hierarchyObjectToModify, AskQuestion("Write the new name"));
 			}
 
 			if (hierarchyObjectToModify.ImaginaryObjectBase is ImaginaryEditableObject imaginaryEditableObject)
 			{
-				EditableSystem.OpenEditor(imaginaryEditableObject.TypeData.GetConstructionType(), ref ((ImaginaryEditableObject)hierarchyObjectToModify.ImaginaryObjectBase).EditorData);
+				EditableSystem.OpenEditor(imaginaryEditableObject.TypeData.GetConstructionType(),
+					ref ((ImaginaryEditableObject) hierarchyObjectToModify.ImaginaryObjectBase).EditorData);
 			}
-			else if (hierarchyObjectToModify.ImaginaryObjectBase is ImaginaryConstructableObject imaginaryConstructableObject)
+			else if (hierarchyObjectToModify.ImaginaryObjectBase is ImaginaryConstructableObject
+				imaginaryConstructableObject)
 			{
-				imaginaryConstructableObject.ImaginaryConstructionParameters = GetConstructorParameters(imaginaryConstructableObject.TypeData.GetConstructionType());
+				imaginaryConstructableObject.ImaginaryConstructionParameters =
+					GetConstructorParameters(imaginaryConstructableObject.TypeData.GetConstructionType());
 			}
 			else
 			{
-				Output.ErrorLog($"{hierarchyObjectToModify.ImaginaryObjectBase.GetType()} cannot be modified using this tool.", true);
+				Output.ErrorLog(
+					$"{hierarchyObjectToModify.ImaginaryObjectBase.GetType()} cannot be modified using this tool.");
 			}
 		}
 
@@ -317,6 +337,7 @@ partial class MainClass
 					Output.ErrorLog($"command error: no HierarchyObject named {toDetail} can be found!");
 					return;
 				}
+
 				hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject.LocalHierarchy[toDetail];
 			}
 
@@ -326,14 +347,15 @@ partial class MainClass
 
 			Output.Log($"Type: {hierarchyObjectToViewDetailsOf}");
 
-			if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryConstructableObject imaginaryConstructable)
+			if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryConstructableObject
+				imaginaryConstructable)
 			{
 				Output.Log("This HierarchyObject uses constructor parameters to be created.");
 
 				Output.Log($"Parameter count: {imaginaryConstructable.ImaginaryConstructionParameters.Length}");
 
 				Console.Write("Parameters: (");
-				bool first = true;
+				var first = true;
 				foreach (ImaginaryObject parameter in imaginaryConstructable.ImaginaryConstructionParameters)
 				{
 					// Put commas after every parameter if unless it's the first parameter.
@@ -346,16 +368,18 @@ partial class MainClass
 
 					first = false;
 				}
+
 				Console.Write(")\n");
 			}
-			else if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryEditableObject imaginaryEditableObject)
+			else if (hierarchyObjectToViewDetailsOf.ImaginaryObjectBase is ImaginaryEditableObject
+				imaginaryEditableObject)
 			{
 				Output.Log("This HierarchyObject uses an Editor to be created and modified.");
 
 				Output.Log($"EditorData count: {imaginaryEditableObject.EditorData.Count}");
 
 				Console.Write("EditorData: (");
-				bool first = true;
+				var first = true;
 				foreach (KeyValuePair<string, string> data in imaginaryEditableObject.EditorData)
 				{
 					// Put commas after every parameter if unless it's the first parameter.
@@ -368,11 +392,13 @@ partial class MainClass
 
 					first = false;
 				}
+
 				Console.Write(")\n");
 			}
 			else
 			{
-				Output.ErrorLog($"Cannot detail the construction of a HierarchyObject of type {hierarchyObjectToViewDetailsOf.ImaginaryObjectBase?.GetType()}.", true);
+				Output.ErrorLog(
+					$"Cannot detail the construction of a HierarchyObject of type {hierarchyObjectToViewDetailsOf.ImaginaryObjectBase?.GetType()}.");
 				// TODO: use reflection to try and detail it anyways?
 			}
 
@@ -386,14 +412,16 @@ partial class MainClass
 
 			if (string.IsNullOrEmpty(name))
 			{
-				name = Utilities.EnsureUniqueName(hierarchyObjectType.Name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
+				name = Utilities.EnsureUniqueName(hierarchyObjectType.Name,
+					currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 			else if (currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(name))
 			{
 				name = Utilities.EnsureUniqueName(name, currentSelectedHierarchyObject.LocalHierarchy.Keys);
 			}
 
-			currentSelectedHierarchyObject.LocalHierarchy.Add(name, CreateImaginaryHierarchyObject(hierarchyObjectType));
+			currentSelectedHierarchyObject.LocalHierarchy.Add(name,
+				CreateImaginaryHierarchyObject(hierarchyObjectType));
 			Output.Log($"HierarchyObject {name} has been added!");
 
 			ImaginaryHierarchyObject CreateImaginaryHierarchyObject(Type ofType)
@@ -402,16 +430,18 @@ partial class MainClass
 				{
 					EditorData editorData = EditorData.GetEmpty();
 					EditableSystem.OpenEditor(ofType, ref editorData);
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryEditableObject(ofType, editorData));
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject,
+						new ImaginaryEditableObject(ofType, editorData));
 				}
-				else if (ofType.GetConstructors().Length > 0)
+
+				if (ofType.GetConstructors().Length > 0)
 				{
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(ofType, GetConstructorParameters(ofType)));
+					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject,
+						new ImaginaryConstructableObject(ofType, GetConstructorParameters(ofType)));
 				}
-				else
-				{
-					return new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(ofType));
-				}
+
+				return new ImaginaryHierarchyObject(currentSelectedHierarchyObject,
+					new ImaginaryConstructableObject(ofType));
 			}
 		}
 
@@ -425,10 +455,12 @@ partial class MainClass
 		{
 			if (currentSelectedHierarchyObject.Parent is null)
 			{
-				Output.ErrorLog("command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
+				Output.ErrorLog(
+					"command error: currently selected HierarchyObject has no parent and has therefore no name and cannot be renamed.");
 				return;
 			}
-			string oldName = GetName(currentSelectedHierarchyObject);
+
+			var oldName = GetName(currentSelectedHierarchyObject);
 			SetName(currentSelectedHierarchyObject, newName);
 			Output.Log($"Renamed {oldName} to {newName}.");
 		}
@@ -458,14 +490,13 @@ partial class MainClass
 					EditableSystem.OpenEditor(type, ref editorData);
 					return new ImaginaryScript(new ImaginaryEditableObject(type, editorData));
 				}
-				else if (type.GetConstructors().Length > 0)
+
+				if (type.GetConstructors().Length > 0)
 				{
 					return new ImaginaryScript(new ImaginaryConstructableObject(type, GetConstructorParameters(type)));
 				}
-				else
-				{
-					return new ImaginaryScript(new ImaginaryConstructableObject(type));
-				}
+
+				return new ImaginaryScript(new ImaginaryConstructableObject(type));
 			}
 		}
 
@@ -498,7 +529,6 @@ partial class MainClass
 				currentSelectedHierarchyObject = rootHierarchyObject;
 
 				Output.Log($"Successfuly loaded from location {path}.", ConsoleColor.Black, ConsoleColor.Green);
-
 			}
 			catch (FileNotFoundException)
 			{
@@ -524,7 +554,8 @@ partial class MainClass
 		{
 			try
 			{
-				rootHierarchyObject = (ImaginaryHierarchyObject)ImaginaryObjectSerialization.UnpackImaginaryObject(path);
+				rootHierarchyObject =
+					(ImaginaryHierarchyObject) ImaginaryObjectSerialization.UnpackImaginaryObject(path);
 				currentSelectedHierarchyObject = rootHierarchyObject;
 
 				Output.Log($"Successfuly unpacked from location {path}.", ConsoleColor.Black, ConsoleColor.Green);
@@ -550,12 +581,13 @@ partial class MainClass
 				hierarchyObjectToList = currentSelectedHierarchyObject.LocalHierarchy[toList];
 			}
 
-			foreach (string name in currentSelectedHierarchyObject.LocalHierarchy.Keys)
+			foreach (var name in currentSelectedHierarchyObject.LocalHierarchy.Keys)
 			{
 				Output.Log(name);
 			}
 
-			Output.Log("A total of " + hierarchyObjectToList.LocalHierarchy.Count + " HierarchyObjects in the local hierarchy.");
+			Output.Log("A total of " + hierarchyObjectToList.LocalHierarchy.Count +
+			           " HierarchyObjects in the local hierarchy.");
 		}
 
 		// TODO: add forwardsteps. A selection can be done like this to traverse multiple layers <<< MyFolder > MySubfolder > MyObject
@@ -575,18 +607,20 @@ partial class MainClass
 			if (editorObjectSelectQuery.StartsWith("<"))
 			{
 				// Get the count of backsteps.
-				int backStepCount = editorObjectSelectQuery.TakeWhile((char c) => c == '<').Count();
+				var backStepCount = editorObjectSelectQuery.TakeWhile(c => c == '<').Count();
 
 				// Backstep.
-				for (int i = 0; i < backStepCount; i++)
+				for (var i = 0; i < backStepCount; i++)
 				{
 					// Check if the HierarchyObject actually has a parent.
 					if (currentSelectedHierarchyObject.Parent is null)
 					{
-						Output.ErrorLog($"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
+						Output.ErrorLog(
+							$"error: {currentSelectedHierarchyObject} does not have a parent. Reverting the select.");
 						currentSelectedHierarchyObject = initiallySelected;
 						return;
 					}
+
 					// Perform the backstep by going back to the parent of currentEditorHierarchyObject.
 					currentSelectedHierarchyObject = currentSelectedHierarchyObject.Parent;
 				}
@@ -604,12 +638,14 @@ partial class MainClass
 			// Does the query contain backsteps in another location than the start of the string? That's illegal.
 			else if (editorObjectSelectQuery.Contains('<'))
 			{
-				Output.ErrorLog("error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
+				Output.ErrorLog(
+					"error: backsteps ('<') cannot be located anywhere else in the query other than at the start.");
 			}
 
 			if (!currentSelectedHierarchyObject.LocalHierarchy.ContainsKey(editorObjectSelectQuery))
 			{
-				Output.ErrorLog($"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
+				Output.ErrorLog(
+					$"error: the requested HierarchyObject doesn't exist. Name = {editorObjectSelectQuery}");
 				currentSelectedHierarchyObject = initiallySelected;
 				return;
 			}
@@ -619,7 +655,7 @@ partial class MainClass
 
 		void ImportPrefab(string prefabPath)
 		{
-			HierarchyPrefab imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(prefabPath);
+			var imaginaryHierarchyPrefab = ImaginaryObjectSerialization.LoadFromSaveFile<HierarchyPrefab>(prefabPath);
 
 			imaginaryHierarchyPrefab.PrefabPath = prefabPath;
 
@@ -632,13 +668,15 @@ partial class MainClass
 
 		void ExportPrefab(string exportPath, string name = null)
 		{
-			HierarchyPrefab imaginaryHierarchyPrefab = new HierarchyPrefab(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name, AskQuestion("What should the path of this Hierarchy prefab be?"));
+			var imaginaryHierarchyPrefab = new HierarchyPrefab(currentSelectedHierarchyObject,
+				name is null ? GetName(currentSelectedHierarchyObject) : name,
+				AskQuestion("What should the path of this Hierarchy prefab be?"));
 			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchyPrefab);
 		}
 
 		void ImportHierarchy(string hierarchyPath)
 		{
-			ImaginaryHierarchy imaginaryHierarchy = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchy>(hierarchyPath);
+			var imaginaryHierarchy = ImaginaryObjectSerialization.LoadFromSaveFile<ImaginaryHierarchy>(hierarchyPath);
 
 			imaginaryHierarchy.Parent = currentSelectedHierarchyObject;
 
@@ -649,7 +687,8 @@ partial class MainClass
 
 		void ExportHierarchy(string exportPath, string name = null)
 		{
-			ImaginaryHierarchy imaginaryHierarchy = new ImaginaryHierarchy(currentSelectedHierarchyObject, name is null ? GetName(currentSelectedHierarchyObject) : name);
+			var imaginaryHierarchy = new ImaginaryHierarchy(currentSelectedHierarchyObject,
+				name is null ? GetName(currentSelectedHierarchyObject) : name);
 			ImaginaryObjectSerialization.SaveToFile(exportPath, imaginaryHierarchy);
 		}
 
@@ -659,13 +698,15 @@ partial class MainClass
 			{
 				return string.Empty;
 			}
+
 			return toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key;
 		}
 
 		void SetName(ImaginaryHierarchyObject toName, string newName)
 		{
 			newName = Utilities.EnsureUniqueName(newName, toName.LocalHierarchy.Keys);
-			toName.Parent.LocalHierarchy.Remove(toName.Parent.LocalHierarchy.First(x => ReferenceEquals(x.Value, toName)).Key);
+			toName.Parent.LocalHierarchy.Remove(toName.Parent.LocalHierarchy
+				.First(x => ReferenceEquals(x.Value, toName)).Key);
 			toName.Parent.LocalHierarchy.Add(newName, toName);
 		}
 
@@ -673,43 +714,46 @@ partial class MainClass
 		{
 			selection:
 			// Get number of items in the provided collection.
-			int count = collection.Count();
+			var count = collection.Count();
 
 			if (count == 0)
 			{
 				throw new ArgumentException("Selection collection was empty.");
 			}
-			else if (count == 1)
+
+			if (count == 1)
 			{
 				Output.Log($"Defaulted to {collection.First()}.");
 				return collection.First();
 			}
 
 			Output.Log($"Select an item of type {typeof(T).FullName} from this list:");
-			int i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
+			var
+				i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 			foreach (T item in collection)
 			{
 				Output.Log($"Item ({i}/{count - 1}): {item.ToString()}");
 				getInput:
 				Console.Write("Select? Y/N: ");
-				char readChar = Console.ReadKey().KeyChar;
+				var readChar = Console.ReadKey().KeyChar;
 				Output.Log();
 				if (readChar == 'Y' || readChar == 'y')
 				{
 					Output.Log($"Selected {item.ToString()}");
 					return item;
 				}
-				else if (readChar == 'N' || readChar == 'n')
+
+				if (readChar == 'N' || readChar == 'n')
 				{
 					i++;
-					continue;
 				}
 				else
 				{
-					Output.ErrorLog("Invalid input.", true);
+					Output.ErrorLog("Invalid input.");
 					goto getInput;
 				}
 			}
+
 			Output.Log("An item needs to be selected!");
 			goto selection;
 		}
@@ -725,13 +769,15 @@ partial class MainClass
 			ImaginaryObject[] parameters = new ImaginaryObject[parameterInfoArray.Length];
 
 			Output.Log("Now provide values for the different parameters.");
-			for (int i = 0; i < parameterInfoArray.Length; i++)
+			for (var i = 0; i < parameterInfoArray.Length; i++)
 			{
 				ParameterInfo parameter = parameterInfoArray[i];
 
 				if (parameter.IsOptional)
 				{
-					if (AskYOrNQuestion($"{parameter.Name} is optional, and defaults to {(parameter.DefaultValue is null ? "null" : parameter.DefaultValue)}, do you want to change it?"))
+					if (AskYOrNQuestion(
+						$"{parameter.Name} is optional, and defaults to {(parameter.DefaultValue is null ? "null" : parameter.DefaultValue)}, do you want to change it?")
+					)
 					{
 						parameters[i] = null;
 					}
@@ -754,23 +800,25 @@ partial class MainClass
 				EditableSystem.OpenEditor(type, ref editorData);
 				return new ImaginaryEditableObject(type, editorData);
 			}
-			else if (type.IsEnum)
+
+			if (type.IsEnum)
 			{
 				return new ImaginaryEnum(type, SelectItem(Enum.GetNames(type)));
 			}
-			else if (type.QualifiesAsPrimitive())
+
+			if (type.QualifiesAsPrimitive())
 			{
 				return new ImaginaryPrimitive(Convert.ChangeType(Console.ReadLine(), type));
 			}
-			else if (type.GetConstructors().Length > 0)
+
+			if (type.GetConstructors().Length > 0)
 			{
 				return new ImaginaryConstructableObject(type, GetConstructorParameters(type));
 			}
-			else
-			{
-				return new ImaginaryConstructableObject(type);
-			}
+
+			return new ImaginaryConstructableObject(type);
 		}
+
 		#endregion
 	}
 }

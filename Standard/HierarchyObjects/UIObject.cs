@@ -6,15 +6,18 @@ namespace CrystalClear.Standard.HierarchyObjects
 	{
 		LeftMouse = 1,
 		MiddleMouse = 3,
-		RightMouse = 2
+		RightMouse = 2,
 	}
 
 	public class UIObject : HierarchyObject
 	{
-		public void Click(int mouseButtonID) => Click((MouseButton)mouseButtonID);
+		public void Click(int mouseButtonID)
+		{
+			Click((MouseButton) mouseButtonID);
+		}
+
 		public void Click(MouseButton pressedButton)
 		{
-
 		}
 	}
 }

@@ -1,7 +1,7 @@
-﻿using CrystalClear.HierarchySystem.Scripting;
+﻿using System.Collections.Generic;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.HierarchySystem.Scripting.Messages;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
-using System.Collections.Generic;
 
 namespace CrystalClear.HierarchySystem
 {
@@ -10,17 +10,18 @@ namespace CrystalClear.HierarchySystem
 		// Script Handling.
 
 		/// <summary>
-		/// The Scripts that are currently attached to this object.
+		///     The Scripts that are currently attached to this object.
 		/// </summary>
 		public Dictionary<string, Script> AttachedScripts = new Dictionary<string, Script>();
 
 		public void AddScript(string name, ImaginaryScript imaginaryScript)
 		{
-			AttachedScripts.Add(name, (Script)imaginaryScript.CreateInstance());
+			AttachedScripts.Add(name, (Script) imaginaryScript.CreateInstance());
 		}
 
 		/// <summary>
-		/// Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attached the Script to the HierachyObject.
+		///     Adds a Script directly to this HierarchyObject. Note that this will *not* automatically attached the Script to the
+		///     HierachyObject.
 		/// </summary>
 		/// <param name="script">The Script to add.</param>
 		public void AddScriptManually(Script script, string name = null)
@@ -44,7 +45,7 @@ namespace CrystalClear.HierarchySystem
 
 		protected void RemoveAllScripts()
 		{
-			foreach (string scriptName in AttachedScripts.Keys)
+			foreach (var scriptName in AttachedScripts.Keys)
 			{
 				RemoveScript(scriptName);
 			}

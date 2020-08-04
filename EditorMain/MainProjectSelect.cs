@@ -1,5 +1,5 @@
-﻿using CrystalClear;
-using System;
+﻿using System;
+using CrystalClear;
 using static CrystalClear.Input;
 
 partial class MainClass
@@ -7,12 +7,14 @@ partial class MainClass
 	private static void ProjectSelect()
 	{
 		#region Project Selection
+
 		Output.Log("Please open or create a new project:");
 		ProjectSelection:
 		switch (Console.ReadLine())
 		{
 			case "new":
-				ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"), AskQuestion("Pick a name for the new project"));
+				ProjectInfo.NewProject(AskQuestion("Pick a path for the new project"),
+					AskQuestion("Pick a name for the new project"));
 				break;
 
 			case "open":
@@ -24,12 +26,14 @@ partial class MainClass
 				{
 					goto ProjectSelection;
 				}
+
 				break;
 
 			default:
 				Output.ErrorLog("command error: unknown command");
 				goto ProjectSelection;
 		}
+
 		#endregion
 	}
 }

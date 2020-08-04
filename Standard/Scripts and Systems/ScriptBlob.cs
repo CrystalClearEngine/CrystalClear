@@ -1,4 +1,6 @@
-﻿using CrystalClear.EventSystem;
+﻿using System;
+using System.Reflection;
+using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.ScriptUtilities;
@@ -8,8 +10,6 @@ using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.Scripting.Hosting;
 using NLua;
-using System;
-using System.Reflection;
 
 namespace CrystalClear.Standard.Scripts
 {
@@ -36,23 +36,24 @@ namespace CrystalClear.Standard.Scripts
 			CSharpScript,
 		}
 
+		private readonly string code;
+
+		private readonly ScriptEventBase executeOn;
+		private readonly ScriptingLanguage language;
+		private Script cSharpScript;
+		private Lua lua;
+		private ScriptEngine pythonEngine;
+
 		public ScriptBlob(ScriptingLanguage scriptingLanguage, string code, ScriptEventBase executeOn = null)
 		{
 			language = scriptingLanguage;
 
 			this.code = code;
 
-			executeOn?.Subscribe((ScriptEventHandler)RunCode);
+			executeOn?.Subscribe((ScriptEventHandler) RunCode);
 
 			this.executeOn = executeOn;
 		}
-
-		private ScriptEventBase executeOn;
-		private ScriptingLanguage language;
-		private string code;
-		private ScriptEngine pythonEngine;
-		private Lua lua;
-		private Script cSharpScript;
 
 		[OnFrameUpdate]
 		public void RunCode()
@@ -103,7 +104,7 @@ namespace CrystalClear.Standard.Scripts
 						//	metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 						//}
 
-						Assembly[] assembliesToLoad = new Assembly[]
+						Assembly[] assembliesToLoad =
 						{
 							Assembly.GetAssembly(typeof(StartEvent)),
 							Assembly.GetAssembly(typeof(ScriptEventBase)),
@@ -122,7 +123,8 @@ namespace CrystalClear.Standard.Scripts
 		}
 
 		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls.
+
+		private bool disposedValue; // To detect redundant calls.
 
 		protected virtual void Dispose(bool disposing)
 		{
@@ -130,7 +132,7 @@ namespace CrystalClear.Standard.Scripts
 			{
 				if (disposing)
 				{
-					executeOn.Unsubscribe((ScriptEventHandler)RunCode);
+					executeOn.Unsubscribe((ScriptEventHandler) RunCode);
 
 					lua.Dispose();
 				}
@@ -149,6 +151,7 @@ namespace CrystalClear.Standard.Scripts
 			Dispose(true);
 			GC.SuppressFinalize(this);
 		}
+
 		#endregion
 	}
 }

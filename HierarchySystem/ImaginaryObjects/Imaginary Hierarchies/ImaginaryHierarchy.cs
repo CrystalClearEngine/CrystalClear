@@ -17,14 +17,11 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		private ImaginaryHierarchy()
-		{ }
-
-		[DataMember]
-		public string HierarchyName { get; private set; }
-
-		public ImaginaryHierarchyObject GetHierarchyObject()
 		{
-			return (ImaginaryHierarchyObject)this;
 		}
+
+		[DataMember] public string HierarchyName { get; private set; }
+
+		public ImaginaryHierarchyObject GetHierarchyObject() => this;
 	}
 }

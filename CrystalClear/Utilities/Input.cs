@@ -40,7 +40,8 @@ namespace CrystalClear
 			}
 			else
 				Console.Write(question + ": ");
-			string response = Console.ReadLine();
+
+			var response = Console.ReadLine();
 			return response;
 		}
 	}

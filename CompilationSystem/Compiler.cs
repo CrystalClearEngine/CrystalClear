@@ -1,22 +1,22 @@
-﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 using static CrystalClear.EditorInformation;
 
 namespace CrystalClear.CompilationSystem
 {
 	/// <summary>
-	/// Static class for compiler features.
+	///     Static class for compiler features.
 	/// </summary>
 	public static class Compiler
 	{
-		static readonly string[] references =
+		private static readonly string[] references =
 		{
 			@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.dll",
 			@"C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\3.1.0\ref\netcoreapp3.1\System.Runtime.Extensions.dll",
@@ -35,7 +35,7 @@ namespace CrystalClear.CompilationSystem
 		};
 
 		/// <summary>
-		/// Compiles C# source code files to an assembly. Will in the future likely also support other .net languages!
+		///     Compiles C# source code files to an assembly. Will in the future likely also support other .net languages!
 		/// </summary>
 		/// <param name="codeFileNames">The files to compile.</param>
 		/// <returns>Whether the compilation was successful.</returns>
@@ -47,20 +47,20 @@ namespace CrystalClear.CompilationSystem
 			using (FileStream pdbStream = File.Create(CurrentProject.BuildPath + @"\UserGeneratedCode.pdb"))
 			{
 				List<SyntaxTree> syntaxTrees = (from string fileName in codeFileNames
-												select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
-												CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
-												, fileName, Encoding.UTF8)).ToList();
+					select CSharpSyntaxTree.ParseText(File.ReadAllText(fileName),
+						CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
+						, fileName, Encoding.UTF8)).ToList();
 
 				List<MetadataReference> metadataReferences = new List<MetadataReference>();
-				foreach (string reference in references)
+				foreach (var reference in references)
 				{
 					metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 				}
 
-				CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+				var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
 
-				CSharpCompilation compilation = CSharpCompilation.Create(
+				var compilation = CSharpCompilation.Create(
 					"UserGeneratedCode",
 					syntaxTrees,
 					metadataReferences,
@@ -78,25 +78,28 @@ namespace CrystalClear.CompilationSystem
 				}
 			}
 
-			return Assembly.Load(File.ReadAllBytes(CurrentProject.BuildPath + @"\UserGeneratedCode.dll")); // Load the assembly without locking the file.
+			return Assembly.Load(
+				File.ReadAllBytes(CurrentProject.BuildPath +
+				                  @"\UserGeneratedCode.dll")); // Load the assembly without locking the file.
 		}
 
 		/// <summary>
-		/// Compiles C# code to a windows exectuable.
+		///     Compiles C# code to a windows exectuable.
 		/// </summary>
 		/// <param name="code">The code to compile.</param>
-		public static bool CompileWindowsExecutable(string code, Assembly[] userGeneratedAssemblies, string outputPath, string executableName)
+		public static bool CompileWindowsExecutable(string code, Assembly[] userGeneratedAssemblies, string outputPath,
+			string executableName)
 		{
 			using FileStream exeStream = File.Create($@"{outputPath}\{executableName}.exe");
 			using FileStream pdbStream = File.Create($@"{outputPath}\{executableName}.pdb");
 
 
 			SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code
-											, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
-											, encoding: Encoding.UTF8);
+				, CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
+				, encoding: Encoding.UTF8);
 
 			List<MetadataReference> metadataReferences = new List<MetadataReference>();
-			foreach (string reference in references)
+			foreach (var reference in references)
 			{
 				metadataReferences.Add(MetadataReference.CreateFromFile(reference));
 			}
@@ -106,11 +109,12 @@ namespace CrystalClear.CompilationSystem
 				metadataReferences.Add(MetadataReference.CreateFromFile(userGeneratedAssembly.Location));
 			}
 
-			CSharpCompilationOptions options = new CSharpCompilationOptions(OutputKind.ConsoleApplication, optimizationLevel: OptimizationLevel.Release);
+			var options = new CSharpCompilationOptions(OutputKind.ConsoleApplication,
+				optimizationLevel: OptimizationLevel.Release);
 
-			CSharpCompilation compilation = CSharpCompilation.Create(
+			var compilation = CSharpCompilation.Create(
 				executableName,
-				new[] { syntaxTree },
+				new[] {syntaxTree},
 				metadataReferences,
 				options);
 

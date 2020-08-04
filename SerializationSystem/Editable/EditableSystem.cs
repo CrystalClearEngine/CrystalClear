@@ -7,7 +7,12 @@ namespace CrystalClear.SerializationSystem
 	// TODO: use IEditable interface instead.
 	public static class EditableSystem
 	{
-		private static Dictionary<string, CreatorDelegate> creatorCache = new Dictionary<string, CreatorDelegate>();
+		public delegate object CreatorDelegate(EditorData data);
+
+		public delegate void EditorDelegate(ref EditorData editorData);
+
+		private static readonly Dictionary<string, CreatorDelegate> creatorCache =
+			new Dictionary<string, CreatorDelegate>();
 
 		public static bool IsEditable(this Type type, out EditableAttribute editableAttribute)
 		{
@@ -15,7 +20,7 @@ namespace CrystalClear.SerializationSystem
 			{
 				if (attribute.GetType() == typeof(EditableAttribute))
 				{
-					editableAttribute = (EditableAttribute)attribute;
+					editableAttribute = (EditableAttribute) attribute;
 					return true;
 				}
 			}
@@ -36,30 +41,31 @@ namespace CrystalClear.SerializationSystem
 			FindEditor(type)(ref current);
 		}
 
-		public delegate void EditorDelegate(ref EditorData editorData);
-
 		public static EditorDelegate FindEditor(Type type)
 		{
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
-				string methodName = attribute.EditorMethodName;
+				var methodName = attribute.EditorMethodName;
 				if (methodName is null)
 				{
-					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+					foreach (MethodInfo method in type.GetMethods(
+						BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
 						if (method.GetCustomAttribute<EditorAttribute>() != null)
 						{
 							// Store the name so it doesn't have to be searched for again.
 							attribute.EditorMethodName = method.Name;
 							// TODO: try... catch etc
-							return (EditorDelegate)method.CreateDelegate(typeof(EditorDelegate));
+							return (EditorDelegate) method.CreateDelegate(typeof(EditorDelegate));
 						}
 					}
 				}
 				else
 				{
 					// TODO: try... catch etc
-					return (EditorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(EditorDelegate));
+					return (EditorDelegate) type
+						.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+						.CreateDelegate(typeof(EditorDelegate));
 				}
 			}
 
@@ -96,8 +102,6 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public delegate object CreatorDelegate(EditorData data);
-
 		public static CreatorDelegate FindCreator(Type type)
 		{
 			if (creatorCache.ContainsKey(type.AssemblyQualifiedName))
@@ -107,14 +111,15 @@ namespace CrystalClear.SerializationSystem
 
 			if (type.IsEditable(out EditableAttribute attribute))
 			{
-				string methodName = attribute.CreatorMethodName;
+				var methodName = attribute.CreatorMethodName;
 				if (methodName is null)
 				{
-					foreach (MethodInfo method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+					foreach (MethodInfo method in type.GetMethods(
+						BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
 						if (method.GetCustomAttribute<CreatorAttribute>() != null)
 						{
-							CreatorDelegate creatorDelegate = (CreatorDelegate)method.CreateDelegate(typeof(CreatorDelegate));
+							var creatorDelegate = (CreatorDelegate) method.CreateDelegate(typeof(CreatorDelegate));
 							// Store the name so it doesn't have to be searched for again.
 							attribute.CreatorMethodName = method.Name;
 							// Cache the result.
@@ -126,7 +131,9 @@ namespace CrystalClear.SerializationSystem
 				}
 				else
 				{
-					CreatorDelegate creatorDelegate = (CreatorDelegate)type.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic).CreateDelegate(typeof(CreatorDelegate));
+					var creatorDelegate = (CreatorDelegate) type
+						.GetMethod(methodName, BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+						.CreateDelegate(typeof(CreatorDelegate));
 					// Cache the delegate to avoid having to use reflection to retrieve it again.
 					creatorCache.Add(type.AssemblyQualifiedName, creatorDelegate);
 					// TODO: try... catch etc

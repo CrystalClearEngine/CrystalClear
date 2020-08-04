@@ -1,22 +1,23 @@
-﻿using CrystalClear.ScriptUtilities.StepRoutines;
+﻿using System.Collections;
+using System.Collections.Generic;
+using CrystalClear.ScriptUtilities.StepRoutines;
 using CrystalClear.Standard.Events;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace UnitTests
 {
 	[TestClass]
 	public class StepRoutineGeneralTests
 	{
-		public bool SimpleStepRoutineWaitDone = false;
-		public bool GenericSimpleStepRoutineWaitDone = false;
+		public bool GenericSimpleStepRoutineWaitDone;
+		public bool SimpleStepRoutineWaitDone;
 
 		[TestMethod]
 		public void SimpleStepRoutineStartTest()
 		{
 			StepRoutineInfo simpleStepRoutineInfo = SimpleStepRoutine().StartStepRoutine("SimpleStepRoutine");
-			StepRoutineInfo genericSimpleStepRoutineInfo = GenericSimpleStepRoutine().StartStepRoutine("GenericSimpleStepRoutine");
+			StepRoutineInfo genericSimpleStepRoutineInfo =
+				GenericSimpleStepRoutine().StartStepRoutine("GenericSimpleStepRoutine");
 
 			Assert.IsFalse(SimpleStepRoutineWaitDone);
 			Assert.IsFalse(GenericSimpleStepRoutineWaitDone);
@@ -26,11 +27,15 @@ namespace UnitTests
 			Assert.IsTrue(SimpleStepRoutineWaitDone);
 			Assert.IsTrue(GenericSimpleStepRoutineWaitDone);
 
-			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineId)));
-			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineId)));
+			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo,
+				StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineId)));
+			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo,
+				StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineId)));
 
-			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineName)));
-			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo, StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineName)));
+			Assert.IsTrue(ReferenceEquals(simpleStepRoutineInfo,
+				StepRoutineManager.GetStepRoutine(simpleStepRoutineInfo.StepRoutineName)));
+			Assert.IsTrue(ReferenceEquals(genericSimpleStepRoutineInfo,
+				StepRoutineManager.GetStepRoutine(genericSimpleStepRoutineInfo.StepRoutineName)));
 		}
 
 		public IEnumerator SimpleStepRoutine()

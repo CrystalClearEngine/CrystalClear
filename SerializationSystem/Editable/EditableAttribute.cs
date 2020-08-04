@@ -4,7 +4,7 @@
 namespace CrystalClear.SerializationSystem
 {
 	// TODO: decide if they should be inherited.
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class)]
 	public sealed class EditableAttribute : Attribute
 	{
 		public EditableAttribute(string editorMethodName, string creatorMethodName)
@@ -17,20 +17,18 @@ namespace CrystalClear.SerializationSystem
 		{
 		}
 
-		public string EditorMethodName { get; internal set; } = null;
+		public string EditorMethodName { get; internal set; }
 
-		public string CreatorMethodName { get; internal set; } = null;
+		public string CreatorMethodName { get; internal set; }
 	}
 
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Method)]
 	public sealed class EditorAttribute : Attribute
 	{
-
 	}
 
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Method)]
 	public sealed class CreatorAttribute : Attribute
 	{
-
 	}
 }

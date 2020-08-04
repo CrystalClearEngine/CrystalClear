@@ -1,6 +1,6 @@
-﻿using CrystalClear;
+﻿using System;
+using CrystalClear;
 using CrystalClear.Standard.Events;
-using System;
 
 namespace Scripts
 {

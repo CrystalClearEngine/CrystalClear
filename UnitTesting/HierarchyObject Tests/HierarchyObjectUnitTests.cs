@@ -9,17 +9,17 @@ namespace UnitTests
 	public class HierarchyObjectTests
 	{
 		/// <summary>
-		/// Test for ensuring that the HierarchyObject's GetChildName() method is functional and works as expected.
+		///     Test for ensuring that the HierarchyObject's GetChildName() method is functional and works as expected.
 		/// </summary>
 		[TestMethod]
 		public void GetChildName()
 		{
 			// Instantiation.
-			ScriptObject parent = new ScriptObject();
-			ScriptObject child = new ScriptObject();
+			var parent = new ScriptObject();
+			var child = new ScriptObject();
 
 			// Add child.
-			string childName = "childScriptObject";
+			var childName = "childScriptObject";
 			parent.AddChild(childName, child);
 
 			// Asserts.
@@ -31,8 +31,8 @@ namespace UnitTests
 		public void GetRoot()
 		{
 			// Instantiation.
-			ScriptObject root = new ScriptObject();
-			ScriptObject child = new ScriptObject();
+			var root = new ScriptObject();
+			var child = new ScriptObject();
 
 			// Add child.
 			root.AddChild("child", child);
@@ -45,8 +45,8 @@ namespace UnitTests
 		public void GetParent()
 		{
 			// Instantiation.
-			ScriptObject parent = new ScriptObject();
-			ScriptObject child = new ScriptObject();
+			var parent = new ScriptObject();
+			var child = new ScriptObject();
 
 			// Make sure that the child does not have a parent by default.
 			Assert.IsNull(child.Parent);
@@ -59,15 +59,15 @@ namespace UnitTests
 		}
 
 		/// <summary>
-		/// Generic version of GetParent.
+		///     Generic version of GetParent.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		public static void GetParent<T>()
 			where T : HierarchyObject, new()
 		{
 			// Instantiation.
-			T parent = new T();
-			T child = new T();
+			var parent = new T();
+			var child = new T();
 
 			// Make sure that the child does not have a parent by default.
 			Assert.IsNull(child.Parent);
@@ -83,8 +83,8 @@ namespace UnitTests
 		public void GetIsRoot()
 		{
 			// Instantiation.
-			ScriptObject root = new ScriptObject();
-			ScriptObject child = new ScriptObject();
+			var root = new ScriptObject();
+			var child = new ScriptObject();
 
 			// Add child.
 			root.AddChild("child", child);

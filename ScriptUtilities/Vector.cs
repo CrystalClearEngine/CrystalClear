@@ -6,7 +6,7 @@ namespace CrystalClear.ScriptUtilities
 	public struct Vector : IEquatable<Vector>
 	{
 		/// <summary>
-		/// Initialize a Vector with the specified amount of axis.
+		///     Initialize a Vector with the specified amount of axis.
 		/// </summary>
 		/// <param name="axis">The amount of axis, or the dimension.</param>
 		public Vector(int axis)
@@ -15,7 +15,7 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// Initialize a Vector with the array of axis already provided.
+		///     Initialize a Vector with the array of axis already provided.
 		/// </summary>
 		/// <param name="axis">The axis to use.</param>
 		public Vector(params float[] axis)
@@ -24,7 +24,7 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// Initializes a clone of a Vector.
+		///     Initializes a clone of a Vector.
 		/// </summary>
 		/// <param name="vector">The Vector to clone.</param>
 		public Vector(Vector vector)
@@ -33,17 +33,18 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The length of Axis.
+		///     The length of Axis.
 		/// </summary>
 		public int AxisCount => Axis.Length;
 
 		/// <summary>
-		/// The axis of this Vector.
+		///     The axis of this Vector.
 		/// </summary>
 		public float[] Axis;
 
 		/// <summary>
-		/// The subtraction operator for the Vector. The difference is a new Vector with all it's axis equal to the difference of the corresponding axis of a - b.
+		///     The subtraction operator for the Vector. The difference is a new Vector with all it's axis equal to the difference
+		///     of the corresponding axis of a - b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
@@ -55,9 +56,9 @@ namespace CrystalClear.ScriptUtilities
 				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector difference = new Vector(a.AxisCount);
+			var difference = new Vector(a.AxisCount);
 
-			for (int i = 0; i < a.AxisCount; i++)
+			for (var i = 0; i < a.AxisCount; i++)
 			{
 				difference.Axis[i] = a.Axis[i] - b.Axis[i];
 			}
@@ -66,7 +67,8 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The addition operator for the Vector. The sum is a new Vector with all it's axis equal to the sum of the corresponding axis of a + b.
+		///     The addition operator for the Vector. The sum is a new Vector with all it's axis equal to the sum of the
+		///     corresponding axis of a + b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
@@ -78,9 +80,9 @@ namespace CrystalClear.ScriptUtilities
 				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector sum = new Vector(a.AxisCount);
+			var sum = new Vector(a.AxisCount);
 
-			for (int i = 0; i < sum.AxisCount; i++)
+			for (var i = 0; i < sum.AxisCount; i++)
 			{
 				sum.Axis[i] = a.Axis[i] + b.Axis[i];
 			}
@@ -89,7 +91,8 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The division operator for the Vector. The quotient is a new Vector with all it's axis equal to the quotient of the corresponding axis of a / b.
+		///     The division operator for the Vector. The quotient is a new Vector with all it's axis equal to the quotient of the
+		///     corresponding axis of a / b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
@@ -101,9 +104,9 @@ namespace CrystalClear.ScriptUtilities
 				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector quotient = new Vector(a.AxisCount);
+			var quotient = new Vector(a.AxisCount);
 
-			for (int i = 0; i < quotient.AxisCount; i++)
+			for (var i = 0; i < quotient.AxisCount; i++)
 			{
 				quotient.Axis[i] = a.Axis[i] / b.Axis[i];
 			}
@@ -112,7 +115,8 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
+		///     The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of
+		///     the corresponding axis of a * b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
@@ -124,9 +128,9 @@ namespace CrystalClear.ScriptUtilities
 				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			Vector product = new Vector(a.AxisCount);
+			var product = new Vector(a.AxisCount);
 
-			for (int i = 0; i < product.AxisCount; i++)
+			for (var i = 0; i < product.AxisCount; i++)
 			{
 				product.Axis[i] = a.Axis[i] * b.Axis[i];
 			}
@@ -135,7 +139,8 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
+		///     The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of
+		///     the corresponding axis of a * b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
@@ -147,9 +152,9 @@ namespace CrystalClear.ScriptUtilities
 				throw new Exception("The axis of the two vectors are not comparable.");
 			}
 
-			bool @true = true;
+			var @true = true;
 
-			for (int i = 0; i < a.AxisCount && @true; i++)
+			for (var i = 0; i < a.AxisCount && @true; i++)
 			{
 				@true = a.Axis[i] == b.Axis[i];
 			}
@@ -158,29 +163,18 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 		/// <summary>
-		/// The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of the corresponding axis of a * b.
+		///     The multiplication operator for the Vector. The product is a new Vector with all it's axis equal to the product of
+		///     the corresponding axis of a * b.
 		/// </summary>
 		/// <param name="a">Vector a.</param>
 		/// <param name="b">Vector b.</param>
 		/// <returns>The product Vector.</returns>
-		public static bool operator !=(Vector a, Vector b)
-		{
-			return !(a == b);
-		}
+		public static bool operator !=(Vector a, Vector b) => !(a == b);
 
-		public override bool Equals(object obj)
-		{
-			return obj is Vector vector && vector == this;
-		}
+		public override bool Equals(object obj) => obj is Vector vector && vector == this;
 
-		public bool Equals(Vector other)
-		{
-			return other is Vector vector && vector == this;
-		}
+		public bool Equals(Vector other) => other is Vector vector && vector == this;
 
-		public override int GetHashCode()
-		{
-			return 633581876 + EqualityComparer<float[]>.Default.GetHashCode(Axis);
-		}
+		public override int GetHashCode() => 633581876 + EqualityComparer<float[]>.Default.GetHashCode(Axis);
 	}
 }

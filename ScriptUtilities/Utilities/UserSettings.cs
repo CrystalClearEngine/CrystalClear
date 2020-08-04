@@ -51,9 +51,9 @@ namespace CrystalClear.ScriptUtilities
 			}
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
-			for (int i = 0; i < lines.Length; i++)
+			for (var i = 0; i < lines.Length; i++)
 			{
-				string line = lines[i];
+				var line = lines[i];
 				if (line.Split(':')[0].Contains(setting.Name)
 				) // This setting should be overwritten as its name matches that of the setting we want to change
 				{
@@ -72,9 +72,9 @@ namespace CrystalClear.ScriptUtilities
 		public static void DeleteSetting(string name)
 		{
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
-			for (int i = 0; i < lines.Length; i++)
+			for (var i = 0; i < lines.Length; i++)
 			{
-				string line = lines[i];
+				var line = lines[i];
 				if (line.Split(':')[0].Contains(name)
 				) // This setting should be deleted as it is matches the name of the setting we want to delete
 				{
@@ -89,17 +89,14 @@ namespace CrystalClear.ScriptUtilities
 		}
 
 
-		public static bool ExistsSetting(UserSetting setting)
-		{
-			return ExistsSetting(setting.Name);
-		}
+		public static bool ExistsSetting(UserSetting setting) => ExistsSetting(setting.Name);
 
 		public static bool ExistsSetting(string name)
 		{
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
-			for (int i = 0; i < lines.Length; i++)
+			for (var i = 0; i < lines.Length; i++)
 			{
-				string line = lines[i];
+				var line = lines[i];
 				if (line.Split(':')[0].Contains(name)) // This setting exists
 				{
 					return true;
@@ -110,10 +107,7 @@ namespace CrystalClear.ScriptUtilities
 			return false;
 		}
 
-		public static UserSetting GetSetting(UserSetting setting)
-		{
-			return GetSetting(setting.Name);
-		}
+		public static UserSetting GetSetting(UserSetting setting) => GetSetting(setting.Name);
 
 		public static UserSetting GetSetting(string name)
 		{
@@ -128,9 +122,9 @@ namespace CrystalClear.ScriptUtilities
 			}
 
 			string[] lines = File.ReadAllLines(SettingsFilePath); // All settings in the file
-			for (int i = 0; i < lines.Length; i++)
+			for (var i = 0; i < lines.Length; i++)
 			{
-				string line = lines[i];
+				var line = lines[i];
 				if (line.Split(':')[0].Contains(name)) // This setting should be read and returned
 				{
 					return new UserSetting(line);
@@ -142,7 +136,7 @@ namespace CrystalClear.ScriptUtilities
 
 		public static string ObjectToString(object obj)
 		{
-			using (MemoryStream ms = new MemoryStream())
+			using (var ms = new MemoryStream())
 			{
 				new BinaryFormatter().Serialize(ms, obj);
 				return Convert.ToBase64String(ms.ToArray());
@@ -152,7 +146,7 @@ namespace CrystalClear.ScriptUtilities
 		public static object StringToObject(string base64String)
 		{
 			byte[] bytes = Convert.FromBase64String(base64String);
-			using (MemoryStream ms = new MemoryStream(bytes, 0, bytes.Length))
+			using (var ms = new MemoryStream(bytes, 0, bytes.Length))
 			{
 				ms.Write(bytes, 0, bytes.Length);
 				ms.Position = 0;
@@ -187,20 +181,11 @@ namespace CrystalClear.ScriptUtilities
 				Value = StringToObject(splitString[1]);
 			}
 
-			public override string ToString()
-			{
-				return Name + ":" + ObjectToString(Value);
-			}
+			public override string ToString() => Name + ":" + ObjectToString(Value);
 
-			public static bool operator ==(UserSetting left, UserSetting right)
-			{
-				return left.Equals(right);
-			}
+			public static bool operator ==(UserSetting left, UserSetting right) => left.Equals(right);
 
-			public static bool operator !=(UserSetting left, UserSetting right)
-			{
-				return !(left == right);
-			}
+			public static bool operator !=(UserSetting left, UserSetting right) => !(left == right);
 
 			public bool Equals(UserSetting other)
 			{
@@ -215,24 +200,21 @@ namespace CrystalClear.ScriptUtilities
 				return false;
 			}
 
-			public override bool Equals(object obj)
-			{
-				return obj is UserSetting && Equals((UserSetting)obj);
-			}
+			public override bool Equals(object obj) => obj is UserSetting && Equals((UserSetting) obj);
 		}
 	}
 
 	#region Exceptions
 
 	/// <summary>
-	/// An exception thrown by a method in UserExceptions
+	///     An exception thrown by a method in UserExceptions
 	/// </summary>
 	public abstract class UserSettingsException : Exception
 	{
 	}
 
 	/// <summary>
-	/// An exception thrown by a method in UserExceptions that regards a single exception
+	///     An exception thrown by a method in UserExceptions that regards a single exception
 	/// </summary>
 	public abstract class UserSettingException : UserSettingsException
 	{
@@ -245,7 +227,7 @@ namespace CrystalClear.ScriptUtilities
 			this.UserSettingName = UserSettingName;
 		}
 
-		public string UserSettingName { get; private set; }
+		public string UserSettingName { get; }
 	}
 
 	public class UserSettingNameContainsColon : UserSettingsException
@@ -254,16 +236,17 @@ namespace CrystalClear.ScriptUtilities
 
 	public class SettingNotFoundException : UserSettingsException
 	{
+		public string NameOfNotFoundSetting;
+
 		public SettingNotFoundException(string NameOfNotFoundSetting)
 		{
 			this.NameOfNotFoundSetting = NameOfNotFoundSetting;
 		}
-
-		public string NameOfNotFoundSetting;
 	}
 
 	public class UserSettingsNotSetUpException : UserSettingsException
 	{
 	}
+
 	#endregion
 }

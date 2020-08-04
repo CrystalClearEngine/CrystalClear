@@ -1,13 +1,32 @@
-﻿using CrystalClear;
+﻿using System;
+using CrystalClear;
 using CrystalClear.EventSystem.StandardEvents;
 using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem;
-using System;
 
 [Editable(nameof(Editor), nameof(Creator))]
 //[Editable]
 public class CustomHierarchyObject : HierarchyObject
 {
+	public CustomHierarchyObject()
+	{
+	}
+
+	public CustomHierarchyObject(string textParameter)
+	{
+		Text = textParameter;
+	}
+
+	public CustomHierarchyObject(string textParameter, bool pointlessBool)
+	{
+		Text = textParameter;
+		PointlessBool = pointlessBool;
+	}
+
+	public string Text { get; private set; }
+
+	public bool PointlessBool { get; private set; }
+
 	//[Editor]
 	private static void Editor(ref EditorData currentEditorData)
 	{
@@ -20,6 +39,7 @@ public class CustomHierarchyObject : HierarchyObject
 				goto SetPointlessBool;
 			}
 		}
+
 		Output.Log("Choose a value for Text:");
 		currentEditorData["Text"] = Console.ReadLine();
 		SetPointlessBool:
@@ -31,6 +51,7 @@ public class CustomHierarchyObject : HierarchyObject
 				goto Exit;
 			}
 		}
+
 		Output.Log("Choose true or false for Pointless bool:");
 		currentEditorData["PointlessBool"] = GetBool().ToString();
 		Exit:
@@ -65,11 +86,11 @@ public class CustomHierarchyObject : HierarchyObject
 	//[Creator]
 	private static object Creator(EditorData editorData)
 	{
-		CustomHierarchyObject createdCustomHierarchyObject = new CustomHierarchyObject
+		var createdCustomHierarchyObject = new CustomHierarchyObject
 		{
 			Text = editorData["Text"],
 
-			PointlessBool = GetBool(editorData["PointlessBool"])
+			PointlessBool = GetBool(editorData["PointlessBool"]),
 		};
 
 		bool GetBool(string input)
@@ -98,29 +119,10 @@ public class CustomHierarchyObject : HierarchyObject
 		return createdCustomHierarchyObject;
 	}
 
-	public CustomHierarchyObject()
-	{
-
-	}
-
-	public CustomHierarchyObject(string textParameter)
-	{
-		Text = textParameter;
-	}
-
-	public CustomHierarchyObject(string textParameter, bool pointlessBool)
-	{
-		Text = textParameter;
-		PointlessBool = pointlessBool;
-	}
-
 	[OnStartEvent]
 	public void PrintContents()
 	{
 		Output.Log(Text);
 		Output.Log(PointlessBool);
 	}
-
-	public string Text { get; private set; }
-	public bool PointlessBool { get; private set; }
 }

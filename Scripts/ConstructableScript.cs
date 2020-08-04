@@ -7,6 +7,8 @@ using CrystalClear.Standard.HierarchyObjects;
 [IsScript]
 public class ConstructableScript : HierarchyScript<ScriptObject>
 {
+	public string ToPrint;
+
 	public ConstructableScript()
 	{
 		ToPrint = "default value";
@@ -16,8 +18,6 @@ public class ConstructableScript : HierarchyScript<ScriptObject>
 	{
 		ToPrint = toPrint;
 	}
-
-	public string ToPrint;
 
 	[OnStartEvent]
 	public void Print()

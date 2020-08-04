@@ -1,6 +1,6 @@
-﻿using BenchmarkDotNet.Configs;
+﻿using System;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-using System;
 using Benchmarks.EventSystemBenchmarks;
 using Benchmarks.MessageSystemBenchmarks;
 
@@ -8,7 +8,7 @@ namespace Benchmarks
 {
 	public static class BenchmarkMain
 	{
-		static readonly Type[] benchmarks =
+		private static readonly Type[] benchmarks =
 		{
 			typeof(SubscriptionOrderedVNonOrdered),
 			typeof(LINQ_DynamicInvoke_vs_Invoke),

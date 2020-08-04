@@ -5,28 +5,25 @@
 		// Overrideable event methods.
 
 		/// <summary>
-		/// OnLocalHierarchyChange is called when the LocalHierarchy is modified.
+		///     OnLocalHierarchyChange is called when the LocalHierarchy is modified.
 		/// </summary>
 		protected internal virtual void OnLocalHierarchyChange()
 		{
-
 		}
 
 		/// <summary>
-		/// OnReparent is called when the HierarchyObject's parent updates.
+		///     OnReparent is called when the HierarchyObject's parent updates.
 		/// </summary>
 		/// <param name="newParent">The new parent.</param>
 		protected internal virtual void OnReparent(HierarchyObject newParent)
 		{
-
 		}
 
 		/// <summary>
-		/// OnSetUp is called when the HierarchyObject's SetUp method is called.
+		///     OnSetUp is called when the HierarchyObject's SetUp method is called.
 		/// </summary>
 		protected internal virtual void OnSetUp()
 		{
-
 		}
 	}
 }

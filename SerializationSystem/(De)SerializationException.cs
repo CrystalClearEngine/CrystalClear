@@ -11,7 +11,8 @@ namespace CrystalClear.SerializationSystem
 		{
 		}
 
-		public SerializationException(BinaryWriter writer, string message, Exception innerException) : base(message + " Encountered at (approximately) position:" + writer.BaseStream.Position, innerException)
+		public SerializationException(BinaryWriter writer, string message, Exception innerException) : base(
+			message + " Encountered at (approximately) position:" + writer.BaseStream.Position, innerException)
 		{
 			ApproxPositionOfError = writer.BaseStream.Position;
 		}
@@ -25,7 +26,8 @@ namespace CrystalClear.SerializationSystem
 		{
 		}
 
-		public DeserializationException(BinaryReader reader, string message, Exception innerException) : base(message + " Encountered at (approximately) position:" + reader.BaseStream.Position, innerException)
+		public DeserializationException(BinaryReader reader, string message, Exception innerException) : base(
+			message + " Encountered at (approximately) position:" + reader.BaseStream.Position, innerException)
 		{
 			ApproxPositionOfError = reader.BaseStream.Position;
 		}
