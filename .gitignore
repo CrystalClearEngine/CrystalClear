@@ -355,6 +355,8 @@ MigrationBackup/
 
 /Libraries
 /Resources
-/.idea/.idea.Crystal Clear
+
+# Rider and ReSharper files
+#/.idea/.idea.Crystal Clear
 /HierarchySystem/Annotations.cs
-/Crystal Clear.sln.DotSettings
+#/Crystal Clear.sln.DotSettings
