@@ -29,9 +29,26 @@ namespace Benchmarks.MessageSystemBenchmarks
 		}
 
 		[Benchmark]
-		public void Invoke()
+		public void LINQInvoke()
 		{
-			new SampleMessage().SendTo(this);
+			LINQInvokeSender(new SampleMessage(), this);
+		}
+
+		private void LINQInvokeSender(Message message, object recipient)
+		{
+			if (!message.AllowInstanceMethods)
+				return;
+
+			IEnumerable<MethodInfo> messageReceivers =
+				from MethodInfo method in recipient.GetType()
+					.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+				where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType()
+				select method;
+
+			foreach (MethodInfo messageReceiver in messageReceivers)
+			{
+				messageReceiver.Invoke(recipient, messageReceiver.GetParameters().Length == 0 ? null : new[] {message});
+			}
 		}
 
 		[Benchmark]
