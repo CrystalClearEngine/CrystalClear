@@ -9,9 +9,8 @@ namespace CrystalClear.MessageSystem
 	{
 		// TODO: add out parameter messageGotReceived
 		// TODO: add method where you can get the returns from the invokes?
-		// TODO: use cache for messageReceivers and toCall?
-		// TODO: use something else than DynamicInvoke
 		// TODO: add send to multiple method.
+		// TODO: add SendMessageAsync method.
 
 		public static void SendMessage(this object recipient, Message message)
 		{
@@ -21,7 +20,9 @@ namespace CrystalClear.MessageSystem
 			foreach (MethodInfo method in recipient.GetType()
 				.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				if (method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType())
+				var attribute = method.GetCustomAttribute<OnReceiveMessageAttribute>();
+				if (attribute is null) continue;
+				if (attribute.ResolveWhetherToReceive(message.GetType()))
 				{
 					method.Invoke(recipient, method.GetParameters().Length == 0 ? null : new[] {message});
 				}
@@ -41,9 +42,11 @@ namespace CrystalClear.MessageSystem
 			foreach (MethodInfo method in recipient
 				.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				if (method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType())
+				var attribute = method.GetCustomAttribute<OnReceiveMessageAttribute>();
+				if (attribute is null) continue;
+				if (attribute.ResolveWhetherToReceive(message.GetType()))
 				{
-					method.Invoke(recipient, method.GetParameters().Length == 0 ? null : new[] {message});
+					method.Invoke(null, method.GetParameters().Length == 0 ? null : new[] {message});
 				}
 			}
 		}
