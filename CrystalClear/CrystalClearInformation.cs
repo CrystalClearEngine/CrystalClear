@@ -17,10 +17,6 @@ namespace CrystalClear
 		}
 
 		public static Assembly[] UserAssemblies;
-		public static Version CrystalClearVersion { get; } = new Version(0, 0, 0, 5);
-
-		public static string WorkingPath =>
-			$@"{Environment.CurrentDirectory}\"; // TODO make constant, also maybe rename to WorkPath?
 	}
 
 	public static class RuntimeInformation

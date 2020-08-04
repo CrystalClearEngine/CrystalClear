@@ -19,9 +19,8 @@ namespace CrystalClear.EventSystem
 		public static double DeltaTimeInSeconds => Instance.stopwatch.Elapsed.TotalSeconds;
 
 		public static TimeSpan DeltaTime => Instance.stopwatch.Elapsed;
-		private bool running = false;
 
-		public static double DeltaTimeInSeconds { get => Instance.stopwatch.Elapsed.TotalSeconds; }
+		private bool running = false;
 
 		~UpdatingScriptEvent()
 		{
