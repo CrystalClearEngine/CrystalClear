@@ -17,16 +17,14 @@ namespace CrystalClear.MessageSystem
 		{
 			if (!message.AllowInstanceMethods)
 				return;
-
-			IEnumerable<MethodInfo> messageReceivers =
-				from MethodInfo method in recipient.GetType()
-					.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType()
-				select method;
-
-			foreach (MethodInfo messageReceiver in messageReceivers)
+			
+			foreach (MethodInfo method in recipient.GetType()
+				.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				messageReceiver.Invoke(recipient, messageReceiver.GetParameters().Length == 0 ? null : new[] {message});
+				if (method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType())
+				{
+					method.Invoke(recipient, method.GetParameters().Length == 0 ? null : new[] {message});
+				}
 			}
 		}
 
@@ -40,15 +38,13 @@ namespace CrystalClear.MessageSystem
 			if (!message.AllowStaticMethods)
 				return;
 
-			IEnumerable<MethodInfo> messageReceivers =
-				from MethodInfo method in
-					recipient.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
-				where method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType()
-				select method;
-
-			foreach (MethodInfo messageReceiver in messageReceivers)
+			foreach (MethodInfo method in recipient
+				.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 			{
-				messageReceiver.Invoke(recipient, messageReceiver.GetParameters().Length == 0 ? null : new[] {message});
+				if (method.GetCustomAttribute<OnReceiveMessageAttribute>()?.MessageType == message.GetType())
+				{
+					method.Invoke(recipient, method.GetParameters().Length == 0 ? null : new[] {message});
+				}
 			}
 		}
 	}
