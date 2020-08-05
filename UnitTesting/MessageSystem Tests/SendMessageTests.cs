@@ -5,11 +5,6 @@ using Message = CrystalClear.MessageSystem.Message;
 
 namespace UnitTests
 {
-	public class TestMessage : Message
-	{
-		
-	}
-
 	public class InstanceMessageRecipient
 	{
 		public int ReceivedMessages = 0;
