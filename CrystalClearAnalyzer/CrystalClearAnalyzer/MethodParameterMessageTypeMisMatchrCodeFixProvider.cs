@@ -15,14 +15,14 @@ using Microsoft.CodeAnalysis.Text;
 
 namespace CrystalClearAnalyzer
 {
-	[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(CrystalClearAnalyzerCodeFixProvider)), Shared]
-	public class CrystalClearAnalyzerCodeFixProvider : CodeFixProvider
+	[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MethodParameterMessageTypeMisMatchrCodeFixProvider)), Shared]
+	public class MethodParameterMessageTypeMisMatchrCodeFixProvider : CodeFixProvider
 	{
-		private const string title = "Make uppercase";
+		private const string title = "Change type";
 
 		public sealed override ImmutableArray<string> FixableDiagnosticIds
 		{
-			get { return ImmutableArray.Create(CrystalClearAnalyzerAnalyzer.DiagnosticId); }
+			get { return ImmutableArray.Create(MethodParameterMessageTypeMisMatchAnalyzer.DiagnosticId); }
 		}
 
 		public sealed override FixAllProvider GetFixAllProvider()

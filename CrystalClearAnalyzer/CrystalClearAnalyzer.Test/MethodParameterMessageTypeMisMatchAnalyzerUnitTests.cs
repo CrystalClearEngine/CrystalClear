@@ -7,8 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CrystalClearAnalyzer;
 using Verify = Microsoft.CodeAnalysis.CSharp.Testing.MSTest.CodeFixVerifier<
-    CrystalClearAnalyzer.CrystalClearAnalyzerAnalyzer,
-	CrystalClearAnalyzer.CrystalClearAnalyzerCodeFixProvider>;
+    CrystalClearAnalyzer.MethodParameterMessageTypeMisMatchAnalyzer,
+	CrystalClearAnalyzer.MethodParameterMessageTypeMisMatchrCodeFixProvider>;
 
 namespace CrystalClearAnalyzer.Test
 {
