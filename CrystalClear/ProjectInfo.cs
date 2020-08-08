@@ -23,8 +23,14 @@ namespace CrystalClear
 
 		[XmlIgnore] public DirectoryInfo TempDirectory;
 		// TODO: add EditorData-like ProjectData storage for project specific preferences and data.
-
-		[XmlElement]
+		
+		public string ProjectCrystalClearVersionString
+		{
+			get => ProjectCrystalClearVersion.ToString();
+			set => ProjectCrystalClearVersion = Version.Parse(value);
+		}
+		
+		[XmlIgnore]
 		public Version ProjectCrystalClearVersion { get; set; } =
 			new Version(0, 0, 0,
 				3); // Set the default to 0.0.0.3 since that was the last version of Crystal Clear that did not store the version number.
