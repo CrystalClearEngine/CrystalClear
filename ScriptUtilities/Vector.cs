@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CrystalClear.ScriptUtilities
 {
+	// TODO: rename to DynamicVector?
 	public struct Vector : IEquatable<Vector>
 	{
 		/// <summary>

@@ -11,6 +11,10 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
 	</ItemGroup>
@@ -18,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
     <ProjectReference Include="..\MessageSystem\MessageSystem.csproj" />
+    <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
   </ItemGroup>
 
 </Project>

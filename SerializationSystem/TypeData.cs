@@ -37,25 +37,23 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		}
 
 		// TODO: determine if a cache for this is neccessary.
-		public Type GetConstructionType()
-		{
-			return Type.GetType(ConstructionTypeName,
-				delegate(AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
+		public Type GetConstructionType() => Type.GetType(ConstructionTypeName,
+		assemblyResolver: delegate (AssemblyName assemblyName) // A custom assemblyResolver is needed because the assembly may be in another AssemblyLoadContext.
+		{ // TODO: keep a list of all AssemblyLoadContexts and look through them instead, so all types can be detected?
+		  // TODO: turn this whole call into an extension for Type?
+			foreach (var assembly in RuntimeInformation.UserAssemblies)
+			{
+				if (assembly.GetName().FullName == assemblyName.FullName)
 				{
 					// TODO: keep a list of all AssemblyLoadContexts and look through them instead, so all types can be detected?
 					// TODO: turn this whole call into an extension for Type?
-					foreach (Assembly assembly in CrystalClearInformation.UserAssemblies)
-					{
-						if (assembly.GetName().FullName == assemblyName.FullName)
-						{
-							return assembly;
-						}
-					}
+					return assembly;
+				}
+			}
 
-					return null;
-				},
-				null,
-				true);
-		}
+			return null;
+		},
+		null,
+		true);
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace CrystalClear.MessageSystem
 {
-	// TODO: add OnReceiveAnyMessageAttribute?
 	[AttributeUsage(AttributeTargets.Method)]
 	public class OnReceiveMessageAttribute : Attribute
 	{
@@ -10,6 +9,20 @@ namespace CrystalClear.MessageSystem
 		{
 			MessageType = messageType;
 		}
+
+		public bool ResolveWhetherToReceive(Type messageType)
+		{
+			if (ReceiveSubclasses)
+			{
+				return messageType.IsSubclassOf(MessageType) | MessageType == messageType;
+			}
+			else
+			{
+				return MessageType == messageType;
+			}
+		}
+		
+		public bool ReceiveSubclasses = true;
 
 		public Type MessageType { get; }
 	}

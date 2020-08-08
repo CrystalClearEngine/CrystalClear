@@ -4,7 +4,7 @@ using CrystalClear.EventSystem.StandardEvents;
 
 namespace CrystalClear.Standard.Events
 {
-	// TODO: should this instead be called OnPhysicsTimestep (the s not capitalized)?
+	// TODO: should this instead be named OnPhysicsTimestep (the s not capitalized)?
 	/// <summary>
 	///     The physics time step event attribute.
 	/// </summary>

@@ -30,7 +30,7 @@ namespace Benchmarks.EventSystemBenchmarks
 
 		private static void SubscribeEventsOrdered(Type typeToSubscribe, object instance)
 		{
-			IEnumerable<(MethodInfo method, SubscribeToAttribute?)> methodsToSubscribe =
+			IEnumerable<(MethodInfo method, SubscribeToAttribute)> methodsToSubscribe =
 				from MethodInfo method in
 					typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
 				where method.GetCustomAttribute<SubscribeToAttribute>() != null
@@ -38,7 +38,7 @@ namespace Benchmarks.EventSystemBenchmarks
 
 			methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
 
-			foreach ((MethodInfo method, SubscribeToAttribute?) methodToSubscribe in methodsToSubscribe)
+			foreach ((MethodInfo method, SubscribeToAttribute) methodToSubscribe in methodsToSubscribe)
 				methodToSubscribe.Item2.ScriptEvent.Subscribe(methodToSubscribe.method, instance);
 		}
 

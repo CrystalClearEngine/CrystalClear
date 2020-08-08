@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#define Editor
+using CrystalClear.EventSystem.StandardEvents;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CrystalClear.HierarchySystem
@@ -85,5 +87,13 @@ namespace CrystalClear.HierarchySystem
 
 			return key;
 		}
+
+#if Editor
+		[OnStopEvent]
+		public static void EditorReset()
+		{
+			LoadedHierarchies.Clear();
+		}
+#endif
 	}
 }

@@ -14,7 +14,6 @@ using NLua;
 namespace CrystalClear.Standard.Scripts
 {
 	[IsScript]
-	// TODO: add support for Editable scripts!
 	//[Editable(nameof(Editor), nameof(Creator))]
 	public class ScriptBlob
 		: IDisposable

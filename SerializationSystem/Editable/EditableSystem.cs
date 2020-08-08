@@ -102,7 +102,7 @@ namespace CrystalClear.SerializationSystem
 			}
 		}
 
-		public static CreatorDelegate FindCreator(Type type)
+		private static CreatorDelegate FindCreator(Type type)
 		{
 			if (creatorCache.ContainsKey(type.AssemblyQualifiedName))
 			{

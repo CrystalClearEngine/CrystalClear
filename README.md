@@ -1,12 +1,10 @@
-![Build](https://github.com/CrystalClearEngine/CrystalClear/workflows/.NET%20Core/badge.svg)
+![.NET Core](https://github.com/CrystalClearEngine/CrystalClear/workflows/.NET%20Core/badge.svg)
 
 # CrystalClear
 The Crystal Clear Engine is a highly WIP game and software engine, so far written entierly in C#.
 
 # Goals
 One of the main focuses of the engine is to make the development process as easy and elegant as possible. This means minimal boilerplate code, many utility methods, rapid prototyping and powerful debugging tools*. The engine's code is also heavily documented and openly available to peek at, and of course contribute to!
-
-**to be implemented.*
 
 # The engine
 
@@ -17,7 +15,7 @@ The world in Crystal Clear is built up of HierarchyObjects. These magnificent be
 
 *Scripting*
 
-The brains of your game or software is scripts. HierarchyScripts are attatchable to HierarchyObjects, although all scripting does not have to be done in them. Static methods can be subscribed to events, and can work just as well.
+The brains of your game or software is scripts. HierarchyScripts are attachable to HierarchyObjects, although all scripting does not have to be done in them. Static methods can be subscribed to events, and can work just as well.
 
 The HierarchyScripting way of scripting is commonly known as component-based scripting, although this is not entierly accurate to how scripting works in Crystal Clear.
 

@@ -20,6 +20,8 @@ namespace CrystalClear.EventSystem
 
 		public static TimeSpan DeltaTime => Instance.stopwatch.Elapsed;
 
+		private bool running = false;
+
 		~UpdatingScriptEvent()
 		{
 			timer?.Dispose();
@@ -28,6 +30,8 @@ namespace CrystalClear.EventSystem
 		// TODO: add check so it can't Raise the event if it is already being raised from last time? Maybe an IsStillBeingRaised field in Instance?
 		public static void Start(TimeSpan interval = new TimeSpan())
 		{
+			Instance.running = true;
+
 			// TODO: attempt to raise the Event on the Main thread, to prevent multi threading issues (or atleast as an option, or maybe variants of the events etc... they could easily be determined using the same attribute as now, only with constructors)
 			if (interval != TimeSpan.Zero)
 			{
@@ -50,13 +54,17 @@ namespace CrystalClear.EventSystem
 
 		public static void Stop()
 		{
+			if (!Instance.running)
+				return;
+
+			Instance.running = false;
 			Instance.timer?.Dispose();
-			Instance.thread?.Abort();
+			//Instance.thread?.Abort();
 		}
 
 		private static void UpdateLoop()
 		{
-			while (true)
+			while (Instance.running)
 			{
 				Instance.RaiseEvent();
 				Instance.stopwatch.Restart();
