@@ -17,6 +17,8 @@ namespace Benchmarks.MessageSystemBenchmarks
 	[MemoryDiagnoser]
 	public class SendMessageBenchmarks
 	{
+		SampleMessage sampleMessage = new SampleMessage();
+		
 		[OnReceiveMessage(typeof(SampleMessage))]
 		public void MessageReceiver(SampleMessage message)
 		{
@@ -25,13 +27,13 @@ namespace Benchmarks.MessageSystemBenchmarks
 		[Benchmark(Baseline = true)]
 		public void CurrentSendMessage()
 		{
-			new SampleMessage().SendTo(this);
+			sampleMessage.SendTo(this);
 		}
 
 		[Benchmark]
 		public void LINQInvoke()
 		{
-			LINQInvokeSender(new SampleMessage(), this);
+			LINQInvokeSender(sampleMessage, this);
 		}
 
 		private void LINQInvokeSender(Message message, object recipient)
@@ -54,7 +56,7 @@ namespace Benchmarks.MessageSystemBenchmarks
 		[Benchmark]
 		public void LINQDynamicInvoke()
 		{
-			LINQDynamicInvokeSender(new SampleMessage(), this);
+			LINQDynamicInvokeSender(sampleMessage, this);
 		}
 
 		private static void LINQDynamicInvokeSender(Message message, object recipient)
