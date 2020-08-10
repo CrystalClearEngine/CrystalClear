@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -9,6 +9,8 @@ namespace CrystalClear
 {
 	public class ProjectInfo
 	{
+		internal ProjectInfo() {}
+
 		[XmlIgnore] public DirectoryInfo AssetsDirectory;
 
 		[XmlIgnore] public DirectoryInfo BuildDirectory;
@@ -17,13 +19,13 @@ namespace CrystalClear
 
 		[XmlIgnore] public DirectoryInfo ProjectDirectory;
 
-		public string ProjectName;
-
 		[XmlIgnore] public DirectoryInfo ScriptsDirectory;
 
 		[XmlIgnore] public DirectoryInfo TempDirectory;
 		// TODO: add EditorData-like ProjectData storage for project specific preferences and data.
 		
+		public string ProjectName;
+
 		public string ProjectCrystalClearVersionString
 		{
 			get => ProjectCrystalClearVersion.ToString();
@@ -38,40 +40,75 @@ namespace CrystalClear
 		[XmlIgnore]
 		public FileInfo ProjectFile => new FileInfo($@"{CurrentProject.Path}\{CurrentProject.ProjectName}.crcl");
 
+		[XmlIgnore]
 		public string Path
 		{
 			get => ProjectDirectory.FullName;
 			set => ProjectDirectory = new DirectoryInfo(value);
 		}
-
-		// TODO: make paths relative.
+		
+		[XmlIgnore]
 		public string ScriptsPath
 		{
 			get => ScriptsDirectory.FullName;
 			set => ScriptsDirectory = new DirectoryInfo(value);
 		}
 
+		[XmlIgnore]
 		public string BuildPath // TODO: should add / at end?
 		{
 			get => BuildDirectory.FullName;
 			set => BuildDirectory = new DirectoryInfo(value);
 		}
 
+		[XmlIgnore]
 		public string AssetsPath
 		{
 			get => AssetsDirectory.FullName;
 			set => AssetsDirectory = new DirectoryInfo(value);
 		}
 
+		[XmlIgnore]
 		public string HierarchyPath
 		{
 			get => HierarchiesDirectory.FullName;
 			set => HierarchiesDirectory = new DirectoryInfo(value);
 		}
 
+		[XmlIgnore]
 		public string TempPath
 		{
 			get => HierarchiesDirectory.FullName;
+			set => HierarchiesDirectory = new DirectoryInfo(value);
+		}
+		
+		public string ScriptsPathRelative
+		{
+			get => System.IO.Path.GetRelativePath(Path, ScriptsPath);
+			set => ScriptsDirectory = new DirectoryInfo(value);
+		}
+
+		public string BuildPathRelative
+		{
+			get => System.IO.Path.GetRelativePath(Path, BuildPath);
+			set => BuildDirectory = new DirectoryInfo(value);
+		}
+
+		public string AssetsPathRelative
+		{
+			get => System.IO.Path.GetRelativePath(Path, AssetsPath);
+			set => AssetsDirectory = new DirectoryInfo(value);
+		}
+
+		public string HierarchyPathRelative
+		{
+			get => System.IO.Path.GetRelativePath(Path, HierarchyPath);
+			set => HierarchiesDirectory = new DirectoryInfo(value);
+		}
+
+		public string TempPathRelative
+		{
+			get => System.IO.Path.GetRelativePath(Path, TempPath);
 			set => HierarchiesDirectory = new DirectoryInfo(value);
 		}
 
@@ -124,6 +161,8 @@ namespace CrystalClear
 				throw new Exception("No project exists at this location.");
 			}
 
+			Environment.CurrentDirectory = projectPath;
+
 			var xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
 
 			FileInfo[] crystalClearProjectFiles = projectDirectory.GetFiles("*.crcl");
@@ -153,6 +192,8 @@ namespace CrystalClear
 
 				CurrentProject = loadedProject;
 			}
+			
+			CurrentProject.ProjectDirectory = new DirectoryInfo(projectPath);
 
 			Console.Title = $"{CurrentProject.ProjectName} | Crystal Clear Engine {CrystalClearVersion}";
 		}
