@@ -6,7 +6,7 @@ using BenchmarkDotNet.Attributes;
 using CrystalClear.EventSystem;
 using CrystalClear.EventSystem.StandardEvents;
 
-namespace Benchmarks.EventSystemBenchmarks
+namespace Benchmarking.Benchmarks.EventSystem
 {
 	[MemoryDiagnoser]
 	public class SubscriptionBenchmarks
@@ -19,7 +19,7 @@ namespace Benchmarks.EventSystemBenchmarks
 		[Benchmark(Baseline = true)]
 		public void Current()
 		{
-			EventSystem.SubscribeEvents(GetType(), this);
+			CrystalClear.EventSystem.EventSystem.SubscribeEvents(GetType(), this);
 		}
 
 		[Benchmark]

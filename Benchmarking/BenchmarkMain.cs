@@ -2,10 +2,9 @@
 using System.Reflection;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Running;
-using Benchmarks.EventSystemBenchmarks;
 using Benchmarks.MessageSystemBenchmarks;
 
-namespace Benchmarks
+namespace Benchmarking
 {
 	public static class BenchmarkMain
 	{

@@ -1,9 +1,7 @@
 ﻿using System.Numerics;
 using BenchmarkDotNet.Attributes;
-using CrystalClear.ScriptUtilities;
-using Microsoft.Diagnostics.Tracing.Parsers.Clr;
 
-namespace Benchmarks
+namespace Benchmarking.Benchmarks.Vector
 {
 	[MemoryDiagnoser]
 	public class VectorMathsBenchmark

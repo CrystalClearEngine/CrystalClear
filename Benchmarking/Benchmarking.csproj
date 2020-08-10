@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Benchmarks</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -21,8 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
+    <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
     <ProjectReference Include="..\MessageSystem\MessageSystem.csproj" />
     <ProjectReference Include="..\ScriptUtilities\ScriptUtilities.csproj" />
+    <ProjectReference Include="..\SerializationSystem\SerializationSystem.csproj" />
+    <ProjectReference Include="..\Standard\Standard.csproj" />
   </ItemGroup>
 
 </Project>
