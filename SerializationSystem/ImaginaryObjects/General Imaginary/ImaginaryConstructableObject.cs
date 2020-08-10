@@ -37,7 +37,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		[DataMember] public TypeData TypeData { get; set; }
 
 		public override object CreateInstance() => Activator.CreateInstance(TypeData.GetConstructionType(),
-			GetConstructionParameters());
+			GetConstructionParameters()); // TODO: find something faster than Activator to use.
 
 		public object[] GetConstructionParameters()
 		{
