@@ -26,5 +26,19 @@ namespace CrystalClear.ECS
 				action(entity.Key, entity.Value);
 			}
 		}
+
+		public void ExecuteOnEachDataAttribute(Action<TDataAttribute, uint> action)
+		{
+			foreach (var entity in data)
+			{
+				action(entity.Value, entity.Key);
+			}
+		}
+	}
+
+	public class MultipleDataAttribute<TDataAttribute> : DataAttribute
+		where TDataAttribute : DataAttribute
+	{
+		public List<TDataAttribute> DataAttributes = new List<TDataAttribute>();
 	}
 }

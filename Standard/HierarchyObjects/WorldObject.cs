@@ -47,7 +47,6 @@ namespace CrystalClear.Standard.HierarchyObjects
 			}
 
 			Transform = new Transform(new Vector(3), new Vector(3), new Vector(3), parent, childTransforms);
-			;
 		}
 
 		protected override void OnLocalHierarchyChange()

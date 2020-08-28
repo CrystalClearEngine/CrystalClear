@@ -21,7 +21,7 @@ namespace Scripts
 		[OnFrameUpdate]
 		public static void Update()
 		{
-			ECSSystem.ExecuteOnEach((id, data) =>
+			ECSSystem.ExecuteOnEachDataAttribute((data, id) =>
 			{
 				if (data.ShouldMove && WorldECSSystem.ECSSystem.HasDataFor(id))
 					WorldECSSystem.ECSSystem[id].Position += data.MoveDirection * (float)FrameUpdateEvent.DeltaTimeInSeconds;
