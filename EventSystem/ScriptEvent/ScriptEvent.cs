@@ -42,6 +42,6 @@ namespace CrystalClear.EventSystem
 	{
 		private static TInstance _instance;
 
-		public static TInstance Instance => _instance ?? (_instance = new TInstance());
+		public static TInstance Instance => _instance ??= new TInstance();
 	}
 }
