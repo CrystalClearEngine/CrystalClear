@@ -81,6 +81,31 @@ partial class MainClass
 #endif
 		switch (commandSections[0])
 		{
+			case "asset":
+				switch (commandSections[1])
+				{
+					case "new":
+						switch (commandSections[2])
+						{
+							case "script":
+								Assets.CreateNewScript(commandSections[3]);
+								break;
+
+							case "hierarchy":
+								Assets.CreateNewHiearchy(commandSections[3]);
+								break;
+						}
+						break;
+
+					case "delete":
+						Assets.DeleteAsset(commandSections[3]);
+						break;
+
+					case "list":
+						break;
+				}
+				break;
+
 			case "compile":
 				Compile();
 				break;
@@ -732,14 +757,14 @@ partial class MainClass
 				i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 			foreach (T item in collection)
 			{
-				Output.Log($"Item ({i}/{count - 1}): {item.ToString()}");
+				Output.Log($"Item ({i}/{count - 1}): {item}");
 				getInput:
 				Console.Write("Select? Y/N: ");
 				var readChar = Console.ReadKey().KeyChar;
 				Output.Log();
 				if (readChar == 'Y' || readChar == 'y')
 				{
-					Output.Log($"Selected {item.ToString()}");
+					Output.Log($"Selected {item}");
 					return item;
 				}
 
