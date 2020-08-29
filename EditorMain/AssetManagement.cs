@@ -2,7 +2,7 @@
 using System.IO;
 using static CrystalClear.EditorInformation;
 
-public static class Assets
+public static class AssetManagement
 {
 	const string defaultScript =
 		"using CrystalClear;\n" +

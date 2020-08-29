@@ -88,17 +88,17 @@ partial class MainClass
 						switch (commandSections[2])
 						{
 							case "script":
-								Assets.CreateNewScript(commandSections[3]);
+								AssetManagement.CreateNewScript(commandSections[3]);
 								break;
 
 							case "hierarchy":
-								Assets.CreateNewHiearchy(commandSections[3]);
+								AssetManagement.CreateNewHiearchy(commandSections[3]);
 								break;
 						}
 						break;
 
 					case "delete":
-						Assets.DeleteAsset(commandSections[3]);
+						AssetManagement.DeleteAsset(commandSections[3]);
 						break;
 
 					case "list":
