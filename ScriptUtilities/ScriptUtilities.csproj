@@ -6,6 +6,7 @@
 	</PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ECSSystem\ECSSystem.csproj" />
     <ProjectReference Include="..\EventSystem\EventSystem.csproj" />
   </ItemGroup>
 
