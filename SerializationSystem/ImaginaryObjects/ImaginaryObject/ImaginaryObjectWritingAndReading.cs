@@ -43,7 +43,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			// Create a DynamicMethod that returns a new instance of the encoded type.
 			var imaginaryObjectType = Type.GetType(reader.ReadString());
-			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(new Type[0]);
+			ConstructorInfo constructor = imaginaryObjectType.GetConstructor(Array.Empty<Type>());
 
 			if (constructor is null)
 			{
