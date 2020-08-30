@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>CrystalClear.RenderEngine2D</RootNamespace>
+    <AssemblyName>RenderEngine2D</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="sfml-graphics" Version="2.4.2" />
+    <PackageReference Include="SFML.Graphics" Version="2.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Standard\Standard.csproj" />
+  </ItemGroup>
+
+</Project>
