@@ -10,6 +10,7 @@ namespace CrystalClear.HierarchySystem
 	{
 		// Script Handling.
 
+		// Get the first script of that type in the order of pritorities.
 		public Script GetScript<T>()
 		{
 			return AttachedScripts.Values.First((script) => script.ScriptInstance is T);
