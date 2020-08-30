@@ -2,12 +2,34 @@
 using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.HierarchySystem.Scripting.Messages;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
+using System.Linq;
 
 namespace CrystalClear.HierarchySystem
 {
 	public partial class HierarchyObject
 	{
 		// Script Handling.
+
+		// Get the first script of that type in the order of pritorities.
+		public Script GetScript<T>()
+		{
+			return AttachedScripts.Values.First((script) => script.ScriptInstance is T);
+		}
+
+		public Script[] GetAllScripts<T>()
+		{
+			return AttachedScripts.Values.Where((script) => script.ScriptInstance is T).ToArray();
+		}
+
+		public T GetScriptInstance<T>()
+		{
+			return (T)AttachedScripts.Values.First((script) => script.ScriptInstance is T).ScriptInstance;
+		}
+
+		public T[] GetAllScriptInstances<T>()
+		{
+			return (from T scriptInstance in (from Script script in AttachedScripts.Values where script.ScriptInstance is T select script) select scriptInstance).ToArray();
+		}
 
 		/// <summary>
 		///     The Scripts that are currently attached to this object.
