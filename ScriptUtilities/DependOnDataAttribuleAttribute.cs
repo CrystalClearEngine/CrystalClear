@@ -4,6 +4,7 @@ using System.Text;
 
 namespace CrystalClear.ScriptUtilities
 {
+	// TODO: use this attribute!
 	public sealed class DependOnDataAttributeAttribute : Attribute
 	{
 		public Type DataAttributeType { get; }
