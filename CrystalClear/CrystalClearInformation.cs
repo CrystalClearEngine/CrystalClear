@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.InteropServices.WindowsRuntime;
+using SFML.Window;
 
 namespace CrystalClear
 {
@@ -27,5 +29,7 @@ namespace CrystalClear
 	public static class EditorInformation
 	{
 		public static ProjectInfo CurrentProject;
+
+		public static Window MainEditorWindow;
 	}
 }
