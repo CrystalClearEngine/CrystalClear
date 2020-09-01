@@ -4,6 +4,7 @@ using SFML.Window;
 
 namespace CrystalClear.WindowingSystem
 {
+	// TODO: create OnWindowEventDispatch event?
 	public static class WindowingSystem
 	{
 		public static Window MainWindow { get; }
