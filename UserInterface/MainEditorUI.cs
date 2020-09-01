@@ -19,10 +19,32 @@ namespace UserInterface
 			};
 			window.SetFramerateLimit(100);
 
-			window.Closed += (s,e) => window.Close();
+			window.Closed += (s, e) => window.Close();
 
 			Gui gui = new Gui(window);
 
+			SetUpUI(window, gui);
+
+			Label framerateValue = (Label)gui.Get("FramerateValue");
+			Label frametimeValue = (Label)gui.Get("FrametimeValue");
+
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
+			while (window.IsOpen)
+			{
+				window.DispatchEvents();
+
+				UpdateWindow(window, gui);
+
+				framerateValue.Text = Math.Round(1 / stopwatch.Elapsed.TotalSeconds) + " FPS";
+				frametimeValue.Text = stopwatch.Elapsed.Milliseconds + " ms";
+
+				stopwatch.Restart();
+			}
+		}
+
+		private static void SetUpUI(RenderWindow window, Gui gui)
+		{
 			gui.LoadWidgetsFromFile(@".\Forms\CrystalClearEngineDesign.txt");
 
 			ProgressBar progressBar = (ProgressBar)gui.Get("ProgressBar");
@@ -35,7 +57,7 @@ namespace UserInterface
 
 			Button consoleSend = (Button)gui.Get("ConsoleSend");
 
-			consoleSend.Clicked += (s,e) =>
+			consoleSend.Clicked += (s, e) =>
 			{
 				Output.Log(editBox.Text);
 				editBox.Text = string.Empty;
@@ -63,7 +85,7 @@ namespace UserInterface
 
 			Button confirmNewProject = (Button)gui.Get("ConfirmNewProject");
 
-			openProject.Clicked += (s,e) =>
+			openProject.Clicked += (s, e) =>
 			{
 				newProject.Enabled = false;
 
@@ -92,7 +114,7 @@ namespace UserInterface
 
 				confirmNewProject.Visible = true;
 
-				confirmNewProject.Clicked += (s,e) =>
+				confirmNewProject.Clicked += (s, e) =>
 				{
 					ProjectInfo.NewProject(projectPath, answer.Text);
 
@@ -110,23 +132,6 @@ namespace UserInterface
 			{
 				gui.LoadWidgetsFromFile(@".\Forms\NewHierarchyObjectDesign.txt", false);
 			};
-
-			Label framerateValue = (Label)gui.Get("FramerateValue");
-			Label frametimeValue = (Label)gui.Get("FrametimeValue");
-
-			Stopwatch stopwatch = new Stopwatch();
-			stopwatch.Start();
-			while (window.IsOpen)
-			{
-				window.DispatchEvents();
-
-				UpdateWindow(window, gui);
-
-				framerateValue.Text = Math.Round(1 / stopwatch.Elapsed.TotalSeconds) + " FPS";
-				frametimeValue.Text = stopwatch.Elapsed.Milliseconds + " ms";
-
-				stopwatch.Restart();
-			}
 		}
 
 		static void UpdateWindow(RenderWindow window, Gui gui)
