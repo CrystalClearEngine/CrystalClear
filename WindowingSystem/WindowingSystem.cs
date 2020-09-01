@@ -7,9 +7,12 @@ namespace CrystalClear.WindowingSystem
 	// TODO: create OnWindowEventDispatch event?
 	public static class WindowingSystem
 	{
-		public static Window MainWindow { get; }
+		// TODO: is this necessary?
+		public static Window MainWindow => Windows[0];
 
 		private static List<Window> windows;
-		public static IReadOnlyCollection<Window> Windows => windows.AsReadOnly();
+		
+		// TODO: is readonly necessary?
+		public static IReadOnlyList<Window> Windows => windows.AsReadOnly();
 	}
 }
