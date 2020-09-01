@@ -11,6 +11,7 @@ namespace CrystalClear.ScriptUtilities
 	{
 		public event Action TransformChanged;
 
+		// TODO: use some new Position2D instead of generic Vector2!
 		private Vector2 position;
 		public Vector2 Position
 		{
