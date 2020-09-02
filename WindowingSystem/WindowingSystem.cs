@@ -29,7 +29,7 @@ namespace CrystalClear.WindowingSystem
 		// TODO: is this necessary?
 		public static Window MainWindow => Windows[0];
 
-		private static List<Window> windows;
+		private static List<Window> windows = new List<Window>();
 		
 		// TODO: is readonly necessary?
 		public static IReadOnlyList<Window> Windows => windows.AsReadOnly();
