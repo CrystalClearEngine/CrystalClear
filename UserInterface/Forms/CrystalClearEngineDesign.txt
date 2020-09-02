@@ -1,23 +1,26 @@
 Renderer.1 {
-    backgroundcolor = #F5F5F5;
-    backgroundcolordisabled = #E6E6E6;
-    backgroundcolorhover = white;
-    bordercolor = black;
-    borders = (1, 1, 1, 1);
-    selectedbackgroundcolor = #006EFF;
-    selectedbackgroundcolorhover = #1E96FF;
-    selectedtextcolor = white;
-    textcolor = #3C3C3C;
-    textcolordisabled = #7D7D7D;
-    textcolorhover = black;
-    texturedisabledtab = None;
-    textureselectedtab = None;
-    textureselectedtabhover = None;
-    texturetab = None;
-    texturetabhover = None;
 }
 
 Renderer.2 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+    texture = None;
+    texturedisabled = None;
+    texturedown = None;
+    texturefocused = None;
+    texturehover = None;
 }
 
 Renderer.3 {
@@ -43,28 +46,6 @@ Renderer.3 {
 }
 
 Renderer.4 {
-    backgroundcolor = #F5F5F5;
-    backgroundcolordisabled = #E6E6E6;
-    backgroundcolordown = #EBEBEB;
-    backgroundcolorhover = white;
-    bordercolor = #3C3C3C;
-    bordercolordisabled = #7D7D7D;
-    bordercolordown = black;
-    bordercolorfocused = #1E1EB4;
-    bordercolorhover = black;
-    borders = (1, 1, 1, 1);
-    textcolor = #3C3C3C;
-    textcolordisabled = #7D7D7D;
-    textcolordown = black;
-    textcolorhover = black;
-    texture = None;
-    texturedisabled = None;
-    texturedown = None;
-    texturefocused = None;
-    texturehover = None;
-}
-
-Renderer.5 {
     backgroundcolor = transparent;
     bordercolor = #3C3C3C;
     borders = (0, 0, 0, 0);
@@ -72,24 +53,43 @@ Renderer.5 {
     texturebackground = None;
 }
 
+Renderer.5 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = black;
+    borders = (1, 1, 1, 1);
+    selectedbackgroundcolor = #006EFF;
+    selectedbackgroundcolorhover = #1E96FF;
+    selectedtextcolor = white;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolorhover = black;
+    texturedisabledtab = None;
+    textureselectedtab = None;
+    textureselectedtabhover = None;
+    texturetab = None;
+    texturetabhover = None;
+}
+
 Group.Group5 {
     Position = (160, 20);
     Size = (1600, 40);
-    renderer = &2;
+    renderer = &1;
 
     Tabs.Tabs1 {
         AutoSize = 0;
         Size = (1597.4, 32);
         Tabs = [Move3D, Rotate3D, Scale3D];
         TextSize = 13;
-        renderer = &1;
+        renderer = &5;
     }
 }
 
 Group.Group4 {
     Position = (1760, 20);
     Size = (170, 660);
-    renderer = &2;
+    renderer = &1;
 
     ScrollablePanel.ScrollablePanel1 {
         ContentSize = (0, 0);
@@ -109,14 +109,14 @@ Group.Group4 {
         Size = (53.2, 18);
         Text = Modifier;
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 }
 
 Group.Group3 {
     Position = (1760, 680);
     Size = (170, 400);
-    renderer = &2;
+    renderer = &1;
 
     ListBox.ListBox1 {
         ItemHeight = 20;
@@ -146,7 +146,7 @@ Group.Group3 {
         Size = (41.2, 18);
         Text = Errors;
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 }
 
@@ -182,7 +182,7 @@ Group.Group1 {
         TabHeight = 22;
         Tabs = [Default];
         TextSize = 13;
-        renderer = &1;
+        renderer = &5;
     }
 
     Label.Label2 {
@@ -191,7 +191,7 @@ Group.Group1 {
         Size = (54.2, 18);
         Text = Console;
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     EditBox.ConsoleInput {
@@ -205,7 +205,7 @@ Group.Group1 {
         Position = (240, 280);
         Text = Send;
         TextSize = 13;
-        renderer = &4;
+        renderer = &2;
     }
 }
 
@@ -225,7 +225,7 @@ Panel.Panel1 {
         Size = (47.2, 18);
         Text = Project;
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Tabs.Tabs3 {
@@ -234,14 +234,14 @@ Panel.Panel1 {
         TabHeight = 22;
         Tabs = [Assets, Scripts, Hierarchies, Imported];
         TextSize = 13;
-        renderer = &1;
+        renderer = &5;
     }
 }
 
 Group.Group2 {
     Position = (0, 20);
     Size = (160, 1090);
-    renderer = &2;
+    renderer = &1;
 
     TreeView.HierarchyViewer {
         ItemHeight = 20;
@@ -272,7 +272,7 @@ Group.Group2 {
         Size = (95.2, 18);
         Text = HierarchyView;
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Button.NewHierarchyObjectButton {
@@ -280,47 +280,7 @@ Group.Group2 {
         Size = (140, 22);
         Text = "New HierarchyObject";
         TextSize = 13;
-
-        Renderer {
-            backgroundcolor = #F5F5F5;
-            backgroundcolordisabled = #E6E6E6;
-            backgroundcolordown = #EBEBEB;
-            backgroundcolorhover = white;
-            bordercolor = #3C3C3C;
-            bordercolordisabled = #7D7D7D;
-            bordercolordown = black;
-            bordercolorfocused = #1E1EB4;
-            bordercolorhover = black;
-            borders = (1, 1, 1, 1);
-            textcolor = #3C3C3C;
-            textcolordisabled = #7D7D7D;
-            textcolordown = black;
-            textcolorhover = black;
-            texture = None;
-            texturedisabled = None;
-            texturedown = None;
-            texturefocused = None;
-            texturehover = None;
-        }
-    }
-}
-
-ProgressBar.ProgressBar {
-    Maximum = 100;
-    Minimum = 0;
-    Size = (1920, 22);
-    TextSize = 13;
-    Value = 0;
-
-    Renderer {
-        backgroundcolor = #F5F5F5;
-        bordercolor = black;
-        borders = (1, 1, 1, 1);
-        fillcolor = #006EFF;
-        textcolor = #3C3C3C;
-        textcolorfilled = white;
-        texturebackground = None;
-        texturefill = None;
+        renderer = &2;
     }
 }
 
@@ -330,7 +290,7 @@ Tabs.PlayControls {
     Size = (510, 22);
     Tabs = [">", "||", "[]"];
     TextSize = 13;
-    renderer = &1;
+    renderer = &5;
 }
 
 ChildWindow.ProjectManager {
@@ -411,7 +371,7 @@ texturehover = None;
         Size = (190, 22);
         Text = "Open Project";
         TextSize = 13;
-        renderer = &4;
+        renderer = &2;
     }
 
     EditBox.Answer {
@@ -426,7 +386,7 @@ texturehover = None;
         Size = (180, 22);
         Text = "New Project";
         TextSize = 13;
-        renderer = &4;
+        renderer = &2;
     }
 
     Label.Request {
@@ -436,7 +396,7 @@ texturehover = None;
         Size = (93.2, 18);
         Text = "Project folder:";
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Button.ConfirmNewProject {
@@ -445,7 +405,7 @@ texturehover = None;
         Text = "Confirm New Project";
         TextSize = 13;
         Visible = false;
-        renderer = &4;
+        renderer = &2;
     }
 }
 
@@ -466,7 +426,7 @@ Panel.Panel2 {
         Size = (41.2, 18);
         Text = "Stats:";
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.Label8 {
@@ -476,7 +436,7 @@ Panel.Panel2 {
         Size = (75.2, 18);
         Text = "Framerate:";
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.FramerateValue {
@@ -485,7 +445,7 @@ Panel.Panel2 {
         ScrollbarPolicy = Never;
         Size = (205.2, 18);
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.HierarchyObjectsCounter {
@@ -495,7 +455,7 @@ Panel.Panel2 {
         Size = (150.2, 18);
         Text = "HierarchyObject count:";
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.HierarchyObjectCountValue {
@@ -504,7 +464,7 @@ Panel.Panel2 {
         ScrollbarPolicy = Never;
         Size = (145.2, 18);
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.Label6 {
@@ -514,7 +474,7 @@ Panel.Panel2 {
         Size = (78.2, 18);
         Text = "Frametime:";
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 
     Label.FrametimeValue {
@@ -523,15 +483,46 @@ Panel.Panel2 {
         ScrollbarPolicy = Never;
         Size = (205.2, 18);
         TextSize = 13;
-        renderer = &5;
+        renderer = &4;
     }
 }
 
-Label.ProgressTask {
-    AutoSize = true;
-    ScrollbarPolicy = Never;
-    Size = (80.2, 18);
-    Text = ProgressBar;
-    TextSize = 13;
-    renderer = &5;
+Group.Group6 {
+    Size = (1920, 30);
+    renderer = &1;
+
+    ProgressBar.ProgressBar1 {
+        Maximum = 100;
+        Minimum = 0;
+        Size = (1920, 22);
+        TextSize = 13;
+        Value = 0;
+
+        Renderer {
+            backgroundcolor = #F5F5F5;
+            bordercolor = black;
+            borders = (1, 1, 1, 1);
+            fillcolor = #006EFF;
+            textcolor = #3C3C3C;
+            textcolorfilled = white;
+            texturebackground = None;
+            texturefill = None;
+        }
+    }
+
+    Label.Label9 {
+        AutoSize = true;
+        ScrollbarPolicy = Never;
+        Size = (80.2, 18);
+        Text = ProgressBar;
+        TextSize = 13;
+
+        Renderer {
+            backgroundcolor = transparent;
+            bordercolor = #3C3C3C;
+            borders = (0, 0, 0, 0);
+            textcolor = #3C3C3C;
+            texturebackground = None;
+        }
+    }
 }
