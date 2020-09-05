@@ -24,7 +24,7 @@ namespace CrystalClear
 
 	public static class RuntimeInformation
 	{
-		public static Assembly[] UserAssemblies;
+		public static Assembly[] UserAssemblies = Array.Empty<Assembly>();
 	}
 
 	public static class EditorInformation
@@ -35,8 +35,8 @@ namespace CrystalClear
 
 		public static string[] CodeFilePaths;
 
-		public static Type[] ScriptTypes;
+		public static Type[] ScriptTypes = Array.Empty<Type>();
 
-		public static Type[] HierarchyObjectTypes;
+		public static Type[] HierarchyObjectTypes = Array.Empty<Type>();
 	}
 }
