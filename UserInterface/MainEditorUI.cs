@@ -6,6 +6,8 @@ using TGUI;
 using System.Diagnostics;
 using CrystalClear;
 using System.Threading;
+using System.Collections.Generic;
+using System.IO;
 
 namespace UserInterface
 {
@@ -136,7 +138,7 @@ namespace UserInterface
 
 		static void UpdateWindow(RenderWindow window, Gui gui)
 		{
-			window.Clear(new Color(177, 177, 177));
+			window.Clear(/*new Color(177, 177, 177)*/);
 			gui.Draw();
 			window.Display();
 		}

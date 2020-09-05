@@ -85,6 +85,18 @@ namespace CrystalClear.HierarchySystem.Scripting
 
 		#region Script Utilities
 
+		public static Type[] FindScriptTypesInAssemblies(Assembly[] assemblies)
+		{
+			List<Type> typesInAssemblies = new List<Type>();
+
+			foreach (var assembly in assemblies)
+			{
+				typesInAssemblies.AddRange(assembly.GetTypes());
+			}
+
+			return FindScriptTypesInTypes(typesInAssemblies.ToArray());
+		}
+
 		/// <summary>
 		///     Finds all types with the script attribute and returns them.
 		/// </summary>

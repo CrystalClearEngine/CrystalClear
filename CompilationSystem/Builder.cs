@@ -15,13 +15,13 @@ namespace CrystalClear.CompilationSystem
 		/// <param name="buildPath">The path to build the EXE and data files to.</param>
 		/// <param name="executableName">The name of the executable file, without the extension.</param>
 		/// <param name="userGeneratedAssemblies">All user generated assemblies that should be included in compilation.</param>
-		public static void Build(string buildPath, string executableName, Assembly[] userGeneratedAssemblies)
+		public static void Build(string buildPath, string executableName)
 		{
 			var buildDirectory = new DirectoryInfo(buildPath);
 			buildDirectory.Create();
 
 			// Compile the executable.
-			var success = Compiler.CompileWindowsExecutable(GenerateMainMethodCode(false), userGeneratedAssemblies,
+			var success = Compiler.CompileWindowsExecutable(GenerateMainMethodCode(false), RuntimeInformation.UserAssemblies,
 				buildPath, executableName);
 
 			if (!success)

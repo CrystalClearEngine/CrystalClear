@@ -11,7 +11,7 @@ namespace CrystalClear
 		// TODO: rename to NewLine?
 		public static void Log()
 		{
-			OutputLogged("\n");
+			OutputLogged?.Invoke("\n");
 			Console.WriteLine();
 		}
 
@@ -23,7 +23,7 @@ namespace CrystalClear
 		{
 			foreach (object obj in objs)
 			{
-				OutputLogged(obj.ToString());
+				OutputLogged?.Invoke(obj.ToString());
 				Console.WriteLine(obj);
 			}
 		}
@@ -36,7 +36,7 @@ namespace CrystalClear
 		{
 			foreach (object obj in objs)
 			{
-				OutputLogged(obj.ToString());
+				OutputLogged?.Invoke(obj.ToString());
 				Console.WriteLine(obj);
 			}
 		}
@@ -47,7 +47,7 @@ namespace CrystalClear
 		/// <param name="obj">The object to write.</param>
 		public static void Log(object obj)
 		{
-			OutputLogged(obj.ToString());
+			OutputLogged?.Invoke(obj.ToString());
 			Console.WriteLine(obj);
 		}
 
@@ -57,7 +57,7 @@ namespace CrystalClear
 		/// <param name="str">The string to write.</param>
 		public static void Log(string str)
 		{
-			OutputLogged(str);
+			OutputLogged?.Invoke(str);
 			Console.WriteLine(str);
 		}
 
@@ -69,7 +69,7 @@ namespace CrystalClear
 		/// <param name="fgColor"></param>
 		public static void Log(string str, ConsoleColor bgColor, ConsoleColor fgColor)
 		{
-			OutputLogged(str);
+			OutputLogged?.Invoke(str);
 			ConsoleColor
 				prevFgColor =
 					Console.ForegroundColor; // Store previous foreground and background color so that we can restore them after writing.
@@ -83,7 +83,7 @@ namespace CrystalClear
 
 		public static void ErrorLog(string str, bool minorError = true)
 		{
-			OutputLogged(str);
+			OutputLogged?.Invoke(str);
 			ConsoleColor
 				prevFgColor =
 					Console.ForegroundColor; // Store previous foreground and background color so that we can restore them after writing.
