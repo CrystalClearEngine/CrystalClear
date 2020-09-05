@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using SFML.Window;
@@ -23,7 +24,7 @@ namespace CrystalClear
 
 	public static class RuntimeInformation
 	{
-		public static Assembly[] UserAssemblies { get; set; }
+		public static Assembly[] UserAssemblies;
 	}
 
 	public static class EditorInformation
@@ -31,5 +32,11 @@ namespace CrystalClear
 		public static ProjectInfo CurrentProject;
 
 		public static Window MainEditorWindow;
+
+		public static string[] CodeFilePaths;
+
+		public static Type[] ScriptTypes;
+
+		public static Type[] HierarchyObjectTypes;
 	}
 }

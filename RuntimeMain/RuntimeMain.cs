@@ -14,6 +14,7 @@ using CrystalClear.HierarchySystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
 using static CrystalClear.ScriptUtilities.Utilities.ConsoleInput;
+using System.Threading;
 
 namespace CrystalClear.RuntimeMain
 {
@@ -73,6 +74,14 @@ namespace CrystalClear.RuntimeMain
 			goto ExitHandling;
 
 			#endregion
+		}
+
+		public static void WaitForStop(int msCheckInterval)
+		{
+			while (IsRunning)
+			{
+				Thread.Sleep(msCheckInterval);
+			}
 		}
 
 		private static void SubscribeAllStatic(params Assembly[] userAssemblies)

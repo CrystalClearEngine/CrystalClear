@@ -6,36 +6,20 @@ using CrystalClear.Standard.HierarchyObjects;
 using System;
 using System.Reflection;
 
-partial class MainClass
+namespace EditorMain
 {
-	private static void Run(ImaginaryHierarchyObject rootHierarchyObject)
+	partial class MainClass
 	{
-		#region Running
-
-		if (compiledAssembly is null)
+		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName)
 		{
-			Output.ErrorLog("error: cannot run if code did not compile");
-			return;
+			#region Running
+
+			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssemblies, hierarchyName, rootHierarchyObject);
+
+			RuntimeMain.WaitForStop(10);
+
+			RuntimeInformation.UserAssemblies = null;
+			#endregion
 		}
-
-		Console.Write("Choose a name for the hierarchy: ");
-		var hierarchyName = Console.ReadLine();
-
-		Output.Log();
-
-		RuntimeInformation.UserAssemblies = new[] { compiledAssembly, Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) };
-
-		RuntimeMain.RunWithImaginaryHierarchyObject(new[] {compiledAssembly}, hierarchyName, rootHierarchyObject);
-
-		while (RuntimeMain.IsRunning)
-		{
-			if (Console.ReadKey(true).Key == ConsoleKey.Escape)
-			{
-				RuntimeMain.Stop();
-			}
-		}
-
-		RuntimeInformation.UserAssemblies = null;
-		#endregion
 	}
 }

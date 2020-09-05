@@ -33,6 +33,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 		}
 
+		// TODO: rewrite, probably.
 		public ImaginaryHierarchyObject(ImaginaryHierarchyObject parent, ImaginaryObject imaginaryObjectBase)
 		{
 			Parent = parent;
