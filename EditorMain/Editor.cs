@@ -175,14 +175,15 @@ namespace EditorMain
 						Output.ErrorLog("command error: unknown command");
 						break;
 				}
-			}
+#if RELEASE
+		}
 #pragma warning disable CA1031 // Do not catch general exception types
 			catch(Exception) // Implement the same error handling as before.
 			{
 				throw;
 			}
 #pragma warning restore CA1031 // Do not catch general exception types
-
+#endif
 			static void Modify(ref ImaginaryHierarchyObject currentSelectedHierarchyObject, string toModify = null)
 			{
 				ImaginaryHierarchyObject hierarchyObjectToModify;
@@ -704,7 +705,7 @@ namespace EditorMain
 			if (assemblyToAnalyze is null)
 				return;
 
-			#region Type identification
+#region Type identification
 
 			var standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
@@ -714,7 +715,7 @@ namespace EditorMain
 			// Find all HierarchyObject types in the compiled assembly.
 			HierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly });
 
-			#endregion
+#endregion
 		}
 
 		public static Assembly Compile()
