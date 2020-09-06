@@ -25,155 +25,161 @@ namespace EditorMain
 
 			// Command recognition.
 #if RELEASE
-		try
-		{
-#endif
-			switch (commandSections[0])
+			try
 			{
-				case "asset":
-					switch (commandSections[1])
-					{
-						case "new":
-							switch (commandSections[2])
-							{
-								case "script":
-									AssetManagement.CreateNewScript(commandSections[3]);
-									break;
+#endif
+				switch (commandSections[0])
+				{
+					case "asset":
+						switch (commandSections[1])
+						{
+							case "new":
+								switch (commandSections[2])
+								{
+									case "script":
+										AssetManagement.CreateNewScript(commandSections[3]);
+										break;
 
-								case "hierarchy":
-									AssetManagement.CreateNewHiearchy(commandSections[3]);
-									break;
-							}
-							break;
+									case "hierarchy":
+										AssetManagement.CreateNewHiearchy(commandSections[3]);
+										break;
+								}
+								break;
 
-						case "delete":
-							AssetManagement.DeleteAsset(commandSections[3]);
-							break;
+							case "delete":
+								AssetManagement.DeleteAsset(commandSections[3]);
+								break;
 
-						case "list":
-							break;
-					}
-					break;
+							case "list":
+								break;
+						}
+						break;
 
-				case "compile":
-					Compile();
-					break;
+					case "compile":
+						Compile();
+						break;
 
-				case "new":
-					AddHierarchyObject(currentSelectedHierarchyObject, CreateImaginaryHierarchyObject(ref currentSelectedHierarchyObject, SelectItem(HierarchyObjectTypes)), commandSections[1]);
-					break;
+					case "new":
+						AddHierarchyObject(currentSelectedHierarchyObject, CreateImaginaryHierarchyObject(ref currentSelectedHierarchyObject, SelectItem(HierarchyObjectTypes)), commandSections[1]);
+						break;
 
-				case "del":
-					DeleteHierarchyObject(currentSelectedHierarchyObject, commandSections.Length < 1
-						? GetName(currentSelectedHierarchyObject)
-						: commandSections[1]);
-					break;
+					case "del":
+						DeleteHierarchyObject(currentSelectedHierarchyObject, commandSections.Length < 1
+							? GetName(currentSelectedHierarchyObject)
+							: commandSections[1]);
+						break;
 
-				case "rename":
-					Rename(currentSelectedHierarchyObject, commandSections[1]);
-					break;
+					case "rename":
+						Rename(currentSelectedHierarchyObject, commandSections[1]);
+						break;
 
-				case "modify":
-					Modify(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+					case "modify":
+						Modify(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
+						break;
 
-				case "details":
-					Details(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+					case "details":
+						Details(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
+						break;
 
-				case "add":
-					AddScript(currentSelectedHierarchyObject, CreateImaginaryScript(SelectItem(ScriptTypes)), commandSections[1]);
-					break;
+					case "add":
+						AddScript(currentSelectedHierarchyObject, CreateImaginaryScript(SelectItem(ScriptTypes)), commandSections[1]);
+						break;
 
-				case "rem":
-					RemoveScript(currentSelectedHierarchyObject, commandSections[1]);
-					break;
+					case "rem":
+						RemoveScript(currentSelectedHierarchyObject, commandSections[1]);
+						break;
 
-				case "save":
-					Save(commandSections[1], rootHierarchyObject);
-					break;
+					case "save":
+						Save(commandSections[1], rootHierarchyObject);
+						break;
 
-				case "load":
-					rootHierarchyObject = Load(commandSections[1]);
-					currentSelectedHierarchyObject = rootHierarchyObject;
-					break;
+					case "load":
+						rootHierarchyObject = Load(commandSections[1]);
+						currentSelectedHierarchyObject = rootHierarchyObject;
+						break;
 
-				case "pack":
-					Pack(commandSections[1], rootHierarchyObject);
-					break;
+					case "pack":
+						Pack(commandSections[1], rootHierarchyObject);
+						break;
 
-				case "unpack":
-					rootHierarchyObject = Unpack(commandSections[1]);
-					currentSelectedHierarchyObject = rootHierarchyObject;
-					break;
+					case "unpack":
+						rootHierarchyObject = Unpack(commandSections[1]);
+						currentSelectedHierarchyObject = rootHierarchyObject;
+						break;
 
-				case "list":
-					List(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+					case "list":
+						List(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
+						break;
 
-				case "select":
-					Select(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
-					break;
+					case "select":
+						Select(ref currentSelectedHierarchyObject, commandSections.Length >= 2 ? commandSections[1] : null);
+						break;
 
-				case "export":
-					switch (commandSections[1])
-					{
-						case "prefab":
-							ExportPrefab(currentSelectedHierarchyObject, commandSections[2], commandSections[3]);
-							break;
+					case "export":
+						switch (commandSections[1])
+						{
+							case "prefab":
+								ExportPrefab(currentSelectedHierarchyObject, commandSections[2], commandSections[3]);
+								break;
 
-						case "copy":
-							ExportHierarchy(currentSelectedHierarchyObject, commandSections[2], commandSections[3]);
-							break;
+							case "copy":
+								ExportHierarchy(currentSelectedHierarchyObject, commandSections[2], commandSections[3]);
+								break;
 
-						default:
-							Output.ErrorLog("command error: unknown subcommand");
-							break;
-					}
+							default:
+								Output.ErrorLog("command error: unknown subcommand");
+								break;
+						}
 
-					break;
+						break;
 
-				case "import":
-					switch (commandSections[1])
-					{
-						case "prefab":
-							var prefab = ImportPrefab(commandSections[2]);
-							AddHierarchyObject(currentSelectedHierarchyObject, (ImaginaryHierarchyObject)prefab.CreateInstance(), prefab.Name);
-							break;
+					case "import":
+						switch (commandSections[1])
+						{
+							case "prefab":
+								var prefab = ImportPrefab(commandSections[2]);
+								AddHierarchyObject(currentSelectedHierarchyObject, (ImaginaryHierarchyObject)prefab.CreateInstance(), prefab.Name);
+								break;
 
-						case "copy":
-							var hierarchy = ImportHierarchy(commandSections[2]);
-							AddHierarchyObject(currentSelectedHierarchyObject, (ImaginaryHierarchyObject)hierarchy.CreateInstance(), hierarchy.Name);
-							break;
+							case "copy":
+								var hierarchy = ImportHierarchy(commandSections[2]);
+								AddHierarchyObject(currentSelectedHierarchyObject, (ImaginaryHierarchyObject)hierarchy.CreateInstance(), hierarchy.Name);
+								break;
 
-						default:
-							Output.ErrorLog("command error: unknown subcommand");
-							break;
-					}
+							default:
+								Output.ErrorLog("command error: unknown subcommand");
+								break;
+						}
 
-					break;
+						break;
 
-				case "project":
-					return;
+					case "project":
+						return;
 
-				case "script":
-					break;
+					case "script":
+						break;
 
-				case "build":
-					Builder.Build(commandSections[1], commandSections[2]);
-					break;
+					case "build":
+						Builder.Build(commandSections[1], commandSections[2]);
+						break;
 
-				case "run":
-					Run(rootHierarchyObject, commandSections[1]);
-					break;
+					case "run":
+						Run(rootHierarchyObject, commandSections[1]);
+						break;
 
-				case "exit":
-					Environment.Exit(0);
-					break;
+					case "exit":
+						Environment.Exit(0);
+						break;
 
-				default:
-					Output.ErrorLog("command error: unknown command");
-					break;
+					default:
+						Output.ErrorLog("command error: unknown command");
+						break;
+				}
+			}
+#pragma warning disable CA1031 // Do not catch general exception types
+			catch(Exception) // Implement the same error handling as before.
+			{
+				throw;
 			}
 #pragma warning restore CA1031 // Do not catch general exception types
 
