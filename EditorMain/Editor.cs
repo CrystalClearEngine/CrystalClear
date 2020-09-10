@@ -8,6 +8,7 @@ using CrystalClear;
 using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
+using CrystalClear.RenderEngine2D;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
@@ -18,7 +19,6 @@ namespace EditorMain
 {
 	public static partial class MainClass
 	{
-		// TODO: should make main method that wraps loop around this.
 		public static void ParseCommand(string input, ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject)
 		{
 			string[] commandSections = input.Split(' ');
@@ -705,17 +705,19 @@ namespace EditorMain
 			if (assemblyToAnalyze is null)
 				return;
 
-#region Type identification
+			#region Type identification
 
 			var standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
+			
+			var renderEngine2DAssembly = Assembly.GetAssembly(typeof(Renderable2D));
 
 			// Find all scripts that are present in the compiled assembly.
-			ScriptTypes = Script.FindScriptTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly });
+			ScriptTypes = Script.FindScriptTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly, renderEngine2DAssembly });
 
 			// Find all HierarchyObject types in the compiled assembly.
 			HierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly });
 
-#endregion
+			#endregion
 		}
 
 		public static Assembly Compile()
