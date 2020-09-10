@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Standard\Standard.csproj" />
+    <ProjectReference Include="..\WindowingSystem\WindowingSystem.csproj" />
   </ItemGroup>
 
 </Project>
