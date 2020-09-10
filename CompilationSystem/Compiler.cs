@@ -32,6 +32,8 @@ namespace CrystalClear.CompilationSystem
 			@"E:\dev\crystal clear\MessageSystem\bin\Debug\netcoreapp3.1\MessageSystem.dll", // The path to the MessageSystem dll.
 			@"E:\dev\crystal clear\CompilationSystem\bin\Debug\netcoreapp3.1\CompilationSystem.dll", // The location of the CompilationSystem dll.
 			@"E:\dev\crystal clear\CrystalClear\bin\Debug\netcoreapp3.1\CrystalClear.dll", // The location of the CrystalClear dll.
+			@"E:\dev\crystal clear\2DRenderEngine\bin\Debug\netcoreapp3.1\RenderEngine2D.dll", // The location of the RenderEngine2D dll.
+			@"E:\dev\crystal clear\WindowingSystem\bin\Debug\netcoreapp3.1\WindowingSystem.dll", // The location of the WindowingSystem dll.
 		};
 
 		/// <summary>
@@ -51,6 +53,7 @@ namespace CrystalClear.CompilationSystem
 						CSharpParseOptions.Default.WithLanguageVersion(LanguageVersion.Latest)
 						, fileName, Encoding.UTF8)).ToList();
 
+				// Add the references as metadata references.
 				List<MetadataReference> metadataReferences = new List<MetadataReference>();
 				foreach (var reference in references)
 				{
