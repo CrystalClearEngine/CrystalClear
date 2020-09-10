@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\2DRenderEngine\RenderEngine2D.csproj" />
     <ProjectReference Include="..\CompilationSystem\CompilationSystem.csproj" />
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
