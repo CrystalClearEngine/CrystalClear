@@ -4,13 +4,17 @@ using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.MessageSystem;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.HierarchyObjects;
+using CrystalClear.WindowingSystem;
+using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace CrystalClear.RenderEngine2D
 {
+	// TODO: move this stuff somewhere else, like standard and have standard reference to here.
 	[IsScript]
+	// TODO: maybe shouldn't depend, since it might reference a transform on a different object.
 	[DependOnDataAttribute(typeof(Transform2D))]
 	public class Renderable2DScript : HierarchyScript<HierarchyObject>
 	{
@@ -24,17 +28,14 @@ namespace CrystalClear.RenderEngine2D
 			{
 				renderable2D.RenderTransform = HierarchyObject.GetAttribute<Transform2D>();
 			}
-
-			RenderEngine2D.RegisterRenderable(renderable2D);
-
-			renderable2D.RenderTransform.TransformChanged += NotifyRenderEngineChangeDetected;
 		}
 
 		private Renderable2D renderable2D;
 
-		public void NotifyRenderEngineChangeDetected()
+		[OnFrameDraw]
+		private void Draw()
 		{
-
+			renderable2D.Sprite.Draw((RenderWindow)WindowingSystem.WindowingSystem.MainWindow, RenderStates.Default);
 		}
 	}
 }
