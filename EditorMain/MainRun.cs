@@ -14,7 +14,9 @@ namespace EditorMain
 		{
 			#region Running
 
-			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssemblies, hierarchyName, rootHierarchyObject);
+			RuntimeInformation.UserAssemblies.UnionWith(new[] { Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) });
+
+			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssembliesArray, hierarchyName, rootHierarchyObject);
 
 			RuntimeMain.WaitForStop(10);
 

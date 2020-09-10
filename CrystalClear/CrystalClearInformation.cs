@@ -19,12 +19,21 @@ namespace CrystalClear
 			Close = 1,
 		}
 
-		public static Assembly[] UserAssemblies;
 	}
 
 	public static class RuntimeInformation
 	{
-		public static Assembly[] UserAssemblies = Array.Empty<Assembly>();
+		public static Assembly[] UserAssembliesArray
+		{
+			get
+			{
+				Assembly[] assemblies = new Assembly[RuntimeInformation.UserAssemblies.Count];
+				UserAssemblies.CopyTo(assemblies);
+				return assemblies;
+			}
+		}
+
+		public static HashSet<Assembly> UserAssemblies = new HashSet<Assembly>();
 	}
 
 	public static class EditorInformation

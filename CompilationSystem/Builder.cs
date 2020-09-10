@@ -21,7 +21,7 @@ namespace CrystalClear.CompilationSystem
 			buildDirectory.Create();
 
 			// Compile the executable.
-			var success = Compiler.CompileWindowsExecutable(GenerateMainMethodCode(false), RuntimeInformation.UserAssemblies,
+			var success = Compiler.CompileWindowsExecutable(GenerateMainMethodCode(false), RuntimeInformation.UserAssembliesArray,
 				buildPath, executableName);
 
 			if (!success)
