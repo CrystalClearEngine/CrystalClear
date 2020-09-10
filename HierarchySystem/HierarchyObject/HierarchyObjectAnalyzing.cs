@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -6,7 +7,18 @@ namespace CrystalClear.HierarchySystem
 {
 	public partial class HierarchyObject
 	{
-		// Analyzing.
+		public static Type[] FindHierarchyObjectTypesInAssemblies(Assembly[] assemblies)
+		{
+			List<Type> typesInAssemblies = new List<Type>();
+
+			foreach (var assembly in assemblies)
+			{
+				typesInAssemblies.AddRange(assembly.GetTypes());
+			}
+
+			return FindHierarchyObjectTypesInTypes(typesInAssemblies.ToArray());
+		}
+
 		/// <summary>
 		///     Finds all types that derive from HierarchyObject in the assembly and returns them.
 		/// </summary>
