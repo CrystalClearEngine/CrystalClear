@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 
-namespace CrystalClear.HierarchySystem.Scripting
+namespace CrystalClear.Scripting
 {
 	// TODO: rename to ScriptInfo?
 	/// <summary>

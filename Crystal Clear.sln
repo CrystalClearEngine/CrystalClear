@@ -46,7 +46,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderEngine2D", "2DRenderE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowingSystem", "WindowingSystem\WindowingSystem.csproj", "{AB9556BF-80D3-4F71-A73D-714A1B75597E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserInterface", "UserInterface\UserInterface.csproj", "{B516B48D-9BA5-42CA-B642-D62F47A76BAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "UserInterface\UserInterface.csproj", "{B516B48D-9BA5-42CA-B642-D62F47A76BAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripting", "Scripting\Scripting.csproj", "{4610627E-E29E-4E2C-BBC9-EB94DE8261F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +124,10 @@ Global
 		{B516B48D-9BA5-42CA-B642-D62F47A76BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B516B48D-9BA5-42CA-B642-D62F47A76BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B516B48D-9BA5-42CA-B642-D62F47A76BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4610627E-E29E-4E2C-BBC9-EB94DE8261F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4610627E-E29E-4E2C-BBC9-EB94DE8261F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4610627E-E29E-4E2C-BBC9-EB94DE8261F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4610627E-E29E-4E2C-BBC9-EB94DE8261F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{CED6F086-B511-454A-90A9-ACF3BF462EED} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 		{C07BE65C-307B-4534-9D5D-4ED98F82F0DE} = {7D80637D-56D4-4829-9101-88ADC4109F41}
 		{B516B48D-9BA5-42CA-B642-D62F47A76BAD} = {B95B9135-9132-40E9-AD94-D4BAD58BB3B2}
+		{4610627E-E29E-4E2C-BBC9-EB94DE8261F9} = {DD1D25EF-662B-40ED-BCC0-628371E6BA4B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7387A616-2E87-478B-8CD1-337574F927AC}
