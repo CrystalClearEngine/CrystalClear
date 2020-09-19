@@ -1,5 +1,6 @@
 ﻿using CrystalClear;
 using CrystalClear.HierarchySystem;
+using CrystalClear.HierarchySystem.Scripting;
 using CrystalClear.RuntimeMain;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
@@ -13,6 +14,11 @@ namespace EditorMain
 		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName)
 		{
 			#region Running
+			RuntimeInformation.UserAssemblies = new[]
+			{
+				typeof(ScriptObject).Assembly,
+				typeof(Script).Assembly,
+			};
 
 			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssemblies, hierarchyName, rootHierarchyObject);
 
