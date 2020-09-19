@@ -705,7 +705,7 @@ namespace EditorMain
 			if (assemblyToAnalyze is null)
 				return;
 
-#region Type identification
+			#region Type identification
 
 			var standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
 
@@ -728,6 +728,7 @@ namespace EditorMain
 				// Explain to user that the compilation failed.
 				Output.ErrorLog("compilation error: compilation failed :(");
 				// TODO: do type identification for Standard regardless.
+				return null;
 			}
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.",
