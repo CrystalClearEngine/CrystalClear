@@ -19,7 +19,7 @@ namespace EditorMain
 	public static partial class MainClass
 	{
 		// TODO: should make main method that wraps loop around this.
-		public static void ParseCommand(string input, ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject)
+		public static void ParseCommand(string input, ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			string[] commandSections = input.Split(' ');
 
@@ -56,7 +56,7 @@ namespace EditorMain
 						break;
 
 					case "compile":
-						Compile();
+						userGeneratedCode = Compile();
 						break;
 
 					case "new":
@@ -164,7 +164,7 @@ namespace EditorMain
 						break;
 
 					case "run":
-						Run(rootHierarchyObject, commandSections[1]);
+						Run(rootHierarchyObject, commandSections[1], userGeneratedCode);
 						break;
 
 					case "exit":
@@ -436,7 +436,7 @@ namespace EditorMain
 					return collection.First();
 				}
 
-				Output.Log($"Select an item of type {typeof(T).FullName} from this list:");
+				Output.Log($"Select {typeof(T).FullName} from this list:");
 				var
 					i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 				foreach (T item in collection)

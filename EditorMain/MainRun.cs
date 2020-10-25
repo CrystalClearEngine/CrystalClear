@@ -11,13 +11,14 @@ namespace EditorMain
 {
 	partial class MainClass
 	{
-		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName)
+		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName, Assembly userGeneratedCode)
 		{
 			#region Running
 			RuntimeInformation.UserAssemblies = new[]
 			{
 				typeof(ScriptObject).Assembly,
 				typeof(Script).Assembly,
+				userGeneratedCode,
 			};
 
 			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssemblies, hierarchyName, rootHierarchyObject);

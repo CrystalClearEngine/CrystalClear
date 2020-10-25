@@ -60,7 +60,7 @@ namespace CrystalClear
 			OutputLogged?.Invoke(str);
 			Console.WriteLine(str);
 		}
-
+		// TODO: visual artifacts can appear if multiple threads are Logging simultaneusly! Make sure only one logging operation can be performed at once. Make it async and store in queue before printing?
 		/// <summary>
 		///     Writes a string to the output with additional settings for background color and foreground color.
 		/// </summary>
