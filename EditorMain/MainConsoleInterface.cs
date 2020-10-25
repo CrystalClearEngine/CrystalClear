@@ -92,7 +92,7 @@ namespace EditorMain
 
 				var line = Console.ReadLine();
 
-				ParseCommand(line, ref rootHierarchyObject, ref currentSelectedHierarchyObject);
+				ParseCommand(line, ref rootHierarchyObject, ref currentSelectedHierarchyObject, compiledAssembly);
 			}
 			#endregion
 		}

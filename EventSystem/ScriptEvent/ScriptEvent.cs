@@ -6,6 +6,7 @@ namespace CrystalClear.EventSystem
 	// TODO: add FromType method that does the reflection stuff?
 	public abstract class ScriptEventBase
 	{
+		// TODO: make use generic type for delegate type?
 		public event ScriptEventHandler Event;
 
 		public virtual void RaiseEvent()
@@ -42,6 +43,7 @@ namespace CrystalClear.EventSystem
 	{
 		private static TInstance _instance;
 
-		public static TInstance Instance => _instance ?? (_instance = new TInstance());
+		// TODO: use other thread safe method.
+		public static TInstance Instance => _instance ??= new TInstance();
 	}
 }

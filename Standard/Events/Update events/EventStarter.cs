@@ -2,6 +2,7 @@
 
 namespace CrystalClear.Standard.Events
 {
+	// TODO: is this even neccessary?
 	public static class EventStarter
 	{
 		public static void StartEvents(

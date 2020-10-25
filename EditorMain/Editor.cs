@@ -8,7 +8,6 @@ using CrystalClear;
 using CrystalClear.CompilationSystem;
 using CrystalClear.HierarchySystem;
 using CrystalClear.HierarchySystem.Scripting;
-using CrystalClear.RenderEngine2D;
 using CrystalClear.SerializationSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using CrystalClear.Standard.HierarchyObjects;
@@ -19,7 +18,8 @@ namespace EditorMain
 {
 	public static partial class MainClass
 	{
-		public static void ParseCommand(string input, ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject)
+		// TODO: should make main method that wraps loop around this.
+		public static void ParseCommand(string input, ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			string[] commandSections = input.Split(' ');
 
@@ -56,7 +56,7 @@ namespace EditorMain
 						break;
 
 					case "compile":
-						Compile();
+						userGeneratedCode = Compile();
 						break;
 
 					case "new":
@@ -164,7 +164,7 @@ namespace EditorMain
 						break;
 
 					case "run":
-						Run(rootHierarchyObject, commandSections[1]);
+						Run(rootHierarchyObject, commandSections[1], userGeneratedCode);
 						break;
 
 					case "exit":
@@ -436,7 +436,7 @@ namespace EditorMain
 					return collection.First();
 				}
 
-				Output.Log($"Select an item of type {typeof(T).FullName} from this list:");
+				Output.Log($"Select {typeof(T).FullName} from this list:");
 				var
 					i = 0; // Either this should start at one and the .../{count - 1}... part should not have - 1 or we keep it as is.
 				foreach (T item in collection)
@@ -708,16 +708,14 @@ namespace EditorMain
 			#region Type identification
 
 			var standardAssembly = Assembly.GetAssembly(typeof(ScriptObject));
-			
-			var renderEngine2DAssembly = Assembly.GetAssembly(typeof(Renderable2D));
 
 			// Find all scripts that are present in the compiled assembly.
-			ScriptTypes = Script.FindScriptTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly, renderEngine2DAssembly });
+			ScriptTypes = Script.FindScriptTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly });
 
 			// Find all HierarchyObject types in the compiled assembly.
 			HierarchyObjectTypes = HierarchyObject.FindHierarchyObjectTypesInAssemblies(new[] { assemblyToAnalyze, standardAssembly });
 
-			#endregion
+#endregion
 		}
 
 		public static Assembly Compile()
@@ -730,6 +728,7 @@ namespace EditorMain
 				// Explain to user that the compilation failed.
 				Output.ErrorLog("compilation error: compilation failed :(");
 				// TODO: do type identification for Standard regardless.
+				return null;
 			}
 
 			Output.Log($"Successfuly built {compiledAssembly.GetName()} at location {compiledAssembly.Location}.",
