@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using CrystalClear.WindowingSystem;
-using Veldrid.Sdl2;
-using Veldrid;
-using Veldrid.StartupUtilities;
+﻿using CrystalClear.WindowingSystem;
 using ImGuiNET;
-using System.Diagnostics;
-using System.IO;
-using System.Numerics;
-using Veldrid.ImageSharp;
-using Veldrid.Utilities;
-using System.Runtime.CompilerServices;
+using Veldrid;
+using Veldrid.Sdl2;
+using Veldrid.StartupUtilities;
 
 namespace RenderEngine3D
 {
@@ -19,7 +10,7 @@ namespace RenderEngine3D
 	{
 		public static void Main()
 		{
-			Sdl2Window window = WindowingSystem.CreateNewWindow("Veldrid test");
+			Sdl2Window window = WindowingSystem.CreateNewWindow("Veldrid test", width: 1920, height: 1080);
 
 			GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false,
 															   null,
@@ -29,37 +20,36 @@ namespace RenderEngine3D
 															   true,
 															   true);
 
-			var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, gdOptions, GraphicsBackend.Direct3D11);
+			var graphicsDevice = VeldridStartup.CreateGraphicsDevice(window, gdOptions);
 
-			var imGuiRenderer = new ImGuiRenderer(graphicsDevice, new OutputDescription(), window.Width, window.Height);
+			ImGuiRenderer imguiRenderer = new ImGuiRenderer(
+				graphicsDevice, graphicsDevice.MainSwapchain.Framebuffer.OutputDescription,
+				(int)graphicsDevice.MainSwapchain.Framebuffer.Width, (int)graphicsDevice.MainSwapchain.Framebuffer.Height);
 
-			CommandList commandList = graphicsDevice.ResourceFactory.CreateCommandList();
+			var cl = graphicsDevice.ResourceFactory.CreateCommandList();
+
+			window.Resized += () => imguiRenderer.WindowResized(window.Width, window.Height);
+			window.Resized += () => graphicsDevice.ResizeMainWindow((uint)window.Width, (uint)window.Height);
 
 			ImGui.StyleColorsClassic();
 
 			while (window.Exists)
 			{
-				commandList.Begin();
-				InputSnapshot inputSnapshot = window.PumpEvents();
-				Sdl2Events.ProcessEvents();
+				var input = window.PumpEvents();
+				if (!window.Exists) { break; }
+				imguiRenderer.Update(1f / 60f, input); // Compute actual value for deltaSeconds.
 
-				imGuiRenderer.CreateDeviceResources(graphicsDevice, graphicsDevice.SwapchainFramebuffer.OutputDescription, ColorSpaceHandling.Linear);
+				// Draw stuff
+				ImGui.Text("Hello World");
 
-				ImGui.Begin("Test");
-				ImGui.Button("Hello");
-				ImGui.End();
-
-				imGuiRenderer.Update(1, inputSnapshot);
-				imGuiRenderer.Render(graphicsDevice, commandList);
-				ImGui.Render();
-				commandList.End();
-
-				graphicsDevice.SubmitCommands(commandList);
-
-				graphicsDevice.WaitForIdle();
-
-				graphicsDevice.SwapBuffers();
+				cl.Begin();
+				cl.SetFramebuffer(graphicsDevice.MainSwapchain.Framebuffer);
+				cl.ClearColorTarget(0, RgbaFloat.Black);
+				imguiRenderer.Render(graphicsDevice, cl);
+				cl.End();
+				graphicsDevice.SubmitCommands(cl);
+				graphicsDevice.SwapBuffers(graphicsDevice.MainSwapchain);
 			}
 		}
-    }
+	}
 }
