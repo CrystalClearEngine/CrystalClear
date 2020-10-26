@@ -84,6 +84,7 @@ namespace EditorMain
 
 			var rootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
+
 			ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 			while (true)
