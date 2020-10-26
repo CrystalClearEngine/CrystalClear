@@ -27,7 +27,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		/// <summary>
 		///     Does not matter unless this ImaginaryObject is root.
 		/// </summary>
-		private string rootName;
+		private string rootName = "Root";
 
 		public ImaginaryHierarchyObject()
 		{
@@ -58,7 +58,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 		{
 			get
 			{
-				if (parent is null)
+				if (!parent.TryGetTarget(out _))
 				{
 					return rootName;
 				}
@@ -68,7 +68,7 @@ namespace CrystalClear.SerializationSystem.ImaginaryObjects
 
 			set
 			{
-				if (parent is null)
+				if (!parent.TryGetTarget(out _))
 				{
 					rootName = value;
 				}
