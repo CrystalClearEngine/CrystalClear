@@ -12,7 +12,12 @@ namespace Benchmarking.Benchmarks.SerializationSystem
 		[GlobalSetup]
 		public void Setup()
 		{
-			CrystalClear.RuntimeInformation.UserAssemblies = new[] { Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) };
+			CrystalClear.RuntimeInformation.UserAssemblies = new System.Collections.Generic.HashSet<Assembly>()
+			{
+				Assembly.GetExecutingAssembly(),
+				Assembly.GetAssembly(typeof(HierarchyObject)),
+				Assembly.GetAssembly(typeof(ScriptObject))
+			};
 		}
 
 		ImaginaryConstructableObject imaginaryConstructableObject = new ImaginaryConstructableObject(typeof(TestObject), new []{ new ImaginaryPrimitive("This is the data."), });

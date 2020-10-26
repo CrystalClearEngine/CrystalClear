@@ -12,7 +12,7 @@ namespace UnitTests
 		[AssemblyInitialize]
 		public static void Init(TestContext testContext)
 		{
-			RuntimeInformation.UserAssemblies = new[]
+			RuntimeInformation.UserAssemblies = new System.Collections.Generic.HashSet<Assembly>
 			{
 				Assembly.GetExecutingAssembly(),
 				Assembly.GetAssembly(typeof(ScriptObject)),
