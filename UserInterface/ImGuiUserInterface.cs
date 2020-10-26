@@ -142,7 +142,8 @@ namespace CrystalClear.UserInterface
 
 			rootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
-				ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
+
+			ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
 
 			rootHierarchyObject.LocalHierarchy.Add("Child1", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
 			rootHierarchyObject.LocalHierarchy.Add("Child2", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
@@ -161,14 +162,28 @@ namespace CrystalClear.UserInterface
 			ImGui.Begin("Hierarchy Viewer");
 			{
 				CreateTreeForHierarchyObject(rootHierarchyObject);
-			}
-			ImGui.End();
+
+				if (ImGui.Button("Add HierarchyObject"))
+				{
+					NewHierarchyObject();
+				}
+			} ImGui.End();
+		}
+
+		private static void NewHierarchyObject()
+		{
+			currentSelectedHierarchyObject.LocalHierarchy.Add("Test", new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
 		}
 
 		private static void CreateTreeForHierarchyObject(ImaginaryHierarchyObject hierarchyObject)
 		{
-			if (ImGui.TreeNode(hierarchyObject.Name))
+			if (ImGui.TreeNodeEx(hierarchyObject.Name, currentSelectedHierarchyObject == hierarchyObject ? ImGuiTreeNodeFlags.Selected : ImGuiTreeNodeFlags.None))
 			{
+				if (ImGui.Button("Select"))
+				{
+					currentSelectedHierarchyObject = hierarchyObject;
+				}
+
 				foreach (var hierarchyObjectChild in hierarchyObject.LocalHierarchy)
 				{
 					CreateTreeForHierarchyObject(hierarchyObject.LocalHierarchy[hierarchyObjectChild.Key]);
