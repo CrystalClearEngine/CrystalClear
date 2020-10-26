@@ -14,7 +14,7 @@ namespace EditorMain
 		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName, Assembly userGeneratedCode)
 		{
 			#region Running
-			RuntimeInformation.UserAssemblies = new[]
+			RuntimeInformation.UserAssemblies = new System.Collections.Generic.HashSet<Assembly>
 			{
 				typeof(ScriptObject).Assembly,
 				typeof(Script).Assembly,
