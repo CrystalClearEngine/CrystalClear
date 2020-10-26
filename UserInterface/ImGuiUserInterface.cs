@@ -40,7 +40,7 @@ namespace CrystalClear.UserInterface
 			stopwatch.Start();
 			while (window.Exists)
 			{
-				Thread.Sleep(optimalFrameTimeMS);
+				Thread.Sleep((int)(optimalFrameTimeMS - stopwatch.ElapsedMilliseconds));
 
 				var input = window.PumpEvents();
 				if (!window.Exists) { break; }
@@ -49,9 +49,8 @@ namespace CrystalClear.UserInterface
 				// Draw stuff
 				ImGui.Begin("Hierarchy");
 				{
-
-				}
-				ImGui.End();
+					
+				} ImGui.End();
 
 				cl.Begin();
 				cl.SetFramebuffer(graphicsDevice.MainSwapchain.Framebuffer);
