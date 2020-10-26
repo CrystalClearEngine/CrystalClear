@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="sfml-graphics" Version="2.4.2" />
-    <PackageReference Include="SFML.Graphics" Version="2.5.0" />
+    <PackageReference Include="sdl2" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>

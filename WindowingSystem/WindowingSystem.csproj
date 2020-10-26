@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SFML.Window" Version="2.5.0" />
+    <PackageReference Include="Veldrid.SDL2" Version="4.8.0" />
   </ItemGroup>
 
 </Project>

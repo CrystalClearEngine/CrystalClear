@@ -1,25 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Threading;
-using SFML.System;
-using SFML.Window;
+using Veldrid.Sdl2;
 
 namespace CrystalClear.WindowingSystem
 {
 	// TODO: create OnWindowEventDispatch event?
 	public static class WindowingSystem
 	{
-		public static Window CreateNewWindow(string title, VideoMode videoMode, Vector2u? size = null, Vector2i? position = null)
+		public static Sdl2Window CreateNewWindow(string title, int xPosition = 50, int yPosition = 50, int width = 600, int height = 400, SDL_WindowFlags flags = SDL_WindowFlags.Resizable | SDL_WindowFlags.Shown, bool threadedProcessing = false)
 		{
-			var window = new Window(videoMode, title);
-			if (size.HasValue)
-			{
-				window.Size = size.Value;
-			}
-			if (position.HasValue)
-			{
-				window.Position = position.Value;
-			}
+			var window = new Sdl2Window(title, xPosition, yPosition, width, height, flags, threadedProcessing);
 			
 			windows.Add(window);
 
@@ -27,11 +19,11 @@ namespace CrystalClear.WindowingSystem
 		}
 		
 		// TODO: is this necessary?
-		public static Window MainWindow => Windows[0];
+		public static Sdl2Window MainWindow => Windows[0];
 
-		private static List<Window> windows = new List<Window>();
+		private static List<Sdl2Window> windows = new List<Sdl2Window>();
 		
 		// TODO: is readonly necessary?
-		public static IReadOnlyList<Window> Windows => windows.AsReadOnly();
+		public static IReadOnlyList<Sdl2Window> Windows => windows.AsReadOnly();
 	}
 }
