@@ -5,7 +5,6 @@ using CrystalClear.MessageSystem;
 using CrystalClear.ScriptUtilities;
 using CrystalClear.Standard.HierarchyObjects;
 using CrystalClear.WindowingSystem;
-using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,7 +34,7 @@ namespace CrystalClear.RenderEngine2D
 		[OnFrameDraw]
 		private void Draw()
 		{
-			renderable2D.Sprite.Draw((RenderWindow)WindowingSystem.WindowingSystem.MainWindow, RenderStates.Default);
+			//renderable2D.Sprite.Draw((RenderWindow)WindowingSystem.WindowingSystem.MainWindow, RenderStates.Default);
 		}
 	}
 }

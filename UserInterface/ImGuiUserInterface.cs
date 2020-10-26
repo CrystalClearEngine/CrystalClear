@@ -153,10 +153,16 @@ namespace CrystalClear.UserInterface
 
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
-			ImGui.Begin("Hierarchy");
+			HierarchyViewer(rootHierarchyObject);
+		}
+
+		private static void HierarchyViewer(ImaginaryHierarchyObject rootHierarchyObject)
+		{
+			ImGui.Begin("Hierarchy Viewer");
 			{
 				CreateTreeForHierarchyObject(rootHierarchyObject);
-			} ImGui.End();
+			}
+			ImGui.End();
 		}
 
 		private static void CreateTreeForHierarchyObject(ImaginaryHierarchyObject hierarchyObject)
