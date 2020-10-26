@@ -1,5 +1,7 @@
 ﻿using CrystalClear.WindowingSystem;
 using ImGuiNET;
+using System.Diagnostics;
+using System.Threading;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -10,7 +12,7 @@ namespace RenderEngine3D
 	{
 		public static void Main()
 		{
-			Sdl2Window window = WindowingSystem.CreateNewWindow("Veldrid test", width: 1920, height: 1080);
+			Sdl2Window window = WindowingSystem.CreateNewWindow("Veldrid test", width: 500, height: 500);
 
 			GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false,
 															   null,
@@ -33,14 +35,23 @@ namespace RenderEngine3D
 
 			ImGui.StyleColorsClassic();
 
+			int optimalFrameTimeMS = 16;
+			bool showMore = false;
+			Stopwatch stopwatch = new Stopwatch();
+			stopwatch.Start();
 			while (window.Exists)
 			{
+				Thread.Sleep(optimalFrameTimeMS);
+
 				var input = window.PumpEvents();
 				if (!window.Exists) { break; }
-				imguiRenderer.Update(1f / 60f, input); // Compute actual value for deltaSeconds.
+				imguiRenderer.Update((float)stopwatch.Elapsed.TotalSeconds, input); // Compute actual value for deltaSeconds.
 
 				// Draw stuff
-				ImGui.Text("Hello World");
+				ImGui.Begin("Hierarchy");
+				{
+					
+				} ImGui.End();
 
 				cl.Begin();
 				cl.SetFramebuffer(graphicsDevice.MainSwapchain.Framebuffer);
@@ -49,6 +60,8 @@ namespace RenderEngine3D
 				cl.End();
 				graphicsDevice.SubmitCommands(cl);
 				graphicsDevice.SwapBuffers(graphicsDevice.MainSwapchain);
+
+				stopwatch.Restart();
 			}
 		}
 	}
