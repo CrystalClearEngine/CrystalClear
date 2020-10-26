@@ -6,35 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TGUI.Net.win-x64" Version="0.8.8.16" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Fonts\" />
+    <Compile Remove="Fonts\**" />
+    <EmbeddedResource Remove="Fonts\**" />
+    <None Remove="Fonts\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CrystalClear\CrystalClear.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
     <ProjectReference Include="..\RuntimeMain\RuntimeMain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Fonts\Roboto\LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Fonts\Roboto\Roboto-Light.ttf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Forms\CrystalClearEngineDesign.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Forms\HierarchyDesign.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Forms\NewHierarchyObjectDesign.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
