@@ -143,8 +143,6 @@ namespace CrystalClear.UserInterface
 			rootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 
-			ImaginaryHierarchyObject currentSelectedHierarchyObject = rootHierarchyObject;
-
 			rootHierarchyObject.LocalHierarchy.Add("Child1", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
 			rootHierarchyObject.LocalHierarchy.Add("Child2", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
 			rootHierarchyObject.LocalHierarchy.Add("Child3", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
@@ -155,6 +153,24 @@ namespace CrystalClear.UserInterface
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			HierarchyViewer(rootHierarchyObject);
+			Modifier(currentSelectedHierarchyObject);
+		}
+
+		private static void Modifier(ImaginaryHierarchyObject currentSelectedHierarchyObject)
+		{
+			ImGui.Begin("Modifier");
+			{
+				if (currentSelectedHierarchyObject == null)
+				{
+					ImGui.Text("Nothing selected.");
+					return;
+				}
+
+				string name = currentSelectedHierarchyObject.Name;
+				ImGui.InputText("Name", ref name, 100);
+				currentSelectedHierarchyObject.Name = name;
+			}
+			ImGui.End();
 		}
 
 		private static void HierarchyViewer(ImaginaryHierarchyObject rootHierarchyObject)
