@@ -109,7 +109,7 @@ namespace CrystalClear.UserInterface
 
 		private static void SetUpRenderer(out Sdl2Window window, out GraphicsDevice graphicsDevice, out ImGuiRenderer imguiRenderer, out CommandList cl)
 		{
-			window = WindowingSystem.WindowingSystem.CreateNewWindow("Veldrid test", width: 500, height: 500);
+			window = WindowingSystem.WindowingSystem.CreateNewWindow($"Crystal Clear Engine {CrystalClearVersion}", width: 500, height: 500);
 			GraphicsDeviceOptions gdOptions = new GraphicsDeviceOptions(false,
 															   null,
 															   false,
@@ -193,15 +193,12 @@ namespace CrystalClear.UserInterface
 					return;
 				}
 
-				if (ImGui.TreeNodeEx("Attatched Scripts", ImGuiTreeNodeFlags.Selected))
+				if (ImGui.CollapsingHeader("Attatched Scripts"))
 				{
-					ImGui.BeginGroup();
+					foreach (var script in currentSelectedHierarchyObject.AttachedScripts)
 					{
-						foreach (var script in currentSelectedHierarchyObject.AttachedScripts)
-						{
-							ModifyScript(script.Key, script.Value);
-						}
-					} ImGui.EndGroup();
+						ModifyScript(script.Key, script.Value);
+					}
 
 					if(ImGui.Button("Attatch Script"))
 					{
@@ -244,6 +241,8 @@ namespace CrystalClear.UserInterface
 		{
 			if (ImGui.TreeNodeEx(hierarchyObject.Name, currentSelectedHierarchyObject == hierarchyObject ? ImGuiTreeNodeFlags.Selected : ImGuiTreeNodeFlags.None))
 			{
+				ImGui.SameLine();
+
 				if (ImGui.Button("Select"))
 				{
 					currentSelectedHierarchyObject = hierarchyObject;
