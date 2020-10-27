@@ -3,10 +3,12 @@ using CrystalClear.SerializationSystem.ImaginaryObjects;
 using EditorMain;
 using ImGuiNET;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using Veldrid;
 using Veldrid.Sdl2;
 using Veldrid.StartupUtilities;
@@ -37,6 +39,19 @@ namespace CrystalClear.UserInterface
 			ChooseProject();
 
 			SetUpEditor();
+
+			// Allow using the console interface simultaneously. Might cause some issues if commands are issued simultaneously from the GUI and CLI, but that probably won't happen often.
+			Task.Run(() =>
+			{
+				while (true)
+				{
+					Output.Log();
+
+					var line = Console.ReadLine();
+
+					MainClass.ParseCommand(line, ref rootHierarchyObject, ref currentSelectedHierarchyObject, userAssembly);
+				}
+			});
 
 			int optimalFrameTimeMS = 16;
 			Stopwatch stopwatch = new Stopwatch();
@@ -153,14 +168,15 @@ namespace CrystalClear.UserInterface
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			HierarchyViewer(rootHierarchyObject);
-			Modifier(currentSelectedHierarchyObject);
+			Modifier(ref currentSelectedHierarchyObject);
 		}
 
-		private static void Modifier(ImaginaryHierarchyObject currentSelectedHierarchyObject)
+		// TODO: make general purpose.
+		private static void Modifier(ref ImaginaryHierarchyObject currentSelectedHierarchyObject /*TODO: to pass this, or not to pass this (use static), that is the question. Please make sure it is consistent in this file.*/)
 		{
 			ImGui.Begin("Modifier");
 			{
-				if (currentSelectedHierarchyObject == null)
+				if (currentSelectedHierarchyObject is null)
 				{
 					ImGui.Text("Nothing selected.");
 					return;
@@ -169,8 +185,41 @@ namespace CrystalClear.UserInterface
 				string name = currentSelectedHierarchyObject.Name;
 				ImGui.InputText("Name", ref name, 100);
 				currentSelectedHierarchyObject.Name = name;
+
+				if (ImGui.Button("Delete"))
+				{
+					MainClass.DeleteHierarchyObject(currentSelectedHierarchyObject.Parent, currentSelectedHierarchyObject.Name);
+					currentSelectedHierarchyObject = null;
+					return;
+				}
+
+				if (ImGui.TreeNodeEx("Attatched Scripts", ImGuiTreeNodeFlags.Selected))
+				{
+					ImGui.BeginGroup();
+					{
+						foreach (var script in currentSelectedHierarchyObject.AttachedScripts)
+						{
+							ModifyScript(script.Key, script.Value);
+						}
+					} ImGui.EndGroup();
+
+					if(ImGui.Button("Attatch Script"))
+					{
+						MainClass.AddScript(currentSelectedHierarchyObject, new ImaginaryScript(new ImaginaryConstructableObject()), "Test script");
+					}
+				}
+			} ImGui.End();
+		}
+
+		private static void ModifyScript(string scriptName, ImaginaryScript script)
+		{
+			ImGui.TextDisabled(scriptName);
+			ImGui.Text("Cannot yet be changed from here.");
+
+			if (ImGui.Button("Remove"))
+			{
+				MainClass.RemoveScript(currentSelectedHierarchyObject, scriptName);
 			}
-			ImGui.End();
 		}
 
 		private static void HierarchyViewer(ImaginaryHierarchyObject rootHierarchyObject)
@@ -188,7 +237,7 @@ namespace CrystalClear.UserInterface
 
 		private static void NewHierarchyObject()
 		{
-			currentSelectedHierarchyObject.LocalHierarchy.Add("Test", new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
+			MainClass.AddHierarchyObject(currentSelectedHierarchyObject, new ImaginaryHierarchyObject(currentSelectedHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))), "Test");
 		}
 
 		private static void CreateTreeForHierarchyObject(ImaginaryHierarchyObject hierarchyObject)
