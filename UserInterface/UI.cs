@@ -26,6 +26,7 @@ namespace CrystalClear.UserInterface
 			HierarchyViewer(rootHierarchyObject);
 			Modifier(ref currentSelectedHierarchyObject);
 			ConsoleWindow();
+			PlayControls();
 		}
 
 		private static void MenuBar()
