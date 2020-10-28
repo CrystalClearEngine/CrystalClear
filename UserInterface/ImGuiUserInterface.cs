@@ -158,12 +158,6 @@ namespace CrystalClear.UserInterface
 			rootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 
-			rootHierarchyObject.LocalHierarchy.Add("Child1", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
-			rootHierarchyObject.LocalHierarchy.Add("Child2", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
-			rootHierarchyObject.LocalHierarchy.Add("Child3", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
-
-			rootHierarchyObject.LocalHierarchy["Child1"].LocalHierarchy.Add("ChildChild1", new ImaginaryHierarchyObject(rootHierarchyObject.LocalHierarchy["Child1"], new ImaginaryConstructableObject(typeof(HierarchyObject))));
-
 			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;
 		}
 	}
