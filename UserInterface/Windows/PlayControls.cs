@@ -22,8 +22,10 @@ namespace CrystalClear.UserInterface
 	{
 		private static void PlayControls()
 		{
-			ImGui.Begin("Play Controls");
+			ImGui.Begin("Controls");
 			{
+				ImGui.SetWindowSize(new System.Numerics.Vector2(80, 60), ImGuiCond.Always);
+
 				if (ImGui.Button(RuntimeMain.RuntimeMain.IsRunning ? "[]" : ">"))
 				{
 					if (RuntimeMain.RuntimeMain.IsRunning)
