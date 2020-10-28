@@ -11,9 +11,8 @@ namespace EditorMain
 {
 	partial class MainClass
 	{
-		public static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName, Assembly userGeneratedCode)
+		public static void Run(ImaginaryHierarchyObject rootHierarchyObject, Assembly userGeneratedCode)
 		{
-			// TODO: can stop asking for hierarchyName, is now part of root.
 			#region Running
 			RuntimeInformation.UserAssemblies = new System.Collections.Generic.HashSet<Assembly>
 			{
@@ -24,7 +23,7 @@ namespace EditorMain
 
 			RuntimeInformation.UserAssemblies.UnionWith(new[] { Assembly.GetExecutingAssembly(), Assembly.GetAssembly(typeof(HierarchyObject)), Assembly.GetAssembly(typeof(ScriptObject)) });
 
-			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssembliesArray, hierarchyName, rootHierarchyObject);
+			RuntimeMain.RunWithImaginaryHierarchyObject(RuntimeInformation.UserAssembliesArray, rootHierarchyObject);
 
 			RuntimeMain.WaitForStop(10);
 

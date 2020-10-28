@@ -94,7 +94,7 @@ namespace CrystalClear.RuntimeMain
 			}
 		}
 
-		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies, string hierarchyName,
+		public static void RunWithImaginaryHierarchyObjectPath(Assembly[] userAssemblies,
 			string hierarchyPath, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
@@ -102,12 +102,12 @@ namespace CrystalClear.RuntimeMain
 				throw new Exception("Already running!");
 			}
 
-			RunWithImaginaryHierarchyObject(userAssemblies, hierarchyName,
+			RunWithImaginaryHierarchyObject(userAssemblies,
 				(ImaginaryHierarchyObject) ImaginaryObjectSerialization.UnpackImaginaryObject(hierarchyPath),
 				raiseStartEvent);
 		}
 
-		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies, string hierarchyName,
+		public static void RunWithImaginaryHierarchyObject(Assembly[] userAssemblies,
 			ImaginaryHierarchyObject rootHierarchyObject, bool raiseStartEvent = true)
 		{
 			if (IsRunning)
@@ -117,7 +117,7 @@ namespace CrystalClear.RuntimeMain
 
 			#region Creating
 
-			HierarchyManager.AddHierarchy(hierarchyName, (HierarchyObject) rootHierarchyObject.CreateInstance());
+			HierarchyManager.AddHierarchy(rootHierarchyObject.Name, (HierarchyObject) rootHierarchyObject.CreateInstance());
 
 			#endregion
 

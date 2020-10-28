@@ -166,7 +166,7 @@ namespace EditorMain
 						break;
 
 					case "run":
-						Run(rootHierarchyObject, commandSections[1], userGeneratedCode);
+						Run(rootHierarchyObject, userGeneratedCode);
 						break;
 
 					case "exit":
