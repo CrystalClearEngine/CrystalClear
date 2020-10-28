@@ -117,9 +117,10 @@ namespace CrystalClear
 		public static void SaveCurrentProject()
 		{
 			var xmlSerializer = new XmlSerializer(typeof(ProjectInfo));
-			var projectWriter = XmlWriter.Create(CurrentProject.ProjectFile.OpenWrite());
-
-			xmlSerializer.Serialize(projectWriter, CurrentProject);
+			using (var projectWriter = XmlWriter.Create(CurrentProject.ProjectFile.OpenWrite()))
+			{
+				xmlSerializer.Serialize(projectWriter, CurrentProject);
+			}
 		}
 
 		public static void NewProject(string projectPath, string projectName)
