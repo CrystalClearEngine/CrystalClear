@@ -163,12 +163,38 @@ namespace CrystalClear.UserInterface
 			rootHierarchyObject.LocalHierarchy.Add("Child3", new ImaginaryHierarchyObject(rootHierarchyObject, new ImaginaryConstructableObject(typeof(HierarchyObject))));
 
 			rootHierarchyObject.LocalHierarchy["Child1"].LocalHierarchy.Add("ChildChild1", new ImaginaryHierarchyObject(rootHierarchyObject.LocalHierarchy["Child1"], new ImaginaryConstructableObject(typeof(HierarchyObject))));
+
+			Output.OutputLogged += (string newLog) => consoleLog += newLog;
 		}
 
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			HierarchyViewer(rootHierarchyObject);
 			Modifier(ref currentSelectedHierarchyObject);
+			ConsoleWindow();
+		}
+
+		static string consoleInput = string.Empty;
+		static string consoleLog = string.Empty;
+		private static void ConsoleWindow()
+		{
+			ImGui.Begin("ConsoleWindow");
+			{
+				ImGui.TextWrapped(consoleLog);
+
+				ImGui.InputText("", ref consoleInput, 100);
+
+				ImGui.SameLine();
+
+				if (ImGui.Button("Send"))
+				{
+					MainClass.ParseCommand(consoleInput, ref rootHierarchyObject, ref currentSelectedHierarchyObject, userAssembly);
+
+					Output.Log(consoleInput);
+
+					consoleInput = string.Empty;
+				}
+			} ImGui.End();
 		}
 
 		// TODO: make general purpose.

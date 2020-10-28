@@ -14,6 +14,8 @@ using CrystalClear.Standard.HierarchyObjects;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
 
+// TODO: use custom TextStream for input, not just the console one
+
 namespace EditorMain
 {
 	public static partial class MainClass
