@@ -77,10 +77,10 @@ namespace CrystalClear.CompilationSystem
 					return null;
 				}
 			}
-#if DEBUG
+#if RELEASE
 			return Assembly.LoadFrom(CurrentProject.BuildPath + @"\UserGeneratedCode.dll"); // Load the assembly and lock the file.
 #endif
-#if RELEASE
+#if DEBUG
 			// TODO: Perhaps change the location property of the assembly after loading it?
 			return Assembly.Load(
 				File.ReadAllBytes(CurrentProject.BuildPath +
