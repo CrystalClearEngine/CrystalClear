@@ -11,8 +11,9 @@ namespace EditorMain
 {
 	partial class MainClass
 	{
-		private static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName, Assembly userGeneratedCode)
+		public static void Run(ImaginaryHierarchyObject rootHierarchyObject, string hierarchyName, Assembly userGeneratedCode)
 		{
+			// TODO: can stop asking for hierarchyName, is now part of root.
 			#region Running
 			RuntimeInformation.UserAssemblies = new System.Collections.Generic.HashSet<Assembly>
 			{
