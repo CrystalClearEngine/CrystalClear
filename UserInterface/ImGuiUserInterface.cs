@@ -164,20 +164,59 @@ namespace CrystalClear.UserInterface
 
 			rootHierarchyObject.LocalHierarchy["Child1"].LocalHierarchy.Add("ChildChild1", new ImaginaryHierarchyObject(rootHierarchyObject.LocalHierarchy["Child1"], new ImaginaryConstructableObject(typeof(HierarchyObject))));
 
-			Output.OutputLogged += (string newLog) => consoleLog += newLog;
+			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;
 		}
 
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
+			MenuBar();
 			HierarchyViewer(rootHierarchyObject);
 			Modifier(ref currentSelectedHierarchyObject);
 			ConsoleWindow();
 		}
 
+		private static void MenuBar()
+		{
+			ImGui.BeginMainMenuBar();
+			{
+				if (ImGui.BeginMenu("Project"))
+				{
+					if(ImGui.MenuItem("Save Project"))
+					{
+						ProjectInfo.SaveCurrentProject();
+					}
+
+					if (ImGui.MenuItem("Build"))
+					{
+						CompilationSystem.Builder.Build(CurrentProject.BuildPath, "build");
+					}
+
+					ImGui.EndMenu();
+				}
+
+				if (ImGui.BeginMenu("Windows"))
+				{
+					ImGui.Checkbox("ConsoleWindow", ref enableConsoleWindow);
+
+					ImGui.Checkbox("Modifier", ref enableModifier);
+
+					ImGui.Checkbox("Hierarchy Viewer", ref enableHierarchyViewer);
+
+					ImGui.EndMenu();
+				}
+			} ImGui.EndMainMenuBar();
+		}
+
+		static bool enableConsoleWindow = true;
 		static string consoleInput = string.Empty;
 		static string consoleLog = string.Empty;
 		private static void ConsoleWindow()
 		{
+			if (!enableConsoleWindow)
+			{
+				return;
+			}
+
 			ImGui.Begin("ConsoleWindow");
 			{
 				ImGui.TextWrapped(consoleLog);
@@ -197,9 +236,15 @@ namespace CrystalClear.UserInterface
 			} ImGui.End();
 		}
 
+		static bool enableModifier = true;
 		// TODO: make general purpose.
 		private static void Modifier(ref ImaginaryHierarchyObject currentSelectedHierarchyObject /*TODO: to pass this, or not to pass this (use static), that is the question. Please make sure it is consistent in this file.*/)
 		{
+			if (!enableModifier)
+			{
+				return;
+			}
+
 			ImGui.Begin("Modifier");
 			{
 				if (currentSelectedHierarchyObject is null)
@@ -245,8 +290,14 @@ namespace CrystalClear.UserInterface
 			}
 		}
 
+		static bool enableHierarchyViewer = true;
 		private static void HierarchyViewer(ImaginaryHierarchyObject rootHierarchyObject)
 		{
+			if (!enableHierarchyViewer)
+			{
+				return;
+			}
+
 			ImGui.Begin("Hierarchy Viewer");
 			{
 				CreateTreeForHierarchyObject(rootHierarchyObject);
