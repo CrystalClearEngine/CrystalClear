@@ -91,8 +91,8 @@ namespace CrystalClear.UserInterface
 			ImGui.End();
 		}
 
-		static bool enableModifier = true;
 		// TODO: make general purpose.
+		static bool enableModifier = true;
 		private static void Modifier(ref ImaginaryHierarchyObject currentSelectedHierarchyObject /*TODO: to pass this, or not to pass this (use static), that is the question. Please make sure it is consistent in this file.*/)
 		{
 			if (!enableModifier)
