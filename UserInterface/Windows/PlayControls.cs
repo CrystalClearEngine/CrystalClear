@@ -30,10 +30,12 @@ namespace CrystalClear.UserInterface
 				{
 					if (RuntimeMain.RuntimeMain.IsRunning)
 					{
-						// Stop
+						// Stop.
+						RuntimeMain.RuntimeMain.Stop();
 					}
 					else
 					{
+						// Start.
 						Task.Run(() => MainClass.Run(rootHierarchyObject, userAssembly));
 					}
 				}
