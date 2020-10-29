@@ -31,38 +31,35 @@ namespace CrystalClear.UserInterface
 
 			ImGui.Begin("Asset Explorer");
 			{
-				ImGui.BeginTabBar("AssetExplorerTabBar");
+				if (ImGui.Button("Assets"))
 				{
-					if (ImGui.Button("Assets"))
-					{
-						history.Clear();
-						history.Push(CurrentProject.AssetsPath);
-					}
+					history.Clear();
+					history.Push(CurrentProject.AssetsPath);
+				}
 
-					ImGui.SameLine();
+				ImGui.SameLine();
 
-					if (ImGui.Button("Hierarchies"))
-					{
-						history.Clear();
-						history.Push(CurrentProject.HierarchyPath);
-					}
+				if (ImGui.Button("Hierarchies"))
+				{
+					history.Clear();
+					history.Push(CurrentProject.HierarchyPath);
+				}
 
-					ImGui.SameLine();
+				ImGui.SameLine();
 
-					if (ImGui.Button("Scripts"))
-					{
-						history.Clear();
-						history.Push(CurrentProject.ScriptsPath);
-					}
+				if (ImGui.Button("Scripts"))
+				{
+					history.Clear();
+					history.Push(CurrentProject.ScriptsPath);
+				}
 
-					ImGui.SameLine();
+				ImGui.SameLine();
 
-					if (ImGui.Button("Builds"))
-					{
-						history.Clear();
-						history.Push(CurrentProject.BuildPath);
-					}
-				} ImGui.EndTabBar();
+				if (ImGui.Button("Builds"))
+				{
+					history.Clear();
+					history.Push(CurrentProject.BuildPath);
+				}
 
 				Explore();
 			} ImGui.End();
