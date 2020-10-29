@@ -27,6 +27,7 @@ namespace CrystalClear.UserInterface
 			Modifier(ref currentSelectedHierarchyObject);
 			ConsoleWindow();
 			PlayControls();
+			AssetExplorer();
 		}
 
 		private static void MenuBar()
@@ -55,6 +56,8 @@ namespace CrystalClear.UserInterface
 					ImGui.Checkbox("Modifier", ref enableModifier);
 
 					ImGui.Checkbox("Hierarchy Viewer", ref enableHierarchyViewer);
+
+					ImGui.Checkbox("Asset Explorer", ref enableAssetExplorer);
 
 					ImGui.EndMenu();
 				}
