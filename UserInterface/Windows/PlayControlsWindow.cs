@@ -17,36 +17,40 @@ using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
 using static CrystalClear.UserInterface.UserInterface;
 
-
 namespace CrystalClear.UserInterface
 {
-	public class ConsoleWindow : EditorWindow
+	public class PlayControlsWindow : EditorWindow
 	{
-		public override string WindowTitle { get; protected set; } = "Console Window";
+		public override string WindowTitle { get; protected set; } = "Controls";
 
 		protected override void UIImpl()
 		{
 			PlayControlsUI();
 		}
 
-		private string consoleLog = string.Empty;
-		private string consoleInput = string.Empty;
-
 		public void PlayControlsUI()
 		{
-			ImGui.TextWrapped(consoleLog);
+			ImGui.SetWindowSize(new System.Numerics.Vector2(80, 60), ImGuiCond.Always);
 
-			ImGui.InputText("", ref consoleInput, 100);
+			if (ImGui.Button(RuntimeMain.RuntimeMain.IsRunning ? "[]" : ">"))
+			{
+				if (RuntimeMain.RuntimeMain.IsRunning)
+				{
+					// Stop.
+					RuntimeMain.RuntimeMain.Stop();
+				}
+				else
+				{
+					// Start.
+					Task.Run(() => MainClass.Run(RootHierarchyObject, UserAssembly));
+				}
+			}
 
 			ImGui.SameLine();
 
-			if (ImGui.Button("Send"))
+			if (ImGui.Button("||"))
 			{
-				Output.Log(consoleInput);
-
-				MainClass.ParseCommand(consoleInput, ref RootHierarchyObject, ref CurrentSelectedHierarchyObject, UserAssembly);
-
-				consoleInput = string.Empty;
+				// Pause
 			}
 		}
 	}

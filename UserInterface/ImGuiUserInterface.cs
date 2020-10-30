@@ -20,9 +20,9 @@ namespace CrystalClear.UserInterface
 {
 	public static partial class UserInterface
 	{
-		private static ImaginaryHierarchyObject rootHierarchyObject;
-		private static ImaginaryHierarchyObject currentSelectedHierarchyObject;
-		private static Assembly userAssembly;
+		public static ImaginaryHierarchyObject RootHierarchyObject;
+		public static ImaginaryHierarchyObject CurrentSelectedHierarchyObject;
+		public static Assembly UserAssembly;
 
 		public static void Main()
 		{
@@ -49,7 +49,7 @@ namespace CrystalClear.UserInterface
 
 					var line = Console.ReadLine();
 
-					MainClass.ParseCommand(line, ref rootHierarchyObject, ref currentSelectedHierarchyObject, userAssembly);
+					MainClass.ParseCommand(line, ref RootHierarchyObject, ref CurrentSelectedHierarchyObject, UserAssembly);
 				}
 			});
 
@@ -64,7 +64,7 @@ namespace CrystalClear.UserInterface
 				if (!window.Exists) { break; }
 				imguiRenderer.Update((float)stopwatch.Elapsed.TotalSeconds, input); // Compute actual value for deltaSeconds.
 
-				UI(ref rootHierarchyObject, ref currentSelectedHierarchyObject, userAssembly);
+				UI(ref RootHierarchyObject, ref CurrentSelectedHierarchyObject, UserAssembly);
 
 				cl.Begin();
 				cl.SetFramebuffer(graphicsDevice.MainSwapchain.Framebuffer);
@@ -139,9 +139,9 @@ namespace CrystalClear.UserInterface
 			}
 
 			// Compile the code.
-			userAssembly = MainClass.Compile();
+			UserAssembly = MainClass.Compile();
 
-			MainClass.Analyze(userAssembly);
+			MainClass.Analyze(UserAssembly);
 
 			var fileSystemWatcher = new FileSystemWatcher(CurrentProject.ScriptsDirectory.FullName, "*.cs");
 			fileSystemWatcher.Changed += (_, _1) =>
@@ -151,11 +151,11 @@ namespace CrystalClear.UserInterface
 				// TODO: something to wait until the file is ready.
 				Thread.Sleep(100);
 				MainClass.Compile();
-				MainClass.Analyze(userAssembly);
+				MainClass.Analyze(UserAssembly);
 			};
 			fileSystemWatcher.EnableRaisingEvents = true;
 
-			rootHierarchyObject =
+			RootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 
 			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;

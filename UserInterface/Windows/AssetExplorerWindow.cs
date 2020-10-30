@@ -15,58 +15,58 @@ using Veldrid.StartupUtilities;
 using static CrystalClear.CrystalClearInformation;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
+using static CrystalClear.UserInterface.UserInterface;
 
 namespace CrystalClear.UserInterface
 {
 	// TODO: cache the files and folders and only periodically update to avoid taxing the hardware?
-	public static partial class UserInterface
+	public class AssetExplorerWindow : EditorWindow
 	{
-		static bool enableAssetExplorer = true;
-		public static void AssetExplorer()
+		public override string WindowTitle { get; protected set; } = "Asset Explorer";
+
+		protected override void UIImpl()
 		{
-			if (!enableAssetExplorer)
-			{
-				return;
-			}
-
-			ImGui.Begin("Asset Explorer");
-			{
-				if (ImGui.Button("Assets"))
-				{
-					history.Clear();
-					history.Push(CurrentProject.AssetsPath);
-				}
-
-				ImGui.SameLine();
-
-				if (ImGui.Button("Hierarchies"))
-				{
-					history.Clear();
-					history.Push(CurrentProject.HierarchyPath);
-				}
-
-				ImGui.SameLine();
-
-				if (ImGui.Button("Scripts"))
-				{
-					history.Clear();
-					history.Push(CurrentProject.ScriptsPath);
-				}
-
-				ImGui.SameLine();
-
-				if (ImGui.Button("Builds"))
-				{
-					history.Clear();
-					history.Push(CurrentProject.BuildPath);
-				}
-
-				Explore();
-			} ImGui.End();
+			AssetExplorerUI();
 		}
 
-		static Stack<string> history = new Stack<string>(new string[] { CurrentProject.AssetsPath });
-		private static void Explore()
+		public void AssetExplorerUI()
+		{
+			if (ImGui.Button("Assets"))
+			{
+				history.Clear();
+				history.Push(CurrentProject.AssetsPath);
+			}
+
+			ImGui.SameLine();
+
+			if (ImGui.Button("Hierarchies"))
+			{
+				history.Clear();
+				history.Push(CurrentProject.HierarchyPath);
+			}
+
+			ImGui.SameLine();
+
+			if (ImGui.Button("Scripts"))
+			{
+				history.Clear();
+				history.Push(CurrentProject.ScriptsPath);
+			}
+
+			ImGui.SameLine();
+
+			if (ImGui.Button("Builds"))
+			{
+				history.Clear();
+				history.Push(CurrentProject.BuildPath);
+			}
+
+			Explore();
+		}
+
+		Stack<string> history = new Stack<string>(new string[] { CurrentProject.AssetsPath });
+
+		private void Explore()
 		{
 			ImGui.Text("Contents in " + history.Peek());
 
@@ -91,7 +91,7 @@ namespace CrystalClear.UserInterface
 			}
 		}
 
-		private static void DisplayDirectory(string directoryPath)
+		private void DisplayDirectory(string directoryPath)
 		{
 			if (ImGui.Button(Path.GetFileName(directoryPath)))
 			{
@@ -99,7 +99,7 @@ namespace CrystalClear.UserInterface
 			}
 		}
 
-		private static void DisplayFile(string filePath)
+		private void DisplayFile(string filePath)
 		{
 			if (ImGui.Button(Path.GetFileName(filePath)))
 			{
@@ -107,7 +107,7 @@ namespace CrystalClear.UserInterface
 			}
 		}
 
-		private static void OpenWithDefaultProgram(string path)
+		private void OpenWithDefaultProgram(string path)
 		{
 			// TODO: make work on other operating systems than windows.
 
