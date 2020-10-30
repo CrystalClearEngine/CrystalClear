@@ -157,8 +157,6 @@ namespace CrystalClear.UserInterface
 
 			RootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
-
-			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;
 		}
 	}
 }

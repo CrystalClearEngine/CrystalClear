@@ -22,6 +22,12 @@ namespace CrystalClear.UserInterface
 {
 	public class ConsoleWindow : EditorWindow
 	{
+		public ConsoleWindow()
+		{
+			// TODO: remember to unsub!
+			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;
+		}
+
 		public override string WindowTitle { get; protected set; } = "Console Window";
 
 		protected override void UIImpl()
