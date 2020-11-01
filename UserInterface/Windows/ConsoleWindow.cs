@@ -28,7 +28,7 @@ namespace CrystalClear.UserInterface
 			Output.OutputLogged += (string newLog) => consoleLog += newLog + Environment.NewLine;
 		}
 
-		public override string WindowTitle { get; protected set; } = "Console Window";
+		public override string WindowTitle { get; set; } = "Console Window";
 
 		protected override void UIImpl()
 		{

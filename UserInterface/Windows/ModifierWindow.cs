@@ -22,7 +22,7 @@ namespace CrystalClear.UserInterface
 	// TODO: make general purpose.
 	public class ModifierWindow : EditorWindow
 	{
-		public override string WindowTitle { get; protected set; } = "Modifier";
+		public override string WindowTitle { get; set; } = "Modifier";
 
 		protected override void UIImpl()
 		{

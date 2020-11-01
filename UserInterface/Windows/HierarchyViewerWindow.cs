@@ -21,7 +21,7 @@ namespace CrystalClear.UserInterface
 {
 	public class HierarchyViewerWindow : EditorWindow
 	{
-		public override string WindowTitle { get; protected set; } = "Hierarchy Viewer";
+		public override string WindowTitle { get; set; } = "Hierarchy Viewer";
 
 		protected override void UIImpl()
 		{

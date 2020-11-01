@@ -22,7 +22,7 @@ namespace CrystalClear.UserInterface
 	// TODO: cache the files and folders and only periodically update to avoid taxing the hardware?
 	public class AssetExplorerWindow : EditorWindow
 	{
-		public override string WindowTitle { get; protected set; } = "Asset Explorer";
+		public override string WindowTitle { get; set; } = "Asset Explorer";
 
 		protected override void UIImpl()
 		{
