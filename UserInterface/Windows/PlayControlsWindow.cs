@@ -21,7 +21,7 @@ namespace CrystalClear.UserInterface
 {
 	public class PlayControlsWindow : EditorWindow
 	{
-		public override string WindowTitle { get; protected set; } = "Controls";
+		public override string WindowTitle { get; set; } = "Controls";
 
 		protected override void UIImpl()
 		{

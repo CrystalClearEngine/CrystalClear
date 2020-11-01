@@ -25,6 +25,7 @@
     <ProjectReference Include="..\EditorMain\EditorMain.csproj" />
     <ProjectReference Include="..\HierarchySystem\HierarchySystem.csproj" />
     <ProjectReference Include="..\RuntimeMain\RuntimeMain.csproj" />
+    <ProjectReference Include="..\Scanning\ScanningSystem.csproj" />
     <ProjectReference Include="..\WindowingSystem\WindowingSystem.csproj" />
   </ItemGroup>
 

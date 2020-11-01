@@ -2,11 +2,23 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace CrystalClear.ScanningSystem
 {
 	public static class ScanningSystem
 	{
+		public static IEnumerable<Type> TypesInAssemblies(IEnumerable<Assembly> assemblies)
+		{
+			foreach (var assembly in assemblies)
+			{
+				foreach (var type in assembly.GetTypes())
+				{
+					yield return type;
+				}
+			}
+		}
+
 		public static IEnumerable<Type> FindTypesWithAttribute(IEnumerable<Type> types, Type attributeType, bool checkInheritance)
 		{
 			foreach (var type in types)

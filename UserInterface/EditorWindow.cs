@@ -6,9 +6,9 @@ namespace CrystalClear.UserInterface
 {
 	public abstract class EditorWindow
 	{
-		public bool Enabled { get; set; }
+		public bool Enabled { get; set; } = true;
 
-		public abstract string WindowTitle { get; protected set; }
+		public abstract string WindowTitle { get; set; }
 
 		public void UI()
 		{
