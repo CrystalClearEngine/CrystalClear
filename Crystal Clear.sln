@@ -48,7 +48,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowingSystem", "Windowin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "UserInterface\UserInterface.csproj", "{B516B48D-9BA5-42CA-B642-D62F47A76BAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderEngine3D", "RenderEngine3D\RenderEngine3D.csproj", "{B30F44FB-AC92-404F-8914-5676EDEDCCF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RenderEngine3D", "RenderEngine3D\RenderEngine3D.csproj", "{B30F44FB-AC92-404F-8914-5676EDEDCCF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScanningSystem", "Scanning\ScanningSystem.csproj", "{0BB79FD4-634B-4029-8BC5-764CE9FA13D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +130,10 @@ Global
 		{B30F44FB-AC92-404F-8914-5676EDEDCCF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30F44FB-AC92-404F-8914-5676EDEDCCF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B30F44FB-AC92-404F-8914-5676EDEDCCF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB79FD4-634B-4029-8BC5-764CE9FA13D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB79FD4-634B-4029-8BC5-764CE9FA13D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB79FD4-634B-4029-8BC5-764CE9FA13D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB79FD4-634B-4029-8BC5-764CE9FA13D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
