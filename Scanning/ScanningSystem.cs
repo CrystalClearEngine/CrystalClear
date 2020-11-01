@@ -11,7 +11,7 @@ namespace CrystalClear.ScanningSystem
 		{
 			foreach (var type in types)
 			{
-				if (type.GetCustomAttributes(attributeType, checkInheritance).Any((obj) => obj.GetType() == attributeType))
+				if (type.GetCustomAttributes(attributeType, checkInheritance).Length > 0)
 				{
 					yield return type;
 				}
@@ -22,16 +22,33 @@ namespace CrystalClear.ScanningSystem
 		{
 			foreach (var type in types)
 			{
-				if (type.GetCustomAttributes(typeof(TAttribute), checkInheritance).Any((obj) => obj.GetType() is TAttribute))
+				if (type.GetCustomAttributes(typeof(TAttribute), checkInheritance).Length > 0)
 				{
 					yield return type;
 				}
 			}
 		}
 
-		public static Type[] FindSubclasses()
+		public static IEnumerable<Type> FindSubclasses(Type[] types, Type baseClass)
 		{
+			foreach (var type in types)
+			{
+				if (type.IsSubclassOf(baseClass))
+				{
+					yield return type;
+				}
+			}
+		}
 
+		public static IEnumerable<Type> FindSubclasses<TBase>(Type[] types)
+		{
+			foreach (var type in types)
+			{
+				if (type.IsSubclassOf(typeof(TBase)))
+				{
+					yield return type;
+				}
+			}
 		}
 	}
 }
