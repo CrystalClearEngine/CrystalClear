@@ -7,7 +7,7 @@ namespace CrystalClear.ScanningSystem
 {
 	public static class ScanningSystem
 	{
-		public static IEnumerable<Type> FindTypesWithAttribute(Type[] types, Type attributeType, bool checkInheritance)
+		public static IEnumerable<Type> FindTypesWithAttribute(IEnumerable<Type> types, Type attributeType, bool checkInheritance)
 		{
 			foreach (var type in types)
 			{
@@ -18,7 +18,7 @@ namespace CrystalClear.ScanningSystem
 			}
 		}
 
-		public static IEnumerable<Type> FindTypesWithAttribute<TAttribute>(Type[] types, bool checkInheritance)
+		public static IEnumerable<Type> FindTypesWithAttribute<TAttribute>(IEnumerable<Type> types, bool checkInheritance)
 		{
 			foreach (var type in types)
 			{
@@ -29,7 +29,7 @@ namespace CrystalClear.ScanningSystem
 			}
 		}
 
-		public static IEnumerable<Type> FindSubclasses(Type[] types, Type baseClass)
+		public static IEnumerable<Type> FindSubclasses(IEnumerable<Type> types, Type baseClass)
 		{
 			foreach (var type in types)
 			{
@@ -40,7 +40,7 @@ namespace CrystalClear.ScanningSystem
 			}
 		}
 
-		public static IEnumerable<Type> FindSubclasses<TBase>(Type[] types)
+		public static IEnumerable<Type> FindSubclasses<TBase>(IEnumerable<Type> types)
 		{
 			foreach (var type in types)
 			{
