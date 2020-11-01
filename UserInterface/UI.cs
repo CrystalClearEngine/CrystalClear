@@ -20,9 +20,20 @@ namespace CrystalClear.UserInterface
 {
 	public static partial class UserInterface
 	{
+		public static List<EditorWindow> EditorWindows = new List<EditorWindow>();
+
 		private static void UI(ref ImaginaryHierarchyObject rootHierarchyObject, ref ImaginaryHierarchyObject currentSelectedHierarchyObject, Assembly userGeneratedCode)
 		{
 			MenuBar();
+			DrawWindows();
+		}
+
+		private static void DrawWindows()
+		{
+			foreach (var window in EditorWindows)
+			{
+				window.UI();
+			}
 		}
 
 		private static void MenuBar()
@@ -46,7 +57,34 @@ namespace CrystalClear.UserInterface
 
 				if (ImGui.BeginMenu("Windows"))
 				{
+					if (ImGui.BeginMenu("New Window"))
+					{
+						foreach (var type in EditorWindowTypes)
+						{
+							if(ImGui.Button($"New {type.Name}"))
+							{
+								var window = (EditorWindow)Activator.CreateInstance(type);
+								window.WindowTitle += EditorWindows.Count; // TODO: use something else for Unique Id generation! (perhaps use the RenderEngine2D system?)
+								EditorWindows.Add(window);
+							}
+						}
 
+						ImGui.EndMenu();
+					}
+
+					if (ImGui.BeginMenu("Open Windows"))
+					{
+						foreach (var window in EditorWindows)
+						{
+							bool enabled = window.Enabled;
+
+							ImGui.Checkbox($"{window.WindowTitle} ({window.GetType().Name})", ref enabled);
+
+							window.Enabled = enabled;
+						}
+
+						ImGui.EndMenu();
+					}
 
 					ImGui.EndMenu();
 				}

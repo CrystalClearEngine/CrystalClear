@@ -1,4 +1,5 @@
 ﻿using CrystalClear.HierarchySystem;
+using CrystalClear.ScanningSystem;
 using CrystalClear.SerializationSystem.ImaginaryObjects;
 using EditorMain;
 using ImGuiNET;
@@ -23,6 +24,7 @@ namespace CrystalClear.UserInterface
 		public static ImaginaryHierarchyObject RootHierarchyObject;
 		public static ImaginaryHierarchyObject CurrentSelectedHierarchyObject;
 		public static Assembly UserAssembly;
+		public static IEnumerable<Type> EditorWindowTypes;
 
 		public static void Main()
 		{
@@ -157,6 +159,8 @@ namespace CrystalClear.UserInterface
 
 			RootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
+
+			EditorWindowTypes = ScanningSystem.ScanningSystem.FindSubclasses<EditorWindow>(ScanningSystem.ScanningSystem.TypesInAssemblies((IEnumerable<Assembly>)new[] { Assembly.GetExecutingAssembly(), UserAssembly }));
 		}
 	}
 }
