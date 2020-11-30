@@ -22,12 +22,12 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public StepRoutineState State { get; internal set; } = StepRoutineState.NotStarted;
 
-		public WaitFor CurrentWaitFor => (WaitFor) StepRoutineEnumerable.Current;
+		public WaitFor CurrentWaitFor => StepRoutineEnumerable?.Current as WaitFor;
 
 		public void TryStop()
 		{
 			State = StepRoutineState.AttemptedStop;
-			CurrentWaitFor.Cancel();
+			CurrentWaitFor?.Cancel();
 			// TODO: make sure to remove from StepRoutineManager's list of RunningStepRoutines when this happens...
 		}
 
