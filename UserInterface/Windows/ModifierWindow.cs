@@ -16,6 +16,8 @@ using static CrystalClear.CrystalClearInformation;
 using static CrystalClear.EditorInformation;
 using static CrystalClear.Input;
 using static CrystalClear.UserInterface.UserInterface;
+using System.Linq;
+using CrystalClear.HierarchySystem.Attributes;
 
 namespace CrystalClear.UserInterface
 {
@@ -65,11 +67,29 @@ namespace CrystalClear.UserInterface
 		private void ModifyScript(string scriptName, ImaginaryScript script)
 		{
 			ImGui.TextDisabled(scriptName);
-			ImGui.Text("Cannot yet be changed from here.");
+
+			if (script.ImaginaryObjectBase is ImaginaryConstructableObject)
+			{
+
+			}
+			else
+			{
+				ImGui.Text($"Uneditable (yet) ImaginaryObjectBase. Type = {script.ImaginaryObjectBase.GetType()}");
+			}
 
 			if (ImGui.Button("Remove"))
 			{
 				MainClass.RemoveScript(CurrentSelectedHierarchyObject, scriptName);
+			}
+		}
+
+		private void ModifyObject(object obj)
+		{
+			Type objectType = obj.GetType();
+
+			foreach (var nonHiddenMember in objectType.GetMembers().Where((member) => !member.IsDefined(typeof(HiddenAttribute))))
+			{
+				ImGui.Text(nonHiddenMember.GetType().Name);
 			}
 		}
 	}
