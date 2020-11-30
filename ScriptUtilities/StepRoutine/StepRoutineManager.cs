@@ -37,6 +37,8 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 			}
 		}
 
+		public static IEnumerable<StepRoutineInfo> EnumerateStepRoutines() => runningStepRoutines.Values;
+
 		/// <summary>
 		///     Registers a new StepRoutine, adding it to the database.
 		/// </summary>
