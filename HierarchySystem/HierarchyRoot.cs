@@ -5,7 +5,7 @@ namespace CrystalClear.HierarchySystem
 	/// <summary>
 	///     HierarchyRoot is a custom HierarchyObject type specifically designed to be at the root of a regular Hierarchy.
 	/// </summary>
-	[HiddenHierarchyObject]
+	[Hidden]
 	public class HierarchyRoot : HierarchyObject
 	{
 		// The name of a HierarchyRoot is stored in the HierarchyManager in LoadedHierarchies.
