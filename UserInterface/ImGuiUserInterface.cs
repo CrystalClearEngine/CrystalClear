@@ -160,6 +160,8 @@ namespace CrystalClear.UserInterface
 			RootHierarchyObject =
 				new ImaginaryHierarchyObject(null, new ImaginaryConstructableObject(typeof(HierarchyRoot)));
 
+			CurrentSelectedHierarchyObject = RootHierarchyObject;
+
 			EditorWindowTypes = ScanningSystem.ScanningSystem.FindSubclasses<EditorWindow>(ScanningSystem.ScanningSystem.TypesInAssemblies((IEnumerable<Assembly>)new[] { Assembly.GetExecutingAssembly(), UserAssembly }));
 		}
 	}
