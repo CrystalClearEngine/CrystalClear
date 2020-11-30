@@ -25,10 +25,10 @@ namespace CrystalClear.UserInterface
 
 		protected override void UIImpl()
 		{
-			ModifierUI();
+			HierarchyViewerUI();
 		}
 
-		public void ModifierUI()
+		public void HierarchyViewerUI()
 		{
 			CreateTreeForHierarchyObject(RootHierarchyObject);
 
@@ -45,7 +45,7 @@ namespace CrystalClear.UserInterface
 
 		private void CreateTreeForHierarchyObject(ImaginaryHierarchyObject hierarchyObject)
 		{
-			if (ImGui.TreeNodeEx(hierarchyObject.Name, CurrentSelectedHierarchyObject == hierarchyObject ? ImGuiTreeNodeFlags.Selected : ImGuiTreeNodeFlags.None))
+			if (ImGui.TreeNodeEx(hierarchyObject.Name, ReferenceEquals(CurrentSelectedHierarchyObject, hierarchyObject) ? ImGuiTreeNodeFlags.Selected : ImGuiTreeNodeFlags.None) || ReferenceEquals(CurrentSelectedHierarchyObject, hierarchyObject))
 			{
 				ImGui.SameLine();
 
