@@ -59,6 +59,7 @@ namespace EditorMain
 
 					case "compile":
 						userGeneratedCode = Compile();
+						Analyze(userGeneratedCode);
 						break;
 
 					case "new":
