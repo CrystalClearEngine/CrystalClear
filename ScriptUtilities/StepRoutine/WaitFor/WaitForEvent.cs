@@ -48,10 +48,17 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				eventToWaitFor.Unsubscribe(proceeder);
 		}
 
+		// TODO: put in deconstructor or finalizer.
 		internal override void Cleanup()
 		{
 			if (proceeder != null)
 				eventToWaitFor.Unsubscribe(proceeder);
+		}
+
+		public override string ToString()
+		{
+			return $"Event to wait for: {eventToWaitFor.ToString() ?? "null"}\n" +
+				   $"Status: {(eventToWaitFor is null ? "Canceled." : "Active.")}";
 		}
 	}
 }
