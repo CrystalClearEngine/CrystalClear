@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CrystalClear.RenderEngine2D</RootNamespace>
     <AssemblyName>RenderEngine2D</AssemblyName>
+		<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

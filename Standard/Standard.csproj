@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>CrystalClear.Standard</RootNamespace>
+		<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

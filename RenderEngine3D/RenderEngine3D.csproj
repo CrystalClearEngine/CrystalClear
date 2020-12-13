@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
     <RootNamespace>CrystalClear.RenderEngine3D</RootNamespace>
   </PropertyGroup>
 

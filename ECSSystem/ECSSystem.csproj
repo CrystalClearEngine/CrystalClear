@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<RootNamespace>CrystalClear.ECS</RootNamespace>
-		<LangVersion>8.0</LangVersion>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 
   <ItemGroup>

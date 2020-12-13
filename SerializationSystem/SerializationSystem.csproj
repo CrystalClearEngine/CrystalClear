@@ -2,10 +2,9 @@
 
   <PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-				<TargetFramework>net5.0</TargetFramework>
-
+		<TargetFramework>net5.0</TargetFramework>
 		<RootNamespace>CrystalClear.SerializationSystem</RootNamespace>
-	<LangVersion>8</LangVersion>
+		<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
