@@ -2,7 +2,8 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
+		<LangVersion>latest</LangVersion>
     <RootNamespace>CrystalClear.RenderEngine3D</RootNamespace>
   </PropertyGroup>
 

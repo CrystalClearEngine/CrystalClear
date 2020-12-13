@@ -236,7 +236,7 @@ namespace EditorMain
 				if (string.IsNullOrEmpty(toDetail))
 				{
 					hierarchyObjectToViewDetailsOf = currentSelectedHierarchyObject;
-					if (hierarchyObjectToViewDetailsOf.Parent != null)
+					if (hierarchyObjectToViewDetailsOf.Parent is not null)
 					{
 						toDetail = GetName(hierarchyObjectToViewDetailsOf);
 					}

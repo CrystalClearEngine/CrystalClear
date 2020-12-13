@@ -22,7 +22,7 @@ namespace UnitTests
 		public bool Booly { get; set; }
 
 		public bool Equals(TestObject other) =>
-			other != null &&
+			other is not null &&
 			StringData == other.StringData;
 
 		public override bool Equals(object obj) => Equals(obj as TestObject);

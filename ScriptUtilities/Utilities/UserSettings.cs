@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 
 namespace CrystalClear.ScriptUtilities
 {
@@ -13,7 +13,7 @@ namespace CrystalClear.ScriptUtilities
 
 		public static void SetUp(string savePath = null)
 		{
-			if (savePath != null)
+			if (savePath is not null)
 			{
 				SettingsFilePath = savePath;
 			}
@@ -134,24 +134,14 @@ namespace CrystalClear.ScriptUtilities
 			throw new SettingNotFoundException(name);
 		}
 
-		public static string ObjectToString(object obj)
+		public static string ObjectToJson(object obj)
 		{
-			using (var ms = new MemoryStream())
-			{
-				new BinaryFormatter().Serialize(ms, obj);
-				return Convert.ToBase64String(ms.ToArray());
-			}
+			return JsonSerializer.Serialize(obj);
 		}
 
-		public static object StringToObject(string base64String)
+		public static T JsonToObject<T>(string json)
 		{
-			byte[] bytes = Convert.FromBase64String(base64String);
-			using (var ms = new MemoryStream(bytes, 0, bytes.Length))
-			{
-				ms.Write(bytes, 0, bytes.Length);
-				ms.Position = 0;
-				return new BinaryFormatter().Deserialize(ms);
-			}
+			return JsonSerializer.Deserialize<T>(json);
 		}
 
 #pragma warning disable CS0659 // Type overrides Object.Equals(object o) but does not override Object.GetHashCode()
@@ -178,10 +168,10 @@ namespace CrystalClear.ScriptUtilities
 				}
 
 				Name = splitString[0];
-				Value = StringToObject(splitString[1]);
+				Value = JsonToObject<object>(splitString[1]);
 			}
 
-			public override string ToString() => Name + ":" + ObjectToString(Value);
+			public override string ToString() => Name + ":" + ObjectToJson(Value);
 
 			public static bool operator ==(UserSetting left, UserSetting right) => left.Equals(right);
 
@@ -200,7 +190,7 @@ namespace CrystalClear.ScriptUtilities
 				return false;
 			}
 
-			public override bool Equals(object obj) => obj is UserSetting && Equals((UserSetting) obj);
+			public override bool Equals(object obj) => obj is UserSetting setting && Equals(setting);
 		}
 	}
 

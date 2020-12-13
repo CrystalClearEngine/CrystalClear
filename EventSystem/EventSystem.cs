@@ -19,7 +19,7 @@ namespace CrystalClear.EventSystem
 			IEnumerable<(MethodInfo method, SubscribeToAttribute?)> methodsToSubscribe =
 				from MethodInfo method in
 					typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				where method.GetCustomAttribute<SubscribeToAttribute>() != null
+				where method.GetCustomAttribute<SubscribeToAttribute>() is not null
 				select (method, method.GetCustomAttribute<SubscribeToAttribute>());
 
 			methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);
@@ -46,7 +46,7 @@ namespace CrystalClear.EventSystem
 		public static void SubscribeMethod(MethodInfo method, object instance)
 		{
 			var subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
-			if (!(subscribeToAttribute is null))
+			if (subscribeToAttribute is not null)
 			{
 #if Editor
 				if (method.ContainsGenericParameters != subscribeToAttribute.EventType.ContainsGenericParameters)
@@ -85,7 +85,7 @@ namespace CrystalClear.EventSystem
 				IEnumerable<(MethodInfo method, SubscribeToAttribute?)> methodsToSubscribe =
 					from MethodInfo method in
 						type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
-					where method.GetCustomAttribute<SubscribeToAttribute>() != null
+					where method.GetCustomAttribute<SubscribeToAttribute>() is not null
 					select (method, method.GetCustomAttribute<SubscribeToAttribute>());
 
 				methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);

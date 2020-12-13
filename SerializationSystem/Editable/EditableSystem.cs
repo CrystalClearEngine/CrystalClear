@@ -51,7 +51,7 @@ namespace CrystalClear.SerializationSystem
 					foreach (MethodInfo method in type.GetMethods(
 						BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
-						if (method.GetCustomAttribute<EditorAttribute>() != null)
+						if (method.GetCustomAttribute<EditorAttribute>() is not null)
 						{
 							// Store the name so it doesn't have to be searched for again.
 							attribute.EditorMethodName = method.Name;
@@ -117,7 +117,7 @@ namespace CrystalClear.SerializationSystem
 					foreach (MethodInfo method in type.GetMethods(
 						BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 					{
-						if (method.GetCustomAttribute<CreatorAttribute>() != null)
+						if (method.GetCustomAttribute<CreatorAttribute>() is not null)
 						{
 							var creatorDelegate = (CreatorDelegate) method.CreateDelegate(typeof(CreatorDelegate));
 							// Store the name so it doesn't have to be searched for again.

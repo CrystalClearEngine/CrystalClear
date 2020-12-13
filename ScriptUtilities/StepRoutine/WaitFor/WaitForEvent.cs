@@ -44,14 +44,14 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 		public override void Cancel()
 		{
-			if (proceeder != null)
+			if (proceeder is not null)
 				eventToWaitFor.Unsubscribe(proceeder);
 		}
 
 		// TODO: put in deconstructor or finalizer.
 		internal override void Cleanup()
 		{
-			if (proceeder != null)
+			if (proceeder is not null)
 				eventToWaitFor.Unsubscribe(proceeder);
 		}
 
