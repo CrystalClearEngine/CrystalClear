@@ -46,7 +46,7 @@ namespace CrystalClear.EventSystem
 		public static void SubscribeMethod(MethodInfo method, object instance)
 		{
 			var subscribeToAttribute = method.GetCustomAttribute<SubscribeToAttribute>();
-			if (!(subscribeToAttribute is null))
+			if (subscribeToAttribute is not null)
 			{
 #if Editor
 				if (method.ContainsGenericParameters != subscribeToAttribute.EventType.ContainsGenericParameters)
