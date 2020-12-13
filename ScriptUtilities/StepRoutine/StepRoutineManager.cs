@@ -49,7 +49,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 
 			StepRoutineInfo stepRoutineInfo;
 
-			if (name != null)
+			if (name is not null)
 				nameToStepRoutineIdTranslator.Add(name, id);
 
 			stepRoutineInfo = new StepRoutineInfo(id, name, stepRoutine);
@@ -69,7 +69,7 @@ namespace CrystalClear.ScriptUtilities.StepRoutines
 				{
 					proposedId += random.Next();
 				}
-				else if (name != null)
+				else if (name is not null)
 				{
 					proposedId = runningStepRoutines.Count + 1;
 				}

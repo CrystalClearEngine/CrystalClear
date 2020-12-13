@@ -13,7 +13,7 @@ namespace CrystalClear.ScriptUtilities
 
 		public static void SetUp(string savePath = null)
 		{
-			if (savePath != null)
+			if (savePath is not null)
 			{
 				SettingsFilePath = savePath;
 			}

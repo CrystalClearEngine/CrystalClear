@@ -31,7 +31,7 @@ public class CustomHierarchyObject : HierarchyObject
 	private static void Editor(ref EditorData currentEditorData)
 	{
 		Output.Log("CustomHierarchyObject editor opened.");
-		if (currentEditorData["Text"] != null)
+		if (currentEditorData["Text"] is not null)
 		{
 			Output.Log("Do you want to set a new value for Text?");
 			if (!GetBool())
@@ -43,7 +43,7 @@ public class CustomHierarchyObject : HierarchyObject
 		Output.Log("Choose a value for Text:");
 		currentEditorData["Text"] = Console.ReadLine();
 		SetPointlessBool:
-		if (currentEditorData["PointlessBool"] != null)
+		if (currentEditorData["PointlessBool"] is not null)
 		{
 			Output.Log("Do you want to set a new value for PointlessBool?");
 			if (!GetBool())

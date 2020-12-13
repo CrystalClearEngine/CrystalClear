@@ -117,7 +117,7 @@ namespace CrystalClear.HierarchySystem
 					"No parent specified for non root HierarchyObject! Please set the parent before calling or include it as a parameter.");
 			}
 
-			if (parent != null) // The parent parameter isn't at default value, need to set the current object parent.
+			if (parent is not null) // The parent parameter isn't at default value, need to set the current object parent.
 			{
 				this.parent.SetTarget(parent);
 			}

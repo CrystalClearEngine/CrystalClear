@@ -19,7 +19,7 @@ namespace CrystalClear.RenderEngine2D
 	{
 		public Renderable2DScript(Transform2D renderTransform = null)
 		{
-			if (renderTransform != null)
+			if (renderTransform is not null)
 			{
 				renderable2D.RenderTransform = renderTransform;
 			}

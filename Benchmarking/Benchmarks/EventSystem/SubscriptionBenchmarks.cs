@@ -33,7 +33,7 @@ namespace Benchmarking.Benchmarks.EventSystem
 			IEnumerable<(MethodInfo method, SubscribeToAttribute)> methodsToSubscribe =
 				from MethodInfo method in
 					typeToSubscribe.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-				where method.GetCustomAttribute<SubscribeToAttribute>() != null
+				where method.GetCustomAttribute<SubscribeToAttribute>() is not null
 				select (method, method.GetCustomAttribute<SubscribeToAttribute>());
 
 			methodsToSubscribe = methodsToSubscribe.OrderBy(x => x.Item2.Order);

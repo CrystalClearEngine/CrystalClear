@@ -31,7 +31,7 @@ namespace CrystalClear.HierarchySystem
 		}
 
 		public bool Equals(Hierarchy other) =>
-			other != null &&
+			other is not null &&
 			hierarchy.Equals(other.hierarchy) || hierarchy.Count == 0 && other.hierarchy.Count == 0;
 
 		public event PropertyChangedEventHandler PropertyChanged;
